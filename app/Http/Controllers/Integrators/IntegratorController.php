@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Integrators;
 
-use App\Models\Rates\ImportRate;
-use App\Http\Requests\StoreImportRateRequest;
-use App\Http\Requests\UpdateImportRateRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Integrators\integrator;
+use App\Http\Requests\StoreintegratorRequest;
+use App\Http\Requests\UpdateintegratorRequest;
 
-class ImportRateController extends Controller
+class IntegratorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class ImportRateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreImportRateRequest  $request
+     * @param  \App\Http\Requests\StoreintegratorRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreImportRateRequest $request)
+    public function store(StoreintegratorRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class ImportRateController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Rates\ImportRate  $importRate
+     * @param  \App\Models\Integrators\integrator  $integrator
      * @return \Illuminate\Http\Response
      */
-    public function show(ImportRate $importRate)
+    public function show(integrator $integrator)
     {
         //
     }
@@ -53,10 +54,10 @@ class ImportRateController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Rates\ImportRate  $importRate
+     * @param  \App\Models\Integrators\integrator  $integrator
      * @return \Illuminate\Http\Response
      */
-    public function edit(ImportRate $importRate)
+    public function edit(integrator $integrator)
     {
         //
     }
@@ -64,11 +65,11 @@ class ImportRateController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateImportRateRequest  $request
-     * @param  \App\Models\Rates\ImportRate  $importRate
+     * @param  \App\Http\Requests\UpdateintegratorRequest  $request
+     * @param  \App\Models\Integrators\integrator  $integrator
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateImportRateRequest $request, ImportRate $importRate)
+    public function update(UpdateintegratorRequest $request, integrator $integrator)
     {
         //
     }
@@ -76,10 +77,10 @@ class ImportRateController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Rates\ImportRate  $importRate
+     * @param  \App\Models\Integrators\integrator  $integrator
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ImportRate $importRate)
+    public function destroy(integrator $integrator)
     {
         //
     }

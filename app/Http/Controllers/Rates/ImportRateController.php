@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rates;
 
-use App\Models\Rates\TransitRate;
-use App\Http\Requests\StoreTransitRateRequest;
-use App\Http\Requests\UpdateTransitRateRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Rates\ImportRate;
+use App\Http\Requests\StoreImportRateRequest;
+use App\Http\Requests\UpdateImportRateRequest;
 
-class TransitRateController extends Controller
+class ImportRateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class TransitRateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreTransitRateRequest  $request
+     * @param  \App\Http\Requests\StoreImportRateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTransitRateRequest $request)
+    public function store(StoreImportRateRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class TransitRateController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Rates\TransitRate  $transitRate
+     * @param  \App\Models\Rates\ImportRate  $importRate
      * @return \Illuminate\Http\Response
      */
-    public function show(TransitRate $transitRate)
+    public function show(ImportRate $importRate)
     {
         //
     }
@@ -53,10 +54,10 @@ class TransitRateController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Rates\TransitRate  $transitRate
+     * @param  \App\Models\Rates\ImportRate  $importRate
      * @return \Illuminate\Http\Response
      */
-    public function edit(TransitRate $transitRate)
+    public function edit(ImportRate $importRate)
     {
         //
     }
@@ -64,11 +65,11 @@ class TransitRateController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateTransitRateRequest  $request
-     * @param  \App\Models\Rates\TransitRate  $transitRate
+     * @param  \App\Http\Requests\UpdateImportRateRequest  $request
+     * @param  \App\Models\Rates\ImportRate  $importRate
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTransitRateRequest $request, TransitRate $transitRate)
+    public function update(UpdateImportRateRequest $request, ImportRate $importRate)
     {
         //
     }
@@ -76,10 +77,10 @@ class TransitRateController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Rates\TransitRate  $transitRate
+     * @param  \App\Models\Rates\ImportRate  $importRate
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TransitRate $transitRate)
+    public function destroy(ImportRate $importRate)
     {
         //
     }
