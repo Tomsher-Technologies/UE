@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\ResetPassword;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+
+
+
+Route::middleware(['guest'])->group(function () {
+
+    Route::get('/forgot-password', function () {
+        return view('user.forgot-password');
+    })->name('password.request');
+
+    Route::post('/forgot-password', [ResetPassword::class, 'sendLink'])->name('password.email');
+
+    Route::get('/reset-password/{token}', function ($token) {
+        return view('user.reset-password', ['token' => $token]);
+    })->name('password.reset');
+
+    Route::post('/reset-password', [ResetPassword::class, 'reset'])->middleware('guest')->name('password.update');
 });
+
+
 
 require_once 'admin.php';
