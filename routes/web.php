@@ -17,4 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-require_once './admin.php';
+require_once 'admin.php';
