@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 use function Ramsey\Uuid\v1;
 
 use Bouncer;
+use Illuminate\Support\Facades\Hash;
 
 class BouncerSeeder extends Seeder
 {
@@ -34,5 +36,17 @@ class BouncerSeeder extends Seeder
             'name' => 'reselleruser',
             'title' => 'Reseller Subagent',
         ]);
+
+        Bouncer::allow('admin')->everything();
+
+        $admin  = User::create([
+            'name' => 'Admin',
+            'email' => 'admin@eu.com',
+            'password' => Hash::make('password'),
+            'status' => 1
+        ]);
+
+        Bouncer::assign('admin')->to($admin);
+        
     }
 }
