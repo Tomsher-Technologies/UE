@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Zones;
 
-use App\Models\Zones\City;
-use App\Http\Requests\StoreCityRequest;
-use App\Http\Requests\UpdateCityRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Zones\Zone;
+use App\Http\Requests\StoreZoneRequest;
+use App\Http\Requests\UpdateZoneRequest;
 
-class CityController extends Controller
+class ZoneController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class CityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreCityRequest  $request
+     * @param  \App\Http\Requests\StoreZoneRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCityRequest $request)
+    public function store(StoreZoneRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class CityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Zones\City  $city
+     * @param  \App\Models\Zones\Zone  $zone
      * @return \Illuminate\Http\Response
      */
-    public function show(City $city)
+    public function show(Zone $zone)
     {
         //
     }
@@ -53,10 +54,10 @@ class CityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Zones\City  $city
+     * @param  \App\Models\Zones\Zone  $zone
      * @return \Illuminate\Http\Response
      */
-    public function edit(City $city)
+    public function edit(Zone $zone)
     {
         //
     }
@@ -64,11 +65,11 @@ class CityController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateCityRequest  $request
-     * @param  \App\Models\Zones\City  $city
+     * @param  \App\Http\Requests\UpdateZoneRequest  $request
+     * @param  \App\Models\Zones\Zone  $zone
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCityRequest $request, City $city)
+    public function update(UpdateZoneRequest $request, Zone $zone)
     {
         //
     }
@@ -76,10 +77,10 @@ class CityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Zones\City  $city
+     * @param  \App\Models\Zones\Zone  $zone
      * @return \Illuminate\Http\Response
      */
-    public function destroy(City $city)
+    public function destroy(Zone $zone)
     {
         //
     }

@@ -18,6 +18,7 @@ class CitySeeder extends Seeder
 
         City::truncate();
 
+        // $csvFile = fopen("https://tomsher.co/allCountriesCSV.csv", "r");
         $csvFile = fopen(base_path("database/data/allCountriesCSV.csv"), "r");
 
         $firstline = true;
@@ -26,7 +27,7 @@ class CitySeeder extends Seeder
 
         while (($data = fgetcsv($csvFile, 2000, ",")) !== FALSE) {
             if (!$firstline) {
-                $c_id = $countries->where('code', 'AT')->pluck('id')->first();
+                $c_id = $countries->where('code', $data['0'])->pluck('id')->first();
                 if ($c_id) {
                     City::create([
                         'country_id' => $c_id,

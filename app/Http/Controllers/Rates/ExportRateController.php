@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rates;
 
+use App\Http\Controllers\Controller;
 use App\Models\Rates\ExportRate;
 use App\Http\Requests\StoreExportRateRequest;
 use App\Http\Requests\UpdateExportRateRequest;

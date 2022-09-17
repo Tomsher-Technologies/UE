@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rates;
 
-use App\Models\Zones\Zone;
-use App\Http\Requests\StoreZoneRequest;
-use App\Http\Requests\UpdateZoneRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Rates\TransitRate;
+use App\Http\Requests\StoreTransitRateRequest;
+use App\Http\Requests\UpdateTransitRateRequest;
 
-class ZoneController extends Controller
+class TransitRateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class ZoneController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreZoneRequest  $request
+     * @param  \App\Http\Requests\StoreTransitRateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreZoneRequest $request)
+    public function store(StoreTransitRateRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class ZoneController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Zones\Zone  $zone
+     * @param  \App\Models\Rates\TransitRate  $transitRate
      * @return \Illuminate\Http\Response
      */
-    public function show(Zone $zone)
+    public function show(TransitRate $transitRate)
     {
         //
     }
@@ -53,10 +54,10 @@ class ZoneController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Zones\Zone  $zone
+     * @param  \App\Models\Rates\TransitRate  $transitRate
      * @return \Illuminate\Http\Response
      */
-    public function edit(Zone $zone)
+    public function edit(TransitRate $transitRate)
     {
         //
     }
@@ -64,11 +65,11 @@ class ZoneController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateZoneRequest  $request
-     * @param  \App\Models\Zones\Zone  $zone
+     * @param  \App\Http\Requests\UpdateTransitRateRequest  $request
+     * @param  \App\Models\Rates\TransitRate  $transitRate
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateZoneRequest $request, Zone $zone)
+    public function update(UpdateTransitRateRequest $request, TransitRate $transitRate)
     {
         //
     }
@@ -76,10 +77,10 @@ class ZoneController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Zones\Zone  $zone
+     * @param  \App\Models\Rates\TransitRate  $transitRate
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Zone $zone)
+    public function destroy(TransitRate $transitRate)
     {
         //
     }
