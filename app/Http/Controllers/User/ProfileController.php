@@ -38,8 +38,10 @@ class ProfileController extends Controller
         }
 
         $user->forceFill([
-            'password' => Hash::make($input['password']),
+            'password' => $input['password'],
         ])->save();
+
+        Auth::logoutOtherDevices($request->password);
 
         return back()->with('status', "Password Updated!");
     }

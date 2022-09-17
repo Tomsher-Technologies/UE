@@ -14,10 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-    Route::get('/profile', function () {
-        return view('admin.users.profile');
-    })->name('profile');
+
+Route::name('user.')->group(function () {
+    Route::get('profile', [ProfileController::class, 'viewprofile'])->name('profile');
     Route::put('/password-update', [ProfileController::class, 'updatePassword'])->name('password-update');
     Route::put('/profile-update', [ProfileController::class, 'updateProfile'])->name('profile-update');
     Route::post('/logout-everywhere', [ProfileController::class, 'logoutEverywhere'])->name('logout-everywhere');
