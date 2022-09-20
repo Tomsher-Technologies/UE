@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Integrators;
+namespace App\Http\Controllers\Admin\Integrators;
 
 use App\Http\Controllers\Controller;
 use App\Models\Integrators\integrator;
@@ -16,7 +16,7 @@ class IntegratorController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.integrators.index');
     }
 
     /**
@@ -26,7 +26,7 @@ class IntegratorController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.integrators.create');
     }
 
     /**
@@ -59,7 +59,9 @@ class IntegratorController extends Controller
      */
     public function edit(integrator $integrator)
     {
-        //
+        return view('admin.integrators.edit')->with([
+            'integrator' => $integrator
+        ]);
     }
 
     /**

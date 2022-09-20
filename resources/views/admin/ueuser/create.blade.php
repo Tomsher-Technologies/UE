@@ -3,9 +3,9 @@
     <div class="container page__container">
         <div class="page-section">
             <div class="page-separator">
-                <div class="page-separator__text">Create Admin users</div>
+                <div class="page-separator__text">Create UE user</div>
             </div>
-            @livewire('ue-user.create')
+            @livewire('admin.ue-user.create')
         </div>
     </div>
 @endsection

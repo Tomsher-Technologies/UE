@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\UeUser;
+namespace App\Http\Livewire\Admin\UeUser;
 
 use App\Helpers\Password;
 use App\Models\User;
@@ -58,6 +58,6 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.ue-user.edit');
+        return view('livewire.admin.ue-user.edit');
     }
 }

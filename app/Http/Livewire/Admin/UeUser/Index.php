@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\UeUser;
+namespace App\Http\Livewire\Admin\UeUser;
 
 use App\Models\User;
 use Livewire\Component;
@@ -45,7 +45,7 @@ class Index extends Component
 
         $users = $query->paginate($this->pageCount);
 
-        return view('livewire.ue-user.index')->with([
+        return view('livewire.admin.ue-user.index')->with([
             'users' => $users
         ]);
     }
