@@ -98,7 +98,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header"><strong>Account</strong></div>
-                <a class="dropdown-item" href="edit-account.html">Edit Account</a>
+                <a class="dropdown-item" href="{{ route('admin.user.profile') }}">Edit Account</a>
                 <a class="dropdown-item" onclick="$('#logoutForm').submit()" href="#">Logout</a>
             </div>
         </div>

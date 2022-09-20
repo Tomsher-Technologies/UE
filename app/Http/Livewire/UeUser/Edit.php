@@ -19,7 +19,7 @@ class Edit extends Component
             'user.status' => 'required',
             'user.name' => 'required',
             'user.email' => ['required', 'email', 'unique:users,email,' . $this->user->id],
-            'password' => ['sometimes', new Password],
+            'password' => ['nullable', new Password],
         ];
     }
 
@@ -40,9 +40,7 @@ class Edit extends Component
             $this->user->update([
                 'password' => $this->password
             ]);
-
             $this->reset('password');
-
         }
 
         $this->dispatchBrowserEvent('memberUpdated');

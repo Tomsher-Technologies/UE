@@ -1,22 +1,30 @@
 <div>
     <form wire:submit.prevent="save">
-        <input wire:model="name" type="text" class="form-control" placeholder="Name">
-        @error('name')
-            <span class="invalid-feedback d-block">{{ $message }}</span>
-        @enderror
-
-        <input wire:model="email" type="email" class="form-control" placeholder="Email">
-        @error('email')
-            <span class="invalid-feedback d-block">{{ $message }}</span>
-        @enderror
-
-        <input wire:model="password" type="password" class="form-control" placeholder="password">
-        @error('password')
-            <span class="invalid-feedback d-block">{{ $message }}</span>
-        @enderror
-
-        <input type="submit" value="Save">
-
+        <div class="form-group">
+            <label class="form-label">Name</label>
+            <input wire:model="name" type="text" class="form-control mb-2">
+            <x-form.error name="name" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input wire:model="email" type="email" class="form-control mb-2">
+            <x-form.error name="email" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input wire:model="password" type="password" class="form-control mb-2">
+            <x-form.error name="password" />
+        </div>
+        <div class="col-md-12 p-0">
+            <button class="btn btn-primary">Create User</button>
+        </div>
     </form>
-
+    <script>
+        window.addEventListener('memberUpdated', e => {
+            Swal.fire({
+                title: 'User created',
+                icon: 'success'
+            });
+        })
+    </script>
 </div>

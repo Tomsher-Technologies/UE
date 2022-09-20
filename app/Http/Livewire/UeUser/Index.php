@@ -15,6 +15,25 @@ class Index extends Component
     public $pageCount = 15;
 
 
+    public function toggleStatus($id)
+    {
+        $user = User::where('id', $id)->first();
+        $user->update([
+            'status' => !$user->status
+        ]);
+        $this->dispatchBrowserEvent('statusChange', ['status' => $user->status]);
+    }
+
+    public function deleteUser($id)
+    {
+        $status = User::where('id', $id)->first()->delete();
+        if ($status) {
+            $this->dispatchBrowserEvent('modelDeleted');
+        } else {
+            $this->dispatchBrowserEvent('modelDeletedFailed');
+        }
+    }
+
     public function render()
     {
         $query = User::whereIs('ueuser')->latest();
@@ -29,6 +48,11 @@ class Index extends Component
         return view('livewire.ue-user.index')->with([
             'users' => $users
         ]);
+    }
+
+    public function paginationView()
+    {
+        return 'vendor.livewire.custom';
     }
 
     public function updatingSearch()

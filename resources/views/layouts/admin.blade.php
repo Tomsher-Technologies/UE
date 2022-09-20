@@ -29,6 +29,7 @@
     {{-- <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" /> --}}
 
+    @livewireScripts
     @livewireStyles
 
     @stack('header')
@@ -56,6 +57,7 @@
     <script defer src="{{ adminAsset('js/toggle-check-all.js') }}"></script>
     <script defer src="{{ adminAsset('js/check-selected-row.js') }}"></script>
     <script defer src="{{ adminAsset('js/sidebar-mini.js') }}"></script>
+    <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         (function() {
             'use strict';
@@ -73,7 +75,6 @@
     <form id="logoutForm" method="POST" action="{{ route('logout') }}">
         @csrf
     </form>
-    @livewireScripts
     @stack('footer')
 </body>
 
