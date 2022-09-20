@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" class="rotate-img" type="image/x-icon" href="public/images/logo/logo.png" />
+    <title>Admin</title>
+
+    <!-- Prevent the demo from appearing in search engines -->
+    <meta name="robots" content="noindex">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap"
+        rel="stylesheet">
+
+    <!-- Preloader -->
+    <link type="text/css" href="public/vendor/spinkit.css" rel="stylesheet">
+
+    <!-- Perfect Scrollbar -->
+    <link type="text/css" href="public/vendor/perfect-scrollbar.css" rel="stylesheet">
+
+    <!-- Material Design Icons -->
+    <link type="text/css" href="public/css/material-icons.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link type="text/css" href="public/css/fontawesome.css" rel="stylesheet">
+
+    <!-- Preloader -->
+    <link type="text/css" href="public/css/preloader.css" rel="stylesheet">
+
+    <!-- App CSS -->
+    <link type="text/css" href="public/css/app.css" rel="stylesheet">
+
+    <!-- Flatpickr -->
+    <link type="text/css" href="public/css/flatpickr.css" rel="stylesheet">
+    <link type="text/css" href="public/css/flatpickr-airbnb.css" rel="stylesheet">
+
+    <link type="text/css" href="public/css/custom.css" rel="stylesheet">
+
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+
+
+</head>
+
+<body class="layout-compact layout-compact">
+
+ 
+
+    <!-- Drawer Layout -->
+
+    <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
+        <div class="mdk-drawer-layout__content page-content">
+
+            <!-- Header -->
+
+            <!-- Navbar -->
+
+            <div class="navbar navbar-expand pr-0 navbar-light border-bottom-2" id="default-navbar" data-primary>
+
+                <!-- Navbar Toggler -->
+
+                <button class="navbar-toggler w-auto mr-16pt d-block d-lg-none rounded-0" type="button"
+                    data-toggle="sidebar">
+                    <span class="material-icons">short_text</span>
+                </button>
+
+                <!-- // END Navbar Toggler -->
+
+                <!-- Navbar Brand -->
+
+                <a href="index.html" class="navbar-brand mr-16pt d-lg-none">
+
+                    <span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
+
+                        <span class="avatar-title rounded bg-light"><img src="public/images/logo/logo.png" alt="logo"
+                                class="img-fluid" /></span>
+
+                    </span>
+
+                    <span class="d-none d-lg-block">Luma</span>
+                </a>
+
+                <!-- // END Navbar Brand -->
+
+
+
+
+                <!-- Navbar Search -->
+
+                <form class="search-form navbar-search d-none d-md-flex mr-16pt" action="index.html">
+                    <button class="btn" type="submit"><i class="material-icons">search</i></button>
+                    <input type="text" class="form-control" placeholder="Search ...">
+                </form>
+
+                <!-- // END Navbar Search -->
+
+                <div class="flex"></div>
+
+                <!-- Switch Layout -->
+
+
+                <!-- // END Switch Layout -->
+
+                <!-- Navbar Menu -->
+
+                <div class="nav navbar-nav flex-nowrap d-flex mr-16pt">
+
+
+
+                    <!-- Notifications dropdown -->
+                    <div class="nav-item ml-16pt dropdown dropdown-notifications dropdown-xs-down-full"
+                        data-toggle="tooltip" data-title="Notifications" data-placement="bottom" data-boundary="window">
+                        <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown"
+                            data-caret="false">
+                            <i class="material-icons">notifications_none</i>
+                            <span class="badge badge-notifications badge-accent">2</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div data-perfect-scrollbar class="position-relative">
+                                <div class="dropdown-header"><strong>System notifications</strong></div>
+                                <div class="list-group list-group-flush mb-0">
+
+                                    <a href="javascript:void(0);" class="list-group-item list-group-item-action unread">
+                                        <span class="d-flex align-items-center mb-1">
+                                            <small class="text-black-50">3 minutes ago</small>
+
+                                            <span class="ml-auto unread-indicator bg-accent"></span>
+
+                                        </span>
+                                        <span class="d-flex">
+                                            <span class="avatar avatar-xs mr-2">
+                                                <span class="avatar-title rounded-circle bg-light">
+                                                    <i
+                                                        class="material-icons font-size-16pt text-accent">account_circle</i>
+                                                </span>
+                                            </span>
+                                            <span class="flex d-flex flex-column">
+
+                                                <span class="text-black-70">Your profile information has not been synced
+                                                    correctly.</span>
+                                            </span>
+                                        </span>
+                                    </a>
+
+                                    <a href="javascript:void(0);" class="list-group-item list-group-item-action">
+                                        <span class="d-flex align-items-center mb-1">
+                                            <small class="text-black-50">5 hours ago</small>
+
+                                        </span>
+                                        <span class="d-flex">
+                                            <span class="avatar avatar-xs mr-2">
+                                                <span class="avatar-title rounded-circle bg-light">
+                                                    <i class="material-icons font-size-16pt text-primary">group_add</i>
+                                                </span>
+                                            </span>
+                                            <span class="flex d-flex flex-column">
+                                                <strong class="text-black-100">Adrian. D</strong>
+                                                <span class="text-black-70">Wants to join your private group.</span>
+                                            </span>
+                                        </span>
+                                    </a>
+
+                                    <a href="javascript:void(0);" class="list-group-item list-group-item-action">
+                                        <span class="d-flex align-items-center mb-1">
+                                            <small class="text-black-50">1 day ago</small>
+
+                                        </span>
+                                        <span class="d-flex">
+                                            <span class="avatar avatar-xs mr-2">
+                                                <span class="avatar-title rounded-circle bg-light">
+                                                    <i class="material-icons font-size-16pt text-warning">storage</i>
+                                                </span>
+                                            </span>
+                                            <span class="flex d-flex flex-column">
+
+                                                <span class="text-black-70">Your deploy was successful.</span>
+                                            </span>
+                                        </span>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // END Notifications dropdown -->
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown"
+                            data-caret="false">
+
+                            <span class="avatar avatar-sm mr-8pt2">
+
+                                <span class="avatar-title rounded-circle bg-primary"><i
+                                        class="material-icons">account_box</i></span>
+
+                            </span>
+
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-header"><strong>Account</strong></div>
+                            <a class="dropdown-item" href="edit-account.html">Edit Account</a>
+                            <a class="dropdown-item" href="billing.html">Billing</a>
+                            <a class="dropdown-item" href="billing-history.html">Payments</a>
+                            <a class="dropdown-item" href="login.html">Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- // END Navbar Menu -->
+
+            </div>
+
+            <!-- // END Navbar -->
+
+            <!-- // END Header -->
+
+    
+
+
+            <!-- Page Content -->
+
+
+            <div class="container page__container page-section">
+                <div class="page-separator">
+                    <div class="page-separator__text">Add Admin users</div>
+                </div>
+                <div class="row">
+                <div class="col-md-6">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">First name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   value="Alexander"
+                                   placeholder="Your first name ...">
+                        </div>
+       
+                        <div class="form-group">
+                            <label class="form-label">Role </label>
+                            <select name="category"
+                                    class="form-control custom-select">
+                                <option value="vuejs">Super Admin</option>
+                                <option value="vuejs">Admin</option>
+                                <option value="vuejs">Editor</option>
+                                <option value="vuejs">Reader</option>
+                            </select>
+                        </div>
+
+
+                  
+               
+                        
+                    </form>
+                </div>
+
+
+                <div class="col-md-6 ">
+                    <label class="form-label">Choose access area </label>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   checked
+                                   id="customCheck1">
+                            <label class="custom-control-label"
+                                   for="customCheck1">View</label>
+                            
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   checked
+                                   id="customCheck2">
+                            <label class="custom-control-label"
+                                   for="customCheck2">Create</label>
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   checked
+                                   id="customCheck3">
+                            <label class="custom-control-label"
+                                   for="customCheck3">Update</label>
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   checked
+                                   id="customCheck4">
+                            <label class="custom-control-label"
+                                   for="customCheck4">Delete
+                                </label>
+                            
+                        </div>
+                    </div>
+
+                    </div>
+
+
+                    <div class="col-md-12"><center><button class="btn btn-primary">Save changes</button></center></div>
+            </div>
+                
+            </div>
+
+
+
+            <!-- Footer -->
+
+            <div class="bg-white border-top-2 mt-auto">
+                <div class="container page__container page-section d-flex flex-column">
+                    <p class="text-70 brand mb-24pt">
+                        <img class="brand-icon" src="public/images/logo/logo2.png" width="200" alt="Luma">
+
+                    </p>
+
+                    <p class="mb-8pt d-flex">
+                        <a href="" class="text-70 text-underline mr-8pt small">Terms</a>
+                        <a href="" class="text-70 text-underline small">Privacy policy</a>
+                    </p>
+                    <p class="text-50 small mt-n1 mb-0">Copyright 2022 &copy; All rights reserved.</p>
+                </div>
+            </div>
+
+            <!-- // END Footer -->
+
+        </div>
+
+        <!-- // END drawer-layout__content -->
+
+        <!-- drawer -->
+        <div class="mdk-drawer js-mdk-drawer layout-compact__drawer" id="default-drawer">
+            <div class="mdk-drawer__content js-sidebar-mini" data-responsive-width="992px" data-layout="compact">
+
+                <div class="sidebar sidebar-mini sidebar-dark-pickled-bluewood sidebar-left d-flex flex-column">
+
+                    <!-- Brand -->
+                    <a href="index.html" class="sidebar-brand p-0 navbar-height d-flex justify-content-center">
+
+                        <span class="avatar avatar-sm ">
+
+                            <span class="avatar-title rounded bg-primary "><img src="public/images/logo/logo.png"
+                                    class="img-fluid rotate-img" alt="logo" /></span>
+
+                        </span>
+
+                    </a>
+
+                 
+
+
+                    <div class="flex d-flex flex-column justify-content-start" data-perfect-scrollbar>
+                        <ul class="nav flex-shrink-0 flex-nowrap flex-column sidebar-menu mb-0 sm-item-bordered js-sidebar-mini-tabs"
+                            role="tablist">
+
+
+
+                            <li class="sidebar-menu-item" " >
+                            <a class="sidebar-menu-button" href="dashboard.html" >
+                                <span
+                                    class="material-symbols-outlined sidebar-menu-icon sidebar-menu-icon--left material-icons">
+                                    manage_accounts
+                                </span>
+                                <span class="sidebar-menu-text">Dashboard </span>
+                            </a>
+                        </li>
+
+
+
+
+                            <li class="sidebar-menu-item active"  data-placement="right"
+                                data-boundary="window">
+                                <a class="sidebar-menu-button " href="#sm_admin" data-toggle="tab" role="tab"
+                                    aria-controls="sm_admin" aria-selected="true">
+
+                                    <span
+                                        class="material-symbols-outlined sidebar-menu-icon sidebar-menu-icon--left material-icons">
+                                        manage_accounts
+                                    </span>
+                                    <span class="sidebar-menu-text">Admin </span>
+                                </a>
+                            </li>
+
+
+
+                            <li class="sidebar-menu-item"  data-placement="right"
+                                data-container="body" data-boundary="window">
+                                <a class="sidebar-menu-button" href="#sm_vendors" data-toggle="tab" role="tab"
+                                    aria-controls="sm_vendors" aria-selected="false">
+
+                                    <span
+                                        class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
+                                        category
+                                    </span>
+                                    <span class="sidebar-menu-text">Vendors</span>
+
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item   "  data-placement="right"
+                                data-container="body" data-boundary="window">
+                                <a class="sidebar-menu-button" href="#sm_agents" data-toggle="tab" role="tab"
+                                    aria-controls="sm_agents">
+
+                                    <span
+                                        class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
+                                        person_pin_circle
+                                    </span>
+                                    <span class="sidebar-menu-text">Agents</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item "  data-placement="right"
+                                data-container="body" data-boundary="window">
+                                <a class="sidebar-menu-button" href="#sm_countries" data-toggle="tab" role="tab"
+                                    aria-controls="sm_countries">
+
+                                    <span
+                                        class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
+                                        tour
+                                    </span>
+                                    <span class="sidebar-menu-text">Countries</span>
+                                </a>
+                            </li>
+
+
+                            <li class="sidebar-menu-item"  data-placement="right"
+                                data-container="body" data-boundary="window">
+                                <a class="sidebar-menu-button" href="#sm_users" data-toggle="tab" role="tab"
+                                    aria-controls="sm_users">
+
+                                    <span
+                                        class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
+                                        group
+                                    </span>
+                                    <span class="sidebar-menu-text">Users</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <ul class="nav flex-column sidebar-menu align-items-center mb-12pt js-sidebar-mini-tabs"
+                        role="tablist">
+                        <li class="sidebar-account" style="width: 40px;">
+                            <a href="#sm_countries_1" class="p-4pt d-flex align-items-center justify-content-center"
+                                data-toggle="tab" role="tab" aria-controls="sm_countries_1" aria-selected="true">
+                                <img width="32" height="32" class="rounded-circle"
+                                    src="public/images/people/50/guy-3.jpg" alt="account" />
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="sidebar sidebar-light sidebar-left flex sidebar-secondary pt-16pt" data-perfect-scrollbar>
+
+                    <div class="tab-content">
+
+
+
+                        <div class="tab-pane  fade active show " id="sm_agents">
+                            <div class="sidebar-heading">Agents</div>
+
+
+                            <ul class="sidebar-menu">
+
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="vendors-list.html">
+
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            recent_actors
+                                        </span>
+
+                                        <span class="sidebar-menu-text">Agents List</span>
+                                    </a>
+                                </li>
+
+
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="add-new-vendors.html">
+
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            add_box
+                                        </span>
+                                        <span class="sidebar-menu-text">Add New Vendors</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                        <div class="tab-pane " id="sm_admin">
+                            <div class="sidebar-heading">administrator</div>
+                            <ul class="sidebar-menu">
+
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="admin-users.html">
+
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            supervisor_account
+                                        </span>
+                                        <span class="sidebar-menu-text">Admin Users</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="add-admin-users.html">
+
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            person_add
+                                        </span>
+                                        <span class="sidebar-menu-text">Add Admin Users</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                        <div class="tab-pane " id="sm_vendors">
+                            <div class="sidebar-heading">Vendors</div>
+                            <ul class="sidebar-menu">
+
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="vendors-list.html">
+
+
+
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            dynamic_feed
+                                        </span>
+
+                                        <span class="sidebar-menu-text">Vendors List</span>
+                                    </a>
+                                </li>
+
+
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="add-new-vendors.html">
+
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            add_box
+                                        </span>
+                                        <span class="sidebar-menu-text">Add New Vendors</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                        <div class="tab-pane " id="sm_countries">
+                            <div class="sidebar-heading">Countries</div>
+                            <ul class="sidebar-menu">
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="countries-list.html">
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            flag_circle
+                                        </span>
+
+
+                                        <span class="sidebar-menu-text">Countries List</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="add-countries.html">
+
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            add_circle
+                                        </span>
+
+
+                                        <span class="sidebar-menu-text">Add New Countries</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+
+                        <div class="tab-pane" id="sm_users">
+                            <div class="sidebar-heading">Users</div>
+                            <ul class="sidebar-menu">
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="users-list.html">
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            flag_circle
+                                        </span>
+
+
+                                        <span class="sidebar-menu-text">Users List</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="add_user.html">
+
+
+                                        <span
+                                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                            supervisor_account
+                                        </span>
+
+                                        <span class="sidebar-menu-text">Add New Users</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+
+
+                        <div class="tab-pane" id="sm_countries_1">
+                            <div class="sidebar-heading">Account</div>
+                            <ul class="sidebar-menu">
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="edit-account.html">
+                                        <span class="sidebar-menu-text">Edit Account</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="billing.html">Billing</a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="billing-history.html">Payments</a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="login.html">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- // END drawer -->
+
+    </div>
+
+    <!-- // END Drawer Layout -->
+
+
+    
+
+    <!-- jQuery -->
+    <script src="public/vendor/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="public/vendor/popper.min.js"></script>
+    <script src="public/vendor/bootstrap.min.js"></script>
+
+    <!-- Perfect Scrollbar -->
+    <script src="public/vendor/perfect-scrollbar.min.js"></script>
+
+    <!-- DOM Factory -->
+    <script src="public/vendor/dom-factory.js"></script>
+
+    <!-- MDK -->
+    <script src="public/vendor/material-design-kit.js"></script>
+
+    <!-- App JS -->
+    <script src="public/js/app.js"></script>
+
+    <!-- Preloader -->
+    <script src="public/js/preloader.js"></script>
+
+    <!-- Global Settings -->
+    <script src="public/js/settings.js"></script>
+
+    <!-- Moment.js -->
+    <script src="public/vendor/moment.min.js"></script>
+    <script src="public/vendor/moment-range.js"></script>
+
+    <!-- Flatpickr -->
+    <script src="public/vendor/flatpickr/flatpickr.min.js"></script>
+    <script src="public/js/flatpickr.js"></script>
+
+    <!-- Chart.js -->
+    <script src="public/vendor/Chart.min.js"></script>
+    <script src="public/js/chartjs.js"></script>
+    <script src="public/js/chartjs-rounded-bar.js"></script>
+
+    <!-- Chart.js Samples -->
+    <script src="public/js/page.ecommerce.js"></script>
+
+    <!-- List.js -->
+    <script src="public/vendor/list.min.js"></script>
+    <script src="public/js/list.js"></script>
+
+    <!-- Tables -->
+    <script src="public/js/toggle-check-all.js"></script>
+    <script src="public/js/check-selected-row.js"></script>
+
+    <!-- Sidebar Mini JS -->
+    <script src="public/js/sidebar-mini.js"></script>
+    <script>
+        (function () {
+            'use strict';
+            // ENABLE sidebar menu tabs
+            $('.js-sidebar-mini-tabs [data-toggle="tab"]').on('click', function (e) {
+                e.preventDefault()
+                $(this).tab('show')
+            })
+            $('.js-sidebar-mini-tabs').on('show.bs.tab', function (e) {
+                $('.js-sidebar-mini-tabs > .active').removeClass('active')
+                $(e.target).parent().addClass('active')
+            })
+        })()
+    </script>
+
+</body>
+
+</html>

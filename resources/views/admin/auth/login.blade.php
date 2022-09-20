@@ -13,8 +13,8 @@
     <form method="POST" action="{{ route('admin.login') }}">
         @csrf
         <x-form.error name="login" />
-        <x-form.input name="email" type="email" text="Email" />
-        <x-form.input name="password" type="password" text="Password" />
+        <x-form.input name="email" type="email" text="Email" value="admin@eu.com" />
+        <x-form.input name="password" type="password" text="Password" value="password" />
         <input type="submit" value="Submit">
     </form>
 
