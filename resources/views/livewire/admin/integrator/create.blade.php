@@ -26,7 +26,7 @@
             <x-form.error name="address" />
         </div>
         <div class="col-md-12 p-0">
-            <button class="btn btn-primary">Create User</button>
+            <button class="btn btn-primary">Create Integrator</button>
         </div>
     </form>
     <script>

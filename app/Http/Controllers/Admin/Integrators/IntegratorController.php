@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Admin\Integrators;
 
 use App\Http\Controllers\Controller;
-use App\Models\Integrators\integrator;
+use App\Models\Integrators\Integrator;
 use App\Http\Requests\StoreintegratorRequest;
 use App\Http\Requests\UpdateintegratorRequest;
+use App\Imports\ImportRateImport;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\HeadingRowImport;
 
 class IntegratorController extends Controller
 {
@@ -57,7 +61,7 @@ class IntegratorController extends Controller
      * @param  \App\Models\Integrators\integrator  $integrator
      * @return \Illuminate\Http\Response
      */
-    public function edit(integrator $integrator)
+    public function edit(Integrator $integrator)
     {
         return view('admin.integrators.edit')->with([
             'integrator' => $integrator
@@ -71,7 +75,7 @@ class IntegratorController extends Controller
      * @param  \App\Models\Integrators\integrator  $integrator
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateintegratorRequest $request, integrator $integrator)
+    public function update(UpdateintegratorRequest $request, Integrator $integrator)
     {
         //
     }
@@ -82,8 +86,42 @@ class IntegratorController extends Controller
      * @param  \App\Models\Integrators\integrator  $integrator
      * @return \Illuminate\Http\Response
      */
-    public function destroy(integrator $integrator)
+    public function destroy(Integrator $integrator)
     {
         //
+    }
+
+    public function uploadView(Integrator $integrator)
+    {
+        return view('admin.integrators.upload')->with([
+            'integrator' => $integrator
+        ]);
+    }
+    public function upload(Request $request, Integrator $integrator)
+    {
+        $request->validate([
+            'importfile' => 'required|file|max:10000|mimes:xlsx,csv,txt'
+        ], [
+            'importfile.required' => 'Please select a file'
+        ]);
+
+        // $uploadedFile = $request->file('importfile');
+        // $filename = time() . $uploadedFile->getClientOriginalName();
+
+        // Storage::disk('local')->putFileAs(
+        //     'uploaded/' . $filename,
+        //     $uploadedFile,
+        //     $filename
+        // );
+
+        $headings = (new HeadingRowImport)->toArray(request()->file('importfile'));
+
+        $import = new ImportRateImport($integrator->id, $headings[0], 'import');
+
+        Excel::import($import, request()->file('importfile'));
+
+        return back()->with([
+            'import_errors' => $import->errors
+        ]);
     }
 }

@@ -21,7 +21,8 @@
                             <span class="sidebar-menu-text">Dashboard </span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item {{ request()->routeIs('admin.ueusers*') ? 'active' : '' }}" data-placement="right" data-boundary="window">
+                    <li class="sidebar-menu-item {{ request()->routeIs('admin.ueusers*') ? 'active' : '' }}"
+                        data-placement="right" data-boundary="window">
                         <a class="sidebar-menu-button" href="#sm_admin" data-toggle="tab" role="tab"
                             aria-controls="sm_admin" aria-selected="true">
                             <span
@@ -32,13 +33,13 @@
                         </a>
                     </li>
                     <li class="sidebar-menu-item" data-placement="right" data-container="body" data-boundary="window">
-                        <a class="sidebar-menu-button" href="#sm_vendors" data-toggle="tab" role="tab"
-                            aria-controls="sm_vendors" aria-selected="false">
+                        <a class="sidebar-menu-button" href="#sm_Integrators" data-toggle="tab" role="tab"
+                            aria-controls="sm_Integrators" aria-selected="false">
                             <span
                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
                                 category
                             </span>
-                            <span class="sidebar-menu-text">Vendors</span>
+                            <span class="sidebar-menu-text">Integrators</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item" data-placement="right" data-container="body" data-boundary="window">
@@ -76,12 +77,14 @@
 
         </div>
         <div class="sidebar sidebar-light sidebar-left flex sidebar-secondary pt-16pt" data-perfect-scrollbar>
+            
+            
             <div class="tab-content">
                 <div class="tab-pane" id="sm_agents">
                     <div class="sidebar-heading">Agents</div>
                     <ul class="sidebar-menu">
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="vendors-list.html">
+                            <a class="sidebar-menu-button" href="Integrators-list.html">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     recent_actors
@@ -90,16 +93,18 @@
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="add-new-vendors.html">
+                            <a class="sidebar-menu-button" href="add-new-Integrators.html">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     add_box
                                 </span>
-                                <span class="sidebar-menu-text">Add New Vendors</span>
+                                <span class="sidebar-menu-text">Add New Integrators</span>
                             </a>
                         </li>
                     </ul>
                 </div>
+
+
                 <div class="tab-pane " id="sm_admin">
                     <div class="sidebar-heading">UE Users</div>
                     <ul class="sidebar-menu">
@@ -123,25 +128,25 @@
                         </li>
                     </ul>
                 </div>
-                <div class="tab-pane " id="sm_vendors">
-                    <div class="sidebar-heading">Vendors</div>
+                <div class="tab-pane" id="sm_Integrators">
+                    <div class="sidebar-heading">Integrators</div>
                     <ul class="sidebar-menu">
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="vendors-list.html">
+                            <a class="sidebar-menu-button" href="{{ route('admin.integrator.index') }}">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     dynamic_feed
                                 </span>
-                                <span class="sidebar-menu-text">Vendors List</span>
+                                <span class="sidebar-menu-text">Integrators List</span>
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="add-new-vendors.html">
+                            <a class="sidebar-menu-button" href="{{ route('admin.integrator.create') }}">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     add_box
                                 </span>
-                                <span class="sidebar-menu-text">Add New Vendors</span>
+                                <span class="sidebar-menu-text">Add New Integrators</span>
                             </a>
                         </li>
                     </ul>

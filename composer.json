@@ -16,6 +16,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.10",
+        "maatwebsite/excel": "^3.1",
         "silber/bouncer": "^1.0",
         "wildside/userstamps": "^2.2"
     },
