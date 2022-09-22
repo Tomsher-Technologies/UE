@@ -21,24 +21,25 @@
                             <span class="sidebar-menu-text">Dashboard </span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item" data-placement="right" data-boundary="window">
+                    <li class="sidebar-menu-item {{ request()->routeIs('admin.ueusers*') ? 'active' : '' }}"
+                        data-placement="right" data-boundary="window">
                         <a class="sidebar-menu-button" href="#sm_admin" data-toggle="tab" role="tab"
                             aria-controls="sm_admin" aria-selected="true">
                             <span
                                 class="material-symbols-outlined sidebar-menu-icon sidebar-menu-icon--left material-icons">
                                 manage_accounts
                             </span>
-                            <span class="sidebar-menu-text">Admin </span>
+                            <span class="sidebar-menu-text">UE Users </span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item" data-placement="right" data-container="body" data-boundary="window">
-                        <a class="sidebar-menu-button" href="#sm_vendors" data-toggle="tab" role="tab"
-                            aria-controls="sm_vendors" aria-selected="false">
+                        <a class="sidebar-menu-button" href="#sm_Integrators" data-toggle="tab" role="tab"
+                            aria-controls="sm_Integrators" aria-selected="false">
                             <span
                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
                                 category
                             </span>
-                            <span class="sidebar-menu-text">Vendors</span>
+                            <span class="sidebar-menu-text">Integrators</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item" data-placement="right" data-container="body" data-boundary="window">
@@ -73,23 +74,17 @@
                     </li>
                 </ul>
             </div>
-            <ul class="nav flex-column sidebar-menu align-items-center mb-12pt js-sidebar-mini-tabs" role="tablist">
-                <li class="sidebar-account" style="width: 40px;">
-                    <a href="#sm_countries_1" class="p-4pt d-flex align-items-center justify-content-center"
-                        data-toggle="tab" role="tab" aria-controls="sm_countries_1" aria-selected="true">
-                        <img width="32" height="32" class="rounded-circle"
-                            src="{{ adminAsset('images/people/50/guy-3.jpg') }}" alt="account" />
-                    </a>
-                </li>
-            </ul>
+
         </div>
         <div class="sidebar sidebar-light sidebar-left flex sidebar-secondary pt-16pt" data-perfect-scrollbar>
+            
+            
             <div class="tab-content">
                 <div class="tab-pane" id="sm_agents">
                     <div class="sidebar-heading">Agents</div>
                     <ul class="sidebar-menu">
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="vendors-list.html">
+                            <a class="sidebar-menu-button" href="Integrators-list.html">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     recent_actors
@@ -98,58 +93,60 @@
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="add-new-vendors.html">
+                            <a class="sidebar-menu-button" href="add-new-Integrators.html">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     add_box
                                 </span>
-                                <span class="sidebar-menu-text">Add New Vendors</span>
+                                <span class="sidebar-menu-text">Add New Integrators</span>
                             </a>
                         </li>
                     </ul>
                 </div>
+
+
                 <div class="tab-pane " id="sm_admin">
-                    <div class="sidebar-heading">administrator</div>
+                    <div class="sidebar-heading">UE Users</div>
                     <ul class="sidebar-menu">
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="admin-users.html">
+                            <a class="sidebar-menu-button" href="{{ route('admin.ueusers.index') }}">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     supervisor_account
                                 </span>
-                                <span class="sidebar-menu-text">Admin Users</span>
+                                <span class="sidebar-menu-text">View All</span>
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="add-admin-users.html">
+                            <a class="sidebar-menu-button" href="{{ route('admin.ueusers.create') }}">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     person_add
                                 </span>
-                                <span class="sidebar-menu-text">Add Admin Users</span>
+                                <span class="sidebar-menu-text">Add UE Users</span>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div class="tab-pane " id="sm_vendors">
-                    <div class="sidebar-heading">Vendors</div>
+                <div class="tab-pane" id="sm_Integrators">
+                    <div class="sidebar-heading">Integrators</div>
                     <ul class="sidebar-menu">
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="vendors-list.html">
+                            <a class="sidebar-menu-button" href="{{ route('admin.integrator.index') }}">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     dynamic_feed
                                 </span>
-                                <span class="sidebar-menu-text">Vendors List</span>
+                                <span class="sidebar-menu-text">Integrators List</span>
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="add-new-vendors.html">
+                            <a class="sidebar-menu-button" href="{{ route('admin.integrator.create') }}">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                     add_box
                                 </span>
-                                <span class="sidebar-menu-text">Add New Vendors</span>
+                                <span class="sidebar-menu-text">Add New Integrators</span>
                             </a>
                         </li>
                     </ul>
@@ -197,25 +194,6 @@
                                 </span>
                                 <span class="sidebar-menu-text">Add New Users</span>
                             </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="tab-pane" id="sm_countries_1">
-                    <div class="sidebar-heading">Account</div>
-                    <ul class="sidebar-menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="edit-account.html">
-                                <span class="sidebar-menu-text">Edit Account</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="billing.html">Billing</a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="billing-history.html">Payments</a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="login.html">Logout</a>
                         </li>
                     </ul>
                 </div>

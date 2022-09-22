@@ -1,23 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.adminauth')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=!, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-
-    <form method="POST" action="{{ route('admin.login') }}">
+@section('content')
+    <form method="POST" action="{{ route('admin.login') }}" class="col-md-5 p-0 mx-auto form p-5 text-left rounded">
         @csrf
         <x-form.error name="login" />
         <x-form.input name="email" type="email" text="Email" value="admin@eu.com" />
         <x-form.input name="password" type="password" text="Password" value="password" />
-        <input type="submit" value="Submit">
+        <div class="form-group">
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" value="1" id="invalidCheck01" name="remember_me" />
+                <label class="custom-control-label" for="invalidCheck01">
+                    Remember Me
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <p class="text-right">
+                <a href="{{ route('password.request') }}" class="small">Forgot your password?</a>
+            </p>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn pl-4 pr-4 btn-rounded btn-primary">
+                Login
+            </button>
+        </div>
     </form>
-
-</body>
-
-</html>
+@endsection

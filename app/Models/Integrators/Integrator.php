@@ -13,7 +13,7 @@ class Integrator extends Model
 {
     use HasFactory;
 
-    protected $guraded = ['id'];
+    protected $guarded = ['id'];
 
     public function zone()
     {
@@ -32,5 +32,10 @@ class Integrator extends Model
     public function transitRate()
     {
         return $this->hasMany(TransitRate::class);
+    }
+
+    public function uploads()
+    {
+        return $this->hasMany(Uploads::class);
     }
 }

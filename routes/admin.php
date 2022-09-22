@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\Integrators\IntegratorController;
 use App\Http\Controllers\UEUser\UEUserController;
 use App\Http\Controllers\User\LogoutController;
-use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,15 +23,24 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         Route::post('login', [LoginController::class, 'authenticate']);
     });
 
-
-
     Route::middleware(['auth', 'auth.session', 'admin'])->group(function () {
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
+
         Route::resource('ueusers', UEUserController::class)->parameters([
             'ueusers' => 'user'
         ])->only(['index', 'create', 'edit', 'show']);
+
+        Route::group(['prefix' => 'integrator', 'as' => 'integrator.'], function () {
+            Route::get('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRatesView'])->name('uploadRates');
+            Route::post('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRates']);
+
+            Route::get('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZoneView'])->name('uploadZones');
+            Route::post('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZone']);
+        });
+
+        Route::resource('integrator', IntegratorController::class)->only(['index', 'create', 'edit', 'show']);
 
         include 'profile.php';
     });
