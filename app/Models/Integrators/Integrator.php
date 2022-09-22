@@ -33,4 +33,9 @@ class Integrator extends Model
     {
         return $this->hasMany(TransitRate::class);
     }
+
+    public function uploads()
+    {
+        return $this->hasMany(Uploads::class);
+    }
 }

@@ -22,11 +22,11 @@
                             <div class="form-group row align-items-center mb-0">
                                 <div class="col-sm-12 d-flex align-items-center">
                                     <div class="flex pc-text-right">
-                                        <a href="{{ route('admin.integrator.upload', $integrator) }}"
+                                        <a href="{{ route('admin.integrator.uploadRates', $integrator) }}"
                                             class="btn btn-secondary w-100 mb-2">
                                             Upload Rates
                                         </a>
-                                        <a href="{{ route('admin.integrator.uploadzones', $integrator) }}"
+                                        <a href="{{ route('admin.integrator.uploadZones', $integrator) }}"
                                             class="btn btn-secondary w-100 mb-2">
                                             Upload Zones
                                         </a>

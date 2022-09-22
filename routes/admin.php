@@ -33,10 +33,10 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         ])->only(['index', 'create', 'edit', 'show']);
 
         Route::group(['prefix' => 'integrator', 'as' => 'integrator.'], function () {
-            Route::get('/{integrator}/upload', [IntegratorController::class, 'uploadView'])->name('upload');
-            Route::post('/{integrator}/upload', [IntegratorController::class, 'upload']);
+            Route::get('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRatesView'])->name('uploadRates');
+            Route::post('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRates']);
 
-            Route::get('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZoneView'])->name('uploadzones');
+            Route::get('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZoneView'])->name('uploadZones');
             Route::post('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZone']);
         });
 

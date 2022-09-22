@@ -7,7 +7,10 @@ use App\Models\Integrators\Integrator;
 use App\Http\Requests\StoreintegratorRequest;
 use App\Http\Requests\UpdateintegratorRequest;
 use App\Imports\ImportRateImport;
+use App\Imports\ZoneImport;
+use App\Models\Integrators\Uploads;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 
@@ -91,32 +94,80 @@ class IntegratorController extends Controller
         //
     }
 
-    public function uploadView(Integrator $integrator)
+    public function uploadRatesView(Integrator $integrator)
     {
         return view('admin.integrators.upload')->with([
             'integrator' => $integrator
         ]);
     }
-    public function upload(Request $request, Integrator $integrator)
+    public function uploadRates(Request $request, Integrator $integrator)
     {
         $request->validate([
-            'importfile' => 'required|file|max:10000|mimes:xlsx,csv,txt'
+            'importfile' => 'required|file|max:10000|mimes:xlsx,csv,txt',
+            'type' => 'required',
         ], [
-            'importfile.required' => 'Please select a file'
+            'importfile.required' => 'Please select a file',
+            'type.required' => 'Please select a rate type',
         ]);
 
-        // $uploadedFile = $request->file('importfile');
-        // $filename = time() . $uploadedFile->getClientOriginalName();
+        $uploadedFile = $request->file('importfile');
+        $filename = time() . $uploadedFile->getClientOriginalName();
 
-        // Storage::disk('local')->putFileAs(
-        //     'uploaded/' . $filename,
-        //     $uploadedFile,
-        //     $filename
-        // );
+        $file = Storage::disk('public')->putFileAs(
+            'uploaded/rates/' . $filename,
+            $uploadedFile,
+            $filename
+        );
+
+        Uploads::create([
+            'integrator_id' => $integrator->id,
+            'name' => $filename,
+            'type' => ucfirst($request->type) . " " . "Rate",
+            'path' => 'storage/' . $file,
+        ]);
 
         $headings = (new HeadingRowImport)->toArray(request()->file('importfile'));
 
-        $import = new ImportRateImport($integrator->id, $headings[0], 'import');
+        $import = new ImportRateImport($integrator->id, $headings[0], $request->type);
+
+        Excel::import($import, request()->file('importfile'));
+
+        return back()->with([
+            'import_errors' => $import->errors
+        ]);
+    }
+
+    public function uploadZoneView(Integrator $integrator)
+    {
+        return view('admin.integrators.uploadzone')->with([
+            'integrator' => $integrator
+        ]);
+    }
+    public function uploadZone(Request $request, Integrator $integrator)
+    {
+        $request->validate([
+            'importfile' => 'required|file|max:10000|mimes:xlsx,csv,txt',
+        ], [
+            'importfile.required' => 'Please select a file',
+        ]);
+
+        $uploadedFile = $request->file('importfile');
+        $filename = time() . $uploadedFile->getClientOriginalName();
+
+        $file = Storage::disk('public')->putFileAs(
+            'uploaded/zones/' . $filename,
+            $uploadedFile,
+            $filename
+        );
+
+        Uploads::create([
+            'integrator_id' => $integrator->id,
+            'name' => $filename,
+            'type' => ucfirst($request->type) . " " . "Zone",
+            'path' => 'storage/' . $file,
+        ]);
+
+        $import = new ZoneImport($integrator->id, $request->type);
 
         Excel::import($import, request()->file('importfile'));
 
