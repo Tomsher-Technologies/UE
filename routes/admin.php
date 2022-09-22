@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Integrators\IntegratorController;
-use App\Http\Controllers\UEUser\UEUserController;
+use App\Http\Controllers\Admin\UEUser\UEUserController;
 use App\Http\Controllers\User\LogoutController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,10 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
         Route::resource('ueusers', UEUserController::class)->parameters([
             'ueusers' => 'user'
+        ])->only(['index', 'create', 'edit', 'show']);
+
+        Route::resource('customer', CustomerController::class)->parameters([
+            'customer' => 'user'
         ])->only(['index', 'create', 'edit', 'show']);
 
         Route::group(['prefix' => 'integrator', 'as' => 'integrator.'], function () {

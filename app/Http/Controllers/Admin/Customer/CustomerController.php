@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\UEUser;
+namespace App\Http\Controllers\Admin\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UEUserController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class UEUserController extends Controller
      */
     public function index()
     {
-        return view('admin.ueuser.index');
+        return view('admin.customer.index');
     }
 
     /**
@@ -25,7 +25,7 @@ class UEUserController extends Controller
      */
     public function create()
     {
-        return view('admin.ueuser.create');
+        return view('admin.customer.create');
     }
 
     /**
@@ -42,15 +42,12 @@ class UEUserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
     {
-        if (!$user->isAn('ueuser')) {
-            abort(404);
-        }
-        return view('admin.ueuser.show')->with([
+        return view('admin.customer.show')->with([
             'user' => $user
         ]);
     }
@@ -58,15 +55,12 @@ class UEUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
     {
-        if (!$user->isAn('ueuser')) {
-            abort(404);
-        }
-        return view('admin.ueuser.edit')->with([
+        return view('admin.customer.edit')->with([
             'user' => $user
         ]);
     }
@@ -75,7 +69,7 @@ class UEUserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -86,7 +80,7 @@ class UEUserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)

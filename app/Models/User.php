@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Customer\CustomerDetails;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function customerDetails()
+    {
+        return $this->hasOne(CustomerDetails::class);
     }
 }
