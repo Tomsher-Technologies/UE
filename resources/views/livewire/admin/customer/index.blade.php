@@ -73,6 +73,9 @@
                         </div>
                     </td>
                     <td>
+                        <a href="{{ route('admin.customer.show', $user) }}" class="btn btn-primary">
+                            <i class="material-icons">remove_red_eye</i>
+                        </a>
                         <a href="{{ route('admin.customer.edit', $user) }}" class="btn btn-secondary">
                             <i class="material-icons">mode_edit</i>
                         </a>

@@ -29,7 +29,7 @@ class Create extends Component
         return [
             'password' => 'required',
             'name' => 'required',
-            'email' => ['nullable', 'email'],
+            'email' => ['required', 'email'],
             'phone' => ['nullable'],
             'address' => ['nullable'],
             'msp' => ['nullable', 'integer'],
@@ -44,6 +44,7 @@ class Create extends Component
         'password.required' => 'Please enter a password',
         'name.required' => 'Please enter a name',
         'email.email' => 'The email address format is not valid.',
+        'email.required' => 'The email address is required.',
     ];
 
 

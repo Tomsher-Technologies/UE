@@ -49,27 +49,7 @@
                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
                                 person_pin_circle
                             </span>
-                            <span class="sidebar-menu-text">Agents</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu-item " data-placement="right" data-container="body" data-boundary="window">
-                        <a class="sidebar-menu-button" href="#sm_countries" data-toggle="tab" role="tab"
-                            aria-controls="sm_countries">
-                            <span
-                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
-                                tour
-                            </span>
-                            <span class="sidebar-menu-text">Countries</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu-item" data-placement="right" data-container="body" data-boundary="window">
-                        <a class="sidebar-menu-button" href="#sm_users" data-toggle="tab" role="tab"
-                            aria-controls="sm_users">
-                            <span
-                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
-                                group
-                            </span>
-                            <span class="sidebar-menu-text">Users</span>
+                            <span class="sidebar-menu-text">Customers</span>
                         </a>
                     </li>
                 </ul>
@@ -77,33 +57,9 @@
 
         </div>
         <div class="sidebar sidebar-light sidebar-left flex sidebar-secondary pt-16pt" data-perfect-scrollbar>
-            
-            
-            <div class="tab-content">
-                <div class="tab-pane" id="sm_agents">
-                    <div class="sidebar-heading">Agents</div>
-                    <ul class="sidebar-menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="Integrators-list.html">
-                                <span
-                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                    recent_actors
-                                </span>
-                                <span class="sidebar-menu-text">Agents List</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="add-new-Integrators.html">
-                                <span
-                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                    add_box
-                                </span>
-                                <span class="sidebar-menu-text">Add New Integrators</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
 
+
+            <div class="tab-content">
 
                 <div class="tab-pane " id="sm_admin">
                     <div class="sidebar-heading">UE Users</div>
@@ -151,48 +107,26 @@
                         </li>
                     </ul>
                 </div>
-                <div class="tab-pane " id="sm_countries">
-                    <div class="sidebar-heading">Countries</div>
+
+                <div class="tab-pane" id="sm_agents">
+                    <div class="sidebar-heading">Customers</div>
                     <ul class="sidebar-menu">
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="countries-list.html">
+                            <a class="sidebar-menu-button" href="{{ route('admin.customer.index') }}">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                    flag_circle
+                                    dynamic_feed
                                 </span>
-                                <span class="sidebar-menu-text">Countries List</span>
+                                <span class="sidebar-menu-text">Customers List</span>
                             </a>
                         </li>
                         <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="add-countries.html">
+                            <a class="sidebar-menu-button" href="{{ route('admin.customer.create') }}">
                                 <span
                                     class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                    add_circle
+                                    add_box
                                 </span>
-                                <span class="sidebar-menu-text">Add New Countries</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="tab-pane" id="sm_users">
-                    <div class="sidebar-heading">Users</div>
-                    <ul class="sidebar-menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="users-list.html">
-                                <span
-                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                    flag_circle
-                                </span>
-                                <span class="sidebar-menu-text">Users List</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="add_user.html">
-                                <span
-                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                    supervisor_account
-                                </span>
-                                <span class="sidebar-menu-text">Add New Users</span>
+                                <span class="sidebar-menu-text">Add New Customers</span>
                             </a>
                         </li>
                     </ul>
