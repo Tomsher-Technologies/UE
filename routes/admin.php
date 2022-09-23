@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Integrators\IntegratorController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
+use App\Http\Controllers\HubEz\HubEzController;
 use App\Http\Controllers\User\LogoutController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,8 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');
     });
+
+    Route::get('/test', [HubEzController::class, 'placeOrder']);
 
     Route::middleware(['guest'])->group(function () {
         Route::get('login', [LoginController::class, 'loginView'])->name('login');
