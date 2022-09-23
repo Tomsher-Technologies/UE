@@ -22,12 +22,16 @@ class Create extends Component
     public $profit_margin;
     public $profit_margin_type = 'percentage';
 
+    public $parent_users;
+    public $parent_user;
+
     public $image;
 
     protected function rules()
     {
         return [
             'password' => 'required',
+            'parent_user' => 'required',
             'name' => 'required',
             'email' => ['required', 'email'],
             'phone' => ['nullable'],
@@ -36,12 +40,12 @@ class Create extends Component
             'msp_type' => ['nullable'],
             'profit_margin' => ['nullable', 'integer'],
             'profit_margin_type' => ['nullable'],
-
         ];
     }
 
     protected $messages = [
         'password.required' => 'Please enter a password',
+        'parent_user.required' => 'Please select a assigned UE user',
         'name.required' => 'Please enter a name',
         'email.email' => 'The email address format is not valid.',
         'email.required' => 'The email address is required.',
@@ -68,11 +72,11 @@ class Create extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
-            'status' => 1
+            'status' => 1,
+            'parent_id' => $this->parent_user
         ]);
 
         Bouncer::assign('reseller')->to($customer);
-
 
         $storedImage =  $this->image->store('public/customerphotos');
 
@@ -86,7 +90,6 @@ class Create extends Component
             'image' => $storedImage,
         ]);
 
-
         $this->reset('name');
         $this->reset('email');
         $this->reset('phone');
@@ -97,8 +100,14 @@ class Create extends Component
         $this->reset('profit_margin');
         $this->reset('profit_margin_type');
         $this->reset('image');
+        $this->reset('parent_user');
 
         $this->dispatchBrowserEvent('memberUpdated');
+    }
+
+    public function mount()
+    {
+        $this->parent_users = User::whereStatus(true)->whereIs('ueuser')->select(['id', 'name'])->get();
     }
 
     public function updated($propertyName)

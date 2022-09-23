@@ -28,7 +28,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'status'
+        'status',
+        'parent_id'
     ];
 
     /**
@@ -58,5 +59,15 @@ class User extends Authenticatable
     public function customerDetails()
     {
         return $this->hasOne(CustomerDetails::class);
+    }
+
+    public function child()
+    {
+        return $this->hasOne(User::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(User::class, 'parent_id');
     }
 }

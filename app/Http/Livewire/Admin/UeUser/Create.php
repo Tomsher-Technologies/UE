@@ -38,6 +38,7 @@ class Create extends Component
             'email' => $this->email,
             'status' => 1,
             'password' => $this->password,
+            'parent_id' => 1,
         ]);
 
         Bouncer::assign('ueuser')->to($user);

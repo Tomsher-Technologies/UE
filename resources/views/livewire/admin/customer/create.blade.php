@@ -46,6 +46,18 @@
             </select>
             <x-form.error name="profit_margin_type" />
         </div>
+
+        <div class="form-group">
+            <label class="form-label">Assigned UE USer</label>
+            <select wire:model="parent_user" class="form-control custom-select mb-2">
+                <option value="percentage">Select a UE user</option>
+                @foreach ($parent_users as $user)
+                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                @endforeach
+            </select>
+            <x-form.error name="parent_user" />
+        </div>
+
         <div class="form-group">
             <label class="form-label">Password</label>
             <input wire:model="password" type="password" class="form-control mb-2">
@@ -61,7 +73,7 @@
         @if ($image && !$errors->get('image'))
             <div class="col-md-12 p-0 mb-3">
                 Photo Preview:
-                <img class="w-100" src="{{ $image->temporaryUrl() }}">
+                <img class="w-auto d-block mw-100" src="{{ $image->temporaryUrl() }}">
             </div>
         @endif
 
