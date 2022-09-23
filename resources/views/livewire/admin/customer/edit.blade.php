@@ -52,10 +52,10 @@
             <x-form.error name="password" />
         </div>
 
-        @if ($user->customerDetails->getProfileImage())
+        @if ($c_image)
             <div class="col-md-12 p-0 mb-3">
                 Current Photo:
-                <img class="w-auto d-block mw-100" src="{{ $user->customerDetails->getProfileImage() }}">
+                <img class="w-auto d-block mw-100" src="{{ $c_image }}">
             </div>
         @endif
 

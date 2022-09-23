@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
+
 function adminAsset($url)
 {
     return asset('admin-assets/' . $url);
@@ -7,5 +9,7 @@ function adminAsset($url)
 
 function deleteImage($path)
 {
-    # code...
+    if (Storage::exists($path)) {
+        Storage::delete($path);
+    }
 }

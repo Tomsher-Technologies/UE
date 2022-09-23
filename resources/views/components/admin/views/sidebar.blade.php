@@ -32,7 +32,7 @@
                             <span class="sidebar-menu-text">UE Users </span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item" data-placement="right" data-container="body" data-boundary="window">
+                    <li class="sidebar-menu-item {{ request()->routeIs('admin.integrator*') ? 'active' : '' }}" data-placement="right" data-container="body" data-boundary="window">
                         <a class="sidebar-menu-button" href="#sm_Integrators" data-toggle="tab" role="tab"
                             aria-controls="sm_Integrators" aria-selected="false">
                             <span
@@ -42,7 +42,7 @@
                             <span class="sidebar-menu-text">Integrators</span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item" data-placement="right" data-container="body" data-boundary="window">
+                    <li class="sidebar-menu-item {{ request()->routeIs('admin.customer*') ? 'active' : '' }}" data-placement="right" data-container="body" data-boundary="window">
                         <a class="sidebar-menu-button" href="#sm_agents" data-toggle="tab" role="tab"
                             aria-controls="sm_agents" aria-selected="false">
                             <span

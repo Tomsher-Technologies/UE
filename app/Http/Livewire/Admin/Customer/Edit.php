@@ -5,8 +5,10 @@ namespace App\Http\Livewire\Admin\Customer;
 use App\Helpers\Password;
 use App\Models\Customer\CustomerDetails;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class Edit extends Component
 {
@@ -17,6 +19,7 @@ class Edit extends Component
     public CustomerDetails $customerDetails;
 
     public $image;
+    public $c_image;
     public $password;
 
     protected function rules()
@@ -63,6 +66,18 @@ class Edit extends Component
         }
 
         $this->user->save();
+
+        if ($this->image) {
+            $storedImage =  $this->image->store('public/customerphotos');
+
+            if (Storage::exists($this->customerDetails->image)) {
+                Storage::delete($this->customerDetails->image);
+            }
+
+            $this->customerDetails->image =  $storedImage;
+            $this->reset('image');
+        }
+
         $this->customerDetails->save();
 
         $this->reset('password');
@@ -83,6 +98,7 @@ class Edit extends Component
 
     public function render()
     {
+        $this->c_image = $this->customerDetails->getProfileImage();
         return view('livewire.admin.customer.edit');
     }
 }
