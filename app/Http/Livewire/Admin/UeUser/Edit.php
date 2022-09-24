@@ -5,13 +5,22 @@ namespace App\Http\Livewire\Admin\UeUser;
 use App\Helpers\Password;
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithPagination;
+use Bouncer;
 
 class Edit extends Component
 {
 
+    use WithPagination;
+
     public User $user;
 
     public $password;
+
+    public $search;
+
+    public $selectedUsers = [];
+
 
     protected function rules()
     {
@@ -43,6 +52,8 @@ class Edit extends Component
             $this->reset('password');
         }
 
+        Bouncer::refresh();
+
         $this->dispatchBrowserEvent('memberUpdated');
     }
 
@@ -58,6 +69,27 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.admin.ue-user.edit');
+        $query = User::whereStatus(true);
+
+        if ($this->search !== "") {
+            $query->where('name', 'LIKE', '%' . $this->search . '%')
+                ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+        }
+
+        $customers = $query->whereIs('reseller')->select(['id', 'name', 'email', 'parent_id'])->with('parent:id,name')->paginate(15);
+        
+        return view('livewire.admin.ue-user.edit')->with([
+            'customers' => $customers
+        ]);
+    }
+
+    public function paginationView()
+    {
+        return 'vendor.livewire.custom';
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
 }

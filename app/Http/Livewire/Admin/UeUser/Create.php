@@ -42,6 +42,7 @@ class Create extends Component
         ]);
 
         Bouncer::assign('ueuser')->to($user);
+        Bouncer::refresh();
 
         $this->reset('name');
         $this->reset('email');

@@ -1,31 +1,4 @@
-Authentication: Login, Registration, Forgotpassword, Listing & Permission	
-Dashboard	
-Customer creation and management	
-Dashboard	
-Integrator list and management	
-Excel upload of rate sheet	30/09/2022
-Edit Price, Terms and Conditions and Validity	
-Customer assignment to UE User	
-Download to excel price	03/10/2022
-Registration,Login & Dashboard	
-MSP, Surcharge & Profit margin of customers	
-Discount and special rate management for Customers and end users	10/10/2022
-Follow up reminder set up	
-Add payment link to customers and end user	
-Booking Search option	17/10/2022
-Save search	
-Manage sub agents	
-MSP, Surcharge & Profit margin of sub agents	
-Sub agent discount percentage/flexibility	
-Assign subagents to customers	
-Empost charge	24/10/2022
-Discount and special rate management for end users	
-Add tracking link and number to subagents and end user	
-Discount request from end user	
-Discount and special rate management with deadline	
-Follow up reminder	
-Add tracking link and number to end user	
-Hub-Ez Integration	
-Singn up, login, user dashboard	
-Search for booking	
-Previous enquiries, Shipment tracking	27/10/2022
+Define and assign permissions
+
+
+Flush Bouncer Cache

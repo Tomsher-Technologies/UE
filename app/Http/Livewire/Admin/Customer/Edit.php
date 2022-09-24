@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use Bouncer;
 
 class Edit extends Component
 {
@@ -81,6 +82,9 @@ class Edit extends Component
         $this->customerDetails->save();
 
         $this->reset('password');
+
+        Bouncer::refresh();
+
 
         $this->dispatchBrowserEvent('memberUpdated');
     }

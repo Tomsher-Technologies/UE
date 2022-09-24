@@ -102,6 +102,8 @@ class Create extends Component
         $this->reset('image');
         $this->reset('parent_user');
 
+        Bouncer::refresh();
+
         $this->dispatchBrowserEvent('memberUpdated');
     }
 
