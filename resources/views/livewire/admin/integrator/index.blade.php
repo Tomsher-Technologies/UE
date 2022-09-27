@@ -75,6 +75,9 @@
                         <a href="{{ route('admin.integrator.edit', $integrator) }}" class="btn btn-secondary">
                             <i class="material-icons">mode_edit</i>
                         </a>
+                        <button wire:click="$emit('triggerDelete',{{ $integrator->id }})" class="btn btn-accent delete">
+                            <i class="material-icons">delete_forever</i>
+                        </button>
                     </td>
                 </tr>
             @endforeach
@@ -83,4 +86,39 @@
     <div class="card-footer p-8pt">
         {{ $integrators->links() }}
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @this.on('triggerDelete', id => {
+                Swal.fire({
+                    title: 'Are You Sure?',
+                    text: 'Integrator will be deleted!',
+                    icon: "error",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#aaa',
+                    confirmButtonText: 'Delete!'
+                }).then((result) => {
+                    if (result.value) {
+                        @this.call('deleteUser', id)
+                    }
+                });
+            });
+        })
+
+        window.addEventListener('modelDeleted', e => {
+            Swal.fire({
+                title: 'Integrator deleted successfully!',
+                icon: 'success'
+            });
+        })
+        window.addEventListener('modelDeletedFailed', e => {
+            Swal.fire({
+                title: 'Integrator delete failed, please try again!',
+                icon: 'warning'
+            });
+        })
+
+    </script>
+
 </div>

@@ -118,7 +118,7 @@
         })
         window.addEventListener('modelDeletedFailed', e => {
             Swal.fire({
-                title: 'Customer deleted failed, please try again!',
+                title: 'Customer delete failed, please try again!',
                 icon: 'warning'
             });
         })

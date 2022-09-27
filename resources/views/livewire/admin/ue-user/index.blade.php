@@ -110,7 +110,7 @@
         })
         window.addEventListener('modelDeletedFailed', e => {
             Swal.fire({
-                title: 'User deleted failed, please try again!',
+                title: 'User delete failed, please try again!',
                 icon: 'warning'
             });
         })

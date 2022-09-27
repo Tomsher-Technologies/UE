@@ -57,7 +57,7 @@
             <div class="card-header">
                 <form class="form-inline">
                     <label class="mr-sm-2 form-label" for="inlineFormFilterBy">Filter by:</label>
-                    <input wire:model="search" type="text" class="form-control search mb-2 mr-sm-2 mb-sm-0"
+                    <input wire:model.defer="search" type="text" class="form-control search mb-2 mr-sm-2 mb-sm-0"
                         id="inlineFormFilterBy" placeholder="Search ..." />
                 </form>
             </div>
@@ -77,6 +77,10 @@
                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a>
                         </th>
                         <th>
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Current UE
+                                User</a>
+                        </th>
+                        <th>
                             <a href="javascript:void(0)">Email</a>
                         </th>
                     </tr>
@@ -88,8 +92,7 @@
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" value="{{ $user->id }}"
                                         class="custom-control-input js-check-selected-row"
-                                        id="customCheck1_toggle{{ $loop->iteration }}"
-                                        wire:model="selectedUsers.{{ $user->id }}">
+                                        id="customCheck1_toggle{{ $loop->iteration }}" wire:model="selectedUsers">
                                     <label class="custom-control-label"
                                         for="customCheck1_toggle{{ $loop->iteration }}"><span
                                             class="text-hide">Check</span></label>
@@ -109,28 +112,23 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                    <div class="media-body">
-                                        <div class="d-flex flex-column">
-                                            <small class="js-lists-values-company"><strong>
-                                                    {{ $user->email }}
-                                                </strong></small>
-                                        </div>
-                                    </div>
-                                </div>
+                                {{ $user->email }}
                             </td>
-
+                            <td>
+                                {{ $user->parent ? $user->parent->name : '---' }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
             <div class="card-footer p-8pt">
                 {{ $customers->links() }}
+
+                <button class="btn btn-primary mt-2" wire:click="assignUsers">Save changes</button>
             </div>
         </div>
     </div>
 
-    {{ implode($selectedUsers, ', ') }}
 
     <script>
         window.addEventListener('memberUpdated', e => {

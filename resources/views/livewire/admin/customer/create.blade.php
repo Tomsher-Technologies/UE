@@ -50,7 +50,7 @@
         <div class="form-group">
             <label class="form-label">Assigned UE USer</label>
             <select wire:model="parent_user" class="form-control custom-select mb-2">
-                <option value="percentage">Select a UE user</option>
+                <option value="0">Select a UE user</option>
                 @foreach ($parent_users as $user)
                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                 @endforeach

@@ -33,6 +33,16 @@ class Index extends Component
         ]);
     }
 
+    public function deleteUser($id)
+    {
+        $status = Integrator::where('id', $id)->first()->delete();
+        if ($status) {
+            $this->dispatchBrowserEvent('modelDeleted');
+        } else {
+            $this->dispatchBrowserEvent('modelDeletedFailed');
+        }
+    }
+
     public function paginationView()
     {
         return 'vendor.livewire.custom';

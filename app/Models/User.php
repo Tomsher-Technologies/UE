@@ -61,7 +61,7 @@ class User extends Authenticatable
         return $this->hasOne(CustomerDetails::class);
     }
 
-    public function child()
+    public function children()
     {
         return $this->hasOne(User::class, 'parent_id');
     }

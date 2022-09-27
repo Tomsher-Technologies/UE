@@ -23,7 +23,7 @@ class Create extends Component
     public $profit_margin_type = 'percentage';
 
     public $parent_users;
-    public $parent_user;
+    public $parent_user = 0;
 
     public $image;
 
@@ -31,7 +31,7 @@ class Create extends Component
     {
         return [
             'password' => 'required',
-            'parent_user' => 'required',
+            'parent_user' => 'nullable',
             'name' => 'required',
             'email' => ['required', 'email'],
             'phone' => ['nullable'],
@@ -78,7 +78,10 @@ class Create extends Component
 
         Bouncer::assign('reseller')->to($customer);
 
-        $storedImage =  $this->image->store('public/customerphotos');
+        $storedImage = NULL;
+        if ($this->image) {
+            $storedImage =  $this->image->store('public/customerphotos');
+        }
 
         $customer->customerDetails()->create([
             'phone' => $this->phone,

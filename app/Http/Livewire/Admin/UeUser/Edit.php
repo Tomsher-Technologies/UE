@@ -63,12 +63,24 @@ class Edit extends Component
 
         foreach ($this->selectedPermission as $key => $selectedPermission) {
             if ($selectedPermission) {
-                $abi = $this->permissions->where('id',$key)->first();
+                $abi = $this->permissions->where('id', $key)->first();
                 $this->user->allow($abi);
             }
         }
         Bouncer::refreshFor($this->user);
         $this->dispatchBrowserEvent('permissionUpdated');
+    }
+
+    public function assignUsers()
+    {
+        $this->user->children()->update([
+            'parent_id' => 0
+        ]);
+
+
+        User::whereIn('id', $this->selectedUsers)->update([
+            'parent_id' => $this->user->id
+        ]);
     }
 
     public function updated($propertyName)
@@ -90,6 +102,12 @@ class Edit extends Component
             } else {
                 $this->selectedPermission[$permissions->id] = 0;
             }
+        }
+
+
+        $children = $this->user->children()->pluck('id');
+        foreach ($children as $child) {
+            $this->selectedUsers[] = $child;
         }
     }
 
