@@ -20,6 +20,8 @@ class BouncerSeeder extends Seeder
     // php artisan db:seed --class=BouncerSeeder
     public function run()
     {
+
+    
         $admin = Bouncer::role()->firstOrCreate([
             'name' => 'admin',
             'title' => 'UE Admin',
@@ -37,16 +39,43 @@ class BouncerSeeder extends Seeder
             'title' => 'Reseller Subagent',
         ]);
 
+        
         Bouncer::allow('admin')->everything();
 
         $admin  = User::create([
             'name' => 'Admin',
             'email' => 'admin@eu.com',
-            'password' => Hash::make('password'),
-            'status' => 1
+            'password' => 'password',
+            'status' => 1,
+            'parent_id' => 0
+        ]);
+        Bouncer::assign('admin')->to($admin);
+
+
+        $ban = Bouncer::ability()->firstOrCreate([
+            'name' => 'list-customer',
+            'title' => 'List customer',
+        ]);
+        $ban = Bouncer::ability()->firstOrCreate([
+            'name' => 'create-customer',
+            'title' => 'Create customer',
+        ]);
+        $ban = Bouncer::ability()->firstOrCreate([
+            'name' => 'view-customer',
+            'title' => 'View customer',
+        ]);
+        $ban = Bouncer::ability()->firstOrCreate([
+            'name' => 'edit-customer',
+            'title' => 'Edit customer',
+        ]);
+        $ban = Bouncer::ability()->firstOrCreate([
+            'name' => 'delete-customer',
+            'title' => 'Delete customer',
         ]);
 
-        Bouncer::assign('admin')->to($admin);
-        
+
+        // // Customer
+
+
     }
 }

@@ -36,45 +36,45 @@ class HubEzController extends Controller
     {
         $this->authenticate();
 
-        $jayParsedAry = [
-            // "CustomerHawb" => "MAY498563",
-            "SenderName" => null,
-            "SenderAddress" => null,
-            "SenderPhone" => null,
-            "HawbNumber" => null,
-            "ReceiverName" => "Draco Wu",
-            "ReceiverAddress1" => "G/F 527 SHA KONG WAI",
-            "ReceiverTown" => "堺市",
-            "ReceiverTel" => 12345875956,
-            "ReceiverContactPerson" => null,
-            "ReceiverCountry" => "JP",
-            "ReceiverProvince" => "大阪府",
-            "ReceiverCity" => "堺市",
-            "ReceiverZip" => 5918799,
+        $requestArray = [
+            "CustomerHawb" => "",
+            "SenderName" => "Shabeersha",
+            "SenderAddress" => "Wafi Recidence",
+            "SenderPhone" => "123456789",
+            "HawbNumber" => "",
+            "ReceiverName" => "Tomsher",
+            "ReceiverAddress1" => "Wafi Recidence",
+            "ReceiverTown" => "Alappuzha",
+            "ReceiverTel" => "12345875956",
+            "ReceiverContactPerson" => "Test",
+            "ReceiverCountry" => "IN",
+            "ReceiverProvince" => "IN",
+            "ReceiverCity" => "ALLEPPEY",
+            "ReceiverZip" => 690102,
             "Weight" => 0.26,
-            "DeclareCurrency" => "GBP",
+            "DeclareCurrency" => "INR",
             "DeclareValue" => 35.66,
             "ServiceCode" => "WDUPS",
             "DutyType" => "DDU",
             "Content" => "Disney Classic Core Dumbo 35cm*1",
             "ReceiverEmail" => "ee2222hk@gmail.com",
-            "ReceiverId" => null,
-            "ImportBatchId" => null,
+            "ReceiverId" => "",
+            "ImportBatchId" => "",
             "ShipmentType" => 20,
-            "PaymentType" => null,
-            "Pieces" => null,
-            "Height" => null,
-            "Width" => null,
-            "Length" => null,
+            "PaymentType" => "",
+            "Pieces" => "1",
+            "Height" => "",
+            "Width" => "",
+            "Length" => "",
             "InsuranceValue" => 0,
-            "Eemark" => null,
+            "Eemark" => "",
             "HawbItems" => [
                 [
                     "Content" => "Disney Classic Core Dumbo 35cm",
                     "Price" => 35.66,
                     "Pieces" => 1,
                     "Weight" => 0.26,
-                    "HsCode" => null,
+                    "HsCode" => "",
                     "WebSite" => ""
                 ]
             ],
@@ -96,7 +96,7 @@ class HubEzController extends Controller
             ]
         ];
 
-        $response = Http::withToken(Session::get('hubezToken'))->post('http://www.hub-ez.com/api/services/app/hawb/apiCreateHawb', $jayParsedAry);
+        $response = Http::withToken(Session::get('hubezToken'))->post('http://www.hub-ez.com/api/services/app/hawb/apiCreateHawb', $requestArray);
         dd($response->json());
     }
 }

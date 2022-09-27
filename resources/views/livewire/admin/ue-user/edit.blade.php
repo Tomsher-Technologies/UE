@@ -30,7 +30,25 @@
     </form>
 
     <div class="page-separator mt-4">
-        <div class="page-separator__text">Create Customer</div>
+        <div class="page-separator__text">Permissions</div>
+    </div>
+    <form wire:submit.prevent="savePermission">
+        @foreach ($permissions as $permission)
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input wire:model="selectedPermission.{{ $permission->id }}" type="checkbox"
+                        class="custom-control-input" id="customCheck{{ $permission->id }}">
+                    <label class="custom-control-label"
+                        for="customCheck{{ $permission->id }}">{{ $permission->title }}</label>
+                </div>
+            </div>
+        @endforeach
+        <button class="btn btn-primary">Save changes</button>
+    </form>
+
+
+    <div class="page-separator mt-4">
+        <div class="page-separator__text">Assign Customer</div>
     </div>
 
     <div class="card mb-lg-32pt mt-2">
@@ -68,8 +86,9 @@
                         <tr>
                             <td class="pr-0">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" value="{{ $user->id }}" class="custom-control-input js-check-selected-row"
-                                        id="customCheck1_toggle{{ $loop->iteration }}" 
+                                    <input type="checkbox" value="{{ $user->id }}"
+                                        class="custom-control-input js-check-selected-row"
+                                        id="customCheck1_toggle{{ $loop->iteration }}"
                                         wire:model="selectedUsers.{{ $user->id }}">
                                     <label class="custom-control-label"
                                         for="customCheck1_toggle{{ $loop->iteration }}"><span
@@ -111,12 +130,18 @@
         </div>
     </div>
 
-    {{ implode($selectedUsers,', ') }}
+    {{ implode($selectedUsers, ', ') }}
 
     <script>
         window.addEventListener('memberUpdated', e => {
             Swal.fire({
                 title: 'User updated',
+                icon: 'success'
+            });
+        })
+        window.addEventListener('permissionUpdated', e => {
+            Swal.fire({
+                title: 'Permissions updated',
                 icon: 'success'
             });
         })
