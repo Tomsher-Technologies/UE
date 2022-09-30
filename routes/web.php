@@ -39,4 +39,4 @@ Route::middleware(['guest'])->group(function () {
 });
 
 require_once 'admin.php';
-require_once 'customer.php';
+require_once 'reseller.php';
