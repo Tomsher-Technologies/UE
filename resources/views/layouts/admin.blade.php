@@ -44,19 +44,29 @@
         </div>
         <x-admin.views.sidebar />
     </div>
-    <!-- Bootstrap -->
-    <script defer src="{{ adminAsset('vendor/popper.min.js') }}"></script>
-    <script defer src="{{ adminAsset('vendor/bootstrap.min.js') }}"></script>
-    <script defer src="{{ adminAsset('vendor/perfect-scrollbar.min.js') }}"></script>
-    <script defer src="{{ adminAsset('vendor/dom-factory.js') }}"></script>
-    <script defer src="{{ adminAsset('vendor/material-design-kit.js') }}"></script>
-    <script defer src="{{ adminAsset('js/app.js') }}"></script>
-    <script defer src="{{ adminAsset('js/settings.js') }}"></script>
-    <script defer src="{{ adminAsset('vendor/list.min.js') }}"></script>
-    <script defer src="{{ adminAsset('js/list.js') }}"></script>
-    <script defer src="{{ adminAsset('js/toggle-check-all.js') }}"></script>
-    <script defer src="{{ adminAsset('js/check-selected-row.js') }}"></script>
-    <script defer src="{{ adminAsset('js/sidebar-mini.js') }}"></script>
+
+    <script src="{{ adminAsset('vendor/popper.min.js') }}"></script>
+    <script src="{{ adminAsset('vendor/bootstrap.min.js') }}"></script>
+    <script src="{{ adminAsset('vendor/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ adminAsset('vendor/dom-factory.js') }}"></script>
+    <script src="{{ adminAsset('vendor/material-design-kit.js') }}"></script>
+    <script src="{{ adminAsset('js/app.js') }}"></script>
+    <script src="{{ adminAsset('js/preloader.js') }}"></script>
+    <script src="{{ adminAsset('js/settings.js') }}"></script>
+    <script src="{{ adminAsset('vendor/moment.min.js') }}"></script>
+    <script src="{{ adminAsset('vendor/moment-range.js') }}"></script>
+    <script src="{{ adminAsset('vendor/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ adminAsset('js/flatpickr.js') }}"></script>
+    <script src="{{ adminAsset('vendor/Chart.min.js') }}"></script>
+    <script src="{{ adminAsset('js/chartjs.js') }}"></script>
+    <script src="{{ adminAsset('js/chartjs-rounded-bar.js') }}"></script>
+    <script src="{{ adminAsset('js/page.ecommerce.js') }}"></script>
+    <script src="{{ adminAsset('vendor/list.min.js') }}"></script>
+    <script src="{{ adminAsset('js/list.js') }}"></script>
+    <script src="{{ adminAsset('js/toggle-check-all.js') }}"></script>
+    <script src="{{ adminAsset('js/check-selected-row.js') }}"></script>
+    <script src="{{ adminAsset('js/sidebar-mini.js') }}"></script>
+
     <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         (function() {

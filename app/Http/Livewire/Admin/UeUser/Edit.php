@@ -77,7 +77,6 @@ class Edit extends Component
             'parent_id' => 0
         ]);
 
-
         User::whereIn('id', $this->selectedUsers)->update([
             'parent_id' => $this->user->id
         ]);
@@ -92,6 +91,8 @@ class Edit extends Component
     {
         $this->user = $user;
         $this->permissions = Ability::all();
+
+        // dd( $this->permissions);
 
         $this->userAbilities = $this->user->getAbilities();
         $userAbilities = $this->userAbilities->pluck('id')->toArray();

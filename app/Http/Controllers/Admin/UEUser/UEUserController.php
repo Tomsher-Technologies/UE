@@ -5,9 +5,21 @@ namespace App\Http\Controllers\Admin\UEUser;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UEUserController extends Controller
 {
+    public $user;
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            if (!$this->user->hasUeUserPrivilages()) {
+                abort(403);
+            }
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +27,9 @@ class UEUserController extends Controller
      */
     public function index()
     {
+        if ($this->user->canNot('list-ueuser')) {
+            abort(403);
+        }
         return view('admin.ueuser.index');
     }
 
@@ -25,6 +40,9 @@ class UEUserController extends Controller
      */
     public function create()
     {
+        if ($this->user->canNot('create-ueuser')) {
+            abort(403);
+        }
         return view('admin.ueuser.create');
     }
 
@@ -47,6 +65,9 @@ class UEUserController extends Controller
      */
     public function show(User $user)
     {
+        if ($this->user->canNot('view-ueuser')) {
+            abort(403);
+        }
         if (!$user->isAn('ueuser')) {
             abort(404);
         }
@@ -63,6 +84,9 @@ class UEUserController extends Controller
      */
     public function edit(User $user)
     {
+        if ($this->user->canNot('edit-ueuser')) {
+            abort(403);
+        }
         if (!$user->isAn('ueuser')) {
             abort(404);
         }

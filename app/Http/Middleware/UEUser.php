@@ -19,6 +19,6 @@ class UEUser
         if (auth()->user()->isAn('ueuser')) {
             return $next($request);
         }
-        return redirect('home')->with('error', 'Permission Denied!!! You do not have administrative access.');
+        return redirect()->route('home')->with('error', 'Permission Denied!!! You do not have administrative access.');
     }
 }

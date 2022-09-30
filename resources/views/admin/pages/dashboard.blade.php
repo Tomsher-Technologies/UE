@@ -18,8 +18,8 @@
     </div>
     <div class="container page__container">
         <div class="page-section">
-            <div class="card card-form d-flex flex-column flex-sm-row mb-lg-32pt">
-                <div class="card-form__body card-body-form-group flex">
+            {{-- <div class="card card-form d-flex flex-column flex-sm-row mb-lg-32pt">
+                <div class="card-form__body card-body-form-group flex d-none">
                     <div class="row">
                         <div class="col-sm-auto">
                             <div class="form-group">
@@ -63,8 +63,8 @@
                     </div>
                 </div>
                 <button class="btn bg-alt border-left border-top border-top-sm-0 rounded-0"><i
-                        class="material-icons text-primary icon-20pt">search</i></button>
-            </div>
+                        class="material-icons text-primary icon-20pt  d-none">search</i></button>
+            </div> --}}
             <div class="row card-group-row mb-lg-8pt">
                 <div class="col-lg-4 col-md-6 card-group-row__col">
                     <div class="card card-group-row__card">
@@ -74,10 +74,10 @@
                                 <div class="flex">
                                     <div class="card-title">UE Admin Users</div>
                                     <!-- <p class="card-subtitle text-50 d-flex align-items-center">
-                                                                    31.5%
-                                                                    <i
-                                                                        class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
-                                                                </p> -->
+                                                                                            31.5%
+                                                                                            <i
+                                                                                                class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
+                                                                                        </p> -->
                                 </div>
                             </div>
                             <i class="material-icons icon-32pt text-20 ml-8pt">assessment</i>
@@ -92,10 +92,10 @@
                                 <div class="flex">
                                     <div class="card-title">Vendors</div>
                                     <!-- <p class="card-subtitle text-50 d-flex align-items-center">
-                                                                    51.5%
-                                                                    <i
-                                                                        class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
-                                                                </p> -->
+                                                                                            51.5%
+                                                                                            <i
+                                                                                                class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
+                                                                                        </p> -->
                                 </div>
                             </div>
                             <i class="material-icons icon-32pt text-20 ml-8pt">shopping_basket</i>
@@ -110,10 +110,10 @@
                                 <div class="flex">
                                     <div class="card-title">Agents</div>
                                     <!-- <p class="card-subtitle text-50 d-flex align-items-center">
-                                                                    20%
-                                                                    <i
-                                                                        class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
-                                                                </p> -->
+                                                                                            20%
+                                                                                            <i
+                                                                                                class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
+                                                                                        </p> -->
                                 </div>
                             </div>
                             <i class="material-icons icon-32pt text-20 ml-8pt">perm_identity</i>
@@ -129,24 +129,23 @@
                             <div class="flex">
                                 <div class="card-title">Total request</div>
                                 <!-- <div class="card-subtitle text-50 d-flex align-items-center">2.6% <i
-                                                                    class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                            </div> -->
+                                                                                            class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
+                                                                                    </div> -->
                             </div>
                             <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
-                                    <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                        data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" data-caret="false"><i
+                                            class="material-icons text-50">more_horiz</i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="" class="dropdown-item">View report</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
+                        <div class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
                             <div class="chart w-100" style="height: 150px;">
-                                <canvas class="chart-canvas js-update-chart-line js-update-chart-area"
-                                    id="totalSalesChart" data-chart-legend="#totalSalesChartLegend"
+                                <canvas class="chart-canvas js-update-chart-line js-update-chart-area" id="totalSalesChart"
+                                    data-chart-legend="#totalSalesChartLegend"
                                     data-chart-line-background-color="gradient:primary"
                                     data-chart-line-background-opacity="0.24" data-chart-line-border-color="primary"
                                     data-chart-prefix="$" data-chart-dark-mode="false">
@@ -165,13 +164,13 @@
                             <div class="flex">
                                 <div class="card-title">Conversion rate</div>
                                 <!-- <div class="card-subtitle text-50 d-flex align-items-center">3.6% <i
-                                                                    class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                            </div> -->
+                                                                                            class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
+                                                                                    </div> -->
                             </div>
                             <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
-                                    <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                        data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" data-caret="false"><i
+                                            class="material-icons text-50">more_horiz</i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="" class="dropdown-item">View report</a>
                                     </div>
@@ -206,50 +205,47 @@
                     </div>
                 </div>
                 <!-- <div class="col-lg-4 col-md-12 card-group-row__col">
-                                                <div class="card card-group-row__card">
-                                                    <div class="card-body d-flex flex-row align-items-center flex-0">
-                                                        <div class="h2 mb-0 mr-3">3645</div>
-                                                        <div class="flex">
-                                                            <div class="card-title">Average Booking</div>
-                                                            <div class="card-subtitle text-50 d-flex align-items-center">6.7% <i
-                                                                    class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ml-3 align-self-start">
-                                                            <div class="dropdown mb-2">
-                                                                <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                                                    data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a href="" class="dropdown-item">View report</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
-                                                        <div class="chart w-100" style="height: 150px;">
-                                                            <canvas class="chart-canvas js-update-chart-line" id="averageOrderValueChart"
-                                                                data-chart-legend="#averageOrderValueChartLegend"
-                                                                data-chart-line-border-color="primary" data-chart-prefix="$"
-                                                                data-chart-dark-mode="false">
-                                                                <span style="font-size: 1rem;"><strong>Average Order Value</strong> chart
-                                                                    goes here.</span>
-                                                            </canvas>
-                                                        </div>
-                                                        <div id="averageOrderValueChartLegend"
-                                                            class="chart-legend chart-legend--horizontal mt-16pt"></div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+                                                                        <div class="card card-group-row__card">
+                                                                            <div class="card-body d-flex flex-row align-items-center flex-0">
+                                                                                <div class="h2 mb-0 mr-3">3645</div>
+                                                                                <div class="flex">
+                                                                                    <div class="card-title">Average Booking</div>
+                                                                                    <div class="card-subtitle text-50 d-flex align-items-center">6.7% <i
+                                                                                            class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="ml-3 align-self-start">
+                                                                                    <div class="dropdown mb-2">
+                                                                                        <a href="" class="dropdown-toggle" data-toggle="dropdown"
+                                                                                            data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
+                                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                                            <a href="" class="dropdown-item">View report</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
+                                                                                <div class="chart w-100" style="height: 150px;">
+                                                                                    <canvas class="chart-canvas js-update-chart-line" id="averageOrderValueChart"
+                                                                                        data-chart-legend="#averageOrderValueChartLegend"
+                                                                                        data-chart-line-border-color="primary" data-chart-prefix="$"
+                                                                                        data-chart-dark-mode="false">
+                                                                                        <span style="font-size: 1rem;"><strong>Average Order Value</strong> chart
+                                                                                            goes here.</span>
+                                                                                    </canvas>
+                                                                                </div>
+                                                                                <div id="averageOrderValueChartLegend"
+                                                                                    class="chart-legend chart-legend--horizontal mt-16pt"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> -->
                 <div class="col-lg-4 col-md-6 card-group-row__col">
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex flex-row align-items-center flex-0">
                             <div class="h2 mb-0 mr-3">452</div>
                             <div class="flex">
                                 <div class="card-title">Avarage Booking</div>
-                                <!-- <div class="card-subtitle text-50 d-flex align-items-center">9.6% <i
-                                                                    class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_down</i>
-                                                            </div> -->
                             </div>
                             <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
@@ -277,347 +273,14 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-lg-4 col-md-12 card-group-row__col">
-                                                <div class="card card-group-row__card">
-                                                    <div class="card-body d-flex flex-row align-items-center flex-0">
-                                                        <div class="h2 mb-0 mr-3">5.43%</div>
-                                                        <div class="flex">
-                                                            <div class="card-title">Repeat customer</div>
-                                                            <div class="card-subtitle text-50 d-flex align-items-center">2.6% <i
-                                                                    class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ml-3 align-self-start">
-                                                            <div class="dropdown mb-2">
-                                                                <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                                                    data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a href="" class="dropdown-item">View report</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
-                                                        <div class="chart w-100" style="height: 200px;">
-                                                            <canvas class="chart-canvas js-update-chart-line-2nd-accent"
-                                                                id="repeatCustomerRateChart"
-                                                                data-chart-legend="#repeatCustomerRateChartLegend"
-                                                                data-chart-line-border-color="primary,gray" data-chart-suffix="%"
-                                                                data-chart-dark-mode="false">
-                                                                <span style="font-size: 1rem;"><strong>Repeat Customer Rate</strong> chart
-                                                                    goes here.</span>
-                                                            </canvas>
-                                                        </div>
-                                                        <div id="repeatCustomerRateChartLegend"
-                                                            class="chart-legend chart-legend--horizontal mt-16pt"></div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+
             </div>
             <div class="row card-group-row">
-                <!-- <div class="col-lg-4 col-md-6 card-group-row__col">
-                                                <div class="card card-group-row__card">
-                                                    <div class="card-body d-flex flex-row align-items-center flex-0">
-                                                        <div class="h2 mb-0 mr-3">4</div>
-                                                        <div class="flex">
-                                                            <div class="card-title">Total orders</div>
-                                                            <div class="card-subtitle text-50 d-flex align-items-center">92% <i
-                                                                    class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ml-3 align-self-start">
-                                                            <div class="dropdown mb-2">
-                                                                <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                                                    data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a href="" class="dropdown-item">View report</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
-                                                        <div class="chart w-100" style="height: 150px;">
-                                                            <canvas class="chart-canvas js-update-chart-line" id="totalOrdersChart"
-                                                                data-chart-legend="#totalOrdersChartLegend"
-                                                                data-chart-line-border-color="primary" data-chart-dark-mode="false">
-                                                                <span style="font-size: 1rem;"><strong>Total Orders</strong> chart goes
-                                                                    here.</span>
-                                                            </canvas>
-                                                        </div>
-                                                        <div id="totalOrdersChartLegend"
-                                                            class="chart-legend chart-legend--horizontal mt-16pt"></div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                <!-- <div class="col-lg-4 col-md-6 card-group-row__col">
-                                                <div class="card card-group-row__card">
-                                                    <div class="card-body d-flex flex-row align-items-center flex-0">
-                                                        <div class="h2 mb-0 mr-3">5.63%</div>
-                                                        <div class="flex">
-                                                            <div class="card-title">Conversion rate</div>
-                                                            <div class="card-subtitle text-50 d-flex align-items-center">3.6% <i
-                                                                    class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ml-3 align-self-start">
-                                                            <div class="dropdown mb-2">
-                                                                <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                                                    data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a href="" class="dropdown-item">View report</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body d-flex flex-column justify-content-center">
-                                                        <small class="text-muted text-uppercase mb-3 d-block font-weight-bold">Conversion
-                                                            Funnel</small>
-                                                        <small class="d-flex align-items-start font-weight-bold text-muted mb-2">
-                                                            <span class="flex d-flex flex-column">
-                                                                <span class="text-body">Added to cart</span>
-                                                                5 visits
-                                                            </span>
-                                                            <span class="mx-3">7.04%</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                4.0%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-start font-weight-bold text-muted mb-2">
-                                                            <span class="flex d-flex flex-column">
-                                                                <span class="text-body">Reached checkout</span>
-                                                                5 visits
-                                                            </span>
-                                                            <span class="mx-3">7.04%</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                2.0%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-start font-weight-bold text-muted">
-                                                            <span class="flex d-flex flex-column">
-                                                                <span class="text-body">Purchased</span>
-                                                                4 orders
-                                                            </span>
-                                                            <span class="mx-3">5.63%</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                1.4%</span>
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+
             </div>
             <div class="row card-group-row">
-                <!-- <div class="col-lg-4 col-md-6 card-group-row__col">
-                                                <div class="card card-group-row__card">
-                                                    <div class="card-body d-flex flex-row align-items-center flex-0">
-                                                        <div class="h2 mb-0 mr-3">2.3k</div>
-                                                        <div class="flex">
-                                                            <div class="card-title">Top products by units sold</div>
-                                                        </div>
-                                                        <div class="ml-3 align-self-start">
-                                                            <div class="dropdown mb-2">
-                                                                <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                                                    data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a href="" class="dropdown-item">View report</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body d-flex flex-column justify-content-center">
-                                                        <small class="text-muted text-uppercase mb-2 d-block font-weight-bold">Most sold
-                                                            items</small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">Wool shirt heavy</span>
-                                                            <span class="mx-3">643</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                5.00%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">Wool shirt light</span>
-                                                            <span class="mx-3">322</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                4.70%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">Wool long sleve</span>
-                                                            <span class="mx-3">234</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                60.6%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">Wool shorts</span>
-                                                            <span class="mx-3">78</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                11.1%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted">
-                                                            <span class="flex text-body">Wool socks</span>
-                                                            <span class="mx-3">45</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                15.8%</span>
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                <!-- <div class="col-lg-4 col-md-6 card-group-row__col">
-                                                <div class="card card-group-row__card">
-                                                    <div class="card-body d-flex flex-row align-items-center flex-0">
-                                                        <div class="h2 mb-0 mr-3">17</div>
-                                                        <div class="flex">
-                                                            <div class="card-title">Online store visits by location</div>
-                                                        </div>
-                                                        <div class="ml-3 align-self-start">
-                                                            <div class="dropdown mb-2">
-                                                                <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                                                    data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a href="" class="dropdown-item">View report</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body d-flex flex-column justify-content-center">
-                                                        <small class="text-muted text-uppercase mb-2 d-block font-weight-bold">Top
-                                                            countries</small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">USA</span>
-                                                            <span class="mx-3">1.438</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                5.8%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">Canada</span>
-                                                            <span class="mx-3">928</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-danger icon-16pt mr-1">keyboard_arrow_down</i>
-                                                                3.2%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">Germany</span>
-                                                            <span class="mx-3">674</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                2.1%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">Mexico</span>
-                                                            <span class="mx-3">258</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-danger icon-16pt mr-1">keyboard_arrow_down</i>
-                                                                4.8%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted">
-                                                            <span class="flex text-body">France</span>
-                                                            <span class="mx-3">90</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                9.8%</span>
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                <!-- <div class="col-lg-4 col-md-12 card-group-row__col">
-                                                <div class="card card-group-row__card">
-                                                    <div class="card-body d-flex flex-row align-items-center flex-0">
-                                                        <div class="flex">
-                                                            <div class="card-title">Visits by device</div>
-                                                        </div>
-                                                        <div class="ml-3 align-self-start">
-                                                            <div class="dropdown mb-2">
-                                                                <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                                                    data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a href="" class="dropdown-item">View report</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body text-muted flex d-flex align-items-center">
-                                                        <div class="chart w-100" style="height: 150px;">
-                                                            <div class="position-relative">
-                                                                <div
-                                                                    class="text-center fullbleed d-flex align-items-center justify-content-center flex-column z-0">
-                                                                    <h3 class="mb-0">59%</h3>
-                                                                    <small class="text-uppercase">Desktop</small>
-                                                                </div>
-                                                                <canvas id="visitsByDeviceChart" class="chart-canvas"
-                                                                    data-chart-line-background-color="primary;gray.300"
-                                                                    data-chart-dark-mode="false">
-                                                                    <span style="font-size: 1rem;"><strong>Visits by Device</strong> chart
-                                                                        goes here.</span>
-                                                                </canvas>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body flex-0">
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">Desktop</span>
-                                                            <span class="mx-3">267</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-success icon-16pt mr-1">keyboard_arrow_up</i>
-                                                                2.1%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted mb-1">
-                                                            <span class="flex text-body">Mobile</span>
-                                                            <span class="mx-3">184</span>
-                                                            <span class="d-flex align-items-center"><i
-                                                                    class="material-icons text-danger icon-16pt mr-1">keyboard_arrow_down</i>
-                                                                4.8%</span>
-                                                        </small>
-                                                        <small class="d-flex align-items-center font-weight-bold text-muted">
-                                                            <span class="flex text-body">Tablet</span>
-                                                            <span class="mx-3">0</span>
-                                                            <span>&mdash;</span>
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+
             </div>
-            <!-- <div class="card mb-lg-32pt">
-                                            <div class="card-header p-0 nav">
-                                                <div class="row no-gutters flex" role="tablist">
-                                                    <div class="col-auto">
-                                                        <div class="p-card-header">
-                                                            <div class="card-title">Total Views</div>
-                                                            <p class="card-subtitle text-50 d-flex align-items-center">
-                                                                4,412
-                                                                <i class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto border-left">
-                                                        <div class="p-card-header">
-                                                            <div class="card-title">Conv. Ratio</div>
-                                                            <p class="card-subtitle text-50 d-flex align-items-center">
-                                                                4%
-                                                                <i class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto ml-sm-auto">
-                                                        <a href="#" class="btn btn-outline-secondary m-16pt">Export Data <i
-                                                                class="material-icons icon--right">file_download</i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="chart" style="height: 280px;">
-                                                    <canvas class="chart-canvas js-update-chart-line-2nd-accent" id="viewsChart"
-                                                        data-chart-line-border-color="primary,accent" data-chart-dark-mode="false">
-                                                        <span style="font-size: 1rem;"><strong>Views</strong> area chart goes here.</span>
-                                                    </canvas>
-                                                </div>
-                                            </div>
-                                        </div> -->
             <div class="card mb-0">
                 <div class="card-header d-flex align-items-center">
                     <div class="flatpickr-wrapper flex">
@@ -625,12 +288,11 @@
                             data-flatpickr-static="true" data-flatpickr-mode="range" data-flatpickr-alt-format="d/m/Y"
                             data-flatpickr-date-format="d/m/Y">
                             <strong class="card-title d-block">Recent Bookings</strong>
-                            <!-- <a href="javascript:void(0)" class="link-date" data-toggle>13/03/2018 to
-                                                            20/03/2018</a> -->
+
                             <input class="d-none" type="hidden" value="13/03/2018 to 20/03/2018" data-input>
                         </div>
                     </div>
-                    <i class="material-icons text-20">help_outline</i>
+                    {{-- <i class="material-icons text-20">help_outline</i> --}}
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-orders-name"
                     data-lists-values='["js-lists-values-orders-name", "js-lists-values-orders-date", "js-lists-values-orders-amount"]'>
@@ -669,7 +331,7 @@
                                 <td class="js-lists-values-orders-date text-50">USA</td>
                                 <td>
                                     <a class="js-lists-values-orders-amount" href=""><img
-                                            src="public/images/aramex.png"></a>
+                                            src="{{ adminAsset('images/aramex.png') }}"></a>
                                 </td>
                                 <td>
                                     12/05/2022
@@ -687,7 +349,7 @@
                                 <td class="js-lists-values-orders-date text-50">UK</td>
                                 <td>
                                     <a class="js-lists-values-orders-amount" href=""><img
-                                            src="public/images/aramex.png"></a>
+                                            src="{{ adminAsset('images/aramex.png') }}"></a>
                                 </td>
                                 <td>
                                     12/05/2022
@@ -705,7 +367,7 @@
                                 <td class="js-lists-values-orders-date text-50">CANADA</td>
                                 <td>
                                     <a class="js-lists-values-orders-amount" href=""><img
-                                            src="public/images/fedx.png"></a>
+                                            src="{{ adminAsset('images/fedx.png') }}"></a>
                                 </td>
                                 <td>
                                     12/05/2022
@@ -723,7 +385,7 @@
                                 <td class="js-lists-values-orders-date text-50">USA</td>
                                 <td>
                                     <a class="js-lists-values-orders-amount" href=""><img
-                                            src="public/images/ups.png"></a>
+                                            src="{{ adminAsset('images/ups.png') }}"></a>
                                 </td>
                                 <td>
                                     12/05/2022
@@ -741,7 +403,7 @@
                                 <td class="js-lists-values-orders-date text-50">USA</td>
                                 <td>
                                     <a class="js-lists-values-orders-amount" href=""><img
-                                            src="public/images/ups.png"></a>
+                                            src="{{ adminAsset('images/ups.png') }}"></a>
                                 </td>
                                 <td>
                                     12/05/2022
@@ -782,3 +444,9 @@
         </div>
     </div>
 @endsection
+
+@push('header')
+@endpush
+@push('footer')
+
+@endpush

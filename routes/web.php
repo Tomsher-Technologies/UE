@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\LogoutController;
 use App\Http\Controllers\User\ResetPassword;
 use Illuminate\Support\Facades\Route;
 
@@ -19,9 +20,11 @@ Route::get('/', function () {
 })->name('home');
 
 
+Route::middleware(['auth', 'auth.session'])->group(function () {
+    Route::post('logout', [LogoutController::class, 'logout'])->name('logout');
+});
 
 Route::middleware(['guest'])->group(function () {
-
     Route::get('/forgot-password', function () {
         return view('user.forgot-password');
     })->name('password.request');
@@ -35,6 +38,5 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/reset-password', [ResetPassword::class, 'reset'])->middleware('guest')->name('password.update');
 });
 
-
-
 require_once 'admin.php';
+require_once 'customer.php';

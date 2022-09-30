@@ -6,13 +6,10 @@ use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Integrators\IntegratorController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
 use App\Http\Controllers\HubEz\HubEzController;
+use App\Http\Controllers\UeUser\UeUserDashboard;
 use App\Http\Controllers\User\LogoutController;
 use Illuminate\Support\Facades\Route;
 
-
-Route::middleware(['auth', 'auth.session'])->group(function () {
-    Route::post('logout', [LogoutController::class, 'logout'])->name('logout');
-});
 
 Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], function () {
 
@@ -47,9 +44,15 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::get('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZoneView'])->name('uploadZones');
             Route::post('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZone']);
         });
-
         Route::resource('integrator', IntegratorController::class)->only(['index', 'create', 'edit', 'show']);
-
         include 'profile.php';
     });
+
+
+    // Route::middleware(['auth', 'auth.session', 'ueuser'])->group(function () {
+    //     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    //     Route::get('dashboard', [UeUserDashboard::class, 'index'])->name('dashboard');
+    //     include 'profile.php';
+    // });
+
 });

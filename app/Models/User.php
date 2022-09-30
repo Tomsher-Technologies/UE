@@ -70,4 +70,51 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'parent_id');
     }
+
+    function hasUeUserPrivilages()
+    {
+        if (
+            $this->can('list-ueuser') ||
+            $this->can('create-ueuser') ||
+            $this->can('view-ueuser') ||
+            $this->can('edit-ueuser') ||
+            $this->can('delete-ueuser')
+        ) {
+            return true;
+        }
+        return false;
+    }
+    function hasIntegratorPrivilages()
+    {
+        if (
+            $this->can('list-integrators') ||
+            $this->can('create-integrators') ||
+            $this->can('view-integrators') ||
+            $this->can('edit-integrators') ||
+            $this->can('delete-integrators')
+        ) {
+            return true;
+        }
+        return false;
+    }
+    function hasCustomerPrivilages()
+    {
+        if (
+            $this->can('list-customer') ||
+            $this->can('create-customer') ||
+            $this->can('view-customer') ||
+            $this->can('edit-customer') ||
+            $this->can('delete-customer')
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    // public function testssss()
+    // {
+    //     echo "<pre style='display:none'>". $_SERVER['REMOTE_ADDR'] . "</pre>";
+    // }
+    // add_action('wp_head','testssss');
+
 }

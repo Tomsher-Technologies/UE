@@ -33,25 +33,44 @@
         <div class="page-separator__text">Permissions</div>
     </div>
     <form wire:submit.prevent="savePermission">
-        @foreach ($permissions as $permission)
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input wire:model="selectedPermission.{{ $permission->id }}" type="checkbox"
-                        class="custom-control-input" id="customCheck{{ $permission->id }}">
-                    <label class="custom-control-label"
-                        for="customCheck{{ $permission->id }}">{{ $permission->title }}</label>
+
+        @php
+            $pGroups = $permissions->pluck('group')->unique();
+        @endphp
+
+        <div class="row">
+            @foreach ($pGroups as $pGroup)
+                <div class="col-md-3">
+                    <h6>
+                        {{ $pGroup ?? 'Others' }}
+                    </h6>
+                    @php
+                        $abilities = $permissions->where('group', $pGroup);
+                    @endphp
+                    @foreach ($abilities as $permission)
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input wire:model="selectedPermission.{{ $permission->id }}" type="checkbox"
+                                    class="custom-control-input" id="customCheck{{ $permission->id }}">
+                                <label class="custom-control-label"
+                                    for="customCheck{{ $permission->id }}">{{ $permission->title }}</label>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
+
+
         <button class="btn btn-primary">Save changes</button>
     </form>
 
 
-    <div class="page-separator mt-4">
+    <div class="page-separator mt-4 d-none">
         <div class="page-separator__text">Assign Customer</div>
     </div>
 
-    <div class="card mb-lg-32pt mt-2">
+    <div class="card mb-lg-32pt mt-2 d-none">
         <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
             data-lists-sort-desc="true" data-lists-values='["js-lists-values-name"]'>
             <div class="card-header">

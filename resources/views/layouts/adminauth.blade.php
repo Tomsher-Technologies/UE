@@ -35,11 +35,10 @@
             z-index: 1;
             background: #ffffff;
             max-width: 360px;
-            margin: 0 auto 100px;
+            margin: 0 0 0 auto;
             padding: 45px;
             text-align: center;
-            box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%),
-                0 5px 5px 0 rgb(0 0 0 / 24%);
+            box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%), 0 5px 5px 0 rgb(0 0 0 / 24%);
         }
     </style>
 
@@ -47,7 +46,7 @@
 
 <body class="layout-compact layout-compact"
     style="
-    background-image: url(https://www.raffles.com/assets/0/72/76/103/1734/4e94f8d9-687e-4066-b1d2-282dabe66cef.jpg);
+    background-image: url(https://www.universalexpressgroup.com/wp-content/uploads/2020/02/deliveryvanoncountrysideroadonsunset-universal-express.png);
     background-size: cover;
     background-repeat: no-repeat;
 ">
