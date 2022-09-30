@@ -36,14 +36,14 @@ class Index extends Component
 
     public function render()
     {
-        $query = User::whereIs('ueuser')->latest();
+        $query = User::latest();
 
         if ($this->search !== "") {
             $query->where('name', 'LIKE', '%' . $this->search . '%')
                 ->orWhere('email', 'LIKE', '%' . $this->search . '%');
         }
 
-        $users = $query->paginate($this->pageCount);
+        $users = $query->whereIs('ueuser')->paginate($this->pageCount);
 
         return view('livewire.admin.ue-user.index')->with([
             'users' => $users

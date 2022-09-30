@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\UEUser;
+namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Common\Settings;
+use App\Http\Requests\StoreSettingsRequest;
+use App\Http\Requests\UpdateSettingsRequest;
 
-class UEUserController extends Controller
+class SettingsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,7 @@ class UEUserController extends Controller
      */
     public function index()
     {
-        return view('admin.ueuser.index');
+        //
     }
 
     /**
@@ -25,16 +26,16 @@ class UEUserController extends Controller
      */
     public function create()
     {
-        return view('admin.ueuser.create');
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreSettingsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSettingsRequest $request)
     {
         //
     }
@@ -42,43 +43,33 @@ class UEUserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Common\Settings  $settings
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Settings $settings)
     {
-        if (!$user->isAn('ueuser')) {
-            abort(404);
-        }
-        return view('admin.ueuser.show')->with([
-            'user' => $user
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Common\Settings  $settings
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Settings $settings)
     {
-        if (!$user->isAn('ueuser')) {
-            abort(404);
-        }
-        return view('admin.ueuser.edit')->with([
-            'user' => $user
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  \App\Http\Requests\UpdateSettingsRequest  $request
+     * @param  \App\Models\Common\Settings  $settings
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateSettingsRequest $request, Settings $settings)
     {
         //
     }
@@ -86,10 +77,10 @@ class UEUserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Common\Settings  $settings
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Settings $settings)
     {
         //
     }

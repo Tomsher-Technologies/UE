@@ -1,8 +1,16 @@
 @extends('layouts.adminauth')
 
 @section('content')
-    <form method="POST" action="{{ route('admin.login') }}" class="col-md-5 p-0 mx-auto form p-5 text-left rounded">
+    <form method="POST" action="{{ route('admin.login') }}" class="col-md-5 p-0 form p-5 text-left rounded">
         @csrf
+        <center>
+            <img
+              width="150"
+              class="mb-5"
+              src="{{ adminAsset('images/logo/logo2.png') }}"
+              alt=""
+            />
+          </center>
         <x-form.error name="login" />
         <x-form.input name="email" type="email" text="Email" value="admin@eu.com" />
         <x-form.input name="password" type="password" text="Password" value="password" />
@@ -26,3 +34,4 @@
         </div>
     </form>
 @endsection
+

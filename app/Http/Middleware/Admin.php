@@ -17,7 +17,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->isAn('admin')) {
+        if (auth()->user()->isAn('admin') || auth()->user()->isAn('ueuser')) {
             return $next($request);
         }
         return redirect('home')->with('error', 'Permission Denied!!! You do not have administrative access.');

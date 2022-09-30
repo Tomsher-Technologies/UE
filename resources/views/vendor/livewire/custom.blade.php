@@ -20,12 +20,12 @@
             </li>
         @else
             <li class="page-item">
-                <a dusk="previousPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}"
+                <button type="button"  dusk="previousPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}"
                      rel="prev" aria-label="@lang('pagination.previous')"
                     wire:click="previousPage('{{ $paginator->getPageName() }}')" class="page-link">
                     <span aria-hidden="true" class="material-icons">chevron_left</span>
                     <span>Prev</span>
-                </a>
+                </button>
             </li>
         @endif
 
@@ -55,7 +55,7 @@
             @endif
         @endforeach
 
-        {{-- Next Page Link --}}
+        {{-- Next Page Link --}} 
         @if ($paginator->hasMorePages())
             <li class="page-item">
                 <a class="page-link"

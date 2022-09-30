@@ -17,12 +17,17 @@
                 <th>
                     <a href="javascript:void(0)">Email</a>
                 </th>
-                <th>
-                    <a href="javascript:void(0)">
-                        Status
-                    </a>
-                </th>
-                <th>Actions</th>
+                @if (auth()->user()->can('edit-ueuser'))
+                    <th>
+                        <a href="javascript:void(0)">
+                            Status
+                        </a>
+                    </th>
+                @endif
+                @if (auth()->user()->can('edit-ueuser') ||
+                    auth()->user()->can('delete-ueuser'))
+                    <th>Actions</th>
+                @endif
             </tr>
         </thead>
         <tbody class="list" id="clients">
@@ -56,24 +61,33 @@
                         </div>
                     </td>
                     <td>
-                        <div class="ml-auto mb-2 mb-sm-0 custom-control-inline mr-0">
-                            <div class="custom-control custom-checkbox-toggle ml-8pt">
-                                {{-- <form action="" class="s-inline"> --}}
-                                <input wire:click="toggleStatus({{ $user->id }})"
-                                    {{ $user->status == 1 ? 'checked' : '' }} value="{{ $user->id }}"
-                                    type="checkbox" id="active{{ $loop->iteration }}" class="custom-control-input" />
-                                <label class="custom-control-label" for="active{{ $loop->iteration }}">Active</label>
-                                {{-- </form> --}}
+                        @if (auth()->user()->can('edit-ueuser'))
+                            <div class="ml-auto mb-2 mb-sm-0 custom-control-inline mr-0">
+                                <div class="custom-control custom-checkbox-toggle ml-8pt">
+                                    {{-- <form action="" class="s-inline"> --}}
+                                    <input wire:click="toggleStatus({{ $user->id }})"
+                                        {{ $user->status == 1 ? 'checked' : '' }} value="{{ $user->id }}"
+                                        type="checkbox" id="active{{ $loop->iteration }}"
+                                        class="custom-control-input" />
+                                    <label class="custom-control-label"
+                                        for="active{{ $loop->iteration }}">Active</label>
+                                    {{-- </form> --}}
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </td>
                     <td>
-                        <a href="{{ route('admin.ueusers.edit', $user) }}" class="btn btn-secondary">
-                            <i class="material-icons">mode_edit</i>
-                        </a>
-                        <button wire:click="$emit('triggerDelete',{{ $user->id }})" class="btn btn-accent delete">
-                            <i class="material-icons">delete_forever</i>
-                        </button>
+                        @if (auth()->user()->can('edit-ueuser'))
+                            <a href="{{ route('admin.ueusers.edit', $user) }}" class="btn btn-secondary">
+                                <i class="material-icons">mode_edit</i>
+                            </a>
+                        @endif
+                        @if (auth()->user()->can('delete-ueuser'))
+                            <button wire:click="$emit('triggerDelete',{{ $user->id }})"
+                                class="btn btn-accent delete">
+                                <i class="material-icons">delete_forever</i>
+                            </button>
+                        @endif
                     </td>
                 </tr>
             @endforeach
@@ -110,7 +124,7 @@
         })
         window.addEventListener('modelDeletedFailed', e => {
             Swal.fire({
-                title: 'User deleted failed, please try again!',
+                title: 'User delete failed, please try again!',
                 icon: 'warning'
             });
         })

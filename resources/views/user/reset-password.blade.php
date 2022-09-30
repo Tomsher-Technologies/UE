@@ -1,7 +1,7 @@
 @extends('layouts.adminauth')
 
 @section('content')
-    <form method="POST" action="{{ route('password.update') }}" class="col-md-5 p-0 mx-auto form p-5 text-left rounded">
+    <form method="POST" action="{{ route('password.update') }}" class="col-md-5 p-0  form  p-5 text-left rounded">
         @csrf
         <x-form.status />
         @if ($errors->any())

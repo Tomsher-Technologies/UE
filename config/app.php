@@ -16,6 +16,7 @@ return [
     'name' => env('APP_NAME', 'Laravel'),
 
     'admin_prefix' => env('ADMIN_PREFIX', 'admin'),
+    'ueuser_prefix' => env('UEUSER_PREFIX', 'ueuserlogin'),
 
     /*
     |--------------------------------------------------------------------------
