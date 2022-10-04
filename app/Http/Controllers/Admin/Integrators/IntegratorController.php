@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Integrators;
 
+use App\Exports\RateExport;
 use App\Http\Controllers\Controller;
 use App\Models\Integrators\Integrator;
 use App\Http\Requests\StoreintegratorRequest;
@@ -9,7 +10,10 @@ use App\Http\Requests\UpdateintegratorRequest;
 use App\Imports\ImportRateImport;
 use App\Imports\ZoneImport;
 use App\Models\Integrators\Uploads;
+use App\Models\Rates\ImportRate;
+use App\Models\Zones\Zone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
@@ -174,5 +178,23 @@ class IntegratorController extends Controller
         return back()->with([
             'import_errors' => $import->errors
         ]);
+    }
+
+    public function exportView()
+    {
+        $integrators = Integrator::all();
+        return view('admin.integrators.export')->with([
+            'integrators' => $integrators
+        ]);
+    }
+
+    public function export(Request $request)
+    {
+        ImportRate::where('integrator_id', 2)->limit(10)->get();
+
+       
+
+        $export = new RateExport($request);
+        return Excel::download($export, 'users.xlsx');
     }
 }

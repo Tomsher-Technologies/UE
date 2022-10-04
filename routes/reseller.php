@@ -13,8 +13,12 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
         Route::get('login', [ResellerLoginController::class, 'loginView'])->name('login');
         Route::post('login', [ResellerLoginController::class, 'authenticate']);
     });
+
     Route::middleware(['auth', 'auth.session', 'reseller'])->group(function () {
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('dashboard', [ResellerDashboardController::class, 'index'])->name('dashboard');
+
+        include 'profile.php';
+
     });
 });

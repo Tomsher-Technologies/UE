@@ -18,16 +18,33 @@
 
         <div class="permissions">
             <label class="form-label">Permissions</label>
-            @foreach ($permissions as $permission)
-                <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                        <input wire:model="selectedPermission.{{ $permission->name }}" type="checkbox"
-                            class="custom-control-input" id="customCheck{{ $permission->id }}">
-                        <label class="custom-control-label"
-                            for="customCheck{{ $permission->id }}">{{ $permission->title }}</label>
+
+            @php
+                $pGroups = $permissions->pluck('group')->unique();
+            @endphp
+
+            <div class="row">
+                @foreach ($pGroups as $pGroup)
+                    <div class="col-md-3">
+                        <h6>
+                            {{ $pGroup ?? 'Others' }}
+                        </h6>
+                        @php
+                            $abilities = $permissions->where('group', $pGroup);
+                        @endphp
+                        @foreach ($abilities as $permission)
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input wire:model="selectedPermission.{{ $permission->id }}" type="checkbox"
+                                        class="custom-control-input" id="customCheck{{ $permission->id }}">
+                                    <label class="custom-control-label"
+                                        for="customCheck{{ $permission->id }}">{{ $permission->title }}</label>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
 
         <div class="col-md-12 p-0">

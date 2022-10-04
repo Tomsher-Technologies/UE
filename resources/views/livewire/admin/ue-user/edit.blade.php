@@ -66,11 +66,11 @@
     </form>
 
 
-    <div class="page-separator mt-4 d-none">
+    <div class="page-separator mt-4">
         <div class="page-separator__text">Assign Customer</div>
     </div>
 
-    <div class="card mb-lg-32pt mt-2 d-none">
+    <div class="card mb-lg-32pt mt-2">
         <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
             data-lists-sort-desc="true" data-lists-values='["js-lists-values-name"]'>
             <div class="card-header">

@@ -114,6 +114,15 @@
                                     <span class="sidebar-menu-text">Add New Integrators</span>
                                 </a>
                             </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.integrator.export') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        file_download
+                                    </span>
+                                    <span class="sidebar-menu-text">Export Rates</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 @endif
