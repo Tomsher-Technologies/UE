@@ -1,4 +1,5 @@
-Define and assign permissions
+permissions
+    export
 
 
 Flush Bouncer Cache

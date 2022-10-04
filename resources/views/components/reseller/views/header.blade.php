@@ -12,6 +12,12 @@
         </span>
     </a>
     <ul class="nav navbar-nav ml-auto mr-0">
-
+        <li class="nav-item">
+            <a href="#" onclick="$('#logoutForm').submit()" class="nav-link" data-toggle="tooltip" data-title="Logout" data-placement="bottom"
+                data-boundary="window" data-original-title="" title=""><i class="material-icons">logout</i></a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('reseller.user.profile') }}" class="btn btn-outline-white">Profile</a>
+        </li>
     </ul>
 </div>

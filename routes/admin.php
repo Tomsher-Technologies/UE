@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\Common\DynamicContentsController;
 use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Integrators\IntegratorController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
@@ -43,8 +44,13 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
             Route::get('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZoneView'])->name('uploadZones');
             Route::post('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZone']);
+
+            Route::get('/export', [IntegratorController::class, 'exportView'])->name('export');
+            Route::post('/export', [IntegratorController::class, 'export']);
         });
         Route::resource('integrator', IntegratorController::class)->only(['index', 'create', 'edit', 'show']);
+
+        Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);
         include 'profile.php';
     });
 

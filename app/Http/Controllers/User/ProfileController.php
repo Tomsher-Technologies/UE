@@ -14,7 +14,11 @@ class ProfileController extends Controller
 
     public function viewprofile()
     {
-        return view('user.profile');
+        if (Auth::user()->isAn('admin') ||  Auth::user()->isAn('ueuser')) {
+            return view('admin.profile.profile');
+        } else {
+            return view('reseller.profile.profile');
+        }
     }
 
     function updatePassword(Request $request)
