@@ -61,6 +61,18 @@
                             </a>
                         </li>
                     @endif
+
+                    <li class="sidebar-menu-item {{ request()->routeIs('admin.dynamic-content*') ? 'active' : '' }}"
+                        data-placement="right" data-container="body" data-boundary="window">
+                        <a class="sidebar-menu-button" href="{{ route('admin.dynamic-content.index') }}">
+                            <span
+                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
+                                note
+                            </span>
+                            <span class="sidebar-menu-text">Dynamic Content</span>
+                        </a>
+                    </li>
+
                 </ul>
             </div>
 

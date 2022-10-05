@@ -32,6 +32,12 @@
     @livewireScripts
     @livewireStyles
 
+    <style>
+        .sidebar-menu-text {
+            text-align: center;
+        }
+    </style>
+
     @stack('header')
 </head>
 
