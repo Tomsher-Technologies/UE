@@ -12,13 +12,14 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
     Route::middleware(['guest'])->group(function () {
         Route::get('login', [ResellerLoginController::class, 'loginView'])->name('login');
         Route::post('login', [ResellerLoginController::class, 'authenticate']);
+
+        Route::get('register', [ResellerLoginController::class, 'registerView'])->name('register');
+        Route::post('register', [ResellerLoginController::class, 'register']);
     });
 
     Route::middleware(['auth', 'auth.session', 'reseller'])->group(function () {
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('dashboard', [ResellerDashboardController::class, 'index'])->name('dashboard');
-
         include 'profile.php';
-
     });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Integrators;
 
+use App\Exports\RateByWeightExport;
 use App\Exports\RateExport;
 use App\Http\Controllers\Controller;
 use App\Models\Integrators\Integrator;
@@ -190,13 +191,19 @@ class IntegratorController extends Controller
 
     public function export(Request $request)
     {
-        $export = new RateExport($request);
         $name = "Rate Export " . time() . '.xlsx';
+        if ($request->export_by == 'integrator') {
+            $export = new RateExport($request);
+        } else {
+            $export = new RateByWeightExport($request);
+        }
+
         if ($export->data->count() <= 0) {
             return back()->with([
                 'error' => 'No records found'
             ]);
         }
+
         return Excel::download($export, $name);
     }
 }

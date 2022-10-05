@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Reseller\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rules\Password;
+use Bouncer;
 
 class ResellerLoginController extends Controller
 {
@@ -50,5 +53,44 @@ class ResellerLoginController extends Controller
         return back()->withErrors([
             'login' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+    }
+
+    public function registerView()
+    {
+        return view('reseller.auth.register');
+    }
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => "required",
+            'phone' => "required",
+            'email' => "required|email|unique:users",
+            'password' => ['required', 'confirmed'],
+            'address' => ['required']
+        ], [
+            'address.required' => "Please enter your address.",
+            'email.required' => "Please enter your email.",
+            'email.email' => "Please enter a valid email",
+            'password.required' => "Please enter your password",
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'status' => 3,
+            'parent_id' => 0
+        ]);
+
+        Bouncer::assign('reseller')->to($user);
+
+        $user->customerDetails()->create([
+            'phone' => $request->phone,
+            'address' => $request->address,
+        ]);
+
+        return back()->with([
+            'status' => "Your account has been created and sent for approval, once the admin approves your account, you will be able to login."
+        ]);
     }
 }

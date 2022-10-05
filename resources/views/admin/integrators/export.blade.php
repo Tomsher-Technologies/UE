@@ -16,7 +16,7 @@
 
                         <form method="POST" action="{{ route('admin.integrator.export') }}" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group" style="display: none">
+                            <div class="form-group">
                                 <label class="form-label">Export by</label>
                                 <select name="export_by" id="export_by" class="form-control mb-2">
                                     <option value="integrator" selected>Integrator</option>
@@ -28,7 +28,8 @@
                                 <label class="form-label">Choose an integrator</label>
                                 <select name="integrator" id="" class="form-control mb-2">
                                     @foreach ($integrators as $index => $integrator)
-                                        <option {{ $index == 0 ? 'selected' : '' }} value="{{ $integrator->id }}">
+                                        <option {{ old('integrator') == $integrator->id ? 'selected' : '' }}
+                                            {{ $index == 0 ? 'selected' : '' }} value="{{ $integrator->id }}">
                                             {{ $integrator->name }}</option>
                                     @endforeach
                                 </select>
@@ -36,15 +37,17 @@
                             </div>
                             <div class="form-group" id="weight" style="display: none">
                                 <label class="form-label">Weight</label>
-                                <input name="weight" type="number" class="form-control mb-2">
+                                <input name="weight" type="number" class="form-control mb-2" value="{{ old('weight') }}">
                                 <x-form.error name="user.email" />
                             </div>
                             <div class="form-group" wire:ignore>
                                 <label class="form-label">Choose a type</label>
                                 <select name="type" id="" class="form-control mb-2">
-                                    <option value="import" selected>Import</option>
-                                    <option value="export">Export</option>
-                                    <option value="transit">Transit</option>
+                                    <option {{ old('type') == 'import' ? 'selected' : '' }} value="import" selected>Import
+                                    </option>
+                                    <option {{ old('type') == 'export' ? 'selected' : '' }} value="export">Export</option>
+                                    <option {{ old('type') == 'transit' ? 'selected' : '' }} value="transit">Transit
+                                    </option>
                                 </select>
                                 <x-form.error name="type" />
                             </div>
@@ -60,6 +63,14 @@
 @endsection
 
 @push('footer')
+
+    @if (old('export_by') == 'weight')
+        <script>
+            $('#weight').show();
+            $('#integrator').hide();
+        </script>
+    @endif
+
     <script>
         $('#export_by').on('change', function() {
             val = $(this).find(":selected").val()

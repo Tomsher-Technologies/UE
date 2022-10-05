@@ -9,25 +9,18 @@ use App\Models\Zones\Zone;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
 
-class RateExport implements FromCollection, WithHeadings
+class RateByWeightExport implements FromCollection, WithHeadings
 {
 
     public Request $request;
 
     public $data;
-    public $zone;
-    public $zone_unique;
-    public $unique_weight;
 
     public function __construct($request)
     {
         $this->request = $request;
-        $this->zone = Zone::where('integrator_id', $this->request->integrator)->where('type', $this->request->type)->select(['id', 'zone_code'])->get();
-        $this->zone_unique = $this->zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
 
         switch ($this->request->type) {
             case "import":
@@ -40,15 +33,17 @@ class RateExport implements FromCollection, WithHeadings
                 $model = new TransitRate();
                 break;
         }
-        $this->data = $model::with('zone')->where('integrator_id', $this->request->integrator)->get();
-        $this->unique_weight = $this->data->pluck('weight')->unique();
+        $this->data = $model::with(['zone', 'integrator'])->where('weight', $request->weight)->get();
     }
 
     public function headings(): array
     {
-        $zone =  $this->zone_unique;
-        array_unshift($zone, 'Weight');
-        return $zone;
+        return [
+            'Integrator',
+            'Zone',
+            'Weight',
+            'Rate',
+        ];
     }
 
     /**
@@ -57,15 +52,13 @@ class RateExport implements FromCollection, WithHeadings
     public function collection()
     {
         $collection1 = new Collection([]);
-
-        foreach ($this->unique_weight as $weight) {
-
+        foreach($this->data as $data){
             $array = [];
-            $array['weight'] = $weight;
 
-            foreach ($this->zone_unique as  $zone) {
-                $array[$zone]  = $this->data->where('zone.zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
-            }
+            $array['integrator'] = $data->integrator->name;
+            $array['zone'] = $data->zone->zone_code;
+            $array['weight'] = $data->weight;
+            $array['rate'] = $data->rate;
 
             $collection1->push($array);
         }
