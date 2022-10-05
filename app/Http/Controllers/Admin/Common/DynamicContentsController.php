@@ -73,9 +73,10 @@ class DynamicContentsController extends Controller
      * @param  \App\Models\Common\DynamicContents  $dynamicContents
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDynamicContentsRequest $request, DynamicContents $dynamicContents)
+    public function update(UpdateDynamicContentsRequest $request, DynamicContents $dynamicContent)
     {
-        dd($request);
+        $dynamicContent->update($request->all());
+        return redirect()->route('admin.dynamic-content.index')->with(['status' => "Content updated"]);
     }
 
     /**

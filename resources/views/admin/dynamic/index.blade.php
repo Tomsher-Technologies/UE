@@ -8,6 +8,7 @@
                     Dynamic Contents
                 </div>
             </div>
+            <x-form.status />
             <div class="card mb-lg-32pt">
                 @livewire('admin.dynamic-content.index')
             </div>
