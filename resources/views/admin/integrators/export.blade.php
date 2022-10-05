@@ -15,14 +15,14 @@
 
                         <form method="POST" action="{{ route('admin.integrator.export') }}" enctype="multipart/form-data">
                             @csrf
-                            {{-- <div class="form-group">
+                            <div class="form-group" style="display: none">
                                 <label class="form-label">Export by</label>
                                 <select name="export_by" id="export_by" class="form-control mb-2">
                                     <option value="integrator" selected>Integrator</option>
                                     <option value="weight">Weight</option>
                                 </select>
                                 <x-form.error name="export_by" />
-                            </div> --}}
+                            </div>
                             <div class="form-group" id="integrator">
                                 <label class="form-label">Choose an integrator</label>
                                 <select name="integrator" id="" class="form-control mb-2">
