@@ -190,10 +190,6 @@ class IntegratorController extends Controller
 
     public function export(Request $request)
     {
-        ImportRate::where('integrator_id', 2)->limit(10)->get();
-
-       
-
         $export = new RateExport($request);
         return Excel::download($export, 'users.xlsx');
     }
