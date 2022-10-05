@@ -191,6 +191,12 @@ class IntegratorController extends Controller
     public function export(Request $request)
     {
         $export = new RateExport($request);
-        return Excel::download($export, 'users.xlsx');
+        $name = "Rate Export " . time() . '.xlsx';
+        if ($export->data->count() <= 0) {
+            return back()->with([
+                'error' => 'No records found'
+            ]);
+        }
+        return Excel::download($export, $name);
     }
 }
