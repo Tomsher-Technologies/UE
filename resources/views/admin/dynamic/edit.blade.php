@@ -15,12 +15,17 @@
                         @csrf
                         @method('PATCH')
 
-                        <x-form.input name='heading' text='Heading' :model="$dynamicContent" />
+                        <div class="form-group">
+                            <label class="form-label">Heading</label>
+                            <input name="heading" type="text" value="{{ old('heading', $dynamicContent->heading) }}"
+                                class="form-control mb-2">
+                            <x-form.error name="heading" />
+                        </div>
 
                         <div class="form-group">
-                            <label class="form-label">Name</label>
-                            <input type="text" name="heading" class="form-control mb-2">
-                            <x-form.error name="heading" />
+                            <label class="form-label">Content</label>
+                            <textarea name="content" id="myeditorinstance">{{ old('content', $dynamicContent->content) }}</textarea>
+                            <x-form.error name="content" />
                         </div>
 
                         <button class="btn btn-primary">Save changes</button>
@@ -30,3 +35,15 @@
         </div>
     </div>
 @endsection
+
+@push('header')
+    <script src="{{ adminAsset('vendor/tinymce/tinymce.min.js') }}"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#myeditorinstance',
+            toolbar: 'undo redo | blocks| bold italic | bullist numlist checklist | code | table'
+        });
+    </script>
+@endpush
+@push('footer')
+@endpush
