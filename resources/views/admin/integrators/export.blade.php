@@ -6,6 +6,7 @@
             <div class="page-separator">
                 <div class="page-separator__text">Export</div>
             </div>
+            <x-form.status />
             <div class="card mb-lg-32pt">
                 <div class="container page__container">
                     <div class="page-section">
