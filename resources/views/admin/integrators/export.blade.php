@@ -37,7 +37,7 @@
                             </div>
                             <div class="form-group" id="weight" style="display: none">
                                 <label class="form-label">Weight</label>
-                                <input name="weight" type="number" class="form-control mb-2" value="{{ old('weight') }}">
+                                <input name="weight" step=".1" type="number" class="form-control mb-2" value="{{ old('weight') }}">
                                 <x-form.error name="user.email" />
                             </div>
                             <div class="form-group" wire:ignore>

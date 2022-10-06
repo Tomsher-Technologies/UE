@@ -52,7 +52,7 @@ class RateByWeightExport implements FromCollection, WithHeadings
     public function collection()
     {
         $collection1 = new Collection([]);
-        foreach($this->data as $data){
+        foreach ($this->data as $data) {
             $array = [];
 
             $array['integrator'] = $data->integrator->name;
