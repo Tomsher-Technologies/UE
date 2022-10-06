@@ -18,69 +18,17 @@
     </div>
     <div class="container page__container">
         <div class="page-section">
-            {{-- <div class="card card-form d-flex flex-column flex-sm-row mb-lg-32pt">
-                <div class="card-form__body card-body-form-group flex d-none">
-                    <div class="row">
-                        <div class="col-sm-auto">
-                            <div class="form-group">
-                                <label for="filter_category">Vendor</label><br>
-                                <select id="filter_category" class="custom-select" style="width: 200px;">
-                                    <option value="all">All Vendor</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-auto">
-                            <div class="form-group">
-                                <label for="filter_category">Country</label><br>
-                                <select id="filter_category" class="custom-select" style="width: 200px;">
-                                    <option value="all">All Categories</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="filter_name">Weight</label>
-                            <input id="filter_name" type="text" class="form-control" placeholder="Search by Weight">
-                        </div>
-                        <!-- <div class="col-sm-auto">
-                                                        <div class="form-group">
-                                                            <label for="filter_stock">In stock?</label>
-                                                            <div class="custom-control custom-checkbox mt-sm-2">
-                                                                <input type="checkbox" class="custom-control-input" id="filter_stock"
-                                                                    checked="">
-                                                                <label class="custom-control-label" for="filter_stock">Yes</label>
-                                                            </div>
-                                                        </div>
-                                                    </div> -->
-                        <!-- <div class="col-sm-auto">
-                                                        <div class="form-group" style="width: 200px;">
-                                                            <label for="filter_date">Order date</label>
-                                                            <input id="filter_date" type="text" class="form-control"
-                                                                placeholder="Select date ..." value="13/03/2018 to 20/03/2018"
-                                                                data-toggle="flatpickr" data-flatpickr-mode="range"
-                                                                data-flatpickr-alt-format="d/m/Y" data-flatpickr-date-format="d/m/Y">
-                                                        </div>
-                                                    </div> -->
-                    </div>
-                </div>
-                <button class="btn bg-alt border-left border-top border-top-sm-0 rounded-0"><i
-                        class="material-icons text-primary icon-20pt  d-none">search</i></button>
-            </div> --}}
             <div class="row card-group-row mb-lg-8pt">
                 <div class="col-lg-4 col-md-6 card-group-row__col">
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex align-items-center">
                             <div class="flex d-flex align-items-center">
-                                <div class="h2 mb-0 mr-3">10</div>
+                                <div class="h2 mb-0 mr-3">{{ $ueusers }}</div>
                                 <div class="flex">
                                     <div class="card-title">UE Admin Users</div>
-                                    <!-- <p class="card-subtitle text-50 d-flex align-items-center">
-                                                                                            31.5%
-                                                                                            <i
-                                                                                                class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
-                                                                                        </p> -->
                                 </div>
                             </div>
-                            <i class="material-icons icon-32pt text-20 ml-8pt">assessment</i>
+                            {{-- <i class="material-icons icon-32pt text-20 ml-8pt">assessment</i> --}}
                         </div>
                     </div>
                 </div>
@@ -88,17 +36,12 @@
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex align-items-center">
                             <div class="flex d-flex align-items-center">
-                                <div class="h2 mb-0 mr-3">4</div>
+                                <div class="h2 mb-0 mr-3">{{ $vendors }}</div>
                                 <div class="flex">
-                                    <div class="card-title">Vendors</div>
-                                    <!-- <p class="card-subtitle text-50 d-flex align-items-center">
-                                                                                            51.5%
-                                                                                            <i
-                                                                                                class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
-                                                                                        </p> -->
+                                    <div class="card-title">Customers</div>
                                 </div>
                             </div>
-                            <i class="material-icons icon-32pt text-20 ml-8pt">shopping_basket</i>
+                            {{-- <i class="material-icons icon-32pt text-20 ml-8pt">shopping_basket</i> --}}
                         </div>
                     </div>
                 </div>
@@ -106,17 +49,12 @@
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex align-items-center">
                             <div class="flex d-flex align-items-center">
-                                <div class="h2 mb-0 mr-3">78</div>
+                                <div class="h2 mb-0 mr-3">{{ $customer }}</div>
                                 <div class="flex">
-                                    <div class="card-title">Agents</div>
-                                    <!-- <p class="card-subtitle text-50 d-flex align-items-center">
-                                                                                            20%
-                                                                                            <i
-                                                                                                class="material-icons text-accent ml-4pt icon-16pt">keyboard_arrow_up</i>
-                                                                                        </p> -->
+                                    <div class="card-title">Users</div>
                                 </div>
                             </div>
-                            <i class="material-icons icon-32pt text-20 ml-8pt">perm_identity</i>
+                            {{-- <i class="material-icons icon-32pt text-20 ml-8pt">perm_identity</i> --}}
                         </div>
                     </div>
                 </div>
@@ -129,8 +67,8 @@
                             <div class="flex">
                                 <div class="card-title">Total request</div>
                                 <!-- <div class="card-subtitle text-50 d-flex align-items-center">2.6% <i
-                                                                                            class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                                                    </div> -->
+                                                                                                                        class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
+                                                                                                                </div> -->
                             </div>
                             <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
@@ -164,8 +102,8 @@
                             <div class="flex">
                                 <div class="card-title">Conversion rate</div>
                                 <!-- <div class="card-subtitle text-50 d-flex align-items-center">3.6% <i
-                                                                                            class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                                                    </div> -->
+                                                                                                                        class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
+                                                                                                                </div> -->
                             </div>
                             <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
@@ -205,41 +143,41 @@
                     </div>
                 </div>
                 <!-- <div class="col-lg-4 col-md-12 card-group-row__col">
-                                                                        <div class="card card-group-row__card">
-                                                                            <div class="card-body d-flex flex-row align-items-center flex-0">
-                                                                                <div class="h2 mb-0 mr-3">3645</div>
-                                                                                <div class="flex">
-                                                                                    <div class="card-title">Average Booking</div>
-                                                                                    <div class="card-subtitle text-50 d-flex align-items-center">6.7% <i
-                                                                                            class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ml-3 align-self-start">
-                                                                                    <div class="dropdown mb-2">
-                                                                                        <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                                                                            data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                                                            <a href="" class="dropdown-item">View report</a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div
-                                                                                class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
-                                                                                <div class="chart w-100" style="height: 150px;">
-                                                                                    <canvas class="chart-canvas js-update-chart-line" id="averageOrderValueChart"
-                                                                                        data-chart-legend="#averageOrderValueChartLegend"
-                                                                                        data-chart-line-border-color="primary" data-chart-prefix="$"
-                                                                                        data-chart-dark-mode="false">
-                                                                                        <span style="font-size: 1rem;"><strong>Average Order Value</strong> chart
-                                                                                            goes here.</span>
-                                                                                    </canvas>
-                                                                                </div>
-                                                                                <div id="averageOrderValueChartLegend"
-                                                                                    class="chart-legend chart-legend--horizontal mt-16pt"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> -->
+                                                                                                    <div class="card card-group-row__card">
+                                                                                                        <div class="card-body d-flex flex-row align-items-center flex-0">
+                                                                                                            <div class="h2 mb-0 mr-3">3645</div>
+                                                                                                            <div class="flex">
+                                                                                                                <div class="card-title">Average Booking</div>
+                                                                                                                <div class="card-subtitle text-50 d-flex align-items-center">6.7% <i
+                                                                                                                        class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="ml-3 align-self-start">
+                                                                                                                <div class="dropdown mb-2">
+                                                                                                                    <a href="" class="dropdown-toggle" data-toggle="dropdown"
+                                                                                                                        data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
+                                                                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                                                                        <a href="" class="dropdown-item">View report</a>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
+                                                                                                            <div class="chart w-100" style="height: 150px;">
+                                                                                                                <canvas class="chart-canvas js-update-chart-line" id="averageOrderValueChart"
+                                                                                                                    data-chart-legend="#averageOrderValueChartLegend"
+                                                                                                                    data-chart-line-border-color="primary" data-chart-prefix="$"
+                                                                                                                    data-chart-dark-mode="false">
+                                                                                                                    <span style="font-size: 1rem;"><strong>Average Order Value</strong> chart
+                                                                                                                        goes here.</span>
+                                                                                                                </canvas>
+                                                                                                            </div>
+                                                                                                            <div id="averageOrderValueChartLegend"
+                                                                                                                class="chart-legend chart-legend--horizontal mt-16pt"></div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div> -->
                 <div class="col-lg-4 col-md-6 card-group-row__col">
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex flex-row align-items-center flex-0">
@@ -448,5 +386,4 @@
 @push('header')
 @endpush
 @push('footer')
-
 @endpush

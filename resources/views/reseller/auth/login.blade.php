@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
 
@@ -16,13 +13,13 @@
         rel="stylesheet">
 
     <!-- Preloader -->
-    <link type="text/css" href="{{ adminAsset('vendor/spinkit.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ adminAsset('vendor/perfect-scrollbar.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ adminAsset('css/material-icons.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ adminAsset('css/fontawesome.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ adminAsset('css/app.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ adminAsset('vendor/select2/select2.min.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ adminAsset('css/select2.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ resellerAsset('vendor/spinkit.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ resellerAsset('vendor/perfect-scrollbar.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ resellerAsset('css/material-icons.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ resellerAsset('css/fontawesome.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ resellerAsset('css/app.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ resellerAsset('vendor/select2/select2.min.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ resellerAsset('css/select2.css') }}" rel="stylesheet">
 
 </head>
 
@@ -63,10 +60,21 @@
                                         </div>
                                         <div class="form-group">
                                             <div class=" ue-transition-delay-3">
-                                                <div class="ue-content-between">
-                                                    <button type="submit" class="btn pl-4 pr-4 btn-rounded btn-primary">Login</button>
-                                                    <a href="forgot-password-1.html" class="switcher-text2">Forgot
+                                                <div
+                                                    class="ue-content-between d-flex align-items-center justify-content-between">
+                                                    <button type="submit"
+                                                        class="btn pl-4 pr-4 btn-rounded btn-primary">Login</button>
+                                                    <a href="{{ route('password.request') }}" class="switcher-text2">Forgot
                                                         Password</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class=" ue-transition-delay-3">
+                                                <div class="ue-content-between">
+                                                    <a href="{{ route('reseller.register') }}" class="switcher-text2">
+                                                        Register
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -221,16 +229,15 @@
         }
     </style>
 
-    <script src="{{ adminAsset('vendor/jquery.min.js') }}"></script>
-    <script src="{{ adminAsset('vendor/popper.min.js') }}"></script>
-    <script src="{{ adminAsset('vendor/bootstrap.min.js') }}"></script>
-    <script src="{{ adminAsset('vendor/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ adminAsset('vendor/dom-factory.js') }}"></script>
-    <script src="{{ adminAsset('vendor/material-design-kit.js') }}"></script>
-    <script src="{{ adminAsset('js/app.js') }}"></script>
-    <script src="{{ adminAsset('js/preloader.js') }}"></script>
-    <script src="{{ adminAsset('vendor/select2/select2.min.js') }}"></script>
-    <script src="{{ adminAsset('js/select2.js') }}"></script>
+    <script src="{{ resellerAsset('vendor/jquery.min.js') }}"></script>
+    <script src="{{ resellerAsset('vendor/popper.min.js') }}"></script>
+    <script src="{{ resellerAsset('vendor/bootstrap.min.js') }}"></script>
+    <script src="{{ resellerAsset('vendor/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ resellerAsset('vendor/dom-factory.js') }}"></script>
+    <script src="{{ resellerAsset('vendor/material-design-kit.js') }}"></script>
+    <script src="{{ resellerAsset('js/app.js') }}"></script>
+    <script src="{{ resellerAsset('vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ resellerAsset('js/select2.js') }}"></script>
 </body>
 
 </html>
