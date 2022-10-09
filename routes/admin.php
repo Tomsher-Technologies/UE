@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\Common\DynamicContentsController;
 use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Integrators\IntegratorController;
+use App\Http\Controllers\Admin\SpecialRate\SpecialRateController;
+use App\Http\Controllers\Admin\Surcharge\SurchargeController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
 use App\Http\Controllers\HubEz\HubEzController;
 use App\Http\Controllers\UeUser\UeUserDashboard;
@@ -49,6 +51,10 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::post('/export', [IntegratorController::class, 'export']);
         });
         Route::resource('integrator', IntegratorController::class)->only(['index', 'create', 'edit', 'show']);
+
+        Route::resource('surcharge', SurchargeController::class)->only(['index', 'create', 'edit']);
+
+        Route::resource('/{user}/special_rates', SpecialRateController::class)->only(['index', 'create', 'edit']);
 
         Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);
         include 'profile.php';

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Customer\CustomerDetails;
+use App\Models\Surcharge\Surcharge;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -111,10 +112,8 @@ class User extends Authenticatable
         return false;
     }
 
-    // public function testssss()
-    // {
-    //     echo "<pre style='display:none'>". $_SERVER['REMOTE_ADDR'] . "</pre>";
-    // }
-    // add_action('wp_head','testssss');
-
+    public function specialrate()
+    {
+        return $this->hasMany(SpecialRate::class);
+    }
 }

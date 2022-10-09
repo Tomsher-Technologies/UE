@@ -17,6 +17,9 @@ class Authenticate extends Middleware
     {
         if (!$request->expectsJson()) {
             $prefix = trim(Route::current()->getName(), '/');
+            if ($prefix !== 'reseller') {
+                return route('reseller.login');
+            }
             if ($prefix !== config('app.admin_prefix')) {
                 return route('admin.login');
             }

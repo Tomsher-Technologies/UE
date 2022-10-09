@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Common\AjaxController;
 use App\Http\Controllers\User\LogoutController;
 use App\Http\Controllers\User\ResetPassword;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,10 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'auth.session'])->group(function () {
     Route::post('logout', [LogoutController::class, 'logout'])->name('logout');
+
+    // Searh ajax request
+    Route::post('/countries', [AjaxController::class, 'getCountries'])->name('getCountries');
+    // Route::post('/cities', [AjaxController::class, 'getCities'])->name('getCities');
 });
 
 Route::middleware(['guest'])->group(function () {
