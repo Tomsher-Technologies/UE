@@ -22,10 +22,10 @@ class BouncerSeeder extends Seeder
     {
 
 
-        // $admin = Bouncer::role()->firstOrCreate([
-        //     'name' => 'admin',
-        //     'title' => 'UE Admin',
-        // ]);
+        $admin = Bouncer::role()->firstOrCreate([
+            'name' => 'enduser',
+            'title' => 'End User',
+        ]);
         // $admin = Bouncer::role()->firstOrCreate([
         //     'name' => 'ueuser',
         //     'title' => 'UE User',
@@ -78,57 +78,57 @@ class BouncerSeeder extends Seeder
         //     'group' => "Ueuser"
         // ]);
 
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'list-customer',
-            'title' => 'List customer',
-            'group' => "Customers"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'create-customer',
-            'title' => 'Create customer',
-            'group' => "Customers"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'view-customer',
-            'title' => 'View customer',
-            'group' => "Customers"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'edit-customer',
-            'title' => 'Edit customer',
-            'group' => "Customers"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'delete-customer',
-            'title' => 'Delete customer',
-            'group' => "Customers"
-        ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'list-customer',
+        //     'title' => 'List customer',
+        //     'group' => "Customers"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'create-customer',
+        //     'title' => 'Create customer',
+        //     'group' => "Customers"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'view-customer',
+        //     'title' => 'View customer',
+        //     'group' => "Customers"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'edit-customer',
+        //     'title' => 'Edit customer',
+        //     'group' => "Customers"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'delete-customer',
+        //     'title' => 'Delete customer',
+        //     'group' => "Customers"
+        // ]);
 
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'list-integrators',
-            'title' => 'List integrators',
-            'group' => "Integrators"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'create-integrators',
-            'title' => 'Create integrators',
-            'group' => "Integrators"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'view-integrators',
-            'title' => 'View integrators',
-            'group' => "Integrators"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'edit-integrators',
-            'title' => 'Edit integrators',
-            'group' => "Integrators"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'delete-integrators',
-            'title' => 'Delete integrators',
-            'group' => "Integrators"
-        ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'list-integrators',
+        //     'title' => 'List integrators',
+        //     'group' => "Integrators"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'create-integrators',
+        //     'title' => 'Create integrators',
+        //     'group' => "Integrators"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'view-integrators',
+        //     'title' => 'View integrators',
+        //     'group' => "Integrators"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'edit-integrators',
+        //     'title' => 'Edit integrators',
+        //     'group' => "Integrators"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'delete-integrators',
+        //     'title' => 'Delete integrators',
+        //     'group' => "Integrators"
+        // ]);
 
 
 

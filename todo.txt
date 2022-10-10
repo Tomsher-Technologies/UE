@@ -1,5 +1,7 @@
 permissions
     export
+    special rate
+    surcharge
 
 
 Flush Bouncer Cache

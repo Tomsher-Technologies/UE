@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Reseller\Auth\ResellerLoginController;
 use App\Http\Controllers\Reseller\ResellerDashboardController;
+use App\Http\Controllers\Reseller\SearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
@@ -20,6 +21,9 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
     Route::middleware(['auth', 'auth.session', 'reseller'])->group(function () {
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('dashboard', [ResellerDashboardController::class, 'index'])->name('dashboard');
+
+        Route::post('/search', [SearchController::class, 'search'])->name('search');
+
         include 'profile.php';
     });
 });

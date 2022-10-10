@@ -62,6 +62,20 @@
                         </li>
                     @endif
 
+
+                    <li class="sidebar-menu-item {{ request()->routeIs('admin.surcharge*') ? 'active' : '' }}"
+                        data-placement="right" data-container="body" data-boundary="window">
+                        <a class="sidebar-menu-button" href="#surcharge" data-toggle="tab" role="tab"
+                            aria-controls="surcharge" aria-selected="false">
+                            <span
+                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
+                                person_pin_circle
+                            </span>
+                            <span class="sidebar-menu-text">Surcharge</span>
+                        </a>
+                    </li>
+
+
                     <li class="sidebar-menu-item {{ request()->routeIs('admin.dynamic-content*') ? 'active' : '' }}"
                         data-placement="right" data-container="body" data-boundary="window">
                         <a class="sidebar-menu-button" href="{{ route('admin.dynamic-content.index') }}">
@@ -72,6 +86,10 @@
                             <span class="sidebar-menu-text">Dynamic Content</span>
                         </a>
                     </li>
+
+
+                   
+
 
                 </ul>
             </div>
@@ -163,6 +181,32 @@
                         </ul>
                     </div>
                 @endif
+
+                <div class="tab-pane" id="surcharge">
+                    <div class="sidebar-heading">Surcharge</div>
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('admin.surcharge.index') }}">
+                                <span
+                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                    dynamic_feed
+                                </span>
+                                <span class="sidebar-menu-text">Surcharge List</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('admin.surcharge.create') }}">
+                                <span
+                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                    add_box
+                                </span>
+                                <span class="sidebar-menu-text">Add New Surcharge</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
             </div>
         </div>
     </div>
