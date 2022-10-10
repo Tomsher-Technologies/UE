@@ -11,13 +11,14 @@ class AjaxController extends Controller
 {
     public function getCountries(Request $request)
     {
-        $countrie = Country::where('name', 'LIKE', $request->name . "%")->select(['id', 'name'])->get();
-        return $countrie;
+        $countries = Country::where('name', 'LIKE', $request->name . "%")->select(['id', 'name as text'])->get();
+        return $countries;
+        // return json_encode(array('result' => $countries));
     }
 
-    // public function getCities(Request $request)
-    // {
-    //     $cities = City::where('city', 'LIKE', $request->name)->select(['id', 'city as name'])->get();
-    //     return $cities;
-    // }
+    public function getCities(Request $request)
+    {
+        $cities = City::where('fromCity', $request->country)->where('city', 'LIKE', $request->name)->select(['id', 'city as name'])->get();
+        return $cities;
+    }
 }
