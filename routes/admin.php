@@ -54,7 +54,12 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
         Route::resource('surcharge', SurchargeController::class)->only(['index', 'create', 'edit']);
 
-        Route::resource('/{user}/special_rates', SpecialRateController::class)->only(['index', 'create', 'edit']);
+        Route::name('special_rates.')->group(function () {
+            Route::get('/{user}/special_rates', [SpecialRateController::class, 'index'])->name('index');
+            Route::get('/{user}/special_rates/create', [SpecialRateController::class, 'create'])->name('create');
+            Route::get('/{user}/special_rates/show/{special_rate}', [SpecialRateController::class, 'show'])->name('show');
+            Route::get('/{user}/special_rates/edit/{special_rate}', [SpecialRateController::class, 'edit'])->name('edit');
+        });
 
         Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);
         include 'profile.php';

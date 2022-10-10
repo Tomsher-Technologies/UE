@@ -16,12 +16,12 @@
                 </th>
                 <th>
                     <a href="javascript:void(0)">
-                        Reuest Rate
+                        Rate
                     </a>
                 </th>
                 <th>
                     <a href="javascript:void(0)">
-                        Approved Rate
+                        Rate Type
                     </a>
                 </th>
                 <th>
@@ -39,9 +39,14 @@
                         {{ $rate->name }}
                     </td>
                     <td>
-                        {{ $rate->rate }}
+                        {{ $rate->approved_rate }}
                     </td>
-
+                    <td>
+                        {{ $rate->rate_type ? 'Fixed amount' : 'Percentage' }}
+                    </td>
+                    <td>
+                        {{ $rate->status() }}
+                    </td>
                     <td>
                         <a href="{{ route('admin.special_rates.edit', ['user' => $user, 'special_rate' => $rate]) }}"
                             class="btn btn-secondary">

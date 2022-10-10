@@ -16,4 +16,24 @@ class SpecialRate extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function status()
+    {
+        if ($this->status == 0) {
+            return "Pending";
+        } elseif ($this->status == 1) {
+            return "Approved";
+        } elseif ($this->status == 2) {
+            return "Rejected";
+        } else {
+            return "Expired";
+        }
+    }
+
+    protected $casts = [
+        'request_date' => 'datetime',
+        'approval_date' => 'datetime',
+        'expiry_date' => 'date:Y-m-d',
+    ];
+
 }

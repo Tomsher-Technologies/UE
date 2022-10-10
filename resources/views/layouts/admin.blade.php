@@ -57,7 +57,6 @@
     <script src="{{ adminAsset('vendor/dom-factory.js') }}"></script>
     <script src="{{ adminAsset('vendor/material-design-kit.js') }}"></script>
     <script src="{{ adminAsset('js/app.js') }}"></script>
-    <script src="{{ adminAsset('js/preloader.js') }}"></script>
     <script src="{{ adminAsset('js/settings.js') }}"></script>
     <script src="{{ adminAsset('vendor/moment.min.js') }}"></script>
     <script src="{{ adminAsset('vendor/moment-range.js') }}"></script>
@@ -72,7 +71,6 @@
     <script src="{{ adminAsset('js/toggle-check-all.js') }}"></script>
     <script src="{{ adminAsset('js/check-selected-row.js') }}"></script>
     <script src="{{ adminAsset('js/sidebar-mini.js') }}"></script>
-
     <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         (function() {
@@ -93,5 +91,4 @@
     </form>
     @stack('footer')
 </body>
-
 </html>

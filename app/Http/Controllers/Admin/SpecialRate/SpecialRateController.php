@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SpecialRate;
 use App\Http\Requests\StoreSpecialRateRequest;
 use App\Http\Requests\UpdateSpecialRateRequest;
+use App\Models\User;
 
 class SpecialRateController extends Controller
 {
@@ -24,9 +25,11 @@ class SpecialRateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        return view('admin.sepcialrates.create');
+        return view('admin.sepcialrates.create')->with([
+            'user' => $user
+        ]);
     }
 
     /**
@@ -46,9 +49,11 @@ class SpecialRateController extends Controller
      * @param  \App\Models\SpecialRate  $specialRate
      * @return \Illuminate\Http\Response
      */
-    public function show(SpecialRate $specialRate)
+    public function show(User $user, SpecialRate $specialRate)
     {
-        //
+        return view('admin.sepcialrates.show')->with([
+            'specialRate' => $specialRate
+        ]);
     }
 
     /**
@@ -57,10 +62,10 @@ class SpecialRateController extends Controller
      * @param  \App\Models\SpecialRate  $specialRate
      * @return \Illuminate\Http\Response
      */
-    public function edit(SpecialRate $specialRate)
+    public function edit(User $user, SpecialRate $specialRate)
     {
-        dd($specialRate);
         return view('admin.sepcialrates.edit')->with([
+            'user' => $user,
             'specialRate' => $specialRate
         ]);
     }

@@ -26,6 +26,8 @@ class CreateSpecialRatesTable extends Migration
             $table->timestamp('expiry_date')->nullable();
             $table->tinyInteger('status')->default(0)->comment('0=> pending,1=>approved, 2=>rejected, 3=>expired');
             $table->timestamps();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
         });
     }
 

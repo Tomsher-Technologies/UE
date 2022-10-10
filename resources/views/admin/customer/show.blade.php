@@ -10,9 +10,10 @@
             <div class="mb-lg-32pt">
                 <a href="{{ route('admin.special_rates.create', $user) }}" class="btn btn-primary w-auto">Add Special rate /
                     Discount</a>
-                @livewire('admin.special-rates.listing', ['user' => $user])
+                <div class="card mt-2">
+                    @livewire('admin.special-rates.listing', ['user' => $user])
+                </div>
             </div>
-
         </div>
     </div>
 @endsection
