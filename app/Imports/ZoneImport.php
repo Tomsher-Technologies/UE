@@ -47,12 +47,14 @@ class ZoneImport implements ToCollection
             })->first();
 
             if ($country) {
-                Zone::updateOrCreate([
-                    'type' => $this->type,
-                    'integrator_id' => $this->integrator,
-                    'zone_code' => $row[2],
-                    'country_id' => $country->id,
-                ]);
+                if ($row[2]) {
+                    Zone::updateOrCreate([
+                        'type' => $this->type,
+                        'integrator_id' => $this->integrator,
+                        'zone_code' => $row[2],
+                        'country_id' => $country->id,
+                    ]);
+                }
             } else {
                 if (!in_array($row[0], $this->errors)) {
                     $this->errors[] = $row[0] . '( ' . $row[1] . ' )';

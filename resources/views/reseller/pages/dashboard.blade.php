@@ -19,7 +19,8 @@
                                     <label class="text-white" for="filter_name">Pickup country</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select id="fromCountry" class="form-control" name="fromCountry"></select>
+                                            <select id="fromCountry" class="form-control select2" name="fromCountry"
+                                                required></select>
                                         </div>
                                     </div>
                                 </div>
@@ -29,7 +30,7 @@
                                     <label class="text-white" for="filter_name">Pickup City</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select id="fromCity" class=" form-control" name="fromCity"></select>
+                                            <select id="fromCity" class="form-control select2" name="fromCity"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -39,8 +40,8 @@
                                     <label class="text-white" for="filter_name">Pickup Pincode</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <input id="" class="form-control" type="text" name="fromPincode"
-                                                placeholder="Pickup Pincode">
+                                            <select id="fromPincode" class="form-control select2"
+                                                name="fromPincode"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -52,8 +53,7 @@
                                     <label class="text-white" for="filter_name">Delivery country</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <input id="toCountry" class="form-control" type="text" name="toCountry"
-                                                placeholder="Delivery country">
+                                            <select id="toCountry" class="form-control" name="toCountry" required></select>
                                         </div>
                                     </div>
                                 </div>
@@ -63,8 +63,7 @@
                                     <label class="text-white" for="filter_name">Delivery City</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <input class="form-control" type="text" name="toCity"
-                                                placeholder="Delivery City">
+                                            <select id="toCity" class="form-control select2" name="toCity"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -74,8 +73,7 @@
                                     <label class="text-white" for="filter_name">Delivery Pincode</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <input class="form-control" type="text" name="toPincode"
-                                                placeholder="Delivery Pincode">
+                                            <select id="toPincode" class="form-control select2" name="toPincode"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -138,8 +136,8 @@
                                         <label class="text-white" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="weight[1]"
-                                                    placeholder="Actual Weight">
+                                                <input class="form-control" type="number" step=".1" name="weight[1]"
+                                                    placeholder="Actual Weight" required>
                                             </div>
                                         </div>
                                     </div>
@@ -404,7 +402,7 @@
                                         <label class="text-white" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="weight[]"
+                                                <input class="form-control" type="number" step='.1' required name="weight[]"
                                                     placeholder="Actual Weight">
                                             </div>
                                         </div>
@@ -432,6 +430,7 @@
         });
 
         $('#fromCountry').select2({
+            tags: true,
             ajax: {
                 url: '{{ route('getCountries') }}',
                 dataType: 'json',
@@ -454,7 +453,150 @@
                         })
                     };
                 }
-            }
+            },
+            minimumResultsForSearch: 10
+        });
+        $('#toCountry').select2({
+            tags: true,
+            ajax: {
+                url: '{{ route('getCountries') }}',
+                dataType: 'json',
+                method: 'POST',
+                delay: 250,
+                data: function(params) {
+                    var query = {
+                        name: params.term,
+                    }
+                    return query;
+                },
+                processResults: function(data) {
+                    return {
+                        results: $.map(data, function(obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.text
+                            };
+                        })
+                    };
+                }
+            },
+            minimumResultsForSearch: 10
+        });
+
+        $('#fromCity').select2({
+            tags: true,
+            ajax: {
+                url: '{{ route('getCities') }}',
+                dataType: 'json',
+                method: 'POST',
+                delay: 250,
+                data: function(params) {
+                    console.log(params.term);
+                    var query = {
+                        name: params.term,
+                        country: $('#fromCountry').val()
+                    }
+                    return query;
+                },
+                processResults: function(data) {
+                    return {
+                        results: $.map(data, function(obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.text
+                            };
+                        })
+                    };
+                }
+            },
+            minimumResultsForSearch: 10
+        });
+        $('#toCity').select2({
+            tags: true,
+            ajax: {
+                url: '{{ route('getCities') }}',
+                dataType: 'json',
+                method: 'POST',
+                delay: 250,
+                data: function(params) {
+                    console.log(params.term);
+                    var query = {
+                        name: params.term,
+                        country: $('#toCountry').val()
+                    }
+                    return query;
+                },
+                processResults: function(data) {
+                    return {
+                        results: $.map(data, function(obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.text
+                            };
+                        })
+                    };
+                }
+            },
+            minimumResultsForSearch: 10
+        });
+
+        $('#fromPincode').select2({
+            tags: true,
+            ajax: {
+                url: '{{ route('getPincode') }}',
+                dataType: 'json',
+                method: 'POST',
+                delay: 250,
+                data: function(params) {
+                    console.log(params.term);
+                    var query = {
+                        name: params.term,
+                        country: $('#fromCountry').val(),
+                        city: $('#fromCity option:selected').text()
+                    }
+                    return query;
+                },
+                processResults: function(data) {
+                    return {
+                        results: $.map(data, function(obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.text
+                            };
+                        })
+                    };
+                }
+            },
+            minimumResultsForSearch: 10
+        });
+        $('#toPincode').select2({
+            tags: true,
+            ajax: {
+                url: '{{ route('getPincode') }}',
+                dataType: 'json',
+                method: 'POST',
+                delay: 250,
+                data: function(params) {
+                    console.log(params.term);
+                    var query = {
+                        name: params.term,
+                        country: $('#toCountry').val(),
+                        city: $('#toCity option:selected').text()
+                    }
+                    return query;
+                },
+                processResults: function(data) {
+                    return {
+                        results: $.map(data, function(obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.text
+                            };
+                        })
+                    };
+                }
+            },
+            minimumResultsForSearch: 10
         });
     </script>
 @endpush
