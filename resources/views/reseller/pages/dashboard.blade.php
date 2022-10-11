@@ -149,14 +149,14 @@
                         </div>
                         <div class="row align-items-center mb-2">
                             <div class="col-sm-12 text-left">
-                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="button"
+                                <button class="btn btn-sm btn-secondary  text-light pt-2 pb-2" type="button"
                                     id="addPackage">Add
                                     Package</button>
                             </div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col-sm-12">
-                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="submit">Search</button>
+                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2 pl-5 pr-5" type="submit">Search</button>
                             </div>
                         </div>
                     </form>
@@ -353,6 +353,14 @@
 
 @push('header')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .select2-container .select2-selection--single{
+            height: calc(1.5em + 1rem + 2px) !important;
+
+        }
+        </style>   
+    
 @endpush
 @push('footer')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
