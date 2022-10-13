@@ -6,3 +6,11 @@ Integrator
     //image upload
 
 Flush Bouncer Cache
+
+Customer
+    assign grades to customer
+    index sort by grades
+
+Grade 
+    add profit margin
+    add 

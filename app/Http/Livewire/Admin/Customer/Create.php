@@ -19,8 +19,6 @@ class Create extends Component
     public $address;
     public $msp;
     public $msp_type = 'percentage';
-    public $profit_margin;
-    public $profit_margin_type = 'percentage';
 
     public $parent_users;
     public $parent_user = 0;
@@ -38,8 +36,6 @@ class Create extends Component
             'address' => ['nullable'],
             'msp' => ['nullable', 'integer'],
             'msp_type' => ['nullable'],
-            'profit_margin' => ['nullable', 'integer'],
-            'profit_margin_type' => ['nullable'],
         ];
     }
 
@@ -88,8 +84,6 @@ class Create extends Component
             'address' => $this->address,
             'msp' => $this->msp,
             'msp_type' => $this->msp_type,
-            'profit_margin' => $this->profit_margin,
-            'profit_margin_type' => $this->profit_margin_type,
             'image' => $storedImage,
         ]);
 
@@ -100,8 +94,6 @@ class Create extends Component
         $this->reset('address');
         $this->reset('msp');
         $this->reset('msp_type');
-        $this->reset('profit_margin');
-        $this->reset('profit_margin_type');
         $this->reset('image');
         $this->reset('parent_user');
 

@@ -87,4 +87,9 @@ class CustomerController extends Controller
     {
         //
     }
+
+    public function profitMargin(User $user)
+    {
+        
+    }
 }

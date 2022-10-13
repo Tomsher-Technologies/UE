@@ -178,6 +178,15 @@
                                     <span class="sidebar-menu-text">Add New Customers</span>
                                 </a>
                             </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.customer.grades') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        add_box
+                                    </span>
+                                    <span class="sidebar-menu-text">Grades</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 @endif

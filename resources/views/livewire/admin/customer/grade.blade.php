@@ -1,0 +1,158 @@
+<div>
+    <div class="container page__container">
+        <div class="page-section">
+            <div class="page-separator">
+                <div class="page-separator__text">Create Grades</div>
+            </div>
+
+            <form wire:submit.prevent="save">
+                <div class="form-row">
+                    <div class="col-10 form-group mb-0">
+                        <input wire:model="name" type="text" placeholder="Name" class="form-control mb-2">
+                        <x-form.error name="name" />
+                    </div>
+                    <div class="col-2 p-0">
+                        <button class="btn btn-primary py-2 w-100">Create Grade</button>
+                    </div>
+                </div>
+            </form>
+
+
+            <div class="page-separator mt-3">
+                <div class="page-separator__text">Manage Grades</div>
+            </div>
+
+            <div class="card mb-lg-32pt">
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
+                    data-lists-sort-desc="true" data-lists-values='["js-lists-values-name"]'>
+
+                    <div class="card-header">
+                        <form class="form-inline">
+                            <label class="mr-sm-2 form-label" for="inlineFormFilterBy">Filter by:</label>
+                            <input wire:model="search" type="text" class="form-control search mb-2 mr-sm-2 mb-sm-0"
+                                id="inlineFormFilterBy" placeholder="Search ...">
+                        </form>
+                    </div>
+
+                    <table class="table mb-0 thead-border-top-0 table-nowrap">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-name">Name</a>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="clients">
+                            @foreach ($grades as $grade)
+                                <tr>
+                                    <td>
+                                        {{ $grade->name }}
+                                    </td>
+                                    <td>
+                                        <button wire:click="edit({{ $grade->id }})" class="btn btn-secondary">
+                                            <i class="material-icons">mode_edit</i>
+                                        </button>
+                                        @if ($grade->id !== 1)
+                                            <button wire:click="$emit('triggerDelete',{{ $grade->id }})"
+                                                class="btn btn-accent delete">
+                                                <i class="material-icons">delete_forever</i>
+                                            </button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="card-footer p-8pt">
+                        {{ $grades->links() }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Grade</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true close-btn">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form wire:submit.prevent="update()">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Name</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1"
+                                placeholder="Enter Name" wire:model="editData.name">
+                            @error('name')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
+                    <button type="button" wire:click.prevent="update()" class="btn btn-primary close-modal">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @this.on('triggerDelete', id => {
+                Swal.fire({
+                    title: 'Are You Sure?',
+                    text: 'Grade will be deleted! Existing customers will be moved to the General grade',
+                    icon: "error",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#aaa',
+                    confirmButtonText: 'Delete!'
+                }).then((result) => {
+                    if (result.value) {
+                        @this.call('deleteGrade', id)
+                    }
+                });
+            });
+        })
+
+        window.addEventListener('modelDeleted', e => {
+            Swal.fire({
+                title: 'Grade deleted successfully!',
+                icon: 'success'
+            });
+        })
+        window.addEventListener('modelCreated', e => {
+            Swal.fire({
+                title: 'Grade created successfully!',
+                icon: 'success'
+            });
+        })
+        window.addEventListener('modelDeletedFailed', e => {
+            Swal.fire({
+                title: 'Grade delete failed, please try again!',
+                icon: 'warning'
+            });
+        })
+        window.addEventListener('modelNoDelete', e => {
+            Swal.fire({
+                title: 'Sorry can\'t delete this grade!',
+                icon: 'warning'
+            });
+        })
+        window.addEventListener('modelUpdated', e => {
+            $('#exampleModal').modal('hide');
+        })
+        window.addEventListener('editModal', e => {
+            $('#exampleModal').modal('show');
+        })
+    </script>
+</div>

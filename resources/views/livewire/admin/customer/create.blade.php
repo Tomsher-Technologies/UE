@@ -20,11 +20,7 @@
             <input wire:model="address" type="text" class="form-control mb-2">
             <x-form.error name="address" />
         </div>
-        <div class="form-group">
-            <label class="form-label">MSP</label>
-            <input wire:model="msp" type="number" class="form-control mb-2">
-            <x-form.error name="msp" />
-        </div>
+
         <div class="form-group">
             <label class="form-label">MSP Type</label>
             <select wire:model="msp_type" class="form-control custom-select">
@@ -34,6 +30,13 @@
             <x-form.error name="msp_type" />
         </div>
         <div class="form-group">
+            <label class="form-label">MSP</label>
+            <input wire:model="msp" type="number" class="form-control mb-2">
+            <x-form.error name="msp" />
+        </div>
+        
+
+        {{-- <div class="form-group">
             <label class="form-label">Profit Margin</label>
             <input wire:model="profit_margin" type="number" class="form-control mb-2">
             <x-form.error name="profit_margin" />
@@ -45,7 +48,7 @@
                 <option value="amount">Amount</option>
             </select>
             <x-form.error name="profit_margin_type" />
-        </div>
+        </div> --}}
 
         <div class="form-group">
             <label class="form-label">Assigned UE USer</label>
