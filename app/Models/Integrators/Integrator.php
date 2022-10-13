@@ -9,6 +9,8 @@ use App\Models\Zones\Zone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class Integrator extends Model
 {
@@ -38,5 +40,10 @@ class Integrator extends Model
     public function uploads()
     {
         return $this->hasMany(Uploads::class);
+    }
+
+    public function getLogoImage()
+    {
+        return $this->logo ? URL::to('storage' . Str::remove('public', $this->logo)) : NULL;
     }
 }

@@ -35,7 +35,6 @@ class Edit extends Component
             'customerDetails.msp_type' => ['nullable'],
             'customerDetails.profit_margin' => ['nullable', 'integer'],
             'customerDetails.profit_margin_type' => ['nullable'],
-
         ];
     }
 

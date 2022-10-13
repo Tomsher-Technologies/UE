@@ -1,7 +1,8 @@
 permissions
-    export
     special rate
     surcharge
 
+Integrator 
+    //image upload
 
 Flush Bouncer Cache

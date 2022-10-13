@@ -22,10 +22,10 @@ class BouncerSeeder extends Seeder
     {
 
 
-        $admin = Bouncer::role()->firstOrCreate([
-            'name' => 'enduser',
-            'title' => 'End User',
-        ]);
+        // $admin = Bouncer::role()->firstOrCreate([
+        //     'name' => 'enduser',
+        //     'title' => 'End User',
+        // ]);
         // $admin = Bouncer::role()->firstOrCreate([
         //     'name' => 'ueuser',
         //     'title' => 'UE User',
@@ -130,6 +130,21 @@ class BouncerSeeder extends Seeder
         //     'group' => "Integrators"
         // ]);
 
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'import-rates',
+        //     'title' => 'Import Rates',
+        //     'group' => "Rates"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'export-rates',
+        //     'title' => 'Export Rates',
+        //     'group' => "Rates"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'import-zones',
+        //     'title' => 'Import Zones',
+        //     'group' => "Rates"
+        // ]);
 
 
         // // Customer

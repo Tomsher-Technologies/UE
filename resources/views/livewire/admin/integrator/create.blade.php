@@ -25,6 +25,20 @@
             <input wire:model="address" type="text" class="form-control mb-2">
             <x-form.error name="address" />
         </div>
+
+        <div class="form-group">
+            <label class="form-label">Logo</label>
+            <input wire:model="image" type="file" accept=".jpg,.jpeg,.png,.gif,.webp" class="form-control mb-2">
+            <x-form.error name="image" />
+        </div>
+
+        @if ($image && !$errors->get('image'))
+            <div class="col-md-12 p-0 mb-3">
+                Logo Preview:
+                <img class="w-auto d-block mw-100" src="{{ $image->temporaryUrl() }}">
+            </div>
+        @endif
+
         <div class="col-md-12 p-0">
             <button class="btn btn-primary">Create Integrator</button>
         </div>

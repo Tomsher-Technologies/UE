@@ -69,7 +69,6 @@
             <x-form.error name="image" />
         </div>
 
-
         @if ($image && !$errors->get('image'))
             <div class="col-md-12 p-0 mb-3">
                 Photo Preview:
