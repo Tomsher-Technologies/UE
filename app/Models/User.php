@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Customer\CustomerDetails;
 use App\Models\Customer\Grade;
+use App\Models\Customer\ProfitMargin;
 use App\Models\Surcharge\Surcharge;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -31,7 +32,8 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
-        'parent_id'
+        'parent_id',
+        'grade_id'
     ];
 
     /**
@@ -121,5 +123,10 @@ class User extends Authenticatable
     public function grade()
     {
         return $this->belongsTo(Grade::class);
+    }
+
+    public function profitmargin()
+    {
+        return $this->morphMany(ProfitMargin::class, 'profitmargin');
     }
 }

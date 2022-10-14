@@ -7,13 +7,44 @@
 
             <form wire:submit.prevent="save">
                 <div class="form-row">
-                    <div class="col-10 form-group mb-0">
-                        <input wire:model="name" type="text" placeholder="Name" class="form-control mb-2">
+                    <div class="col-12 form-group mb-0">
+                        <label class="form-label">Grade Name</label>
+                        <input wire:model="name" type="text" class="form-control mb-2">
                         <x-form.error name="name" />
                     </div>
-                    <div class="col-2 p-0">
-                        <button class="btn btn-primary py-2 w-100">Create Grade</button>
+                </div>
+                <div class="form-row">
+                    <div class="col-6 form-group">
+                        <label class="form-label">MSP Type</label>
+                        <select wire:model="msp_type" class="form-control custom-select">
+                            <option value="percentage">Percentage</option>
+                            <option value="amount">Amount</option>
+                        </select>
+                        <x-form.error name="msp_type" />
                     </div>
+                    <div class="col-6 form-group mb-0">
+                        <label class="form-label">MSP</label>
+                        <input wire:model="msp" type="number" step=".1" class="form-control mb-2">
+                        <x-form.error name="msp" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-6 form-group">
+                        <label class="form-label">Profit Margin</label>
+                        <select wire:model="profit_margin_type" class="form-control custom-select">
+                            <option value="percentage">Percentage</option>
+                            <option value="amount">Amount</option>
+                        </select>
+                        <x-form.error name="profit_margin_type" />
+                    </div>
+                    <div class="col-6 form-group">
+                        <label class="form-label">Profit Margin</label>
+                        <input wire:model="profit_margin" type="number" step=".1" class="form-control mb-2">
+                        <x-form.error name="profit_margin" />
+                    </div>
+                </div>
+                <div class="col-2 p-0">
+                    <button class="btn btn-primary w-100">Create Grade</button>
                 </div>
             </form>
 
@@ -41,6 +72,13 @@
                                     <a href="javascript:void(0)" class="sort"
                                         data-sort="js-lists-values-name">Name</a>
                                 </th>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">MSP</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Profit
+                                        Margin</a>
+                                </th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -51,9 +89,15 @@
                                         {{ $grade->name }}
                                     </td>
                                     <td>
-                                        <button wire:click="edit({{ $grade->id }})" class="btn btn-secondary">
+                                        {{ $grade->msp }}
+                                    </td>
+                                    <td>
+                                        {{ $grade->profit_margin }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.customer.grades.edit', $grade) }}" class="btn btn-secondary">
                                             <i class="material-icons">mode_edit</i>
-                                        </button>
+                                        </a>
                                         @if ($grade->id !== 1)
                                             <button wire:click="$emit('triggerDelete',{{ $grade->id }})"
                                                 class="btn btn-accent delete">
@@ -71,37 +115,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Grade</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true close-btn">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form wire:submit.prevent="update()">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1">Name</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput1"
-                                placeholder="Enter Name" wire:model="editData.name">
-                            @error('name')
-                                <span class="text-danger error">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
-                    <button type="button" wire:click.prevent="update()" class="btn btn-primary close-modal">Save
-                        changes</button>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -147,12 +160,6 @@
                 title: 'Sorry can\'t delete this grade!',
                 icon: 'warning'
             });
-        })
-        window.addEventListener('modelUpdated', e => {
-            $('#exampleModal').modal('hide');
-        })
-        window.addEventListener('editModal', e => {
-            $('#exampleModal').modal('show');
         })
     </script>
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Customer;
 
+use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,6 +23,9 @@ class Create extends Component
 
     public $parent_users;
     public $parent_user = 0;
+
+    public $grade = 1;
+    public $grades;
 
     public $image;
 
@@ -69,7 +73,8 @@ class Create extends Component
             'email' => $this->email,
             'password' => $this->password,
             'status' => 1,
-            'parent_id' => $this->parent_user
+            'parent_id' => $this->parent_user,
+            'grade_id' => $this->grade,
         ]);
 
         Bouncer::assign('reseller')->to($customer);
@@ -82,7 +87,7 @@ class Create extends Component
         $customer->customerDetails()->create([
             'phone' => $this->phone,
             'address' => $this->address,
-            'msp' => $this->msp,
+            'msp' => $this->msp !== "" ? $this->msp : NULL,
             'msp_type' => $this->msp_type,
             'image' => $storedImage,
         ]);
@@ -96,14 +101,20 @@ class Create extends Component
         $this->reset('msp_type');
         $this->reset('image');
         $this->reset('parent_user');
+        $this->reset('grade');
 
         Bouncer::refresh();
+
+        return redirect()->route('admin.customer.profitMargin')->with([
+            'user' =>  $customer
+        ]);
 
         $this->dispatchBrowserEvent('memberUpdated');
     }
 
     public function mount()
     {
+        $this->grades = Grade::all();
         $this->parent_users = User::whereStatus(true)->whereIs('ueuser')->select(['id', 'name'])->get();
     }
 

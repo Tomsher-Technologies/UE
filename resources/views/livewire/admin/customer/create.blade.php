@@ -22,6 +22,16 @@
         </div>
 
         <div class="form-group">
+            <label class="form-label">Grade</label>
+            <select wire:model="grade" class="form-control custom-select">
+                @foreach ($grades as $grade)
+                    <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                @endforeach
+            </select>
+            <x-form.error name="grade" />
+        </div>
+
+        <div class="form-group">
             <label class="form-label">MSP Type</label>
             <select wire:model="msp_type" class="form-control custom-select">
                 <option value="percentage">Percentage</option>
@@ -34,7 +44,7 @@
             <input wire:model="msp" type="number" class="form-control mb-2">
             <x-form.error name="msp" />
         </div>
-        
+
 
         {{-- <div class="form-group">
             <label class="form-label">Profit Margin</label>

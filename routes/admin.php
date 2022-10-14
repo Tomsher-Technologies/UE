@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Surcharge\SurchargeController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
 use App\Http\Controllers\HubEz\HubEzController;
 use App\Http\Livewire\Admin\Customer\Grade;
+use App\Http\Livewire\Admin\Customer\GradeEdit;
 use App\Http\Livewire\Admin\Customer\ProfitMargin;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,7 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
             Route::get('/{user}/profit-margin', ProfitMargin::class)->name('profitMargin');
             Route::get('/grades', Grade::class)->name('grades');
+            Route::get('/grades/{grade}/edit', GradeEdit::class)->name('grades.edit');
         });
 
         Route::resource('customer', CustomerController::class)->parameters([
@@ -67,7 +69,7 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         });
 
         // Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {
-            
+
         // });
 
         Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);
