@@ -26,7 +26,20 @@ class RateExport implements FromCollection, WithHeadings
     public function __construct($request)
     {
         $this->request = $request;
-        $this->zone = Zone::where('integrator_id', $this->request->integrator)->where('type', $this->request->type)->select(['id', 'zone_code'])->get();
+
+        $query = Zone::where('type', $this->request->type);
+
+        if ($this->request->integrator !== "0") {
+            $query->where('integrator_id', $this->request->integrator);
+        }
+        if ($this->request->country !== "0") {
+            $query->where('country_id', $this->request->country);
+        }
+
+        $this->zone = $query->select(['id', 'zone_code'])->get();
+
+        ddd($this->zone);
+
         $this->zone_unique = $this->zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
 
         switch ($this->request->type) {
