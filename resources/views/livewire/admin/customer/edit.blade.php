@@ -21,6 +21,18 @@
             <x-form.error name="customerDetails.address" />
         </div>
 
+
+        <div class="form-group">
+            <label class="form-label">Grade</label>
+            <select wire:model="user.grade_id" class="form-control custom-select">
+                @foreach ($grades as $grade)
+                    <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                @endforeach
+            </select>
+            <x-form.error name="user.grade_id" />
+        </div>
+
+
         <div class="form-group">
             <label class="form-label">MSP Type</label>
             <select wire:model="customerDetails.msp_type" class="form-control custom-select">

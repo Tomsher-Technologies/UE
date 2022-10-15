@@ -76,8 +76,8 @@
                                     <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">MSP</a>
                                 </th>
                                 <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Profit
-                                        Margin</a>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">
+                                        Default Profit Margin</a>
                                 </th>
                                 <th>Actions</th>
                             </tr>
@@ -95,7 +95,7 @@
                                         {{ $grade->profit_margin }}
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.customer.grades.edit', $grade) }}" class="btn btn-secondary">
+                                        <a href="{{ route('admin.grades.edit', $grade) }}" class="btn btn-secondary">
                                             <i class="material-icons">mode_edit</i>
                                         </a>
                                         @if ($grade->id !== 1)

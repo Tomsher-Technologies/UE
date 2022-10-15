@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Customer;
+namespace App\Http\Livewire\Admin\Customer\Grade;
 
 use App\Models\Customer\Grade;
-use App\Models\Customer\ProfitMargin as CustomerProfitMargin;
+use App\Models\Customer\ProfitMargin;
 use App\Models\Integrators\Integrator;
-use App\Models\User;
 use App\Models\Zones\Country;
 use App\Models\Zones\Zone;
 use Livewire\Component;
 
-class   ProfitMargin extends Component
+class GradeProfitMargin extends Component
 {
-    public User $element;
+
+    public Grade $element;
     public $integrators;
 
     public $applied_for_txt = "&nbsp;";
@@ -25,7 +25,7 @@ class   ProfitMargin extends Component
     public $rate;
     public $weight;
     public $applied_for = 'all';
-    public $applied_for_id;
+    public $applied_for_id = '0';
 
     protected function rules()
     {
@@ -48,13 +48,12 @@ class   ProfitMargin extends Component
         'weight.required' => 'Please ente a weight',
     ];
 
-    public function mount($user)
+    public function mount($grade)
     {
-        $this->element = $user;
+        $this->element = Grade::findOrFail($grade);
         $this->integrators = Integrator::all();
         $this->integrator = $this->integrators->first()->id;
     }
-
 
     public function save()
     {
@@ -85,7 +84,7 @@ class   ProfitMargin extends Component
 
     public function deleteRate($id)
     {
-        $status = CustomerProfitMargin::where('id', $id)->first()->delete();
+        $status = ProfitMargin::where('id', $id)->first()->delete();
         if ($status) {
             $this->dispatchBrowserEvent('modelDeleted');
         } else {
@@ -120,7 +119,6 @@ class   ProfitMargin extends Component
         } else if ($value == 'country') {
             $this->applied_for_txt = "Select Country";
             $this->applied_for_items = Country::all();
-            $this->applied_for_id = 1;
         } else {
             $this->applied_for_txt = "&nbsp;";
             $this->applied_for_items = NULL;
@@ -130,14 +128,14 @@ class   ProfitMargin extends Component
 
     public function render()
     {
-        if ($this->applied_for == 'zone') {
+        if ($this->applied_for == 'zones') {
             $this->getZones();
         }
         $margins = $this->element->profitmargin()->get();
         $margins->load('integrator');
-        return view('livewire.admin.customer.profit-margin')->with([
+        return view('livewire.admin.customer.grade.grade-profit-margin')->with([
             'margins' => $margins
-        ]);
+        ])->extends('layouts.admin');
     }
 
     public function updated($propertyName)

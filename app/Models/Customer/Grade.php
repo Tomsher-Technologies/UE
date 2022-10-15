@@ -16,4 +16,9 @@ class Grade extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function profitmargin()
+    {
+        return $this->morphMany(ProfitMargin::class, 'profitmargin');
+    }
 }

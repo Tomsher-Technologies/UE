@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer\Grade;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -90,6 +91,16 @@ class CustomerController extends Controller
 
     public function profitMargin(User $user)
     {
-        
+        return view('admin.customer.profit-margin')->with([
+            'user' => $user,
+            'type' => "user"
+        ]);
+    }
+    public function gradeProfitMargin(Grade $grade)
+    {
+        return view('admin.customer.profit-margin')->with([
+            'user' => $grade,
+            'type' => "grade"
+        ]);
     }
 }

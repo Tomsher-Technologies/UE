@@ -4,7 +4,6 @@
             <div class="page-separator">
                 <div class="page-separator__text">Add Profit Margin</div>
             </div>
-
             <form wire:submit.prevent="save">
                 <div class="form-row">
                     <div class="col-6 form-group mb-0">
@@ -146,7 +145,7 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('admin.profitMargin.edit', $margin) }}"
+                                        <a href="{{ route('admin.customer.edit', $margin) }}"
                                             class="btn btn-secondary">
                                             <i class="material-icons">mode_edit</i>
                                         </a>

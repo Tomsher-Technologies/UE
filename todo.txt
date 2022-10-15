@@ -11,6 +11,9 @@ Customer
     assign grades to customer
     index sort by grades
 
-Grade 
-    add profit margin
+Grade
     add msp
+
+Profit matrgin
+    Edit
+    Applied for id
