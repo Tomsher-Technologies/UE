@@ -12,6 +12,7 @@ use App\Imports\ImportRateImport;
 use App\Imports\ZoneImport;
 use App\Models\Integrators\Uploads;
 use App\Models\Rates\ImportRate;
+use App\Models\Zones\Country;
 use App\Models\Zones\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -184,19 +185,21 @@ class IntegratorController extends Controller
     public function exportView()
     {
         $integrators = Integrator::all();
+        $countries = Country::all();
         return view('admin.integrators.export')->with([
-            'integrators' => $integrators
+            'integrators' => $integrators,
+            'countries' => $countries
         ]);
     }
 
     public function export(Request $request)
     {
-        $name = "Rate Export " . time() . '.xlsx';
-        if ($request->export_by == 'integrator') {
-            $export = new RateExport($request);
-        } else {
-            $export = new RateByWeightExport($request);
-        }
+        $name = "Rate Sheet " . time() . '.xlsx';
+        // if ($request->export_by == 'integrator') {
+        $export = new RateExport($request);
+        // } else {
+        //     $export = new RateByWeightExport($request);
+        // }
 
         if ($export->data->count() <= 0) {
             return back()->with([

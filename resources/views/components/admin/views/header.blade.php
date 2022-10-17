@@ -14,10 +14,6 @@
     </a>
     <!-- // END Navbar Brand -->
     <!-- Navbar Search -->
-    <form class="search-form navbar-search d-none d-md-flex mr-16pt" action="index.html">
-        <button class="btn" type="submit"><i class="material-icons">search</i></button>
-        <input type="text" class="form-control" placeholder="Search ...">
-    </form>
     <!-- // END Navbar Search -->
     <div class="flex"></div>
     <!-- Switch Layout -->

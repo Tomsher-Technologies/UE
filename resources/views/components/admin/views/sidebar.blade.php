@@ -49,7 +49,7 @@
                         </li>
                     @endif
                     @if (auth()->user()->hasCustomerPrivilages())
-                        <li class="sidebar-menu-item {{ request()->routeIs('admin.customer*') ? 'active' : '' }}"
+                        <li class="sidebar-menu-item {{ request()->routeIs('admin.customer*') || request()->routeIs('admin.grades*') ? 'active' : '' }}"
                             data-placement="right" data-container="body" data-boundary="window">
                             <a class="sidebar-menu-button" href="#sm_agents" data-toggle="tab" role="tab"
                                 aria-controls="sm_agents" aria-selected="false">
@@ -74,8 +74,6 @@
                             <span class="sidebar-menu-text">Surcharge</span>
                         </a>
                     </li>
-
-
                     <li class="sidebar-menu-item {{ request()->routeIs('admin.dynamic-content*') ? 'active' : '' }}"
                         data-placement="right" data-container="body" data-boundary="window">
                         <a class="sidebar-menu-button" href="{{ route('admin.dynamic-content.index') }}">
@@ -87,13 +85,8 @@
                         </a>
                     </li>
 
-
-                   
-
-
                 </ul>
             </div>
-
         </div>
         <div class="sidebar sidebar-light sidebar-left flex sidebar-secondary pt-16pt" data-perfect-scrollbar>
             <div class="tab-content">
@@ -176,6 +169,15 @@
                                         add_box
                                     </span>
                                     <span class="sidebar-menu-text">Add New Customers</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.grades.index') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        add_box
+                                    </span>
+                                    <span class="sidebar-menu-text">Grades</span>
                                 </a>
                             </li>
                         </ul>

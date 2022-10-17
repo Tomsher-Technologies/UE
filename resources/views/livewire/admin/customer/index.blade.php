@@ -5,6 +5,17 @@
             <label class="mr-sm-2 form-label" for="inlineFormFilterBy">Filter by:</label>
             <input wire:model="search" type="text" class="form-control search mb-2 mr-sm-2 mb-sm-0"
                 id="inlineFormFilterBy" placeholder="Search ..." />
+
+            <div class="form-group">
+                <!-- <label class="form-label" for="select01">Basic</label> -->
+                <select id="select01" data-toggle="select" class="form-control">
+                    <option selected="" value="0">All Grades</option>
+                    @foreach ($grades as $grade)
+                        <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
         </form>
     </div>
 
@@ -136,3 +147,15 @@
     </script>
 
 </div>
+
+@push('footer')
+    <script>
+        $(document).ready(function() {
+            $('#select01').select2();
+            $('#select01').on('change', function(e) {
+                var data = $('#select01').select2("val");
+                @this.set('selectedGrade', data);
+            });
+        });
+    </script>
+@endpush

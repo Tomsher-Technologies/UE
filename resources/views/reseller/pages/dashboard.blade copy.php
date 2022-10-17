@@ -106,7 +106,7 @@
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="length[1]"
+                                                <input class="form-control" step=".1" type="number" name="length[1]"
                                                     placeholder="Length">
                                             </div>
                                         </div>
@@ -117,7 +117,7 @@
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="height[1]"
+                                                <input class="form-control" step=".1" type="number" name="height[1]"
                                                     placeholder="Height">
                                             </div>
                                         </div>
@@ -128,7 +128,7 @@
                                         <label class="text-white" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="width[1]"
+                                                <input class="form-control" step=".1" type="number" name="width[1]"
                                                     placeholder="Width">
                                             </div>
                                         </div>
@@ -139,7 +139,7 @@
                                         <label class="text-white" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="weight[1]"
+                                                <input class="form-control" type="number" step=".1" name="weight[1]"
                                                     placeholder="Actual Weight">
                                             </div>
                                         </div>
@@ -372,7 +372,7 @@
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="length[]"
+                                                <input class="form-control" type="number" step=".1" name="length[]"
                                                     placeholder="Length">
                                             </div>
                                         </div>
@@ -383,7 +383,7 @@
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="height[]"
+                                                <input class="form-control" type="number" step=".1" name="height[]"
                                                     placeholder="Height">
                                             </div>
                                         </div>
@@ -394,7 +394,7 @@
                                         <label class="text-white" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="width[]"
+                                                <input class="form-control" type="number" step=".1" name="width[]"
                                                     placeholder="Width">
                                             </div>
                                         </div>
@@ -405,7 +405,7 @@
                                         <label class="text-white" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="weight[]"
+                                                <input class="form-control" type="number" step=".1" name="weight[]"
                                                     placeholder="Actual Weight">
                                             </div>
                                         </div>

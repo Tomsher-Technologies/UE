@@ -13,33 +13,41 @@
                         <div class="page-separator">
                             <div class="page-separator__text">Export Rates</div>
                         </div>
-
                         <form method="POST" action="{{ route('admin.integrator.export') }}" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group">
-                                <label class="form-label">Export by</label>
-                                <select name="export_by" id="export_by" class="form-control mb-2">
-                                    <option value="integrator" selected>Integrator</option>
-                                    <option value="weight">Weight</option>
-                                </select>
-                                <x-form.error name="export_by" />
-                            </div>
                             <div class="form-group" id="integrator">
                                 <label class="form-label">Choose an integrator</label>
                                 <select name="integrator" id="" class="form-control mb-2">
-                                    @foreach ($integrators as $index => $integrator)
+                                    <option selected value="0">All</option>
+                                    @foreach ($integrators as $integrator)
                                         <option {{ old('integrator') == $integrator->id ? 'selected' : '' }}
-                                            {{ $index == 0 ? 'selected' : '' }} value="{{ $integrator->id }}">
+                                            value="{{ $integrator->id }}">
                                             {{ $integrator->name }}</option>
                                     @endforeach
                                 </select>
                                 <x-form.error name="integrator" />
                             </div>
-                            <div class="form-group" id="weight" style="display: none">
+
+                            <div class="form-group">
                                 <label class="form-label">Weight</label>
-                                <input name="weight" step=".1" type="number" class="form-control mb-2" value="{{ old('weight') }}">
+                                <input name="weight" step=".1" type="number" class="form-control mb-2"
+                                    value="{{ old('weight') }}">
                                 <x-form.error name="user.email" />
                             </div>
+
+                            <div class="form-group" id="integrator">
+                                <label class="form-label">Choose an country</label>
+                                <select name="country" id="" class="form-control mb-2">
+                                    <option selected value="0">All</option>
+                                    @foreach ($countries as $country)
+                                        <option {{ old('country') == $country->id ? 'selected' : '' }}
+                                            value="{{ $country->id }}">
+                                            {{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+                                <x-form.error name="integrator" />
+                            </div>
+
                             <div class="form-group" wire:ignore>
                                 <label class="form-label">Choose a type</label>
                                 <select name="type" id="" class="form-control mb-2">
@@ -53,7 +61,6 @@
                             </div>
                             <input class="btn btn-primary" type="submit" value="Export">
                         </form>
-
                     </div>
                 </div>
 
@@ -63,24 +70,4 @@
 @endsection
 
 @push('footer')
-
-    @if (old('export_by') == 'weight')
-        <script>
-            $('#weight').show();
-            $('#integrator').hide();
-        </script>
-    @endif
-
-    <script>
-        $('#export_by').on('change', function() {
-            val = $(this).find(":selected").val()
-            if (val == 'weight') {
-                $('#weight').show();
-                $('#integrator').hide();
-            } else {
-                $('#weight').hide();
-                $('#integrator').show();
-            }
-        })
-    </script>
 @endpush

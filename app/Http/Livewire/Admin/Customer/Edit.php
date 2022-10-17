@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Customer;
 
 use App\Helpers\Password;
 use App\Models\Customer\CustomerDetails;
+use App\Models\Customer\Grade;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -23,19 +24,21 @@ class Edit extends Component
     public $c_image;
     public $password;
 
+    public $grades;
+
     protected function rules()
     {
         return [
             'password' =>  ['nullable', new Password],
             'user.name' => 'required',
             'user.email' => ['nullable', 'email'],
+            'user.grade_id' => ['required'],
             'customerDetails.phone' => ['nullable'],
             'customerDetails.address' => ['nullable'],
             'customerDetails.msp' => ['nullable', 'integer'],
             'customerDetails.msp_type' => ['nullable'],
-            'customerDetails.profit_margin' => ['nullable', 'integer'],
-            'customerDetails.profit_margin_type' => ['nullable'],
-
+            'customerDetails.request_limit' => ['nullable'],
+            'customerDetails.limit_weight' => ['nullable'],
         ];
     }
 
@@ -93,6 +96,7 @@ class Edit extends Component
     {
         $this->user = $user;
         $this->customerDetails = $user->customerDetails;
+        $this->grades = Grade::all();
     }
 
     public function updated($propertyName)

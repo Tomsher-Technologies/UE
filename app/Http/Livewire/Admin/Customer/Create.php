@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Customer;
 
+use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -18,12 +19,15 @@ class Create extends Component
     public $password;
     public $address;
     public $msp;
+    public $request_limit;
+    public $limit_weight;
     public $msp_type = 'percentage';
-    public $profit_margin;
-    public $profit_margin_type = 'percentage';
 
     public $parent_users;
     public $parent_user = 0;
+
+    public $grade = 1;
+    public $grades;
 
     public $image;
 
@@ -38,8 +42,9 @@ class Create extends Component
             'address' => ['nullable'],
             'msp' => ['nullable', 'integer'],
             'msp_type' => ['nullable'],
-            'profit_margin' => ['nullable', 'integer'],
-            'profit_margin_type' => ['nullable'],
+            'msp_type' => ['nullable'],
+            'request_limit' => ['nullable'],
+            'limit_weight' => ['nullable'],
         ];
     }
 
@@ -73,7 +78,8 @@ class Create extends Component
             'email' => $this->email,
             'password' => $this->password,
             'status' => 1,
-            'parent_id' => $this->parent_user
+            'parent_id' => $this->parent_user,
+            'grade_id' => $this->grade,
         ]);
 
         Bouncer::assign('reseller')->to($customer);
@@ -86,11 +92,11 @@ class Create extends Component
         $customer->customerDetails()->create([
             'phone' => $this->phone,
             'address' => $this->address,
-            'msp' => $this->msp,
+            'msp' => $this->msp !== "" ? $this->msp : NULL,
             'msp_type' => $this->msp_type,
-            'profit_margin' => $this->profit_margin,
-            'profit_margin_type' => $this->profit_margin_type,
             'image' => $storedImage,
+            'request_limit' => $this->request_limit,
+            'limit_weight' => $this->limit_weight,
         ]);
 
         $this->reset('name');
@@ -100,18 +106,22 @@ class Create extends Component
         $this->reset('address');
         $this->reset('msp');
         $this->reset('msp_type');
-        $this->reset('profit_margin');
-        $this->reset('profit_margin_type');
         $this->reset('image');
         $this->reset('parent_user');
+        $this->reset('grade');
+        $this->reset('request_limit');
+        $this->reset('limit_weight');
 
         Bouncer::refresh();
+
+        return redirect()->route('admin.customer.profitMargin', ['user' =>  $customer]);
 
         $this->dispatchBrowserEvent('memberUpdated');
     }
 
     public function mount()
     {
+        $this->grades = Grade::all();
         $this->parent_users = User::whereStatus(true)->whereIs('ueuser')->select(['id', 'name'])->get();
     }
 
