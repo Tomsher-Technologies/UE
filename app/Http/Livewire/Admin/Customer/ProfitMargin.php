@@ -142,6 +142,7 @@ class   ProfitMargin extends Component
 
     public function updated($propertyName)
     {
+        $this->dispatchBrowserEvent('contentChanged');
         $this->validateOnly($propertyName);
     }
 }

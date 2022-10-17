@@ -34,6 +34,18 @@
 
 
         <div class="form-group">
+            <label class="form-label">Special request limit per day</label>
+            <input wire:model="customerDetails.request_limit" type="number" class="form-control mb-2">
+            <x-form.error name="customerDetails.request_limit" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Special request wight break</label>
+            <input wire:model="customerDetails.limit_weight" type="number" class="form-control mb-2">
+            <x-form.error name="customerDetails.limit_weight" />
+        </div>
+
+
+        <div class="form-group">
             <label class="form-label">MSP Type</label>
             <select wire:model="customerDetails.msp_type" class="form-control custom-select">
                 <option value="percentage">Percentage</option>

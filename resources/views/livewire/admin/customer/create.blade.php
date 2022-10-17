@@ -45,6 +45,17 @@
             <x-form.error name="msp" />
         </div>
 
+        <div class="form-group">
+            <label class="form-label">Special request limit per day</label>
+            <input wire:model="request_limit" type="number" class="form-control mb-2">
+            <x-form.error name="request_limit" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Special request wight break</label>
+            <input wire:model="limit_weight" type="number" class="form-control mb-2">
+            <x-form.error name="limit_weight" />
+        </div>
+
 
         {{-- <div class="form-group">
             <label class="form-label">Profit Margin</label>

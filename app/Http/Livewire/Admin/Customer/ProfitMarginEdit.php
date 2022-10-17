@@ -53,14 +53,15 @@ class ProfitMarginEdit extends Component
     {
         $this->margin = ProfitMargin::findOrFail($profit_margin);
         $this->integrators = Integrator::all();
-
-        $this->updatedAppliedFor($this->margin->applied_for);
+        $this->countries = Country::all();
     }
 
     public function render()
     {
         if ($this->margin->applied_for == 'zone') {
             $this->getZones();
+        } else if ($this->margin->applied_for == 'country') {
+            $this->applied_for_items = $this->countries;
         }
         return view('livewire.admin.customer.profit-margin-edit')->extends('layouts.admin');
     }
@@ -109,6 +110,7 @@ class ProfitMarginEdit extends Component
 
     public function updated($propertyName)
     {
+        $this->dispatchBrowserEvent('contentChanged');
         $this->validateOnly($propertyName);
     }
 }

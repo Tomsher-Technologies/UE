@@ -8,12 +8,16 @@ Integrator
 Flush Bouncer Cache
 
 Customer
-    assign grades to customer
-    index sort by grades
+    //assign grades to customer
+    //index sort by grades
 
 Grade
-    add msp
+    //add msp
 
 Profit matrgin
-    Edit
-    Applied for id
+    //Edit
+    //Applied for id
+
+Customer 
+    //Add spl request / day
+    //spl requet wight break

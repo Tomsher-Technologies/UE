@@ -37,6 +37,8 @@ class Edit extends Component
             'customerDetails.address' => ['nullable'],
             'customerDetails.msp' => ['nullable', 'integer'],
             'customerDetails.msp_type' => ['nullable'],
+            'customerDetails.request_limit' => ['nullable'],
+            'customerDetails.limit_weight' => ['nullable'],
         ];
     }
 

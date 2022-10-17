@@ -9,7 +9,8 @@
                 <div class="form-row">
                     <div class="col-6 form-group mb-0">
                         <label class="form-label">Type</label>
-                        <select wire:model="margin.type" wire:change="typeUpdated($event.target.value)" class="form-control custom-select">
+                        <select wire:model="margin.type" wire:change="typeUpdated($event.target.value)"
+                            class="form-control custom-select">
                             <option value="import">Import</option>
                             <option value="export">Export</option>
                             <option value="transit">Transit</option>
@@ -18,7 +19,8 @@
                     </div>
                     <div class="col-6 form-group">
                         <label class="form-label">Integrator</label>
-                        <select wire:model="margin.integrator_id" wire:change="integratorUpdated($event.target.value)" class="form-control custom-select">
+                        <select wire:model="margin.integrator_id" id="integrator" wire:change="integratorUpdated($event.target.value)"
+                            class="form-control custom-select">
                             @foreach ($integrators as $integrator)
                                 <option value="{{ $integrator->id }}">{{ $integrator->name }}</option>
                             @endforeach
@@ -29,7 +31,8 @@
                 <div class="form-row">
                     <div class="col-6 form-group">
                         <label class="form-label">Applied For</label>
-                        <select wire:model="margin.applied_for" wire:change="appliedForUpdated($event.target.value)" name="applied_for" class="form-control custom-select">
+                        <select wire:model="margin.applied_for" wire:change="appliedForUpdated($event.target.value)"
+                            name="applied_for" class="form-control custom-select">
                             <option value="all">All Orders</option>
                             <option value="zone">Zones</option>
                             <option value="country">Countries</option>
@@ -38,7 +41,7 @@
                     </div>
                     <div class="col-6 form-group mb-0">
                         <label class="form-label">{!! $applied_for_txt !!}</label>
-                        <select wire:model="margin.applied_for_id" class="form-control custom-select">
+                        <select id="applied_for_id" wire:model="margin.applied_for_id" class="form-control custom-select">
                             @if ($applied_for_items !== null && $applied_for_items->count())
                                 @foreach ($applied_for_items as $items)
                                     <option value="{{ $items->id }}">{{ $items->name }}</option>
@@ -84,6 +87,30 @@
                 title: 'Profit margin updated',
                 icon: 'success'
             });
+        })
+    </script>
+
+    <script>
+        selectInit = () => {
+            $('#integrator').select2();
+            $('#integrator').on('change', function(e) {
+                var data = $('#integrator').select2("val");
+                @this.set('margin.integrator_id', data);
+            });
+
+            $('#applied_for_id').select2();
+            $('#applied_for_id').on('change', function(e) {
+                var data = $('#applied_for_id').select2("val");
+                @this.set('margin.applied_for_id', data);
+            });
+        }
+
+        window.addEventListener('contentChanged', event => {
+            selectInit();
+        })
+
+        document.addEventListener('DOMContentLoaded', function() {
+            selectInit();
         })
     </script>
 

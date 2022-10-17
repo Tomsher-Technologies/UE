@@ -19,6 +19,8 @@ class Create extends Component
     public $password;
     public $address;
     public $msp;
+    public $request_limit;
+    public $limit_weight;
     public $msp_type = 'percentage';
 
     public $parent_users;
@@ -40,6 +42,9 @@ class Create extends Component
             'address' => ['nullable'],
             'msp' => ['nullable', 'integer'],
             'msp_type' => ['nullable'],
+            'msp_type' => ['nullable'],
+            'request_limit' => ['nullable'],
+            'limit_weight' => ['nullable'],
         ];
     }
 
@@ -90,6 +95,8 @@ class Create extends Component
             'msp' => $this->msp !== "" ? $this->msp : NULL,
             'msp_type' => $this->msp_type,
             'image' => $storedImage,
+            'request_limit' => $this->request_limit,
+            'limit_weight' => $this->limit_weight,
         ]);
 
         $this->reset('name');
@@ -102,12 +109,12 @@ class Create extends Component
         $this->reset('image');
         $this->reset('parent_user');
         $this->reset('grade');
+        $this->reset('request_limit');
+        $this->reset('limit_weight');
 
         Bouncer::refresh();
 
-        return redirect()->route('admin.customer.profitMargin')->with([
-            'user' =>  $customer
-        ]);
+        return redirect()->route('admin.customer.profitMargin', ['user' =>  $customer]);
 
         $this->dispatchBrowserEvent('memberUpdated');
     }

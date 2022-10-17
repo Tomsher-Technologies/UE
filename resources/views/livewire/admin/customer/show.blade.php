@@ -27,6 +27,16 @@
             <option {{ $user->customerDetails->msp_type == 'amount' ? 'selected' : '' }} value="amount">Amount</option>
         </select>
     </div>
+
+    <div class="form-group">
+        <label class="form-label">Special request limit per day</label>
+        <input value="{{ $user->customerDetails->request_limit }}" disabled type="number" class="form-control mb-2">
+    </div>
+    <div class="form-group">
+        <label class="form-label">Special request wight break</label>
+        <input value="{{ $user->customerDetails->limit_weight }}" disabled  type="number" class="form-control mb-2">
+    </div>
+
     <div class="form-group">
         <label class="form-label">Profit Margin</label>
         <input value="{{ $user->customerDetails->profit_margin }}" type="number" class="form-control mb-2" disabled>

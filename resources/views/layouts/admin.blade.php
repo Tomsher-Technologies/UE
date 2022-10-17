@@ -19,6 +19,7 @@
     <link type="text/css" href="{{ adminAsset('css/flatpickr.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ adminAsset('css/flatpickr-airbnb.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ adminAsset('css/custom.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ adminAsset('vendor/select2/select2.min.css') }}" rel="stylesheet">
     <script src="{{ adminAsset('vendor/jquery.min.js') }}"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap"
@@ -71,6 +72,7 @@
     <script src="{{ adminAsset('js/toggle-check-all.js') }}"></script>
     <script src="{{ adminAsset('js/check-selected-row.js') }}"></script>
     <script src="{{ adminAsset('js/sidebar-mini.js') }}"></script>
+    <script src="{{ adminAsset('vendor/select2/select2.min.js') }}"></script>
     <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         (function() {

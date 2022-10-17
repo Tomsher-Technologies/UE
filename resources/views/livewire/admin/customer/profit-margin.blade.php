@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-6 form-group">
                         <label class="form-label">Integrator</label>
-                        <select wire:model="integrator" class="form-control custom-select">
+                        <select id="integrator" wire:model="integrator" class="form-control custom-select">
                             @foreach ($integrators as $integrator)
                                 <option value="{{ $integrator->id }}">{{ $integrator->name }}</option>
                             @endforeach
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-6 form-group mb-0">
                         <label class="form-label">{!! $applied_for_txt !!}</label>
-                        <select wire:model="applied_for_id" class="form-control custom-select">
+                        <select id="applied_for_id" wire:model="applied_for_id" class="form-control custom-select">
                             @if ($applied_for_items !== null && $applied_for_items->count())
                                 @foreach ($applied_for_items as $items)
                                     <option value="{{ $items->id }}">{{ $items->name }}</option>
@@ -133,7 +133,7 @@
                                         {{ $margin->integrator->name }}
                                     </td>
                                     <td>
-                                        {{ ucfirst($margin->applied_for) }}
+                                        {{ ucfirst($margin->applied_for) }} {{ $margin->getAppliedFor() }}
                                     </td>
                                     <td>
                                         {{ $margin->weight }}
@@ -203,6 +203,30 @@
                 title: 'Profit Margin created',
                 icon: 'success'
             });
+        })
+    </script>
+
+    <script>
+        selectInit = () => {
+            $('#integrator').select2();
+            $('#integrator').on('change', function(e) {
+                var data = $('#integrator').select2("val");
+                @this.set('integrator', data);
+            });
+
+            $('#applied_for_id').select2();
+            $('#applied_for_id').on('change', function(e) {
+                var data = $('#applied_for_id').select2("val");
+                @this.set('applied_for_id', data);
+            });
+        }
+
+        window.addEventListener('contentChanged', event => {
+            selectInit();
+        })
+
+        document.addEventListener('DOMContentLoaded', function() {
+            selectInit();
         })
     </script>
 

@@ -105,6 +105,12 @@ class BouncerSeeder extends Seeder
         // ]);
 
         // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'delete-customer',
+        //     'title' => 'Delete customer',
+        //     'group' => "Customers"
+        // ]);
+
+        // $ban = Bouncer::ability()->firstOrCreate([
         //     'name' => 'list-integrators',
         //     'title' => 'List integrators',
         //     'group' => "Integrators"
