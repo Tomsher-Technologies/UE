@@ -16,11 +16,12 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (!$request->expectsJson()) {
-            $prefix = trim(Route::current()->getName(), '/');
-            if ($prefix !== 'reseller') {
+            $prefix = trim(Route::current()->getPrefix(), '/');
+
+            if ($prefix == 'reseller') {
                 return route('reseller.login');
             }
-            if ($prefix !== config('app.admin_prefix')) {
+            if ($prefix == config('app.admin_prefix')) {
                 return route('admin.login');
             }
         }

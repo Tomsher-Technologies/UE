@@ -74,16 +74,21 @@
                             <span class="sidebar-menu-text">Surcharge</span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item {{ request()->routeIs('admin.dynamic-content*') ? 'active' : '' }}"
-                        data-placement="right" data-container="body" data-boundary="window">
-                        <a class="sidebar-menu-button" href="{{ route('admin.dynamic-content.index') }}">
-                            <span
-                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
-                                note
-                            </span>
-                            <span class="sidebar-menu-text">Dynamic Content</span>
-                        </a>
-                    </li>
+
+
+                    @if (auth()->user()->can('manage-dynamic-content'))
+                        <li class="sidebar-menu-item {{ request()->routeIs('admin.dynamic-content*') ? 'active' : '' }}"
+                            data-placement="right" data-container="body" data-boundary="window">
+                            <a class="sidebar-menu-button" href="{{ route('admin.dynamic-content.index') }}">
+                                <span
+                                    class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
+                                    note
+                                </span>
+                                <span class="sidebar-menu-text">Dynamic Content</span>
+                            </a>
+                        </li>
+                    @endif
+
 
                 </ul>
             </div>
