@@ -115,6 +115,18 @@ class User extends Authenticatable
         return false;
     }
 
+    function hasSpecialRatesPrivilages()
+    {
+        if (
+            $this->can('list-special-rates') ||
+            $this->can('edit-special-rates') ||
+            $this->can('create-special-rates') 
+        ) {
+            return true;
+        }
+        return false;
+    }
+
     public function specialrate()
     {
         return $this->hasMany(SpecialRate::class);

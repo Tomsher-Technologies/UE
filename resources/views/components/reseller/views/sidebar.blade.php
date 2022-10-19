@@ -2,18 +2,19 @@
     <div class="mdk-drawer__content">
         <div class="sidebar sidebar-light sidebar-light-dodger-blue sidebar-left" data-perfect-scrollbar>
             <!-- Sidebar Content -->
-            <a href="index.html" class="sidebar-brand sidebar-brand-dark bg-primary-pickled-bluewood">
+            <a href="{{ route('reseller.dashboard') }}"
+                class="sidebar-brand sidebar-brand-dark bg-primary-pickled-bluewood">
                 <!-- <img class="sidebar-brand-icon" src="public/images/illustration/student/128/white.svg" alt="Luma"> -->
                 <span class="logo avatar avatar-xl sidebar-brand-icon h-auto">
                     <span class="avatar-title rounded bg-transparent">
                         <img src="{{ resellerAsset('images/logo/logo2.png') }}" class="img-fluid"
-                            alt="logo" /></span>
+                            alt="{{ auth()->user()->name }}" /></span>
                 </span>
                 <span class="font-size-16pt" style="line-height: 1;"> {{ auth()->user()->name }} </span>
             </a>
             <ul class="sidebar-menu">
                 <li class="sidebar-menu-item active">
-                    <a class="sidebar-menu-button" href="index.html">
+                    <a class="sidebar-menu-button" href="{{ route('reseller.dashboard') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">dashboard</span>
                         <span class="sidebar-menu-text">Dashboard</span>
                     </a>

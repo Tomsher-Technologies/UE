@@ -120,6 +120,11 @@ class BouncerSeeder extends Seeder
             'title' => 'Edit special rates',
             'group' => "Special Rates"
         ]);
+        $ban = Bouncer::ability()->firstOrCreate([
+            'name' => 'create-special-rates',
+            'title' => 'Create special rates',
+            'group' => "Special Rates"
+        ]);
 
         // $ban = Bouncer::ability()->firstOrCreate([
         //     'name' => 'list-integrators',

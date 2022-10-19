@@ -42,7 +42,7 @@ class SearchController extends Controller
 
         $integrators = Integrator::with(['zone' => function ($q) use ($toCountry, $del_type, $total_weight) {
             $table = $del_type . '_rates';
-            $q->where('country_id', $toCountry)
+            return $q->where('country_id', $toCountry)
                 ->where('type', $del_type)
                 ->join($table, function ($join)  use ($table, $total_weight) {
                     $join->on('zones.id', '=', $table . '.zone_id')
@@ -52,6 +52,13 @@ class SearchController extends Controller
                 ->limit(1);
         }])->get();
 
-        return view('reseller.pages.searchresult')->with(['integrators' => $integrators]);
+        $integrators = $integrators->reject(function ($integrator) {
+            return $integrator->zone->count() > 0 ? false : true;
+        });
+        $integrators = $integrators->sortBy('zone.rate');
+
+        return view('reseller.pages.searchresult')->with([
+            'integrators' => $integrators
+        ]);
     }
 }
