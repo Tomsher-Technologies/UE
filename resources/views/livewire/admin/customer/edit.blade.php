@@ -20,11 +20,31 @@
             <input wire:model="customerDetails.address" type="text" class="form-control mb-2">
             <x-form.error name="customerDetails.address" />
         </div>
+
+
         <div class="form-group">
-            <label class="form-label">MSP</label>
-            <input wire:model="customerDetails.msp" type="number" class="form-control mb-2">
-            <x-form.error name="customerDetails.msp" />
+            <label class="form-label">Grade</label>
+            <select wire:model="user.grade_id" class="form-control custom-select">
+                @foreach ($grades as $grade)
+                    <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                @endforeach
+            </select>
+            <x-form.error name="user.grade_id" />
         </div>
+
+
+        <div class="form-group">
+            <label class="form-label">Special request limit per day</label>
+            <input wire:model="customerDetails.request_limit" type="number" class="form-control mb-2">
+            <x-form.error name="customerDetails.request_limit" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Special request wight break</label>
+            <input wire:model="customerDetails.limit_weight" type="number" class="form-control mb-2">
+            <x-form.error name="customerDetails.limit_weight" />
+        </div>
+
+
         <div class="form-group">
             <label class="form-label">MSP Type</label>
             <select wire:model="customerDetails.msp_type" class="form-control custom-select">
@@ -34,6 +54,12 @@
             <x-form.error name="customerDetails.msp_type" />
         </div>
         <div class="form-group">
+            <label class="form-label">MSP</label>
+            <input wire:model="customerDetails.msp" type="number" class="form-control mb-2">
+            <x-form.error name="customerDetails.msp" />
+        </div>
+        
+        {{-- <div class="form-group">
             <label class="form-label">Profit Margin</label>
             <input wire:model="customerDetails.profit_margin" type="number" class="form-control mb-2">
             <x-form.error name="customerDetails.profit_margin" />
@@ -45,7 +71,7 @@
                 <option value="amount">Amount</option>
             </select>
             <x-form.error name="customerDetails.profit_margin_type" />
-        </div>
+        </div> --}}
         <div class="form-group">
             <label class="form-label">Password</label>
             <input wire:model="password" type="password" class="form-control mb-2">

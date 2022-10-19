@@ -27,7 +27,8 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
 
     // Searh ajax request
     Route::post('/countries', [AjaxController::class, 'getCountries'])->name('getCountries');
-    // Route::post('/cities', [AjaxController::class, 'getCities'])->name('getCities');
+    Route::post('/cities', [AjaxController::class, 'getCities'])->name('getCities');
+    Route::post('/pincode', [AjaxController::class, 'getPincode'])->name('getPincode');
 });
 
 Route::middleware(['guest'])->group(function () {

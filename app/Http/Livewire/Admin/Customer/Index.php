@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Customer;
 
+use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,6 +15,14 @@ class Index extends Component
     public $search = "";
     public $pageCount = 15;
 
+    public $grades;
+    public $selectedGrade = "0";
+
+    public function mount()
+    {
+        $this->grades = Grade::all();
+    }
+
     public function render()
     {
         $query = User::latest();
@@ -21,6 +30,10 @@ class Index extends Component
         if ($this->search !== "") {
             $query->where('name', 'LIKE', '%' . $this->search . '%')
                 ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+        }
+
+        if ($this->selectedGrade !== "0") {
+            $query->where('grade_id', $this->selectedGrade);
         }
 
         $users = $query->whereIs('reseller')->with('customerDetails')->paginate($this->pageCount);
@@ -56,6 +69,12 @@ class Index extends Component
 
     public function updatingSearch()
     {
+        $this->resetPage();
+    }
+
+    public function updatedselectedGrade()
+    {
+        // dd($this->selectedGrade);
         $this->resetPage();
     }
 }

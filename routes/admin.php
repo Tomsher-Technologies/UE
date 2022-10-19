@@ -9,8 +9,11 @@ use App\Http\Controllers\Admin\SpecialRate\SpecialRateController;
 use App\Http\Controllers\Admin\Surcharge\SurchargeController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
 use App\Http\Controllers\HubEz\HubEzController;
-use App\Http\Controllers\UeUser\UeUserDashboard;
-use App\Http\Controllers\User\LogoutController;
+use App\Http\Livewire\Admin\Customer\Grade;
+use App\Http\Livewire\Admin\Customer\Grade\GradeProfitMargin;
+use App\Http\Livewire\Admin\Customer\GradeEdit;
+use App\Http\Livewire\Admin\Customer\ProfitMargin;
+use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,6 +39,18 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             'ueusers' => 'user'
         ])->only(['index', 'create', 'edit', 'show']);
 
+        Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
+            Route::get('/{user}/profit-margin', [CustomerController::class, 'profitMargin'])->name('profitMargin');
+        });
+
+        Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {
+            Route::get('/', Grade::class)->name('index');
+            Route::get('/{grade}/edit', GradeEdit::class)->name('edit');
+            Route::get('/{grade}/profit-margin', GradeProfitMargin::class)->name('profitMargin');
+        });
+
+        Route::get('/profit-margin/{profit_margin}/edit', ProfitMarginEdit::class)->name('profitMargin.edit');
+
         Route::resource('customer', CustomerController::class)->parameters([
             'customer' => 'user'
         ])->only(['index', 'create', 'edit', 'show']);
@@ -50,6 +65,7 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::get('/export', [IntegratorController::class, 'exportView'])->name('export');
             Route::post('/export', [IntegratorController::class, 'export']);
         });
+
         Route::resource('integrator', IntegratorController::class)->only(['index', 'create', 'edit', 'show']);
 
         Route::resource('surcharge', SurchargeController::class)->only(['index', 'create', 'edit']);
@@ -60,6 +76,10 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::get('/{user}/special_rates/show/{special_rate}', [SpecialRateController::class, 'show'])->name('show');
             Route::get('/{user}/special_rates/edit/{special_rate}', [SpecialRateController::class, 'edit'])->name('edit');
         });
+
+        // Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {
+
+        // });
 
         Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);
         include 'profile.php';

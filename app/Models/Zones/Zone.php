@@ -3,6 +3,9 @@
 namespace App\Models\Zones;
 
 use App\Models\Integrators\Integrator;
+use App\Models\Rates\ExportRate;
+use App\Models\Rates\ImportRate;
+use App\Models\Rates\TransitRate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

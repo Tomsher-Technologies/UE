@@ -72,6 +72,10 @@ body {
     color: #272c33
 }
 
+.modal-backdrop.show{
+    display: none;
+}
+
 [dir] body {
     margin: 0;
     background-color: #f5f7fa
