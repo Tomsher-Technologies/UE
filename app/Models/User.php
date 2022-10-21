@@ -67,7 +67,7 @@ class User extends Authenticatable
 
     public function children()
     {
-        return $this->hasOne(User::class, 'parent_id');
+        return $this->hasMany(User::class, 'parent_id');
     }
 
     public function parent()
@@ -120,7 +120,7 @@ class User extends Authenticatable
         if (
             $this->can('list-special-rates') ||
             $this->can('edit-special-rates') ||
-            $this->can('create-special-rates') 
+            $this->can('create-special-rates')
         ) {
             return true;
         }

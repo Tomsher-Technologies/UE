@@ -53,6 +53,8 @@
     {{-- <script src="{{ resellerAsset('js/preloader.js') }}"></script> --}}
     <script src="{{ resellerAsset('vendor/select2/select2.min.js') }}"></script>
     <script src="{{ resellerAsset('js/select2.js') }}"></script>
+    <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <form id="logoutForm" method="POST" action="{{ route('logout') }}">
         @csrf

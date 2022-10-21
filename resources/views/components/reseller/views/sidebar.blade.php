@@ -13,7 +13,7 @@
                 <span class="font-size-16pt" style="line-height: 1;"> {{ auth()->user()->name }} </span>
             </a>
             <ul class="sidebar-menu">
-                <li class="sidebar-menu-item active">
+                <li class="sidebar-menu-item {{ request()->routeIs('reseller.dashboard*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('reseller.dashboard') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">dashboard</span>
                         <span class="sidebar-menu-text">Dashboard</span>
@@ -39,31 +39,55 @@
                         <span class="sidebar-menu-text">Enquiry</span>
                     </a>
                 </li>
-                <li class="sidebar-menu-item">
+
+                @if (auth()->user()->isA('reseller'))
+                    <li class="sidebar-menu-item {{ request()->routeIs('reseller.agents*') ? 'active open' : '' }}">
+                        <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse"
+                            href="#enterprise_menu">
+                            <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">extension</span>
+                            Sub Agents
+                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                        </a>
+                        <ul class="sidebar-submenu collapse sm-indent" id="enterprise_menu">
+                            <li
+                                class="sidebar-menu-item {{ request()->routeIs('reseller.agents.index') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('reseller.agents.index') }}">
+                                    <span class="sidebar-menu-text">All Agents</span>
+                                </a>
+                            </li>
+                            <li
+                                class="sidebar-menu-item {{ request()->routeIs('reseller.agents.create') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('reseller.agents.create') }}">
+                                    <span class="sidebar-menu-text">Add New Agents</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
+                <li class="sidebar-menu-item {{ request()->routeIs('reseller.users*') ? 'active open' : '' }}">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#enterprise_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">extension</span>
-                        Sub Agents
+                        Users
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
                     <ul class="sidebar-submenu collapse sm-indent" id="enterprise_menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="all-agents.html">
-                                <span class="sidebar-menu-text">All Agents</span>
+                        <li
+                            class="sidebar-menu-item {{ request()->routeIs('reseller.users.index') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('reseller.users.index') }}">
+                                <span class="sidebar-menu-text">All Users</span>
                             </a>
                         </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="new-agents.html">
-                                <span class="sidebar-menu-text">Add New Agents</span>
+                        <li
+                            class="sidebar-menu-item {{ request()->routeIs('reseller.users.create') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('reseller.users.create') }}">
+                                <span class="sidebar-menu-text">Add New User</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-menu-item ">
-                    <a class="sidebar-menu-button disabled" href="#">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">group</span>
-                        <span class="sidebar-menu-text">Users</span>
-                    </a>
-                </li>
+
+
             </ul>
             <!-- // END Sidebar Content -->
         </div>

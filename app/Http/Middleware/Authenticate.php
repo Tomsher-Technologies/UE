@@ -18,6 +18,8 @@ class Authenticate extends Middleware
         if (!$request->expectsJson()) {
             $prefix = trim(Route::current()->getPrefix(), '/');
 
+            $prefix = explode('/', $prefix)[0];
+
             if ($prefix == 'reseller') {
                 return route('reseller.login');
             }
