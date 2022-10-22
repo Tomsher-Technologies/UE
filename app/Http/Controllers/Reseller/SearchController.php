@@ -8,6 +8,7 @@ use App\Models\Orders\Search;
 use App\Models\Rates\ExportRate;
 use App\Models\Rates\ImportRate;
 use App\Models\Rates\TransitRate;
+use App\Models\Zones\Country;
 use App\Models\Zones\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,8 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $this->saveSearch($request);
+
+        // dd($request);
 
         if (config('addp.default_country_code') == $request->fromCountry) {
             $del_type = 'export';
@@ -55,7 +58,8 @@ class SearchController extends Controller
         $integrators = $integrators->sortBy('zone.rate');
 
         return view('reseller.pages.searchresult')->with([
-            'integrators' => $integrators
+            'integrators' => $integrators,
+            'total_weight' => $total_weight,
         ]);
     }
 

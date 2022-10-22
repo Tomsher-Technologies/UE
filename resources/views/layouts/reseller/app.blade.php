@@ -41,9 +41,11 @@
             <x-reseller.views.footer />
         </div>
         <x-reseller.views.sidebar />
+
+        @stack('modals')
     </div>
 
-   
+
     <script src="{{ resellerAsset('vendor/popper.min.js') }}"></script>
     <script src="{{ resellerAsset('vendor/bootstrap.min.js') }}"></script>
     <script src="{{ resellerAsset('vendor/perfect-scrollbar.min.js') }}"></script>

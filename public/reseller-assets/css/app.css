@@ -3996,8 +3996,8 @@ fieldset:disabled a.btn {
 }
 
 [dir] .btn-primary {
-    background-color: #c92031;
-    border-color: #c92031;
+    background-color: #2f45ff;
+    border-color: #2f45ff;
     box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.15),
         0 1px 1px rgba(39, 44, 51, 0.075);
 }
@@ -43809,8 +43809,6 @@ label {
 .search-result .avatar-img {
     width: 100%;
     height: 100%;
-
-    object-fit: none;
 }
 
 .autocomplete {
@@ -43865,4 +43863,23 @@ input[type="submit"] {
 .autocomplete-active {
     background-color: DodgerBlue !important;
     color: #ffffff;
+}
+
+.dropdown,
+.dropleft,
+.dropright,
+.dropup {
+    position: unset;
+}
+
+.package-details {
+}
+
+.package-details-card {
+    background-color: #eee;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
 }

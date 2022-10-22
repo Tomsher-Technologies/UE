@@ -16,7 +16,7 @@
                         <div class="row align-items-center">
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Pickup country</label>
+                                    <label class="text-white" for="filter_name">Pickup Country</label>
                                     <div>
                                         <div class="autocomplete">
                                             <select id="fromCountry" class="form-control select2" name="fromCountry"
@@ -50,7 +50,7 @@
                         <div class="row align-items-center">
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Delivery country</label>
+                                    <label class="text-white" for="filter_name">Delivery Country</label>
                                     <div>
                                         <div class="autocomplete">
                                             <select id="toCountry" class="form-control" name="toCountry" required></select>
@@ -82,11 +82,11 @@
                         <div class="row align-items-center">
                             <div class="col-sm-12">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Number of pieces</label>
+                                    <label class="text-white" for="filter_name">Number of Pieces</label>
                                     <div>
                                         <div class="autocomplete">
                                             <input class="form-control" type="number" name="no_pieces"
-                                                placeholder="Number of pieces">
+                                                placeholder="Number of Pieces">
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
                         <div id="packgaeContainer">
                             <div class="row text-left">
                                 <div class="col-12">
-                                    <label class="text-white" for="filter_name">Package 1 - Dimensions(CM)</label>
+                                    <label class="text-white" for="filter_name">Package - Dimensions(CM)</label>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group text-left">
@@ -136,8 +136,8 @@
                                         <label class="text-white" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" step=".1" name="weight[1]"
-                                                    placeholder="Actual Weight" required>
+                                                <input class="form-control" type="number" step=".1"
+                                                    name="weight[1]" placeholder="Actual Weight" required>
                                             </div>
                                         </div>
                                     </div>
@@ -360,7 +360,7 @@
         function addElement($id) {
             $("#packgaeContainer").append(`<div class="row text-left">
                                 <div class="col-12">
-                                    <label class="text-white" for="filter_name">Package ` + $id + ` - Dimensions(CM)</label>
+                                    <label class="text-white" for="filter_name">Package - Dimensions(CM)</label>
                                     <button class="btn btn-sm btn-primary text-light ml-2 remove-package"
                                         type="button">Remove Package</button>
                                 </div> 

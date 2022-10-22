@@ -66,14 +66,13 @@
                 @endif
 
                 <li class="sidebar-menu-item {{ request()->routeIs('reseller.users*') ? 'active open' : '' }}">
-                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#enterprise_menu">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#user_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">extension</span>
                         Users
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
-                    <ul class="sidebar-submenu collapse sm-indent" id="enterprise_menu">
-                        <li
-                            class="sidebar-menu-item {{ request()->routeIs('reseller.users.index') ? 'active' : '' }}">
+                    <ul class="sidebar-submenu collapse sm-indent" id="user_menu">
+                        <li class="sidebar-menu-item {{ request()->routeIs('reseller.users.index') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('reseller.users.index') }}">
                                 <span class="sidebar-menu-text">All Users</span>
                             </a>
@@ -86,8 +85,6 @@
                         </li>
                     </ul>
                 </li>
-
-
             </ul>
             <!-- // END Sidebar Content -->
         </div>
