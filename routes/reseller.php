@@ -29,7 +29,11 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('dashboard', [ResellerDashboardController::class, 'index'])->name('dashboard');
 
-        Route::post('/search', [SearchController::class, 'search'])->name('search');
+        Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
+            Route::post('/', [SearchController::class, 'search'])->name('search');
+            Route::post('/special-request', [SearchController::class, 'specialRequest'])->name('specialRequest');
+        });
+
 
         Route::group(['prefix' => 'agents', 'as' => 'agents.'], function () {
             Route::get('/', AgentIndex::class)->name('index');

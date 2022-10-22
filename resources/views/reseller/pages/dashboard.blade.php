@@ -11,7 +11,7 @@
             <div class="hero container-fluid page__container text-center py-112pt">
 
                 <div id="quick-search" class="">
-                    <form action="{{ route('reseller.search') }}" method="POST">
+                    <form action="{{ route('reseller.search.search') }}" method="POST">
                         @csrf
                         <div class="row align-items-center">
                             <div class="col-sm-4">

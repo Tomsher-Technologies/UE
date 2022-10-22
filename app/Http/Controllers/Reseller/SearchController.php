@@ -10,6 +10,7 @@ use App\Models\Rates\ImportRate;
 use App\Models\Rates\TransitRate;
 use App\Models\Zones\Country;
 use App\Models\Zones\Zone;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,9 +18,7 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $this->saveSearch($request);
-
-        // dd($request);
+        $search_id = $this->saveSearch($request);
 
         if (config('addp.default_country_code') == $request->fromCountry) {
             $del_type = 'export';
@@ -44,7 +43,7 @@ class SearchController extends Controller
             $table = $del_type . '_rates';
             return $q->where('country_id', $toCountry)
                 ->where('type', $del_type)
-                ->join($table, function ($join)  use ($table, $total_weight) {
+                ->leftJoin($table, function ($join)  use ($table, $total_weight) {
                     $join->on('zones.id', '=', $table . '.zone_id')
                         ->where($table . '.weight', '>=', $total_weight);
                 })
@@ -55,11 +54,13 @@ class SearchController extends Controller
         $integrators = $integrators->reject(function ($integrator) {
             return $integrator->zone->count() > 0 ? false : true;
         });
+
         $integrators = $integrators->sortBy('zone.rate');
 
         return view('reseller.pages.searchresult')->with([
             'integrators' => $integrators,
             'total_weight' => $total_weight,
+            'search_id' => $search_id,
         ]);
     }
 
@@ -84,5 +85,28 @@ class SearchController extends Controller
                 'weight' => $request->weight[$index],
             ]);
         }
+
+        return $search->id;
+    }
+
+    public function specialRequest(Request $request)
+    {
+        $search = Search::find($request->sid);
+        $search->load('items');
+        $total_weight = $search->items->sum('weight');
+
+        $rate = Auth()->user()->specialrate()->create([
+            'search_id' => $search->id,
+            'integrator_id' => $request->iid,
+            'request_rate' => $request->request_rate,
+            'rate_type' => 1,
+            'request_date' => Carbon::now(),
+            'expiry_date' => Carbon::now()->addDays(7),
+            'status' => 0,
+            'total_weight' => $total_weight,
+            'original_rate' => $request->rate
+        ]);
+
+        return json_encode(array('status' => 'ok'));
     }
 }

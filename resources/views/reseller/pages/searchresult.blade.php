@@ -59,8 +59,11 @@
                                             <td class="text-center text-70">
                                                 <div class="align-items-center mr-16pt">
                                                     <a href="booking.html" class="btn btn-primary">Book Now</a>
-                                                    <a href="#" data-toggle="modal" data-target="#exampleModal"
-                                                        class="btn btn-primary">Request Special Price</a>
+                                                    <a href="#" data-iid="{{ $integrator->id }}"
+                                                        data-rate="{{ $integrator->zone->first()->rate }}"
+                                                        data-sid="{{ $search_id }}" data-toggle="modal"
+                                                        data-target="#exampleModal" class="btn btn-primary">Request Special
+                                                        Price</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -80,32 +83,70 @@
 @push('header')
 @endpush
 @push('footer')
+    <script>
+        $('#exampleModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var iid = button.data('iid')
+            var sid = button.data('sid')
+            var rate = button.data('rate')
+            var modal = $(this)
+            modal.find('#iid').val(iid)
+            modal.find('#sid').val(sid)
+            modal.find('#rate').val(rate)
+        });
+
+        $('#requstForm').submit(function(e) {
+            e.preventDefault();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                }
+            });
+
+            data = $('#requstForm').serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('reseller.search.specialRequest') }}",
+                data: data,
+                success: function(resultData) {
+                    resultData  = JSON.parse(resultData);
+                    if(resultData.status == 'ok'){
+                        $('#exampleModal').modal('hide');
+                        new swal('Request Submitted','','success');
+                    }
+                }
+            });
+
+        });
+    </script>
 @endpush
 @push('modals')
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Login</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Resquest Special Rate</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="requstForm">
                         <div class="form-group">
-                            <label>uname</label>
-                            <input type="text" class="form-control" placeholder="User Name" />
-                            <label>upwd</label>
-                            <input type="password" class="form-control" placeholder="password" />
+                            <input type="hidden" id="sid" name="sid" class="form-control" />
+                            <input type="hidden" id="iid" name="iid" class="form-control" />
+                            <input type="hidden" id="rate" name="rate" class="form-control" />
+                            <label>Resquest Rate</label>
+                            <input type="number" name="request_rate" required step=".1" class="form-control"
+                                placeholder="Resquest Rate" />
                         </div>
+                        <button type="submit" id="requestBtn" class="btn btn-success">Request</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            Close
+                        </button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Login</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">
-                        Close
-                    </button>
                 </div>
             </div>
         </div>
