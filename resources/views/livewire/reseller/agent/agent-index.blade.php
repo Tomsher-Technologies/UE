@@ -15,9 +15,6 @@
                                 <input wire:model="search" type="text"
                                     class="form-control search mb-2 mr-sm-2 mb-sm-0" id="inlineFormFilterBy"
                                     placeholder="Search ..." />
-
-
-
                             </form>
                         </div>
 
@@ -91,6 +88,10 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <a href="{{ route('reseller.agents.show', $user) }}"
+                                                class="btn btn-secondary">
+                                                <i class="material-icons">mode_edit</i>
+                                            </a>
                                             <a href="{{ route('reseller.agents.edit', $user) }}"
                                                 class="btn btn-secondary">
                                                 <i class="material-icons">mode_edit</i>

@@ -46,12 +46,12 @@
                                                 </div>
                                             </td>
                                             <td class="text-center text-70">
-                                                {{ $total_weight }}
+                                                {{ $actual_weight }}
                                             </td>
                                             <td class="text-center text-70">
                                                 <div class="mr-sm-16pt mb-8pt mb-sm-0">
                                                     <span class="card-title mb-4pt btn btn-dark text-white" disabled>AED
-                                                        {{ $integrator->zone->first()->rate }}</span>
+                                                        {{ $integrator->zones->weight->rate }}</span>
                                                 </div>
                                             </td>
                                             <td class="text-center text-70">
@@ -62,7 +62,7 @@
                                                         <input type="submit" value="Book Now" class="btn btn-primary">
                                                     </form> --}}
                                                     <a href="#" data-iid="{{ $integrator->id }}"
-                                                        data-rate="{{ $integrator->zone->first()->rate }}"
+                                                        data-rate="{{ $integrator->zones->weight->rate }}"
                                                         data-sid="{{ $search_id }}" data-toggle="modal"
                                                         data-target="#exampleModal" class="btn btn-primary">Request Special
                                                         Price</a>

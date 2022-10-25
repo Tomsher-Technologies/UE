@@ -2,9 +2,7 @@
 @section('content')
     <div class="mdk-box mdk-box--bg-primary bg-dark js-mdk-box mb-0" data-effects="parallax-background blend-background">
         <div class="mdk-box__bg">
-            <div {{-- style="
-            background-image: url({{ resellerAsset('images/globe.jpg') }});
-            background-size: cover;" --}} class="mdk-box__bg-front">
+            <div class="mdk-box__bg-front">
             </div>
         </div>
         <div class="mdk-box__content justify-content-center">
@@ -103,7 +101,7 @@
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="length[1]"
+                                                <input class="form-control" step=".1" type="number" name="length[1]"
                                                     placeholder="Length">
                                             </div>
                                         </div>
@@ -114,7 +112,7 @@
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="height[1]"
+                                                <input class="form-control" step=".1" type="number" name="height[1]"
                                                     placeholder="Height">
                                             </div>
                                         </div>
@@ -125,8 +123,8 @@
                                         <label class="text-white" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="width[1]"
-                                                    placeholder="Width">
+                                                <input class="form-control" step=".1" type="number"
+                                                    name="width[1]" placeholder="Width">
                                             </div>
                                         </div>
                                     </div>
@@ -369,7 +367,7 @@
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="length[]"
+                                                <input class="form-control" step='.1' type="number" name="length[]"
                                                     placeholder="Length">
                                             </div>
                                         </div>
@@ -380,7 +378,7 @@
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="height[]"
+                                                <input class="form-control" step='.1' type="number" name="height[]"
                                                     placeholder="Height">
                                             </div>
                                         </div>
@@ -391,7 +389,7 @@
                                         <label class="text-white" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="width[]"
+                                                <input class="form-control" step='.1' type="number" name="width[]"
                                                     placeholder="Width">
                                             </div>
                                         </div>

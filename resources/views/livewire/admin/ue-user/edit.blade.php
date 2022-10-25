@@ -141,7 +141,6 @@
             </table>
             <div class="card-footer p-8pt">
                 {{ $customers->links() }}
-
                 <button class="btn btn-primary mt-2" wire:click="assignUsers">Save changes</button>
             </div>
         </div>

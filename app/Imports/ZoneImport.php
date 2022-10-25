@@ -35,7 +35,7 @@ class ZoneImport implements ToCollection
 
         foreach ($rows as $row) {
             $country = $countries
-                ->where('name',)
+                ->where('name', $row[0])
                 ->where('code', $row[1])
                 ->first();
 

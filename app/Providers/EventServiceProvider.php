@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Common\Settings;
+use App\Models\Integrators\Integrator;
+use App\Observers\IntegratorObserver;
 use App\Observers\SettingsObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -30,5 +32,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Settings::observe(SettingsObserver::class);
+        Integrator::observe(IntegratorObserver::class);
     }
 }

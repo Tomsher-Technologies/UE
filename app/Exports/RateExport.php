@@ -38,7 +38,7 @@ class RateExport implements FromCollection, WithHeadings
 
         $this->zone = $query->select(['id', 'zone_code'])->get();
 
-        ddd($this->zone);
+        // ddd($this->zone);
 
         $this->zone_unique = $this->zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
 

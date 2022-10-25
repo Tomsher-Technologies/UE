@@ -9,7 +9,17 @@ class Search extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable  = [
+        'user_id',
+        'from_country',
+        'from_city',
+        'from_pin',
+        'to_country',
+        'to_city',
+        'to_pin',
+        'number_of_pieces',
+        'search_hash',
+    ];
 
     public function user()
     {

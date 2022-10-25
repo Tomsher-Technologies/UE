@@ -9,7 +9,13 @@ class SearchItem extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'search_id',
+        'length',
+        'height',
+        'width',
+        'weight',
+    ];
 
     public function search()
     {

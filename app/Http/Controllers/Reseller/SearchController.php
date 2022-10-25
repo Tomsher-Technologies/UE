@@ -13,6 +13,9 @@ use App\Models\Zones\Zone;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class SearchController extends Controller
 {
@@ -31,25 +34,23 @@ class SearchController extends Controller
             $model = TransitRate::class;
         }
 
-        $total_weight = 0;
-
-        foreach ($request->weight as $weight) {
-            $total_weight += $weight;
-        }
+        $actual_weight = $this->calculateWeight($request);
 
         $toCountry = $request->toCountry;
 
-        $integrators = Integrator::with(['zone' => function ($q) use ($toCountry, $del_type, $total_weight) {
+        $integrators = Integrator::with(['zone' => function ($q) use ($toCountry, $del_type, $actual_weight) {
             $table = $del_type . '_rates';
             return $q->where('country_id', $toCountry)
                 ->where('type', $del_type)
-                ->leftJoin($table, function ($join)  use ($table, $total_weight) {
+                ->leftJoin($table, function ($join)  use ($table, $actual_weight) {
                     $join->on('zones.id', '=', $table . '.zone_id')
-                        ->where($table . '.weight', '>=', $total_weight);
+                        ->where($table . '.weight', '>=', $actual_weight);
                 })
                 ->orderBy($table . '.weight', 'ASC')
                 ->limit(1);
         }])->get();
+
+        dd($integrators);
 
         $integrators = $integrators->reject(function ($integrator) {
             return $integrator->zone->count() > 0 ? false : true;
@@ -59,7 +60,57 @@ class SearchController extends Controller
 
         return view('reseller.pages.searchresult')->with([
             'integrators' => $integrators,
-            'total_weight' => $total_weight,
+            'actual_weight' => $actual_weight,
+            'search_id' => $search_id,
+        ]);
+    }
+
+
+    public function searchNew(Request $request)
+    {
+        $search_id = $this->saveSearch($request);
+
+        if (config('addp.default_country_code') == $request->fromCountry) {
+            $del_type = 'export';
+            $model = ExportRate::class;
+            $country = $request->toCountry;
+        } else if (config('addp.default_country_code') == $request->toCountry) {
+            $del_type = 'import';
+            $country = $request->fromCountry;
+            $model = ImportRate::class;
+        } else {
+            $del_type = 'transit';
+            $country = $request->toCountry;
+            $model = TransitRate::class;
+        }
+
+        $actual_weight = $this->calculateWeight($request);
+
+        $integrators = Cache::rememberForever('integrators', function () {
+            return Integrator::all();
+        });
+
+        foreach ($integrators as $integrator) {
+            $zone = Zone::where('integrator_id', $integrator->id)->where('type', $del_type)->where('country_id', $country)->first();
+            $integrator->zones = $zone;
+
+            $weight = $model::where('zone_id', $zone->id)->where('weight', '>=', $actual_weight)->first();
+            $zone->weight = $weight;
+        }
+
+        $integrators = $integrators->reject(function ($integrator) {
+            return $integrator->zones ? false : true;
+        });
+
+        $integrators = $integrators->reject(function ($integrator) {
+            return $integrator->zones->weight ? false : true;
+        });
+
+        // ddd($integrators);
+
+        return view('reseller.pages.searchresult_new')->with([
+            'integrators' => $integrators,
+            'actual_weight' => $actual_weight,
             'search_id' => $search_id,
         ]);
     }
@@ -75,6 +126,7 @@ class SearchController extends Controller
             'to_city' => $request->toCity,
             'to_pin' => $request->toPincode,
             'number_of_pieces' => $request->no_pieces,
+            'search_hash' =>  Str::uuid()->toString()
         ]);
 
         foreach ($request->weight as $index => $weight) {
@@ -93,7 +145,7 @@ class SearchController extends Controller
     {
         $search = Search::find($request->sid);
         $search->load('items');
-        $total_weight = $search->items->sum('weight');
+        $actual_weight = $search->items->sum('weight');
 
         $rate = Auth()->user()->specialrate()->create([
             'search_id' => $search->id,
@@ -103,10 +155,28 @@ class SearchController extends Controller
             'request_date' => Carbon::now(),
             'expiry_date' => Carbon::now()->addDays(7),
             'status' => 0,
-            'total_weight' => $total_weight,
-            'original_rate' => $request->rate
+            'actual_weight' => $actual_weight,
+            'original_rate' => $request->rate,
         ]);
 
         return json_encode(array('status' => 'ok'));
+    }
+
+    public function searchView()
+    {
+        return view('reseller.pages.search');
+    }
+
+    public function calculateWeight(Request $request)
+    {
+
+        $actual_weight = 0;
+
+        foreach ($request->weight as $index => $weight) {
+            $vol_weight = ($request->length[$index] * $request->height[$index] * $request->width[$index]) / 5000;
+            $actual_weight += ($vol_weight > $weight) ? $vol_weight : $weight;
+        }
+
+        return $actual_weight;
     }
 }

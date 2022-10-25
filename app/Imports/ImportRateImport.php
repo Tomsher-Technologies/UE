@@ -46,26 +46,28 @@ class ImportRateImport implements ToCollection
 
         $heading_ids = Zone::where('type', $this->type)->where('integrator_id', $this->integrator)->select(['id', 'zone_code'])->get();
 
-        // ddd($this->headings);
-        // ddd( $heading_ids);
         $this->headings = array_map('strtoupper', $this->headings);
         $this->headings = array_map('trim', $this->headings);
 
+        // dd($heading_ids);
 
         foreach ($rows as $row) {
             $weight = $row[0];
-            foreach ($this->headings as $index => $headings) {
-                if ($heading_ids->where('zone_code', $headings)->first()) {
+            foreach ($this->headings as $index => $heading) {
+
+                // dd($heading_ids);
+
+                if ($heading_ids->where('zone_code', $heading)->first()) {
                     $model::updateOrCreate([
                         'integrator_id' => $this->integrator,
                         'weight' => (double)$weight,
-                        'zone_id' => $heading_ids->where('zone_code', $headings)->first()->id,
+                        'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
                     ], [
                         'rate' => $row[$index + 1] ? (float)$row[$index + 1] : 0
                     ]);
                 } else {
-                    if (!in_array($headings, $this->errors)) {
-                        $this->errors[] = $headings;
+                    if (!in_array($heading, $this->errors)) {
+                        $this->errors[] = $heading;
                     }
                 }
             }

@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Reseller\Auth\ResellerLoginController;
+use App\Http\Controllers\Reseller\BookingController;
 use App\Http\Controllers\Reseller\ResellerDashboardController;
 use App\Http\Controllers\Reseller\SearchController;
 use App\Http\Livewire\Reseller\Agent\AgentCreate;
 use App\Http\Livewire\Reseller\Agent\AgentEdit;
 use App\Http\Livewire\Reseller\Agent\AgentIndex;
+use App\Http\Livewire\Reseller\Agent\AgentShow;
 use App\Http\Livewire\Reseller\Users\UserCreate;
 use App\Http\Livewire\Reseller\Users\UserEdit;
 use App\Http\Livewire\Reseller\Users\UserIndex;
@@ -30,8 +32,14 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
         Route::get('dashboard', [ResellerDashboardController::class, 'index'])->name('dashboard');
 
         Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
-            Route::post('/', [SearchController::class, 'search'])->name('search');
+            
+            Route::post('/', [SearchController::class, 'searchNew']);
+            Route::get('/', [SearchController::class, 'searchView'])->name('search');
+
             Route::post('/special-request', [SearchController::class, 'specialRequest'])->name('specialRequest');
+
+            Route::get('/book', [BookingController::class, 'bookingView'])->name('booking');
+            Route::post('/book', [BookingController::class, 'booking']);
         });
 
 
@@ -39,6 +47,7 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
             Route::get('/', AgentIndex::class)->name('index');
             Route::get('/create', AgentCreate::class)->name('create');
             Route::get('/{user}/edit', AgentEdit::class)->name('edit');
+            Route::get('/{user}/show', AgentShow::class)->name('show');
         });
 
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {

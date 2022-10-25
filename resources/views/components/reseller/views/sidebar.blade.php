@@ -19,13 +19,13 @@
                         <span class="sidebar-menu-text">Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-menu-item ">
-                    <a class="sidebar-menu-button" href="search.html">
+                <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.search*') ? 'active' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('reseller.search.search') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">search</span>
                         <span class="sidebar-menu-text">Search Rate</span>
                     </a>
                 </li>
-                <li class="sidebar-menu-item ">
+                {{-- <li class="sidebar-menu-item ">
                     <a class="sidebar-menu-button" href="bookings.html">
                         <span
                             class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment_turned_in</span>
@@ -38,7 +38,7 @@
                         </span>
                         <span class="sidebar-menu-text">Enquiry</span>
                     </a>
-                </li>
+                </li> --}}
 
                 @if (auth()->user()->isA('reseller'))
                     <li class="sidebar-menu-item {{ request()->routeIs('reseller.agents*') ? 'active open' : '' }}">
