@@ -10,7 +10,20 @@ class SpecialRate extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'approval_date',
+        'approved_rate',
+        'expiry_date',
+        'integrator_id',
+        'original_rate',
+        'rate_type',
+        'request_date',
+        'request_rate',
+        'search_id',
+        'status',
+        'total_weight',
+        'user_id',
+    ];
 
     public function user()
     {
@@ -35,5 +48,4 @@ class SpecialRate extends Model
         'approval_date' => 'datetime',
         'expiry_date' => 'date:Y-m-d',
     ];
-
 }

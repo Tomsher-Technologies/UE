@@ -13,7 +13,12 @@ class Zone extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'country_id',
+        'integrator_id',
+        'type',
+        'zone_code',
+    ];
 
     public function country()
     {

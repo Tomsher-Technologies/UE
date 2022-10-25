@@ -106,8 +106,6 @@ class SearchController extends Controller
             return $integrator->zones->weight ? false : true;
         });
 
-        // ddd($integrators);
-
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
             'actual_weight' => $actual_weight,

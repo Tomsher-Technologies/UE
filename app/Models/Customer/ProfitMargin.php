@@ -12,7 +12,17 @@ class ProfitMargin extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'applied_for',
+        'applied_for_id',
+        'integrator_id',
+        'profitmargin_id',
+        'profitmargin_type',
+        'rate',
+        'rate_type',
+        'type',
+        'weight',
+    ];
 
     public function integrator()
     {

@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class DynamicContents extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'name',
+        'heading',
+        'content',
+        'status',
+    ];
 }

@@ -16,7 +16,14 @@ class Integrator extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'address',
+        'email',
+        'integrator_code',
+        'logo',
+        'name',
+        'phone',
+    ];
 
     public function zone()
     {
