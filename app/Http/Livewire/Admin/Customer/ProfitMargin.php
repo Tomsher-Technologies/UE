@@ -8,6 +8,7 @@ use App\Models\Integrators\Integrator;
 use App\Models\User;
 use App\Models\Zones\Country;
 use App\Models\Zones\Zone;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class   ProfitMargin extends Component
@@ -51,7 +52,9 @@ class   ProfitMargin extends Component
     public function mount($user)
     {
         $this->element = $user;
-        $this->integrators = Integrator::all();
+        $this->integrators = Cache::rememberForever('integrators', function () {
+            return Integrator::all();
+        });
         $this->integrator = $this->integrators->first()->id;
     }
 

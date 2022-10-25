@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Admin\Surcharge;
 
+use App\Models\Integrators\Integrator;
 use App\Models\Surcharge\Surcharge;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class Create extends Component
@@ -11,6 +13,13 @@ class Create extends Component
     public $rate;
     public $rate_type = 1;
     public $status = 1;
+    public $integrator_id;
+    public $start_weight;
+    public $end_weight;
+    public $applied_for;
+    public $applied_for_id;
+
+    public $integrators;
 
     protected function rules()
     {
@@ -18,6 +27,11 @@ class Create extends Component
             'name' => 'required',
             'rate' => 'required',
             'rate_type' => 'required',
+            'integrator_id' => 'required',
+            'start_weight' => 'required',
+            'end_weight' => 'required',
+            'applied_for' => 'required',
+            'applied_for_id' => 'required',
         ];
     }
 
@@ -26,6 +40,17 @@ class Create extends Component
         'rate.required' => 'Please enter a rate',
         'rate_type.required' => 'Please enter a type',
     ];
+
+    public function mount()
+    {
+        $this->integrators = Cache::rememberForever('integrators', function () {
+            return Integrator::all();
+        });
+        $this->integrator_id = $this->integrators->first()->id;
+
+        
+
+    }
 
     public function save()
     {
@@ -48,6 +73,10 @@ class Create extends Component
 
     public function render()
     {
+        if ($this->applied_for == 'zone') {
+            $this->getZones();
+        }
+
         return view('livewire.admin.surcharge.create');
     }
 
