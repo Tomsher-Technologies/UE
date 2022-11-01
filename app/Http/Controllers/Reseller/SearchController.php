@@ -7,6 +7,7 @@ use App\Models\Integrators\Integrator;
 use App\Models\Orders\Search;
 use App\Models\Rates\ExportRate;
 use App\Models\Rates\ImportRate;
+use App\Models\Rates\OverWeightRate;
 use App\Models\Rates\TransitRate;
 use App\Models\Zones\Country;
 use App\Models\Zones\Zone;
@@ -19,62 +20,15 @@ use Illuminate\Support\Str;
 
 class SearchController extends Controller
 {
-    public function search(Request $request)
-    {
-        $search_id = $this->saveSearch($request);
-
-        if (config('addp.default_country_code') == $request->fromCountry) {
-            $del_type = 'export';
-            $model = ExportRate::class;
-        } else if (config('addp.default_country_code') == $request->toCountry) {
-            $del_type = 'import';
-            $model = ImportRate::class;
-        } else {
-            $del_type = 'transit';
-            $model = TransitRate::class;
-        }
-
-        $actual_weight = $this->calculateWeight($request);
-
-        $toCountry = $request->toCountry;
-
-        $integrators = Integrator::with(['zone' => function ($q) use ($toCountry, $del_type, $actual_weight) {
-            $table = $del_type . '_rates';
-            return $q->where('country_id', $toCountry)
-                ->where('type', $del_type)
-                ->leftJoin($table, function ($join)  use ($table, $actual_weight) {
-                    $join->on('zones.id', '=', $table . '.zone_id')
-                        ->where($table . '.weight', '>=', $actual_weight);
-                })
-                ->orderBy($table . '.weight', 'ASC')
-                ->limit(1);
-        }])->get();
-
-        dd($integrators);
-
-        $integrators = $integrators->reject(function ($integrator) {
-            return $integrator->zone->count() > 0 ? false : true;
-        });
-
-        $integrators = $integrators->sortBy('zone.rate');
-
-        return view('reseller.pages.searchresult')->with([
-            'integrators' => $integrators,
-            'actual_weight' => $actual_weight,
-            'search_id' => $search_id,
-        ]);
-    }
-
-
     public function searchNew(Request $request)
     {
         $search_id = $this->saveSearch($request);
 
-        if (config('addp.default_country_code') == $request->fromCountry) {
+        if (config('app.default_country_code') == $request->fromCountry) {
             $del_type = 'export';
             $model = ExportRate::class;
             $country = $request->toCountry;
-        } else if (config('addp.default_country_code') == $request->toCountry) {
+        } else if (config('app.default_country_code') == $request->toCountry) {
             $del_type = 'import';
             $country = $request->fromCountry;
             $model = ImportRate::class;
@@ -84,19 +38,43 @@ class SearchController extends Controller
             $model = TransitRate::class;
         }
 
-        $actual_weight = $this->calculateWeight($request);
-
         $integrators = Cache::rememberForever('integrators', function () {
             return Integrator::all();
         });
 
         foreach ($integrators as $integrator) {
+
+            $billable_weight = $this->calculateWeight($request, $integrator->integrator_code);
+            $integrator->billable_weight = $billable_weight;
+
             $zone = Zone::where('integrator_id', $integrator->id)->where('type', $del_type)->where('country_id', $country)->first();
             $integrator->zones = $zone;
 
-            $weight = $model::where('zone_id', $zone->id)->where('weight', '>=', $actual_weight)->first();
-            $zone->weight = $weight;
+            if ($zone) {
+                // overweight
+                $over_weight = OverWeightRate::where('integrator_id', $integrator->id)
+                    ->where('zone_id', $zone->id)
+                    ->where('from_weight', '<=', $billable_weight)
+                    ->where('end_weight', '>=', $billable_weight)
+                    ->first();
+
+                if ($over_weight && $over_weight->count()) {
+                    $zone->weight = $over_weight;
+                } else {
+                    $weight = $model::where('zone_id', $zone->id)->where('weight', '>=', $billable_weight)->first();
+                    $zone->weight = $weight;
+                }
+            }
+
+            // add surcharge
+
+            // profitmargin
+            // user pf
+            // grade
+            // if sub, add parent pm
         }
+
+        // dd($integrators);
 
         $integrators = $integrators->reject(function ($integrator) {
             return $integrator->zones ? false : true;
@@ -108,7 +86,6 @@ class SearchController extends Controller
 
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
-            'actual_weight' => $actual_weight,
             'search_id' => $search_id,
         ]);
     }
@@ -165,16 +142,105 @@ class SearchController extends Controller
         return view('reseller.pages.search');
     }
 
-    public function calculateWeight(Request $request)
+    public function calculateWeight(Request $request, $integrator)
     {
+        $actual_weight = 0;
 
+        switch ($integrator) {
+            case 'ups':
+                return $this->weightFormulaOne($request);
+                break;
+
+            case 'fedex':
+                return $this->weightFormulaOne($request);
+                break;
+
+            case 'aramex':
+                return $this->weightFormulaTwo($request);
+                break;
+
+            case 'dhl':
+                return $this->weightFormulaOne($request);
+                break;
+
+            default:
+                return $this->weightFormulaOne($request);
+                break;
+        }
+    }
+
+    public function weightFormulaOne(Request $request)
+    {
         $actual_weight = 0;
 
         foreach ($request->weight as $index => $weight) {
-            $vol_weight = ($request->length[$index] * $request->height[$index] * $request->width[$index]) / 5000;
+            $vol_weight = volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]);
             $actual_weight += ($vol_weight > $weight) ? $vol_weight : $weight;
         }
 
         return $actual_weight;
     }
+
+    public function weightFormulaTwo(Request $request)
+    {
+        $actual_weight = 0;
+
+        $total_weight = 0;
+        $vol_weight = 0;
+
+        foreach ($request->weight as $index => $weight) {
+            $vol_weight += volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]);
+            $total_weight += $weight;
+        }
+
+        $actual_weight = ($vol_weight > $weight) ? $vol_weight : $weight;
+
+        return $actual_weight;
+    }
+
+    // public function search(Request $request)
+    // {
+    //     $search_id = $this->saveSearch($request);
+
+    //     if (config('addp.default_country_code') == $request->fromCountry) {
+    //         $del_type = 'export';
+    //         $model = ExportRate::class;
+    //     } else if (config('addp.default_country_code') == $request->toCountry) {
+    //         $del_type = 'import';
+    //         $model = ImportRate::class;
+    //     } else {
+    //         $del_type = 'transit';
+    //         $model = TransitRate::class;
+    //     }
+
+    //     $actual_weight = $this->calculateWeight($request);
+
+    //     $toCountry = $request->toCountry;
+
+    //     $integrators = Integrator::with(['zone' => function ($q) use ($toCountry, $del_type, $actual_weight) {
+    //         $table = $del_type . '_rates';
+    //         return $q->where('country_id', $toCountry)
+    //             ->where('type', $del_type)
+    //             ->leftJoin($table, function ($join)  use ($table, $actual_weight) {
+    //                 $join->on('zones.id', '=', $table . '.zone_id')
+    //                     ->where($table . '.weight', '>=', $actual_weight);
+    //             })
+    //             ->orderBy($table . '.weight', 'ASC')
+    //             ->limit(1);
+    //     }])->get();
+
+    //     dd($integrators);
+
+    //     $integrators = $integrators->reject(function ($integrator) {
+    //         return $integrator->zone->count() > 0 ? false : true;
+    //     });
+
+    //     $integrators = $integrators->sortBy('zone.rate');
+
+    //     return view('reseller.pages.searchresult')->with([
+    //         'integrators' => $integrators,
+    //         'actual_weight' => $actual_weight,
+    //         'search_id' => $search_id,
+    //     ]);
+    // }
 }

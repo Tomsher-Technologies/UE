@@ -22,6 +22,29 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');
     });
+    Route::get('/time', function () {
+
+        $str = "06:30 PM _ 06:45 PM";
+
+        $d = explode(' - ', $str);
+
+        dd($d[0]);
+
+        // $str = '709999';
+
+        // $weight_limit = explode('-', $str);
+
+        // if (isset($weight_limit[1])) {
+        //     dd($weight_limit);
+        // } else {
+        //     dd($str);
+        // }
+
+        
+        // $time_str = "11:00 pm";
+        // $time = date("h:i A", strtotime($time_str . ' + 3 hours'));
+        // dd($time);
+    });
 
     Route::get('/test', [HubEzController::class, 'placeOrder']);
 

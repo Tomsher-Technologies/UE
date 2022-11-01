@@ -7,18 +7,19 @@ use App\Models\Zones\Zone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ImportRate extends Model
+class OverWeightRate extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'integrator_id',
         'rate',
-        'weight',
+        'from_weight',
+        'end_weight',
         'zone_id',
         'pack_type',
     ];
-    
+
     public function zone()
     {
         return $this->belongsTo(Zone::class);

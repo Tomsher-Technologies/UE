@@ -22,7 +22,6 @@ class Edit extends Component
             'integrator.email' => 'nullable',
             'integrator.phone' => 'nullable',
             'integrator.address' => 'nullable',
-            'integrator.integrator_code' => 'nullable',
         ];
     }
 

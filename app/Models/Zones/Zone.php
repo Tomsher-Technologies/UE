@@ -18,6 +18,8 @@ class Zone extends Model
         'integrator_id',
         'type',
         'zone_code',
+        'is_remote',
+        'remote_rate',
     ];
 
     public function country()

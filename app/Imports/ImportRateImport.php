@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Rates\ExportRate;
 use App\Models\Rates\ImportRate;
+use App\Models\Rates\OverWeightRate;
 use App\Models\Rates\TransitRate;
 use App\Models\Zones\Zone;
 use Illuminate\Support\Collection;
@@ -31,6 +32,7 @@ class ImportRateImport implements ToCollection
         $rows->shift();
 
         $remove = array_shift($this->headings);
+        $remove = array_shift($this->headings);
 
         switch ($this->type) {
             case "import":
@@ -40,6 +42,7 @@ class ImportRateImport implements ToCollection
                 $model = new ExportRate();
                 break;
             case "transit":
+                $this->type = 'export';
                 $model = new TransitRate();
                 break;
         }
@@ -49,22 +52,40 @@ class ImportRateImport implements ToCollection
         $this->headings = array_map('strtoupper', $this->headings);
         $this->headings = array_map('trim', $this->headings);
 
-        // dd($heading_ids);
+        $weights = [];
 
         foreach ($rows as $row) {
             $weight = $row[0];
+
+            $weight_break = explode('-', $weight);
+
+            $pack_type = $row[1];
             foreach ($this->headings as $index => $heading) {
-
-                // dd($heading_ids);
-
                 if ($heading_ids->where('zone_code', $heading)->first()) {
-                    $model::updateOrCreate([
-                        'integrator_id' => $this->integrator,
-                        'weight' => (double)$weight,
-                        'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
-                    ], [
-                        'rate' => $row[$index + 1] ? (float)$row[$index + 1] : 0
-                    ]);
+
+                    // if weight break is specified
+                    if (isset($weight_break[1])) {
+                        // dd($heading_ids->where('zone_code', $heading)->first()->id);
+                        $model = OverWeightRate::updateOrCreate([
+                            'integrator_id' => $this->integrator,
+                            'from_weight' => (float)$weight_break[0],
+                            'end_weight' => (float)$weight_break[1],
+                            'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
+                            'pack_type' => $pack_type
+                        ], [
+                            'rate' => $row[$index + 2] ? (float)$row[$index + 2] : 0
+                        ]);
+                    } else {
+                        
+                        $model = $model::updateOrCreate([
+                            'integrator_id' => $this->integrator,
+                            'weight' => (float)$weight,
+                            'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
+                            'pack_type' => $pack_type
+                        ], [
+                            'rate' => $row[$index + 2] ? (float)$row[$index + 2] : 0
+                        ]);
+                    }
                 } else {
                     if (!in_array($heading, $this->errors)) {
                         $this->errors[] = $heading;

@@ -19,11 +19,12 @@ class GradeProfitMargin extends Component
     public $applied_for_items = NULL;
 
     // 
-    public $type = 'import';
-    public $integrator;
+    public $type = 'all';
+    public $integrator = 0;
     public $rate_type = 'percentage';
     public $rate;
     public $weight;
+    public $end_weight;
     public $applied_for = 'all';
     public $applied_for_id = '0';
 
@@ -35,6 +36,7 @@ class GradeProfitMargin extends Component
             'rate_type' => 'required',
             'rate' => ['required'],
             'weight' => ['required'],
+            'end_weight' => ['required'],
             'applied_for' => ['required'],
             'applied_for_id' => ['required'],
         ];
@@ -46,13 +48,14 @@ class GradeProfitMargin extends Component
         'rate_type.required' => 'Please ente a type',
         'rate.required' => 'Please ente a rate',
         'weight.required' => 'Please ente a weight',
+        'end_weight.required' => 'Please ente a weight',
     ];
 
     public function mount($grade)
     {
         $this->element = Grade::findOrFail($grade);
         $this->integrators = Integrator::all();
-        $this->integrator = $this->integrators->first()->id;
+        // $this->integrator = $this->integrators->first()->id;
     }
 
     public function save()
@@ -65,6 +68,7 @@ class GradeProfitMargin extends Component
             'applied_for' => $this->applied_for,
             'applied_for_id' => $this->applied_for_id,
             'weight' => $this->weight,
+            'end_weight' => $this->end_weight,
             'rate_type' => $this->rate_type,
             'rate' => $this->rate,
         ]);
@@ -74,6 +78,7 @@ class GradeProfitMargin extends Component
         $this->reset('rate_type');
         $this->reset('rate');
         $this->reset('weight');
+        $this->reset('end_weight');
         $this->reset('applied_for');
         $this->reset('applied_for_id');
         $this->reset('applied_for_txt');

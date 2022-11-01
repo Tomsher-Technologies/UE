@@ -13,7 +13,6 @@ class Create extends Component
     public $name;
     public $email;
     public $phone;
-    public $integrator_code;
     public $address;
 
     public $image;
@@ -25,7 +24,6 @@ class Create extends Component
             'email' => ['nullable', 'email'],
             'phone' => ['nullable'],
             'address' => ['nullable'],
-            'integrator_code' => ['nullable'],
         ];
     }
 
@@ -59,14 +57,12 @@ class Create extends Component
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'integrator_code' => $this->integrator_code,
             'address' => $this->address,
             'logo' => $storedImage,
         ]);
 
         $this->reset('name');
         $this->reset('email');
-        $this->reset('integrator_code');
         $this->reset('phone');
         $this->reset('address');
         $this->reset('image');

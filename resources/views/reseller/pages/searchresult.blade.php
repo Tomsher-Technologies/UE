@@ -46,7 +46,7 @@
                                                 </div>
                                             </td>
                                             <td class="text-center text-70">
-                                                {{ $total_weight }}
+                                                {{ $integrator->billable_weight }}
                                             </td>
                                             <td class="text-center text-70">
                                                 <div class="mr-sm-16pt mb-8pt mb-sm-0">

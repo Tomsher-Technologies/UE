@@ -16,6 +16,7 @@ class ExportRate extends Model
         'rate',
         'weight',
         'zone_id',
+        'pack_type',
     ];
 
     public function zone()

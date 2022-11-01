@@ -9,6 +9,7 @@
                     <div class="col-6 form-group mb-0">
                         <label class="form-label">Type</label>
                         <select wire:model="type" class="form-control custom-select">
+                            <option value="all">All</option>
                             <option value="import">Import</option>
                             <option value="export">Export</option>
                             <option value="transit">Transit</option>
@@ -18,6 +19,7 @@
                     <div class="col-6 form-group">
                         <label class="form-label">Integrator</label>
                         <select wire:model="integrator" class="form-control custom-select">
+                            <option value="0">All</option>
                             @foreach ($integrators as $integrator)
                                 <option value="{{ $integrator->id }}">{{ $integrator->name }}</option>
                             @endforeach
@@ -50,12 +52,17 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="col-4 form-group">
-                        <label class="form-label">Weight BREAK</label>
+                    <div class="col-6 form-group">
+                        <label class="form-label">Start Weight</label>
                         <input wire:model="weight" type="number" step=".1" class="form-control mb-2">
                         <x-form.error name="weight" />
                     </div>
-                    <div class="col-4 form-group">
+                    <div class="col-6 form-group">
+                        <label class="form-label">End Weight</label>
+                        <input wire:model="end_weight" type="number" step=".1" class="form-control mb-2">
+                        <x-form.error name="end_weight" />
+                    </div>
+                    <div class="col-6 form-group">
                         <label class="form-label">Rate Type</label>
                         <select wire:model="rate_type" class="form-control custom-select">
                             <option value="percentage">Percentage</option>
@@ -63,7 +70,7 @@
                         </select>
                         <x-form.error name="rate_type" />
                     </div>
-                    <div class="col-4 form-group">
+                    <div class="col-6 form-group">
                         <label class="form-label">Rate</label>
                         <input wire:model="rate" type="number" step=".1" class="form-control mb-2">
                         <x-form.error name="rate" />
@@ -129,7 +136,7 @@
                                         {{ ucfirst($margin->type) }}
                                     </td>
                                     <td>
-                                        {{ $margin->integrator->name }}
+                                        {{ ucfirst($margin->applied_for) }}
                                     </td>
                                     <td>
                                         {{ ucfirst($margin->applied_for) }}
@@ -145,7 +152,7 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('admin.customer.edit', $margin) }}"
+                                        <a href="{{ route('admin.profitMargin.edit', $margin) }}"
                                             class="btn btn-secondary">
                                             <i class="material-icons">mode_edit</i>
                                         </a>

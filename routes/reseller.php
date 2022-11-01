@@ -19,6 +19,10 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
         return redirect()->route('reseller.dashboard');
     });
 
+    Route::get('/test', function () {
+        dd(strtotime(date('Y-m-d h:i A')));
+    });
+
     Route::middleware(['guest'])->group(function () {
         Route::get('login', [ResellerLoginController::class, 'loginView'])->name('login');
         Route::post('login', [ResellerLoginController::class, 'authenticate']);
@@ -32,9 +36,9 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
         Route::get('dashboard', [ResellerDashboardController::class, 'index'])->name('dashboard');
 
         Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
-            
-            Route::post('/', [SearchController::class, 'searchNew']);
+
             Route::get('/', [SearchController::class, 'searchView'])->name('search');
+            Route::post('/', [SearchController::class, 'searchNew']);
 
             Route::post('/special-request', [SearchController::class, 'specialRequest'])->name('specialRequest');
 

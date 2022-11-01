@@ -22,6 +22,7 @@ class ProfitMargin extends Model
         'rate_type',
         'type',
         'weight',
+        'end_weight',
     ];
 
     public function integrator()
