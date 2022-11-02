@@ -136,6 +136,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Grade::class);
     }
+    public function getGrade()
+    {
+        return $this->grade()->get();
+    }
 
     public function profitmargin()
     {

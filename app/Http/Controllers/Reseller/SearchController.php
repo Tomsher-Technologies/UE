@@ -67,31 +67,18 @@ class SearchController extends Controller
                     $zone->weight = $weight;
                 }
 
-                $zone->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone, $country);
-
                 // add surcharge
-
-
-
-
+                $zone->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone, $country);
 
 
 
                 // Round rate for final result
-                $zone->weight->rate = round($zone->weight->rate);
+                $zone->weight->rate = round($zone->weight->rate, 2);
             }
 
 
-
-
-
-            // profitmargin
-            // user pf
-            // grade
-            // if sub, add parent pm
+            getFrofirMargin($integrator->id, $billable_weight, $zone, $country, $del_type);
         }
-
-        // dd($integrators);
 
         $integrators = $integrators->reject(function ($integrator) {
             return $integrator->zones ? false : true;

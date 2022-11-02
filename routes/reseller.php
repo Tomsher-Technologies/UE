@@ -20,7 +20,12 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
     });
 
     Route::get('/test', function () {
-        dd(strtotime(date('Y-m-d h:i A')));
+
+        echo strtotime(date('Y-m-d H:i:s'));
+        echo "<br/>";
+        echo time();
+
+        // dd(strtotime(date('Y-m-d h:i A')));
     });
 
     Route::middleware(['guest'])->group(function () {
