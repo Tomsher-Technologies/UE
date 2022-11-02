@@ -9,6 +9,7 @@ use App\Models\Rates\ExportRate;
 use App\Models\Rates\ImportRate;
 use App\Models\Rates\OverWeightRate;
 use App\Models\Rates\TransitRate;
+use App\Models\Surcharge\Surcharge;
 use App\Models\Zones\Country;
 use App\Models\Zones\Zone;
 use Carbon\Carbon;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use App\Helpers\CalculationHelpers;
 
 class SearchController extends Controller
 {
@@ -64,9 +66,24 @@ class SearchController extends Controller
                     $weight = $model::where('zone_id', $zone->id)->where('weight', '>=', $billable_weight)->first();
                     $zone->weight = $weight;
                 }
+
+                $zone->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone, $country);
+
+                // add surcharge
+
+
+
+
+
+
+
+                // Round rate for final result
+                $zone->weight->rate = round($zone->weight->rate);
             }
 
-            // add surcharge
+
+
+
 
             // profitmargin
             // user pf
