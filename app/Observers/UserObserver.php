@@ -43,24 +43,24 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        if ($user->isA('reseller')) {
-            $admin_email = Cache::rememberForever('notification_email', function () {
-                return Settings::where('group', 'notification_email')->get();
-            });
+        // if ($user->isA('reseller')) {
+        //     $admin_email = Cache::rememberForever('notification_email', function () {
+        //         return Settings::where('group', 'notification_email')->get();
+        //     });
 
-            $admin_email = $admin_email->where('name', 'new_user_reg')->first()->value;
+        //     $admin_email = $admin_email->where('name', 'new_user_reg')->first()->value;
 
-            $emails = explode(',', $admin_email);
+        //     $emails = explode(',', $admin_email);
 
-            // Notification::route('mail', 'taylor@example.com')
-            //     ->notify(new NewUserNotification($user));
+        //     // Notification::route('mail', 'taylor@example.com')
+        //     //     ->notify(new NewUserNotification($user));
 
-            foreach ($emails as $email) {
-                Notification::route('mail', $email)
-                    ->notify(new NewUserNotification($user));
-                // Mail::to($email)->later(60, new NewCustomerMail($user));
-            }
-        }
+        //     foreach ($emails as $email) {
+        //         Notification::route('mail', $email)
+        //             ->notify(new NewUserNotification($user));
+        //         // Mail::to($email)->later(60, new NewCustomerMail($user));
+        //     }
+        // }
     }
 
     /**

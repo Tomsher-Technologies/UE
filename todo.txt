@@ -21,6 +21,16 @@ Profit matrgin
     //Edit
     //Applied for id
 
+    Show weight break in table
+
+    Customer
+        add weight break
+
+    Grdade 
+        select 2
+        Zone list not working
+
+
 Customer 
     //Add spl request / day
     //spl requet wight break

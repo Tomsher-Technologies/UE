@@ -136,13 +136,13 @@
                                         {{ ucfirst($margin->type) }}
                                     </td>
                                     <td>
-                                        {{ ucfirst($margin->applied_for) }}
+                                        {{ $margin->integrator ? $margin->integrator->name : 'All' }}
                                     </td>
                                     <td>
                                         {{ ucfirst($margin->applied_for) }}
                                     </td>
                                     <td>
-                                        {{ $margin->weight }}
+                                        {{ $margin->weight }} - {{ $margin->end_weight }}
                                     </td>
                                     <td>
                                         {{ ucfirst($margin->rate_type) }}

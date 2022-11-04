@@ -40,9 +40,9 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         // return view('welcome');
 
         $user = User::find(1);
-        $user->notify(new NewUserNotification($user));
+        // $user->notify(new NewUserNotification($user))->delay(now()->addMinute());
         // Notification::notify($user, new NewUserNotification($user));
-        // Mail::to('shabeer@tomshe.com')->queue(new NewCustomerMail($user));
+        Mail::to('shabeer@tomshe.com')->later(1, new NewCustomerMail($user));
 
         // $email = Cache::rememberForever('notification_email', function () {
         //     return Settings::where('group', 'notification_email')->get();
