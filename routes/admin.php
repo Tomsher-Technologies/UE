@@ -14,6 +14,13 @@ use App\Http\Livewire\Admin\Customer\Grade\GradeProfitMargin;
 use App\Http\Livewire\Admin\Customer\GradeEdit;
 use App\Http\Livewire\Admin\Customer\ProfitMargin;
 use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
+use App\Mail\Admin\NewCustomerMail;
+use App\Models\Common\Settings;
+use App\Models\User;
+use App\Notifications\Admin\NewUserNotification;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,11 +31,26 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
     });
     Route::get('/time', function () {
 
-        $str = "06:30 PM _ 06:45 PM";
+        // $str = "06:30 PM _ 06:45 PM";
 
-        $d = explode(' - ', $str);
+        // $d = explode(' - ', $str);
 
-        dd($d[0]);
+        // dd($d[0]);
+
+        // return view('welcome');
+
+        $user = User::find(1);
+        $user->notify(new NewUserNotification($user));
+        // Notification::notify($user, new NewUserNotification($user));
+        // Mail::to('shabeer@tomshe.com')->queue(new NewCustomerMail($user));
+
+        // $email = Cache::rememberForever('notification_email', function () {
+        //     return Settings::where('group', 'notification_email')->get();
+        // });
+
+        // $email = $email->where('name', 'new_user_reg')->first()->value;
+
+        // ddd($emails);
 
         // $str = '709999';
 
@@ -40,7 +62,7 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         //     dd($str);
         // }
 
-        
+
         // $time_str = "11:00 pm";
         // $time = date("h:i A", strtotime($time_str . ' + 3 hours'));
         // dd($time);

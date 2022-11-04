@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use App\Helpers\CalculationHelpers;
+use App\Models\Customer\Grade;
 
 class SearchController extends Controller
 {
@@ -26,6 +27,10 @@ class SearchController extends Controller
     {
         $search_id = $this->saveSearch($request);
 
+        $grade = Grade::where('id', Auth::user()->grade_id)->first();
+
+        $del_type = $request->type;
+        
         if (config('app.default_country_code') == $request->fromCountry) {
             $del_type = 'export';
             $model = ExportRate::class;
@@ -76,8 +81,7 @@ class SearchController extends Controller
                 $zone->weight->rate = round($zone->weight->rate, 2);
             }
 
-
-            getFrofirMargin($integrator->id, $billable_weight, $zone, $country, $del_type);
+            // getFrofirMargin($integrator->id, $billable_weight, $zone, $country, $del_type, $grade);
         }
 
         $integrators = $integrators->reject(function ($integrator) {

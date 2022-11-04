@@ -35,7 +35,7 @@ function getSurcharge($integrator_id, $billable_weight, $zone, $country)
     }
 }
 
-function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type)
+function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade)
 {
     // profitmargin
     // user pf
@@ -43,22 +43,46 @@ function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $typ
     // if sub, add parent pm
     $userMargins = Auth::user()
         ->profitmargin()
+        ->where('type', $type)
         ->where('weight', '<=', $billable_weight)
         ->where('end_weight', '>=', $billable_weight)
-        ->whereIn('integrator_id', [$integrator_id, 0])
+        ->whereIn('integrator_id', array(0, $integrator_id))
         ->get();
 
+    $userMargins = $userMargins->reject(function ($userMargin) use ($zone, $country) {
+        if ($userMargin->applied_for == 'all') {
+            return false;
+        }
+        if ($userMargin->applied_for == 'zone' && $userMargin->applied_for_id == $zone->id) {
+            return false;
+        }
+        if ($userMargin->applied_for == 'country' && $userMargin->applied_for_id == $country) {
+            return false;
+        }
+        return true;
+    });
 
-    $grade = Grade::where('id', Auth::user()->grade_id)->first();
+    if($userMargins->count()){
+        ddd($userMargins);
+    }
 
     $gradeMargins = $grade
         ->profitmargin()
+        ->where('type', $type)
         ->whereIn('integrator_id', [$integrator_id, 0])
         ->where('weight', '<=', $billable_weight)
         ->where('end_weight', '>=', $billable_weight)
         ->get();
 
-    if ($gradeMargins->count()) {
-        ddd($gradeMargins);
+    // Check if both grade and customer has same profit margin to same country or zone
+
+    $total_margin = 0;
+
+    foreach ($userMargins as $userMargin) {
+        if ($userMargin->rate_type == 'amount') {
+            return $userMargin->rate;
+        } else {
+            return ($userMargin->rate / 100) * $zone->weight->rate;
+        }
     }
 }

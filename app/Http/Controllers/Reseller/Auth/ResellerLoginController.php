@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Reseller\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Admin\NewCustomerMail;
+use App\Models\Common\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Password;
 use Bouncer;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 
 class ResellerLoginController extends Controller
 {
@@ -79,6 +83,7 @@ class ResellerLoginController extends Controller
             'email' => $request->email,
             'password' => $request->password,
             'status' => 3,
+            'grade_id' => 1,
             'parent_id' => 0
         ]);
 

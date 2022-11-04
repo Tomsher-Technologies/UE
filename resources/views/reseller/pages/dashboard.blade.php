@@ -11,6 +11,25 @@
                 <div id="quick-search" class="">
                     <form action="{{ route('reseller.search.search') }}" method="POST">
                         @csrf
+
+                        <div class="row align-items-center">
+                            <div class="col-sm-12">
+                                <div class="form-group text-left">
+                                    <label class="text-white" for="filter_name">Shipment Type</label>
+                                    <div>
+                                        <div class="autocomplete">
+                                            <select class="form-control" id="type" name="type" required>
+                                                <option value="0" disabled selected>Select a shipment type</option>
+                                                <option value="import">Import</option>
+                                                <option value="export">Export</option>
+                                                <option value="transit">Transit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row align-items-center">
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
@@ -112,8 +131,8 @@
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step=".1" type="number" name="height[1]"
-                                                    placeholder="Height">
+                                                <input class="form-control" step=".1" type="number"
+                                                    name="height[1]" placeholder="Height">
                                             </div>
                                         </div>
                                     </div>
@@ -595,6 +614,25 @@
                 }
             },
             minimumResultsForSearch: 10
+        });
+    </script>
+
+    <script>
+        $('#type').on('change', function() {
+            val = $(this).val();
+            console.log(val);
+            if (val == 'import') {
+                $('#toCountry').append('<option value="229" selcted>United Arab Emirates</option>');
+                $("#fromCountry option[value='229']").remove();
+            }
+            if (val == 'export') {
+                $('#fromCountry').append('<option value="229" selcted>United Arab Emirates</option>');
+                $("#toCountry option[value='229']").remove();
+            }
+            if (val == 'transit') {
+                $('#fromCountry').append('<option value="229" selcted>United Arab Emirates</option>');
+                $("#toCountry option[value='229']").remove();
+            }
         });
     </script>
 @endpush
