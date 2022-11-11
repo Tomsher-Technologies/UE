@@ -14,20 +14,22 @@ class HubEzController extends Controller
     public function authenticate()
     {
         if (!Session::has('hubezToken')) {
-
             $params = Cache::rememberForever('hubezKeys', function () {
-                return Settings::whereGroup('hubez')->get();
+                return Settings::whereGroup('hubez')->get()->keyBy('name');
             });
 
             $response = Http::post('http://www.hub-ez.com/api/account/Authenticate', [
-                'UsernameOrEmailAddress' => 'WEBTEST',
-                'Password' => 'WEBTEST@43',
+                'UsernameOrEmailAddress' => $params['username']->value,
+                'Password' => $params['password']->value,
             ]);
 
-            $token = $response->json()['result'];
-
-            if ($token) {
-                Session::put('hubezToken', $token);
+            if ($response->status() == 200) {
+                $token = $response->json()['result'];
+                if ($token) {
+                    Session::put('hubezToken', $token);
+                }
+            } else {
+                abort(404);
             }
         }
     }

@@ -56,15 +56,26 @@
                                             </td>
                                             <td class="text-center text-70">
                                                 <div class="align-items-center mr-16pt">
-                                                    <input type="button" value="Book Now" class="btn btn-primary">
-                                                    {{-- <form action="{{ route('reseller.search.booking') }}" method="GET">
+                                                    {{-- <input type="button" value="Book Now" class="btn btn-primary"> --}}
+
+                                                    <form class="d-inline" action="{{ route('reseller.search.booking') }}"
+                                                        method="GET">
                                                         @csrf
+                                                        <input type="hidden" name="integrator"
+                                                            value="{{ $integrator->id }}">
+                                                        <input type="hidden" name="rate"
+                                                            value="{{ $integrator->zones->weight->rate }}">
+                                                        <input type="hidden" name="search_id" value="{{ $search_id }}">
+                                                        <input type="hidden" name="totalweight"
+                                                            value="{{ $integrator->billable_weight }}">
                                                         <input type="submit" value="Book Now" class="btn btn-primary">
-                                                    </form> --}}
+                                                    </form>
                                                     <a href="#" data-iid="{{ $integrator->id }}"
                                                         data-rate="{{ $integrator->zones->weight->rate }}"
-                                                        data-sid="{{ $search_id }}" data-toggle="modal"
-                                                        data-target="#exampleModal" class="btn btn-primary">Request Special
+                                                        data-sid="{{ $search_id }}"
+                                                        data-totalweight="{{ $integrator->billable_weight }}"
+                                                        data-toggle="modal" data-target="#exampleModal"
+                                                        class="btn btn-primary">Request Special
                                                         Price</a>
                                                 </div>
                                             </td>
@@ -93,10 +104,12 @@
             var iid = button.data('iid')
             var sid = button.data('sid')
             var rate = button.data('rate')
+            var total_weight = button.data('totalweight')
             var modal = $(this)
             modal.find('#iid').val(iid)
             modal.find('#sid').val(sid)
             modal.find('#rate').val(rate)
+            modal.find('#total_weight').val(total_weight)
         });
 
         $('#requstForm').submit(function(e) {
@@ -142,6 +155,7 @@
                             <input type="hidden" id="sid" name="sid" class="form-control" />
                             <input type="hidden" id="iid" name="iid" class="form-control" />
                             <input type="hidden" id="rate" name="rate" class="form-control" />
+                            <input type="hidden" id="total_weight" name="total_weight" class="form-control" />
                             <label>Resquest Rate</label>
                             <input type="number" name="request_rate" required step=".1" class="form-control"
                                 placeholder="Resquest Rate" />

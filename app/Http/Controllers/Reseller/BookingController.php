@@ -9,6 +9,12 @@ class BookingController extends Controller
 {
     public function bookingView(Request $request)
     {
-        ddd($request);
+        return view('reseller.pages.booking')->with([
+            'request' => $request
+        ]);
+    }
+
+    public function booking(Request $request)
+    {
     }
 }

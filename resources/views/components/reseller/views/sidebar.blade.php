@@ -19,12 +19,18 @@
                         <span class="sidebar-menu-text">Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.search*') ? 'active' : '' }}">
+                <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.history*') ? 'active' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('reseller.search.history') }}">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">search</span>
+                        <span class="sidebar-menu-text">Search History</span>
+                    </a>
+                </li>
+                {{-- <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.search*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('reseller.search.search') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">search</span>
                         <span class="sidebar-menu-text">Search Rate</span>
                     </a>
-                </li>
+                </li> --}}
                 {{-- <li class="sidebar-menu-item ">
                     <a class="sidebar-menu-button" href="bookings.html">
                         <span
@@ -65,7 +71,7 @@
                     </li>
                 @endif
 
-                <li class="sidebar-menu-item {{ request()->routeIs('reseller.users*') ? 'active open' : '' }}">
+                {{-- <li class="sidebar-menu-item {{ request()->routeIs('reseller.users*') ? 'active open' : '' }}">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#user_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">extension</span>
                         Users
@@ -84,7 +90,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
             </ul>
             <!-- // END Sidebar Content -->
         </div>

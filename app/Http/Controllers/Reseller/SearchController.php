@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use App\Helpers\CalculationHelpers;
 use App\Models\Customer\Grade;
+use App\Models\Orders\SearchItem;
 
 class SearchController extends Controller
 {
@@ -29,18 +30,19 @@ class SearchController extends Controller
 
         $grade = Grade::where('id', Auth::user()->grade_id)->first();
 
-        $del_type = $request->type;
-        
+        $del_type = $request->shipping_type;
+        $package_type = $request->package_type;
+
         if (config('app.default_country_code') == $request->fromCountry) {
-            $del_type = 'export';
+            // $del_type = 'export';
             $model = ExportRate::class;
             $country = $request->toCountry;
         } else if (config('app.default_country_code') == $request->toCountry) {
-            $del_type = 'import';
+            // $del_type = 'import';
             $country = $request->fromCountry;
             $model = ImportRate::class;
         } else {
-            $del_type = 'transit';
+            // $del_type = 'transit';
             $country = $request->toCountry;
             $model = TransitRate::class;
         }
@@ -68,17 +70,17 @@ class SearchController extends Controller
                 if ($over_weight && $over_weight->count()) {
                     $zone->weight = $over_weight;
                 } else {
-                    $weight = $model::where('zone_id', $zone->id)->where('weight', '>=', $billable_weight)->first();
+                    $weight = $model::where('zone_id', $zone->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
                     $zone->weight = $weight;
                 }
 
-                // add surcharge
-                $zone->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone, $country);
+                if ($zone->weight) {
+                    // add surcharge
+                    $zone->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone, $country);
 
-
-
-                // Round rate for final result
-                $zone->weight->rate = round($zone->weight->rate, 2);
+                    // Round rate for final result
+                    $zone->weight->rate = round($zone->weight->rate, 2);
+                }
             }
 
             // getFrofirMargin($integrator->id, $billable_weight, $zone, $country, $del_type, $grade);
@@ -92,6 +94,8 @@ class SearchController extends Controller
             return $integrator->zones->weight ? false : true;
         });
 
+        // ddd($integrators);
+
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
             'search_id' => $search_id,
@@ -100,8 +104,18 @@ class SearchController extends Controller
 
     public function saveSearch(Request $request)
     {
+        $search_token = $request->search_token ?? Str::uuid()->toString();
+
+        $result = Search::where('search_hash', $search_token)->first();
+
+        if ($result) {
+            return $result->id;
+        }
+
         $search = Search::create([
             'user_id' => Auth::user()->id,
+            'package_type' => $request->package_type,
+            'shipment_type' => $request->shipping_type,
             'from_country' => $request->fromCountry,
             'from_city' => $request->fromCity,
             'from_pin' => $request->fromPincode,
@@ -109,7 +123,7 @@ class SearchController extends Controller
             'to_city' => $request->toCity,
             'to_pin' => $request->toPincode,
             'number_of_pieces' => $request->no_pieces,
-            'search_hash' =>  Str::uuid()->toString()
+            'search_hash' =>  $search_token
         ]);
 
         foreach ($request->weight as $index => $weight) {
@@ -140,6 +154,7 @@ class SearchController extends Controller
             'status' => 0,
             'actual_weight' => $actual_weight,
             'original_rate' => $request->rate,
+            'total_weight' => $request->total_weight,
         ]);
 
         return json_encode(array('status' => 'ok'));
@@ -251,4 +266,21 @@ class SearchController extends Controller
     //         'search_id' => $search_id,
     //     ]);
     // }
+
+    public function searchHistory($user_id = 0)
+    {
+        $user_id = $user_id == 0 ? Auth()->user()->id : $user_id;
+
+        $searches = Search::with(['toCountry', 'fromCountry'])->where('user_id', $user_id)->paginate(15);
+
+        return view('reseller.pages.search_history')->with([
+            'searches' => $searches,
+        ]);
+    }
+
+    public function searchHistoryItems(Request $request)
+    {
+        $items = SearchItem::where('search_id', $request->id)->get();
+        return json_encode($items);
+    }
 }

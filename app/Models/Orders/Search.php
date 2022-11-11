@@ -2,6 +2,7 @@
 
 namespace App\Models\Orders;
 
+use App\Models\Zones\Country;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +20,8 @@ class Search extends Model
         'to_pin',
         'number_of_pieces',
         'search_hash',
+        'shipment_type',
+        'package_type',
     ];
 
     public function user()
@@ -29,5 +32,14 @@ class Search extends Model
     public function items()
     {
         return $this->hasMany(SearchItem::class);
+    }
+
+    public function toCountry()
+    {
+        return $this->belongsTo(Country::class, 'to_country');
+    }
+    public function fromCountry()
+    {
+        return $this->belongsTo(Country::class, 'from_country');
     }
 }

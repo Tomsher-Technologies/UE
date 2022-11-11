@@ -9,20 +9,34 @@
             <div class="hero container-fluid page__container text-center py-112pt">
 
                 <div id="quick-search" class="">
-                    <form action="{{ route('reseller.search.search') }}" method="POST">
+                    <form id="searchForm" action="{{ route('reseller.search.search') }}" method="POST">
                         @csrf
-
                         <div class="row align-items-center">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group text-left">
                                     <label class="text-white" for="filter_name">Shipment Type</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select class="form-control" id="type" name="type" required>
-                                                <option value="0" disabled selected>Select a shipment type</option>
+                                            <select class="form-control" id="type" name="shipping_type" required>
+                                                <option value="" disabled selected>Select a shipment type</option>
                                                 <option value="import">Import</option>
                                                 <option value="export">Export</option>
                                                 <option value="transit">Transit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group text-left">
+                                    <label class="text-white" for="filter_name">Package Type</label>
+                                    <div>
+                                        <div class="autocomplete">
+                                            <select class="form-control" id="type" name="package_type" required>
+                                                <option value="" disabled selected>Select a package type</option>
+                                                <option value="letter">Letter / Envelope</option>
+                                                <option value="doc">Document</option>
+                                                <option value="package">Package / Non-Doc</option>
                                             </select>
                                         </div>
                                     </div>
@@ -102,8 +116,8 @@
                                     <label class="text-white" for="filter_name">Number of Pieces</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <input class="form-control" type="number" name="no_pieces"
-                                                placeholder="Number of Pieces">
+                                            <input disabled value="1" class="form-control" type="number"
+                                                name="no_pieces" id="no_pieces" placeholder="Number of Pieces">
                                         </div>
                                     </div>
                                 </div>
@@ -120,8 +134,8 @@
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step=".1" type="number" name="length[1]"
-                                                    placeholder="Length">
+                                                <input class="form-control" step=".1" type="number"
+                                                    name="length[1]" placeholder="Length" required>
                                             </div>
                                         </div>
                                     </div>
@@ -132,7 +146,7 @@
                                         <div>
                                             <div class="autocomplete">
                                                 <input class="form-control" step=".1" type="number"
-                                                    name="height[1]" placeholder="Height">
+                                                    name="height[1]" placeholder="Height" required>
                                             </div>
                                         </div>
                                     </div>
@@ -143,7 +157,7 @@
                                         <div>
                                             <div class="autocomplete">
                                                 <input class="form-control" step=".1" type="number"
-                                                    name="width[1]" placeholder="Width">
+                                                    name="width[1]" placeholder="Width" required>
                                             </div>
                                         </div>
                                     </div>
@@ -169,6 +183,10 @@
                                     Package</button>
                             </div>
                         </div>
+
+                        {{-- <input type="hidden" name="search_token" value="{{ $search_token }}"> --}}
+                        <input type="hidden" id="search_token" name="search_token">
+
                         <div class="row align-items-center">
                             <div class="col-sm-12">
                                 <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="submit">Search</button>
@@ -387,7 +405,7 @@
                                         <div>
                                             <div class="autocomplete">
                                                 <input class="form-control" step='.1' type="number" name="length[]"
-                                                    placeholder="Length">
+                                                    placeholder="Length" required>
                                             </div>
                                         </div>
                                     </div>
@@ -398,7 +416,7 @@
                                         <div>
                                             <div class="autocomplete">
                                                 <input class="form-control" step='.1' type="number" name="height[]"
-                                                    placeholder="Height">
+                                                    placeholder="Height" required>
                                             </div>
                                         </div>
                                     </div>
@@ -409,7 +427,7 @@
                                         <div>
                                             <div class="autocomplete">
                                                 <input class="form-control" step='.1' type="number" name="width[]"
-                                                    placeholder="Width">
+                                                    placeholder="Width" required>
                                             </div>
                                         </div>
                                     </div>
@@ -430,12 +448,21 @@
 
         $('#addPackage').on('click', function() {
             addElement($id);
+            $('#no_pieces').get(0).value++
             $id++;
         });
 
         $('body').on('click', '.remove-package', function() {
             $(this).closest('.row').remove();
+            $('#no_pieces').get(0).value--
             $id--;
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#searchForm').trigger("reset");
+            $('#search_token').val(Math.floor(Math.random() * 26) + Date.now());
         });
     </script>
 
