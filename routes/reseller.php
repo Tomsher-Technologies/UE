@@ -42,7 +42,7 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
         // return redirect()->route('reseller.dashboard');
     });
 
-    Route::get('/hub',[HubEzController::class,'placeOrder']);
+    Route::get('/hub', [HubEzController::class, 'placeOrder']);
 
     Route::middleware(['guest'])->group(function () {
         Route::get('login', [ResellerLoginController::class, 'loginView'])->name('login');
@@ -62,11 +62,11 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
 
             Route::post('/special-request', [SearchController::class, 'specialRequest'])->name('specialRequest');
 
-            Route::get('/book', [BookingController::class, 'bookingView'])->name('booking');
-            Route::post('/book', [BookingController::class, 'booking']);
-
             Route::get('/history', [SearchController::class, 'searchHistory'])->name('history');
             Route::post('/history/items', [SearchController::class, 'searchHistoryItems'])->name('history.items');
+
+            Route::post('/book', [BookingController::class, 'bookingView'])->name('booking.view');
+            Route::post('/book/submit', [BookingController::class, 'booking'])->name('booking.submit');
         });
 
         Route::group(['prefix' => 'agents', 'as' => 'agents.'], function () {

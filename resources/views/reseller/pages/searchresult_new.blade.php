@@ -58,8 +58,8 @@
                                                 <div class="align-items-center mr-16pt">
                                                     {{-- <input type="button" value="Book Now" class="btn btn-primary"> --}}
 
-                                                    <form class="d-inline" action="{{ route('reseller.search.booking') }}"
-                                                        method="GET">
+                                                    <form class="d-inline"
+                                                        action="{{ route('reseller.search.booking.view') }}" method="POST">
                                                         @csrf
                                                         <input type="hidden" name="integrator"
                                                             value="{{ $integrator->id }}">
@@ -70,6 +70,7 @@
                                                             value="{{ $integrator->billable_weight }}">
                                                         <input type="submit" value="Book Now" class="btn btn-primary">
                                                     </form>
+                                                    
                                                     <a href="#" data-iid="{{ $integrator->id }}"
                                                         data-rate="{{ $integrator->zones->weight->rate }}"
                                                         data-sid="{{ $search_id }}"

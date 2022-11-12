@@ -53,7 +53,7 @@ class HubEzController extends Controller
             "ReceiverProvince" => "IN",
             "ReceiverCity" => "ALLEPPEY",
             "ReceiverZip" => 690102,
-            "Weight" => 0.26,
+            "Weight" => 2,
             "DeclareCurrency" => "INR",
             "DeclareValue" => 35.66,
             "ServiceCode" => "WDUPS",
@@ -70,12 +70,13 @@ class HubEzController extends Controller
             "Length" => "",
             "InsuranceValue" => 0,
             "Eemark" => "",
+            "GenerateShippingLabel" => true,
             "HawbItems" => [
                 [
-                    "Content" => "Disney Classic Core Dumbo 35cm",
-                    "Price" => 35.66,
+                    "Content" => "Disney Classic Core Dumbo 35cm a",
+                    "Price" => 3.66,
                     "Pieces" => 1,
-                    "Weight" => 0.26,
+                    "Weight" => 3,
                     "HsCode" => "",
                     "WebSite" => ""
                 ]
@@ -85,14 +86,7 @@ class HubEzController extends Controller
                     "ChildCustomerHawb" => "mother Reference number",
                     "Weight" => 0.3,
                     "Height" => 20,
-                    "Width" => 20,
-                    "Length" => 20
-                ],
-                [
-                    "ChildCustomerHawb" => "child Reference number",
-                    "Weight" => 0.3,
-                    "Height" => 20,
-                    "Width" => 20,
+                    "Width" => 1,
                     "Length" => 20
                 ]
             ]
