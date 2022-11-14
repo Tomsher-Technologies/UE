@@ -2,6 +2,13 @@
 
 namespace App\Providers;
 
+use App\Mail\Admin\NewCustomerMail;
+use App\Models\Common\Settings;
+use App\Models\Integrators\Integrator;
+use App\Models\User;
+use App\Observers\IntegratorObserver;
+use App\Observers\SettingsObserver;
+use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +34,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Settings::observe(SettingsObserver::class);
+        Integrator::observe(IntegratorObserver::class);
+        User::observe(UserObserver::class);
     }
 }

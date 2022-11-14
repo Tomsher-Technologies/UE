@@ -15,6 +15,11 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'admin_prefix' => env('ADMIN_PREFIX', 'admin'),
+    'ueuser_prefix' => env('UEUSER_PREFIX', 'ueuserlogin'),
+
+    'default_country_code' => env('DEFAULT_COUNTRY_CODE', '229'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -175,6 +180,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
+
     ],
 
     /*
@@ -229,6 +237,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

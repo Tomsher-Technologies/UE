@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Route;
 
 class Authenticate extends Middleware
 {
@@ -14,8 +15,17 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
-            return route('login');
+        if (!$request->expectsJson()) {
+            $prefix = trim(Route::current()->getPrefix(), '/');
+
+            $prefix = explode('/', $prefix)[0];
+
+            if ($prefix == 'reseller') {
+                return route('reseller.login');
+            }
+            if ($prefix == config('app.admin_prefix')) {
+                return route('admin.login');
+            }
         }
     }
 }
