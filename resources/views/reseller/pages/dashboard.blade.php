@@ -2,21 +2,52 @@
 @section('content')
     <div class="mdk-box mdk-box--bg-primary bg-dark js-mdk-box mb-0" data-effects="parallax-background blend-background">
         <div class="mdk-box__bg">
-            <div {{-- style="
-            background-image: url({{ resellerAsset('images/globe.jpg') }});
-            background-size: cover;" --}} class="mdk-box__bg-front">
+            <div class="mdk-box__bg-front">
             </div>
         </div>
         <div class="mdk-box__content justify-content-center">
             <div class="hero container-fluid page__container text-center py-112pt">
 
                 <div id="quick-search" class="">
-                    <form action="{{ route('reseller.search') }}" method="POST">
+                    <form id="searchForm" action="{{ route('reseller.search.search') }}" method="POST">
                         @csrf
+                        <div class="row align-items-center">
+                            <div class="col-sm-6">
+                                <div class="form-group text-left">
+                                    <label class="text-white" for="filter_name">Shipment Type</label>
+                                    <div>
+                                        <div class="autocomplete">
+                                            <select class="form-control" id="type" name="shipping_type" required>
+                                                <option value="" disabled selected>Select a shipment type</option>
+                                                <option value="import">Import</option>
+                                                <option value="export">Export</option>
+                                                <option value="transit">Transit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group text-left">
+                                    <label class="text-white" for="filter_name">Package Type</label>
+                                    <div>
+                                        <div class="autocomplete">
+                                            <select class="form-control" id="type" name="package_type" required>
+                                                <option value="" disabled selected>Select a package type</option>
+                                                <option value="letter">Letter / Envelope</option>
+                                                <option value="doc">Document</option>
+                                                <option value="package">Package / Non-Doc</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row align-items-center">
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Pickup country</label>
+                                    <label class="text-white" for="filter_name">Pickup Country</label>
                                     <div>
                                         <div class="autocomplete">
                                             <select id="fromCountry" class="form-control select2" name="fromCountry"
@@ -50,7 +81,7 @@
                         <div class="row align-items-center">
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Delivery country</label>
+                                    <label class="text-white" for="filter_name">Delivery Country</label>
                                     <div>
                                         <div class="autocomplete">
                                             <select id="toCountry" class="form-control" name="toCountry" required></select>
@@ -82,11 +113,11 @@
                         <div class="row align-items-center">
                             <div class="col-sm-12">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Number of pieces</label>
+                                    <label class="text-white" for="filter_name">Number of Pieces</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <input class="form-control" type="number" name="no_pieces"
-                                                placeholder="Number of pieces">
+                                            <input disabled value="1" class="form-control" type="number"
+                                                name="no_pieces" id="no_pieces" placeholder="Number of Pieces">
                                         </div>
                                     </div>
                                 </div>
@@ -96,15 +127,15 @@
                         <div id="packgaeContainer">
                             <div class="row text-left">
                                 <div class="col-12">
-                                    <label class="text-white" for="filter_name">Package 1 - Dimensions(CM)</label>
+                                    <label class="text-white" for="filter_name">Package - Dimensions(CM)</label>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group text-left">
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="length[1]"
-                                                    placeholder="Length">
+                                                <input class="form-control" step=".1" type="number"
+                                                    name="length[1]" placeholder="Length" required>
                                             </div>
                                         </div>
                                     </div>
@@ -114,8 +145,8 @@
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="height[1]"
-                                                    placeholder="Height">
+                                                <input class="form-control" step=".1" type="number"
+                                                    name="height[1]" placeholder="Height" required>
                                             </div>
                                         </div>
                                     </div>
@@ -125,8 +156,8 @@
                                         <label class="text-white" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="width[1]"
-                                                    placeholder="Width">
+                                                <input class="form-control" step=".1" type="number"
+                                                    name="width[1]" placeholder="Width" required>
                                             </div>
                                         </div>
                                     </div>
@@ -136,8 +167,8 @@
                                         <label class="text-white" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" step=".1" name="weight[1]"
-                                                    placeholder="Actual Weight" required>
+                                                <input class="form-control" type="number" step=".1"
+                                                    name="weight[1]" placeholder="Actual Weight" required>
                                             </div>
                                         </div>
                                     </div>
@@ -152,6 +183,10 @@
                                     Package</button>
                             </div>
                         </div>
+
+                        {{-- <input type="hidden" name="search_token" value="{{ $search_token }}"> --}}
+                        <input type="hidden" id="search_token" name="search_token">
+
                         <div class="row align-items-center">
                             <div class="col-sm-12">
                                 <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="submit">Search</button>
@@ -360,7 +395,7 @@
         function addElement($id) {
             $("#packgaeContainer").append(`<div class="row text-left">
                                 <div class="col-12">
-                                    <label class="text-white" for="filter_name">Package ` + $id + ` - Dimensions(CM)</label>
+                                    <label class="text-white" for="filter_name">Package - Dimensions(CM)</label>
                                     <button class="btn btn-sm btn-primary text-light ml-2 remove-package"
                                         type="button">Remove Package</button>
                                 </div> 
@@ -369,8 +404,8 @@
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="length[]"
-                                                    placeholder="Length">
+                                                <input class="form-control" step='.1' type="number" name="length[]"
+                                                    placeholder="Length" required>
                                             </div>
                                         </div>
                                     </div>
@@ -380,8 +415,8 @@
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="height[]"
-                                                    placeholder="Height">
+                                                <input class="form-control" step='.1' type="number" name="height[]"
+                                                    placeholder="Height" required>
                                             </div>
                                         </div>
                                     </div>
@@ -391,8 +426,8 @@
                                         <label class="text-white" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" name="width[]"
-                                                    placeholder="Width">
+                                                <input class="form-control" step='.1' type="number" name="width[]"
+                                                    placeholder="Width" required>
                                             </div>
                                         </div>
                                     </div>
@@ -413,12 +448,21 @@
 
         $('#addPackage').on('click', function() {
             addElement($id);
+            $('#no_pieces').get(0).value++
             $id++;
         });
 
         $('body').on('click', '.remove-package', function() {
             $(this).closest('.row').remove();
+            $('#no_pieces').get(0).value--
             $id--;
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#searchForm').trigger("reset");
+            $('#search_token').val(Math.floor(Math.random() * 26) + Date.now());
         });
     </script>
 
@@ -597,6 +641,25 @@
                 }
             },
             minimumResultsForSearch: 10
+        });
+    </script>
+
+    <script>
+        $('#type').on('change', function() {
+            val = $(this).val();
+            console.log(val);
+            if (val == 'import') {
+                $('#toCountry').append('<option value="229" selcted>United Arab Emirates</option>');
+                $("#fromCountry option[value='229']").remove();
+            }
+            if (val == 'export') {
+                $('#fromCountry').append('<option value="229" selcted>United Arab Emirates</option>');
+                $("#toCountry option[value='229']").remove();
+            }
+            if (val == 'transit') {
+                $('#fromCountry').append('<option value="229" selcted>United Arab Emirates</option>');
+                $("#toCountry option[value='229']").remove();
+            }
         });
     </script>
 @endpush

@@ -11,7 +11,13 @@ class ExportRate extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'integrator_id',
+        'rate',
+        'weight',
+        'zone_id',
+        'pack_type',
+    ];
 
     public function zone()
     {

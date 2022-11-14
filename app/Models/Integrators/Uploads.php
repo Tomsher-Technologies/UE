@@ -11,7 +11,12 @@ class Uploads extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'integrator_id',
+        'name',
+        'path',
+        'type',
+    ];
 
     public function integrator()
     {

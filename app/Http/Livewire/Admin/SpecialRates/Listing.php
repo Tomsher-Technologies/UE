@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\SpecialRates;
 
 use App\Models\SpecialRate;
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,37 +14,39 @@ class Listing extends Component
 
     public $search = "";
 
-    public User $user;
-
-    public function mount($user)
-    {
-        $this->user = $user;
-    }
 
     public function render()
     {
-        $query = $this->user->specialrate()->latest();
+        $query = SpecialRate::latest();
 
         if ($this->search !== "") {
             $query->where('name', 'LIKE', '%' . $this->search . '%');
         }
 
-        $specialrate = $query->paginate(15);
+        $specialrate = $query->with('user')->paginate(15);
 
         return view('livewire.admin.special-rates.listing')->with([
-            'user' => $this->user,
             'specialrate' => $specialrate,
         ]);
     }
 
+    public function approveRate($id)
+    {
+        $rate = SpecialRate::where('id', $id)->get()->first();
+        $rate->update([
+            'status' => 1,
+            'approval_date' => Carbon::now(),
+            'approved_rate' => $rate->approved_rate ?? $rate->request_rate
+        ]);
+        $this->dispatchBrowserEvent('rateApproved');
+    }
+
     public function deleteUser($id)
     {
-        $status = SpecialRate::where('id', $id)->first()->delete();
-        if ($status) {
-            $this->dispatchBrowserEvent('modelDeleted');
-        } else {
-            $this->dispatchBrowserEvent('modelDeletedFailed');
-        }
+        $status = SpecialRate::where('id', $id)->first()->update([
+            'status' => 2,
+        ]);
+        $this->dispatchBrowserEvent('modelDeleted');
     }
 
     public function paginationView()

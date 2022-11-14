@@ -62,10 +62,10 @@ class SpecialRateController extends Controller
      * @param  \App\Models\SpecialRate  $specialRate
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user, SpecialRate $specialRate)
+    public function edit(SpecialRate $specialRate)
     {
+        $specialRate->load('user');
         return view('admin.sepcialrates.edit')->with([
-            'user' => $user,
             'specialRate' => $specialRate
         ]);
     }

@@ -14,20 +14,22 @@ class HubEzController extends Controller
     public function authenticate()
     {
         if (!Session::has('hubezToken')) {
-
             $params = Cache::rememberForever('hubezKeys', function () {
-                return Settings::whereGroup('hubez')->get();
+                return Settings::whereGroup('hubez')->get()->keyBy('name');
             });
 
             $response = Http::post('http://www.hub-ez.com/api/account/Authenticate', [
-                'UsernameOrEmailAddress' => 'WEBTEST',
-                'Password' => 'WEBTEST@43',
+                'UsernameOrEmailAddress' => $params['username']->value,
+                'Password' => $params['password']->value,
             ]);
 
-            $token = $response->json()['result'];
-
-            if ($token) {
-                Session::put('hubezToken', $token);
+            if ($response->status() == 200) {
+                $token = $response->json()['result'];
+                if ($token) {
+                    Session::put('hubezToken', $token);
+                }
+            } else {
+                abort(404);
             }
         }
     }
@@ -51,7 +53,7 @@ class HubEzController extends Controller
             "ReceiverProvince" => "IN",
             "ReceiverCity" => "ALLEPPEY",
             "ReceiverZip" => 690102,
-            "Weight" => 0.26,
+            "Weight" => 2,
             "DeclareCurrency" => "INR",
             "DeclareValue" => 35.66,
             "ServiceCode" => "WDUPS",
@@ -68,12 +70,13 @@ class HubEzController extends Controller
             "Length" => "",
             "InsuranceValue" => 0,
             "Eemark" => "",
+            "GenerateShippingLabel" => true,
             "HawbItems" => [
                 [
-                    "Content" => "Disney Classic Core Dumbo 35cm",
-                    "Price" => 35.66,
+                    "Content" => "Disney Classic Core Dumbo 35cm a",
+                    "Price" => 3.66,
                     "Pieces" => 1,
-                    "Weight" => 0.26,
+                    "Weight" => 3,
                     "HsCode" => "",
                     "WebSite" => ""
                 ]
@@ -83,14 +86,7 @@ class HubEzController extends Controller
                     "ChildCustomerHawb" => "mother Reference number",
                     "Weight" => 0.3,
                     "Height" => 20,
-                    "Width" => 20,
-                    "Length" => 20
-                ],
-                [
-                    "ChildCustomerHawb" => "child Reference number",
-                    "Weight" => 0.3,
-                    "Height" => 20,
-                    "Width" => 20,
+                    "Width" => 1,
                     "Length" => 20
                 ]
             ]

@@ -4,6 +4,7 @@ namespace App\Models\Integrators;
 
 use App\Models\Rates\ExportRate;
 use App\Models\Rates\ImportRate;
+use App\Models\Rates\OverWeightRate;
 use App\Models\Rates\TransitRate;
 use App\Models\Zones\Zone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,14 @@ class Integrator extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'address',
+        'email',
+        'integrator_code',
+        'logo',
+        'name',
+        'phone',
+    ];
 
     public function zone()
     {
@@ -35,6 +43,11 @@ class Integrator extends Model
     public function transitRate()
     {
         return $this->hasMany(TransitRate::class);
+    }
+
+    public function overWeightRate()
+    {
+        return $this->hasMany(OverWeightRate::class);
     }
 
     public function uploads()

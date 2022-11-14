@@ -30,40 +30,42 @@
     animation-timing-function: linear;
 }
 
-    @-ms-keyframes spin { 
-        from { 
-            -ms-transform: rotate(0deg); 
-        } to { 
-            -ms-transform: rotate(360deg); 
-        }
+@-ms-keyframes spin {
+    from {
+        -ms-transform: rotate(0deg);
     }
-    @-moz-keyframes spin { 
-        from { 
-            -moz-transform: rotate(0deg); 
-        } to { 
-            -moz-transform: rotate(360deg); 
-        }
+    to {
+        -ms-transform: rotate(360deg);
     }
-    @-webkit-keyframes spin { 
-        from { 
-            -webkit-transform: rotate(0deg); 
-        } to { 
-            -webkit-transform: rotate(360deg); 
-        }
+}
+@-moz-keyframes spin {
+    from {
+        -moz-transform: rotate(0deg);
     }
-    @keyframes spin { 
-        from { 
-            transform: rotate(0deg); 
-        } to { 
-            transform: rotate(360deg); 
-        }
+    to {
+        -moz-transform: rotate(360deg);
     }
+}
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
 
-
-
-    [dir] .layout-compact .sidebar-mini .sidebar-menu-item:hover{
-        background-color: #000;
-    }
+[dir] .layout-compact .sidebar-mini .sidebar-menu-item:hover {
+    background-color: #000;
+}
 
 /* .material-symbols-outlined {
   font-variation-settings:
@@ -73,12 +75,15 @@
   'opsz' 48
 } */
 
-
 .btn .material-icons {
     font-size: 24px;
     line-height: inherit;
 }
 
-.sidebar-dark-pickled-bluewood .active>.sidebar-menu-button, .sidebar-dark-pickled-bluewood .active>.sidebar-menu-button .sidebar-menu-icon{
+.sidebar-dark-pickled-bluewood .active > .sidebar-menu-button,
+.sidebar-dark-pickled-bluewood
+    .active
+    > .sidebar-menu-button
+    .sidebar-menu-icon {
     background-color: #000;
 }

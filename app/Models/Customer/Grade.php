@@ -10,7 +10,13 @@ class Grade extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'msp',
+        'msp_type',
+        'name',
+        'profit_margin',
+        'profit_margin_type',
+    ];
 
     public function customer()
     {

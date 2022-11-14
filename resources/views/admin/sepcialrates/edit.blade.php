@@ -7,8 +7,7 @@
                 <div class="page-separator__text">Edit Special Rates</div>
             </div>
             @livewire('admin.special-rates.edit', [
-                'specialRate' => $specialRate,
-                'user' => $user,
+                'specialRate' => $specialRate
             ])
         </div>
     </div>

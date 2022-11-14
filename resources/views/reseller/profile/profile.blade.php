@@ -6,7 +6,6 @@
         <div class="row">
             <div class="col-12">
                 <h1>Edit Profile</h1>
-                <div class="separator mb-5"></div>
             </div>
         </div>
         <div class="row">
@@ -22,9 +21,11 @@
                     </div>
                 @endif
 
+                <x-form.status />
+
                 <div class="card mb-4">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.user.profile-update') }}">
+                        <form method="POST" action="{{ route('reseller.user.profile-update') }}">
                             @csrf
                             @method('PUT')
                             <h5>Edit Details</h5>
@@ -38,13 +39,24 @@
                                 <input type="text" name="name" autocomplete="name" class="form-control"
                                     value="{{ auth()->user()->name }}">
                             </div>
+                            <input type="hidden" name="details" value="1">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Phone</label>
+                                <input type="text" name="phone" autocomplete="tel" class="form-control"
+                                    value="{{ $details->phone }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Address</label>
+                                <input type="text" name="address" autocomplete="address-level1" class="form-control"
+                                    value="{{ $details->address }}">
+                            </div>
                             <button type="submit" class="btn btn-primary mb-0">Submit</button>
                         </form>
                     </div>
                 </div>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.user.password-update') }}">
+                        <form method="POST" action="{{ route('reseller.user.password-update') }}">
                             @method('PUT')
                             @csrf
                             <h5>Reset Password</h5>
@@ -72,7 +84,7 @@
                     <div class="card-body">
                         <h5>Security</h5>
                         <h6>Log Out Everywhere Else</h6>
-                        <form method="POST" action="{{ route('admin.user.logout-everywhere') }}">
+                        <form method="POST" action="{{ route('reseller.user.logout-everywhere') }}">
                             @csrf
                             <div class="form-row">
                                 <div class="form-group col-md-6">

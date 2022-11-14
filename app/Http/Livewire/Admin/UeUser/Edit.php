@@ -20,11 +20,15 @@ class Edit extends Component
 
     public $search;
 
+    public $checkall = false;
+
     public $selectedUsers = [];
 
     public $selectedPermission = [];
     public $permissions;
     public $userAbilities;
+
+    private $customers;
 
     protected function rules()
     {
@@ -42,6 +46,17 @@ class Edit extends Component
         'user.email.email' => 'The email address format is not valid.',
     ];
 
+    public function updatedCheckall($val)
+    {
+        if ($val) {
+            $this->selectedUsers = [];
+            foreach ($this->getCustomers() as $child) {
+                $this->selectedUsers[] = (string)$child->id;
+            }
+        } else {
+            $this->selectedUsers = [];
+        }
+    }
 
     public function save()
     {
@@ -80,6 +95,8 @@ class Edit extends Component
         User::whereIn('id', $this->selectedUsers)->update([
             'parent_id' => $this->user->id
         ]);
+
+        $this->dispatchBrowserEvent('assigned');
     }
 
     public function updated($propertyName)
@@ -92,8 +109,6 @@ class Edit extends Component
         $this->user = $user;
         $this->permissions = Ability::all();
 
-        // dd( $this->permissions);
-
         $this->userAbilities = $this->user->getAbilities();
         $userAbilities = $this->userAbilities->pluck('id')->toArray();
 
@@ -105,14 +120,14 @@ class Edit extends Component
             }
         }
 
-
         $children = $this->user->children()->pluck('id');
         foreach ($children as $child) {
             $this->selectedUsers[] = $child;
         }
     }
 
-    public function render()
+
+    public function getCustomers()
     {
         $query = User::whereStatus(true);
 
@@ -121,7 +136,12 @@ class Edit extends Component
                 ->orWhere('email', 'LIKE', '%' . $this->search . '%');
         }
 
-        $customers = $query->whereIs('reseller')->select(['id', 'name', 'email', 'parent_id'])->with('parent:id,name')->paginate(15);
+        return  $query->whereIs('reseller')->select(['id', 'name', 'email', 'parent_id'])->with('parent:id,name')->paginate(15);
+    }
+
+    public function render()
+    {
+        $customers = $this->getCustomers();
 
         return view('livewire.admin.ue-user.edit')->with([
             'customers' => $customers

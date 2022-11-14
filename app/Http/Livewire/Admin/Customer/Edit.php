@@ -31,7 +31,7 @@ class Edit extends Component
         return [
             'password' =>  ['nullable', new Password],
             'user.name' => 'required',
-            'user.email' => ['nullable', 'email'],
+            'user.email' => ['required', 'email', 'unique:users,email,' . $this->user->id],
             'user.grade_id' => ['required'],
             'customerDetails.phone' => ['nullable'],
             'customerDetails.address' => ['nullable'],

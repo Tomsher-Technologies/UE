@@ -24,6 +24,7 @@ class ProfitMarginEdit extends Component
     public $rate_type = 'percentage';
     public $rate;
     public $weight;
+    public $end_weight;
     public $applied_for = 'all';
     public $applied_for_id;
 
@@ -35,7 +36,8 @@ class ProfitMarginEdit extends Component
             'margin.integrator_id' => 'required',
             'margin.rate_type' => 'required',
             'margin.rate' => ['required'],
-            'margin.weight' => ['required'],
+            'margin.weight' => ['required', 'lt:margin.end_weight'],
+            'margin.end_weight' => ['required', 'gt:margin.weight'],
             'margin.applied_for' => ['required'],
             'margin.applied_for_id' => ['required'],
         ];
@@ -47,6 +49,7 @@ class ProfitMarginEdit extends Component
         'margin.rate_type.required' => 'Please ente a type',
         'margin.rate.required' => 'Please ente a rate',
         'margin.weight.required' => 'Please ente a weight',
+        'margin.end_weight.required' => 'Please ente a weight',
     ];
 
     public function mount($profit_margin)

@@ -41,9 +41,11 @@
             <x-reseller.views.footer />
         </div>
         <x-reseller.views.sidebar />
+
+        @stack('modals')
     </div>
 
-   
+
     <script src="{{ resellerAsset('vendor/popper.min.js') }}"></script>
     <script src="{{ resellerAsset('vendor/bootstrap.min.js') }}"></script>
     <script src="{{ resellerAsset('vendor/perfect-scrollbar.min.js') }}"></script>
@@ -53,6 +55,8 @@
     {{-- <script src="{{ resellerAsset('js/preloader.js') }}"></script> --}}
     <script src="{{ resellerAsset('vendor/select2/select2.min.js') }}"></script>
     <script src="{{ resellerAsset('js/select2.js') }}"></script>
+    <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <form id="logoutForm" method="POST" action="{{ route('logout') }}">
         @csrf

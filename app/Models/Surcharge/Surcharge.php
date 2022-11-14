@@ -11,5 +11,10 @@ class Surcharge extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'name',
+        'rate',
+        'rate_type',
+        'status',
+    ];
 }

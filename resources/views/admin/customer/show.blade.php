@@ -13,8 +13,8 @@
                 <div class="col-4">
                     <div class="card">
                         <div class="card-body">
-                            <a href="{{ route('admin.special_rates.create', $user) }}" class="btn btn-primary w-100 mb-2">Special
-                                rate</a>
+                            {{-- <a href="{{ route('admin.special_rates.create', $user) }}" class="btn btn-primary w-100 mb-2">Special
+                                rate</a> --}}
                             <a href="{{ route('admin.customer.profitMargin', $user) }}" class="btn btn-primary w-100 mb-2">
                                 Profit Margin
                             </a>

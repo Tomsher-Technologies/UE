@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Customer\CustomerDetails;
 use App\Models\Customer\Grade;
 use App\Models\Customer\ProfitMargin;
+use App\Models\Orders\Search;
 use App\Models\Surcharge\Surcharge;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -20,7 +21,7 @@ use Wildside\Userstamps\Userstamps;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRolesAndAbilities, CanResetPassword, SoftDeletes, Userstamps;
+    use HasApiTokens, HasFactory, Notifiable, HasRolesAndAbilities, CanResetPassword, SoftDeletes, Userstamps, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -67,7 +68,7 @@ class User extends Authenticatable
 
     public function children()
     {
-        return $this->hasOne(User::class, 'parent_id');
+        return $this->hasMany(User::class, 'parent_id');
     }
 
     public function parent()
@@ -115,6 +116,18 @@ class User extends Authenticatable
         return false;
     }
 
+    function hasSpecialRatesPrivilages()
+    {
+        if (
+            $this->can('list-special-rates') ||
+            $this->can('edit-special-rates') ||
+            $this->can('create-special-rates')
+        ) {
+            return true;
+        }
+        return false;
+    }
+
     public function specialrate()
     {
         return $this->hasMany(SpecialRate::class);
@@ -124,9 +137,18 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Grade::class);
     }
+    public function getGrade()
+    {
+        return $this->grade()->get();
+    }
 
     public function profitmargin()
     {
         return $this->morphMany(ProfitMargin::class, 'profitmargin');
+    }
+
+    public function searches()
+    {
+        return $this->hasMany(Search::class);
     }
 }

@@ -6,11 +6,6 @@
             <x-form.error name="user.name" />
         </div>
         <div class="form-group">
-            <label class="form-label">Code</label>
-            <input wire:model="integrator.integrator_code" type="text" class="form-control mb-2">
-            <x-form.error name="user.email" />
-        </div>
-        <div class="form-group">
             <label class="form-label">Email</label>
             <input wire:model="integrator.email" type="email" class="form-control mb-2">
             <x-form.error name="user.email" />

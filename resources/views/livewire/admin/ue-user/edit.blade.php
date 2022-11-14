@@ -80,14 +80,13 @@
                         id="inlineFormFilterBy" placeholder="Search ..." />
                 </form>
             </div>
-
             <table class="table mb-0 thead-border-top-0 table-nowrap">
                 <thead>
                     <tr>
                         <th style="width: 18px;" class="pr-0">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                    data-target="#toggle" id="customCheckAlltoggle">
+                                <input wire:model="checkall" type="checkbox"
+                                    class="custom-control-input js-toggle-check-all" id="customCheckAlltoggle">
                                 <label class="custom-control-label" for="customCheckAlltoggle"><span
                                         class="text-hide">Toggle all</span></label>
                             </div>
@@ -96,11 +95,11 @@
                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a>
                         </th>
                         <th>
-                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Current UE
-                                User</a>
+                            <a href="javascript:void(0)">Email</a>
                         </th>
                         <th>
-                            <a href="javascript:void(0)">Email</a>
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Current UE
+                                User</a>
                         </th>
                     </tr>
                 </thead>
@@ -142,7 +141,6 @@
             </table>
             <div class="card-footer p-8pt">
                 {{ $customers->links() }}
-
                 <button class="btn btn-primary mt-2" wire:click="assignUsers">Save changes</button>
             </div>
         </div>
@@ -159,6 +157,12 @@
         window.addEventListener('permissionUpdated', e => {
             Swal.fire({
                 title: 'Permissions updated',
+                icon: 'success'
+            });
+        })
+        window.addEventListener('assigned', e => {
+            Swal.fire({
+                title: 'Agents assigned',
                 icon: 'success'
             });
         })

@@ -12,7 +12,18 @@ class CustomerDetails extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'address',
+        'image',
+        'limit_weight',
+        'msp',
+        'msp_type',
+        'phone',
+        'profit_margin',
+        'profit_margin_type',
+        'request_limit',
+        'user_id',
+    ];
 
     public function customer()
     {

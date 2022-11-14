@@ -3,18 +3,15 @@
 namespace App\Http\Livewire\Admin\SpecialRates;
 
 use App\Models\SpecialRate;
-use App\Models\User;
 use Livewire\Component;
 
 class Edit extends Component
 {
 
-    public User $user;
     public SpecialRate $rate;
 
-    public function mount($specialRate, $user)
+    public function mount($specialRate)
     {
-        $this->user = $user;
         $this->rate = $specialRate;
     }
 
@@ -40,7 +37,7 @@ class Edit extends Component
         $validatedData = $this->validate();
 
         $this->rate->save();
-        
+
         $this->dispatchBrowserEvent('memberUpdated');
     }
 

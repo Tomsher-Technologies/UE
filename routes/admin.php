@@ -14,6 +14,13 @@ use App\Http\Livewire\Admin\Customer\Grade\GradeProfitMargin;
 use App\Http\Livewire\Admin\Customer\GradeEdit;
 use App\Http\Livewire\Admin\Customer\ProfitMargin;
 use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
+use App\Mail\Admin\NewCustomerMail;
+use App\Models\Common\Settings;
+use App\Models\User;
+use App\Notifications\Admin\NewUserNotification;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,6 +28,44 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');
+    });
+    Route::get('/time', function () {
+
+        // $str = "06:30 PM _ 06:45 PM";
+
+        // $d = explode(' - ', $str);
+
+        // dd($d[0]);
+
+        // return view('welcome');
+
+        $user = User::find(1);
+        // $user->notify(new NewUserNotification($user))->delay(now()->addMinute());
+        // Notification::notify($user, new NewUserNotification($user));
+        Mail::to('shabeer@tomshe.com')->later(1, new NewCustomerMail($user));
+
+        // $email = Cache::rememberForever('notification_email', function () {
+        //     return Settings::where('group', 'notification_email')->get();
+        // });
+
+        // $email = $email->where('name', 'new_user_reg')->first()->value;
+
+        // ddd($emails);
+
+        // $str = '709999';
+
+        // $weight_limit = explode('-', $str);
+
+        // if (isset($weight_limit[1])) {
+        //     dd($weight_limit);
+        // } else {
+        //     dd($str);
+        // }
+
+
+        // $time_str = "11:00 pm";
+        // $time = date("h:i A", strtotime($time_str . ' + 3 hours'));
+        // dd($time);
     });
 
     Route::get('/test', [HubEzController::class, 'placeOrder']);
@@ -71,10 +116,10 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         Route::resource('surcharge', SurchargeController::class)->only(['index', 'create', 'edit']);
 
         Route::name('special_rates.')->group(function () {
-            Route::get('/{user}/special_rates', [SpecialRateController::class, 'index'])->name('index');
-            Route::get('/{user}/special_rates/create', [SpecialRateController::class, 'create'])->name('create');
-            Route::get('/{user}/special_rates/show/{special_rate}', [SpecialRateController::class, 'show'])->name('show');
-            Route::get('/{user}/special_rates/edit/{special_rate}', [SpecialRateController::class, 'edit'])->name('edit');
+            Route::get('/special_rates', [SpecialRateController::class, 'index'])->name('index');
+            // Route::get('/{user}/special_rates/create', [SpecialRateController::class, 'create'])->name('create');
+            // Route::get('/{user}/special_rates/show/{special_rate}', [SpecialRateController::class, 'show'])->name('show');
+            Route::get('/special_rates/{special_rate}/edit/', [SpecialRateController::class, 'edit'])->name('edit');
         });
 
         // Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {

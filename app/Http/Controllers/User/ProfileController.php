@@ -17,7 +17,10 @@ class ProfileController extends Controller
         if (Auth::user()->isAn('admin') ||  Auth::user()->isAn('ueuser')) {
             return view('admin.profile.profile');
         } else {
-            return view('reseller.profile.profile');
+            $details = Auth::user()->customerDetails;
+            return view('reseller.profile.profile')->with([
+                'details' => $details
+            ]);
         }
     }
 
@@ -63,6 +66,14 @@ class ProfileController extends Controller
         $user->forceFill([
             'name' => $request->name,
         ])->save();
+
+        if ($request->details) {
+            $user->customerDetails()->update([
+                'phone' => $request->phone,
+                'address' => $request->address,
+            ]);
+        }
+
         return back()->with('status', "Profle Updated!");
     }
 

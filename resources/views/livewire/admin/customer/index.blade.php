@@ -6,9 +6,9 @@
             <input wire:model="search" type="text" class="form-control search mb-2 mr-sm-2 mb-sm-0"
                 id="inlineFormFilterBy" placeholder="Search ..." />
 
-            <div class="form-group">
+            <div class="form-group" wire:ignore>
                 <!-- <label class="form-label" for="select01">Basic</label> -->
-                <select id="select01" data-toggle="select" class="form-control">
+                <select id="select01" wire:model="selectedGrade" data-toggle="select" class="form-control">
                     <option selected="" value="0">All Grades</option>
                     @foreach ($grades as $grade)
                         <option value="{{ $grade->id }}">{{ $grade->name }}</option>
@@ -58,7 +58,14 @@
                                             {{ $user->name }}
                                         </strong>
                                     </p>
+
+
                                 </div>
+                                @if (!$user->verified)
+                                    <span class="badge badge-pill badge-accent py-2 px-3 text-center justify-content-center">
+                                        New
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </td>
@@ -145,10 +152,6 @@
             });
         })
     </script>
-
-</div>
-
-@push('footer')
     <script>
         $(document).ready(function() {
             $('#select01').select2();
@@ -158,4 +161,16 @@
             });
         });
     </script>
+</div>
+
+@push('footer')
+    {{-- <script>
+        $(document).ready(function() {
+            $('#select01').select2();
+            $('#select01').on('change', function(e) {
+                var data = $('#select01').select2("val");
+                @this.set('selectedGrade', data);
+            });
+        });
+    </script> --}}
 @endpush

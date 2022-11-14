@@ -17,6 +17,11 @@ class Edit extends Component
             'surcharge.rate' => 'required',
             'surcharge.rate_type' => 'required',
             'surcharge.status' => 'required',
+            'surcharge.integrator_id' => 'required',
+            'surcharge.start_weight' => 'required',
+            'surcharge.end_weight' => 'required',
+            'surcharge.applied_for' => 'required',
+            'surcharge.applied_for_id' => 'required',
         ];
     }
 
@@ -31,7 +36,7 @@ class Edit extends Component
         $validatedData = $this->validate();
 
         $this->surcharge->save();
-        
+
         $this->dispatchBrowserEvent('memberUpdated');
     }
 
