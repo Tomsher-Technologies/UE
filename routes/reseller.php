@@ -14,35 +14,33 @@ use App\Http\Livewire\Reseller\Users\UserCreate;
 use App\Http\Livewire\Reseller\Users\UserEdit;
 use App\Http\Livewire\Reseller\Users\UserIndex;
 use App\Models\Common\Settings;
+use App\Models\Integrators\Integrator;
+use App\Models\Orders\Order;
+use App\Models\Orders\Search;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
+
     Route::get('/', function () {
-        // $count = 3;
-        // $pyramid = array();
-
-        // $car_count = $count * 2 - 1;
-
-        // for ($i = 1; $i <= $count; $i++) {
-        //     $pat = "";
-        //     for ($c = 0; $c < $car_count; $c++) {
-        //     }
-        //     $pyramid[$i - 1] = $pat;
-        // }
-
-        // // [
-        // //     "  *  ", 1, 5 = 3,3
-        // //     " *** ", 2, 5 = 2,4
-        // //     "*****" 3, 5 = 1,6
-        // //   ]
-
-        // print_r($pyramid);
-        // return redirect()->route('reseller.dashboard');
+        return redirect()->route('reseller.login');
     });
 
     Route::get('/hub', [HubEzController::class, 'placeOrder']);
+
+    Route::get('/test', function () {
+
+        $order = Order::find(5);
+        $integrator = Integrator::find(1);
+        $search = Search::with(['items', 'toCountry', 'fromCountry'])->find(1);
+
+        return view('reseller.pages.order.success')->with([
+            'integrator' => $integrator,
+            'order' => $order,
+            'search' => $search,
+        ]);
+    });
 
     Route::middleware(['guest'])->group(function () {
         Route::get('login', [ResellerLoginController::class, 'loginView'])->name('login');
@@ -62,11 +60,23 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
 
             Route::post('/special-request', [SearchController::class, 'specialRequest'])->name('specialRequest');
 
-            Route::get('/history', [SearchController::class, 'searchHistory'])->name('history');
-            Route::post('/history/items', [SearchController::class, 'searchHistoryItems'])->name('history.items');
+            Route::get('/search-history', [SearchController::class, 'searchHistory'])->name('history');
+            Route::post('/search-history/items', [SearchController::class, 'searchHistoryItems'])->name('history.items');
+        });
 
-            Route::post('/book', [BookingController::class, 'bookingView'])->name('booking.view');
-            Route::post('/book/submit', [BookingController::class, 'booking'])->name('booking.submit');
+        Route::group(['prefix' => 'booking', 'as' => 'booking.'], function () {
+            Route::get('/booking-history', [BookingController::class, 'bookingHistory'])->name('history');
+            Route::get('/booking-history/{order}/details', [BookingController::class, 'bookingHistoryDetails'])->name('history.details');
+
+            Route::post('/book', [BookingController::class, 'bookingView'])->name('view');
+            Route::post('/book/submit', [BookingController::class, 'booking'])->name('submit');
+        });
+
+        Route::get('/book', function () {
+            return redirect()->route('reseller.dashboard');
+        });
+        Route::get('/book/submit', function () {
+            return redirect()->route('reseller.dashboard');
         });
 
         Route::group(['prefix' => 'agents', 'as' => 'agents.'], function () {

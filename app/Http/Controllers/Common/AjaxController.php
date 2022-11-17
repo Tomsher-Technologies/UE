@@ -23,6 +23,18 @@ class AjaxController extends Controller
         } else {
             $cities = City::where('country_id', $request->country)->limit(10)->where('city', 'LIKE', $request->name . "%")->select(['id', 'city as text'])->get();
         }
+
+        if ($cities->count() == 0) {
+            $cities->push(
+                array(
+                    [
+                        'id' => $request->name,
+                        'text' => $request->name,
+                    ]
+                )
+            );
+        }
+
         return $cities;
     }
 
@@ -32,7 +44,7 @@ class AjaxController extends Controller
             $pincode = City::where('country_id', $request->country)
                 ->where('city', 'LIKE', $request->city)
                 ->where('pincode', 'LIKE', $request->name . "%")
-                ->select(['id', 'city as text'])->get();
+                ->select(['id', 'pincode as text'])->get();
         } else {
             $pincode = City::where('country_id', $request->country)
                 ->where('city', 'LIKE', $request->city)

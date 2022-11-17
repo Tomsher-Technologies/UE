@@ -7,8 +7,14 @@
                     <h4>Booking</h4>
                 </div>
             </div>
-            <form action="{{ route('reseller.search.booking.submit') }}" method="POST">
+            <form action="{{ route('reseller.booking.submit') }}" method="POST">
                 @csrf
+
+
+                <input type="hidden" name="integrator" value="{{ $orequest->integrator  }}">
+                <input type="hidden" name="rate" value="{{ $orequest->rate  }}">
+                <input type="hidden" name="search_id" value="{{ $orequest->search_id  }}">
+                <input type="hidden" name="totalweight" value="{{ $orequest->totalweight  }}">
 
                 <div class="page-separator">
                     <div class="page-separator__text">

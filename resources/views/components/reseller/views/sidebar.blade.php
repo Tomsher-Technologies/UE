@@ -25,6 +25,12 @@
                         <span class="sidebar-menu-text">Search History</span>
                     </a>
                 </li>
+                <li class="sidebar-menu-item {{ request()->routeIs('reseller.booking.history*') ? 'active' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('reseller.booking.history') }}">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">bookmark_border</span>
+                        <span class="sidebar-menu-text">Booking History</span>
+                    </a>
+                </li>
                 {{-- <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.search*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('reseller.search.search') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">search</span>

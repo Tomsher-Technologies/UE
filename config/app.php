@@ -20,6 +20,8 @@ return [
 
     'default_country_code' => env('DEFAULT_COUNTRY_CODE', '229'),
 
+    'hubez_url' => "http://www.hub-ez.com/api/",
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -72,7 +74,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Dubai',
 
     /*
     |--------------------------------------------------------------------------

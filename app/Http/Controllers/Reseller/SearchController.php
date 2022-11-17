@@ -21,6 +21,7 @@ use Illuminate\Support\Str;
 use App\Helpers\CalculationHelpers;
 use App\Models\Customer\Grade;
 use App\Models\Orders\SearchItem;
+use App\Models\Zones\City;
 
 class SearchController extends Controller
 {
@@ -111,6 +112,11 @@ class SearchController extends Controller
         if ($result) {
             return $result->id;
         }
+
+        // $toCity = City::whereId($request->toCity)->get();
+        // $fromCity = City::find($request->fromCity);
+
+        // dd($toCity);
 
         $search = Search::create([
             'user_id' => Auth::user()->id,
@@ -267,9 +273,9 @@ class SearchController extends Controller
     //     ]);
     // }
 
-    public function searchHistory($user_id = 0)
+    public function searchHistory()
     {
-        $user_id = $user_id == 0 ? Auth()->user()->id : $user_id;
+        $user_id = Auth()->user()->id;
 
         $searches = Search::with(['toCountry', 'fromCountry'])->where('user_id', $user_id)->paginate(15);
 

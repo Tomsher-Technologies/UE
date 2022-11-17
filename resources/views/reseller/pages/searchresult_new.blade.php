@@ -59,7 +59,7 @@
                                                     {{-- <input type="button" value="Book Now" class="btn btn-primary"> --}}
 
                                                     <form class="d-inline"
-                                                        action="{{ route('reseller.search.booking.view') }}" method="POST">
+                                                        action="{{ route('reseller.booking.view') }}" method="POST">
                                                         @csrf
                                                         <input type="hidden" name="integrator"
                                                             value="{{ $integrator->id }}">

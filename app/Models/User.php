@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Customer\CustomerDetails;
 use App\Models\Customer\Grade;
 use App\Models\Customer\ProfitMargin;
+use App\Models\Orders\Order;
 use App\Models\Orders\Search;
 use App\Models\Surcharge\Surcharge;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -150,5 +151,10 @@ class User extends Authenticatable
     public function searches()
     {
         return $this->hasMany(Search::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

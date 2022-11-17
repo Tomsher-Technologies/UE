@@ -39,60 +39,69 @@ class HubEzController extends Controller
         $this->authenticate();
 
         $requestArray = [
-            "CustomerHawb" => "",
-            "SenderName" => "Shabeersha",
-            "SenderAddress" => "Wafi Recidence",
-            "SenderPhone" => "123456789",
-            "HawbNumber" => "",
-            "ReceiverName" => "Tomsher",
-            "ReceiverAddress1" => "Wafi Recidence",
-            "ReceiverTown" => "Alappuzha",
-            "ReceiverTel" => "12345875956",
-            "ReceiverContactPerson" => "Test",
-            "ReceiverCountry" => "IN",
-            "ReceiverProvince" => "IN",
-            "ReceiverCity" => "ALLEPPEY",
-            "ReceiverZip" => 690102,
-            "Weight" => 2,
-            "DeclareCurrency" => "INR",
-            "DeclareValue" => 35.66,
-            "ServiceCode" => "WDUPS",
-            "DutyType" => "DDU",
-            "Content" => "Disney Classic Core Dumbo 35cm*1",
-            "ReceiverEmail" => "ee2222hk@gmail.com",
-            "ReceiverId" => "",
-            "ImportBatchId" => "",
-            "ShipmentType" => 20,
-            "PaymentType" => "",
-            "Pieces" => "1",
-            "Height" => "",
-            "Width" => "",
-            "Length" => "",
-            "InsuranceValue" => 0,
-            "Eemark" => "",
-            "GenerateShippingLabel" => true,
-            "HawbItems" => [
-                [
-                    "Content" => "Disney Classic Core Dumbo 35cm a",
-                    "Price" => 3.66,
-                    "Pieces" => 1,
-                    "Weight" => 3,
-                    "HsCode" => "",
-                    "WebSite" => ""
-                ]
-            ],
-            "hawbChildren" => [
-                [
-                    "ChildCustomerHawb" => "mother Reference number",
-                    "Weight" => 0.3,
-                    "Height" => 20,
-                    "Width" => 1,
-                    "Length" => 20
-                ]
-            ]
+            '1ZW7583F0408594469'
         ];
 
-        $response = Http::withToken(Session::get('hubezToken'))->post('http://www.hub-ez.com/api/services/app/hawb/apiCreateHawb', $requestArray);
+        $response = Http::withToken(Session::get('hubezToken'))->post('http://www.hub-ez.com/api/services/app/hawb/GetHawbLables?type=ZPL', $requestArray);
         dd($response->json());
+
+
+
+        // $requestArray = [
+        //     "CustomerHawb" => "",
+        //     "SenderName" => "Shabeersha",
+        //     "SenderAddress" => "Wafi Recidence",
+        //     "SenderPhone" => "123456789",
+        //     "HawbNumber" => "",
+        //     "ReceiverName" => "Tomsher",
+        //     "ReceiverAddress1" => "Wafi Recidence",
+        //     "ReceiverTown" => "Alappuzha",
+        //     "ReceiverTel" => "12345875956",
+        //     "ReceiverContactPerson" => "Test",
+        //     "ReceiverCountry" => "IN",
+        //     "ReceiverProvince" => "IN",
+        //     "ReceiverCity" => "ALLEPPEY",
+        //     "ReceiverZip" => 690102,
+        //     "Weight" => 2,
+        //     "DeclareCurrency" => "INR",
+        //     "DeclareValue" => 35.66,
+        //     "ServiceCode" => "WDUPS",
+        //     "DutyType" => "DDU",
+        //     "Content" => "Disney Classic Core Dumbo 35cm*1",
+        //     "ReceiverEmail" => "ee2222hk@gmail.com",
+        //     "ReceiverId" => "",
+        //     "ImportBatchId" => "",
+        //     "ShipmentType" => 20,
+        //     "PaymentType" => "",
+        //     "Pieces" => "1",
+        //     "Height" => "",
+        //     "Width" => "",
+        //     "Length" => "",
+        //     "InsuranceValue" => 0,
+        //     "Eemark" => "",
+        //     "GenerateShippingLabel" => true,
+        //     "HawbItems" => [
+        //         [
+        //             "Content" => "Disney Classic Core Dumbo 35cm a",
+        //             "Price" => 3.66,
+        //             "Pieces" => 1,
+        //             "Weight" => 3,
+        //             "HsCode" => "",
+        //             "WebSite" => ""
+        //         ]
+        //     ],
+        //     "hawbChildren" => [
+        //         [
+        //             "ChildCustomerHawb" => "mother Reference number",
+        //             "Weight" => 0.3,
+        //             "Height" => 20,
+        //             "Width" => 1,
+        //             "Length" => 20
+        //         ]
+        //     ]
+        // ];
+
+        // $response = Http::withToken(Session::get('hubezToken'))->post('http://www.hub-ez.com/api/services/app/hawb/apiCreateHawb', $requestArray);
+        // dd($response->json());
     }
 }
