@@ -385,8 +385,7 @@
 
     <div class="searchable">
         <input type="text" placeholder="search countries" onkeyup="filterFunction(this,event)">
-        <ul id="searchableList">
-        </ul>
+        <ul></ul>
     </div>
 @endsection
 
@@ -487,20 +486,18 @@
                         name: input_val
                     }
                 }).done(function(data) {
+                    container.find("ul").empty()
                     var results = $.map(data, function(obj) {
                         return {
                             id: obj.id,
                             text: obj.text
                         };
                     })
-                    
                     results.forEach(element => {
-                        console.log(element);
+                        container.find("ul").append('<li data-val="' + element.id + '">' + element.text +
+                            '</li>');
                     });
-
                 });
-
-
                 container.find("ul li").removeClass("selected");
                 setTimeout(function() {
                     container.find("ul li:visible").first().addClass("selected");

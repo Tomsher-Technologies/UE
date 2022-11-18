@@ -35,7 +35,8 @@ class User extends Authenticatable
         'password',
         'status',
         'parent_id',
-        'grade_id'
+        'grade_id',
+        'verified',
     ];
 
     /**

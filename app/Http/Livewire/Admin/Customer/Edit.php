@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Customer;
 
 use App\Helpers\Password;
+use App\Http\Controllers\Common\MailController;
 use App\Models\Customer\CustomerDetails;
 use App\Models\Customer\Grade;
 use App\Models\User;
@@ -33,6 +34,7 @@ class Edit extends Component
             'user.name' => 'required',
             'user.email' => ['required', 'email', 'unique:users,email,' . $this->user->id],
             'user.grade_id' => ['required'],
+            'user.status' => ['required'],
             'customerDetails.phone' => ['nullable'],
             'customerDetails.address' => ['nullable'],
             'customerDetails.msp' => ['nullable', 'integer'],
@@ -90,6 +92,18 @@ class Edit extends Component
 
 
         $this->dispatchBrowserEvent('memberUpdated');
+    }
+
+    public function approveCustomer()
+    {
+        $this->user->verified = 1;
+        $this->user->status = 1;
+        $this->user->save();
+
+        $mailController = new MailController();
+        $mailController->agentApprovel($this->user);
+
+        $this->dispatchBrowserEvent('memberApproved');
     }
 
     public function mount($user)

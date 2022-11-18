@@ -9,6 +9,6 @@ class ResellerDashboardController extends Controller
 {
     public function index()
     {
-        return view('reseller.pages.dashboard-lv');
+        return view('reseller.pages.dashboard');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Reseller;
 
+use App\Http\Controllers\Common\MailController;
 use App\Http\Controllers\Controller;
 use App\Models\Common\Settings;
 use App\Models\Integrators\Integrator;
@@ -27,7 +28,6 @@ class BookingController extends Controller
     public function booking(Request $request)
     {
         $this->authenticate();
-
 
         $integrators = Cache::rememberForever('integrators', function () {
             return Integrator::all();
@@ -128,6 +128,10 @@ class BookingController extends Controller
                 'order_status' => 1,
             ]);
             $order->save();
+
+            $mailer = new MailController();
+            $mailer->newBooking(Auth()->user(), $order);
+            
         } else {
             $order->update([
                 'invoice_url' => $responseCollection['resultMsg'],

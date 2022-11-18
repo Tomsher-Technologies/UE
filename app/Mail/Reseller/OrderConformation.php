@@ -1,27 +1,30 @@
 <?php
 
-namespace App\Mail\Admin;
+namespace App\Mail\Reseller;
 
+use App\Models\Orders\Order;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class AgentApproved extends Mailable implements ShouldQueue
+class OrderConformation extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public User $user;
+    public Order $order;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $order)
     {
         $this->user = $user;
+        $this->order = $order;
     }
 
     /**
@@ -31,10 +34,10 @@ class AgentApproved extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $subject = 'You account is now active!';
+        $subject = 'Your booking has been place';
 
         return $this->subject($subject)
-            ->view('email.agent.approved')
+            ->view('email.admin.newuser')
             ->with('subject', $subject);
     }
 }

@@ -9,6 +9,8 @@ class SearchInputs extends Component
 {
 
     public $countries;
+    public $fromcountries;
+    public $tocountries;
 
     public $selectedFromCountry;
     public $fromcountry;
@@ -21,11 +23,30 @@ class SearchInputs extends Component
 
     public function render()
     {
+        if ($this->fromcountry) {
+            $this->fromcountries = $this->countries->where('name', $this->fromcountry);
+        } else {
+            $this->fromcountries = $this->countries->take(10);
+        }
+
         return view('livewire.reseller.search-inputs');
     }
 
-    public function updatedFromcountry($val)
+    public function updatedFromcountry($id)
     {
-        dd($val);
+        $this->fromcountry = $id;
+    }
+
+
+
+
+
+
+
+
+
+    protected function getListeners()
+    {
+        return ['updatedFromcountry' => 'updatedFromcountry'];
     }
 }

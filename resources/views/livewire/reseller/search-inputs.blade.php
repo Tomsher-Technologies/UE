@@ -4,9 +4,13 @@
             <label class="text-white" for="filter_name">Pickup Country</label>
             <div>
                 <div class="autocomplete">
+
+                    {{ $fromcountry }}
+
                     <input type="hidden" name="fromCountry" wire:model="selectedFromCountry">
-                    <select id="fromCountry" class="form-control select2" name="fromCountry" wire:model="fromcountry" required>
-                        @foreach ($countries->take(10) as $item)
+                    <select id="fromCountry" class="form-control select2" name="fromCountry" wire:model="fromcountry"
+                        required>
+                        @foreach ($fromcountries as $item)
                             <option value="{{ $item->id }}">{{ $item->text }}</option>
                         @endforeach
                     </select>
@@ -69,6 +73,19 @@
 
     <script>
         $('#fromCountry').select2();
+
+        $('#fromCountry').on('select2:select', function(e) {
+            var data = e.params.data;
+            Livewire.emit('updatedFromcountry', data.id)
+        })
+
+
+        // $('#fromCountry').select2();
+
+        // $('#fromCountry').on('select2:select', function(e) {
+        //     var data = e.params.data;
+        //     Livewire.emit('updatedFromcountry', data.id)
+        // })
     </script>
 
 </div>
