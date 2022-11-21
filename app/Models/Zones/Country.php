@@ -23,4 +23,9 @@ class Country extends Model
     {
         return $this->belongsToMany(Zone::class);
     }
+
+    public function odPincodes()
+    {
+        $this->hasMany(OdPincodes::class);
+    }
 }

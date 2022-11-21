@@ -90,7 +90,7 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
             Route::get('/{user}/edit', AgentEdit::class)->name('edit');
             Route::get('/{user}/show', AgentShow::class)->name('show');
 
-            Route::get('/profitMargin/{user}', ProfitMargin::class )->name('profitMargin');
+            Route::get('/profitMargin/{user}', ProfitMargin::class)->name('profitMargin');
         });
 
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
