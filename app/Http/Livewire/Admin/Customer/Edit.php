@@ -67,7 +67,7 @@ class Edit extends Component
     {
         $validatedData = $this->validate();
 
-        if ($this->password !== '') {
+        if ($this->password !== '' && $this->password !== NULL) {
             $this->user->password = $this->password;
         }
 

@@ -58,8 +58,8 @@
                                                 <div class="align-items-center mr-16pt">
                                                     {{-- <input type="button" value="Book Now" class="btn btn-primary"> --}}
 
-                                                    <form class="d-inline"
-                                                        action="{{ route('reseller.booking.view') }}" method="POST">
+                                                    <form class="d-inline" action="{{ route('reseller.booking.view') }}"
+                                                        method="POST">
                                                         @csrf
                                                         <input type="hidden" name="integrator"
                                                             value="{{ $integrator->id }}">
@@ -70,14 +70,16 @@
                                                             value="{{ $integrator->billable_weight }}">
                                                         <input type="submit" value="Book Now" class="btn btn-primary">
                                                     </form>
-                                                    
-                                                    <a href="#" data-iid="{{ $integrator->id }}"
-                                                        data-rate="{{ $integrator->zones->weight->rate }}"
-                                                        data-sid="{{ $search_id }}"
-                                                        data-totalweight="{{ $integrator->billable_weight }}"
-                                                        data-toggle="modal" data-target="#exampleModal"
-                                                        class="btn btn-primary">Request Special
-                                                        Price</a>
+
+                                                    @if ($hasSpecialRequest)
+                                                        <a href="#" data-iid="{{ $integrator->id }}"
+                                                            data-rate="{{ $integrator->zones->weight->rate }}"
+                                                            data-sid="{{ $search_id }}"
+                                                            data-totalweight="{{ $integrator->billable_weight }}"
+                                                            data-toggle="modal" data-target="#exampleModal"
+                                                            class="btn btn-primary">Request Special
+                                                            Price</a>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

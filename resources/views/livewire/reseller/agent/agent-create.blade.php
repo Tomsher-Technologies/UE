@@ -49,7 +49,7 @@
                         <input wire:model="limit_weight" type="number" class="form-control mb-2">
                         <x-form.error name="limit_weight" />
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label class="form-label">Profit Margin</label>
                         <input wire:model="profit_margin" type="number" class="form-control mb-2">
                         <x-form.error name="profit_margin" />
@@ -61,7 +61,27 @@
                             <option value="amount">Amount</option>
                         </select>
                         <x-form.error name="profit_margin_type" />
+                    </div> --}}
+
+                    <div class="form-group">
+                        <label class="form-label">Grade</label>
+                        <select wire:model="grade" class="form-control custom-select">
+                            @foreach ($grades as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-form.error name="grade" />
                     </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select wire:model="status" class="form-control custom-select">
+                            <option value="1" selected>Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                        <x-form.error name="status" />
+                    </div>
+
                     <div class="form-group">
                         <label class="form-label">Password</label>
                         <input wire:model="password" type="password" class="form-control mb-2">

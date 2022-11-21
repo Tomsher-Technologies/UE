@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -45,10 +46,17 @@ class ResetPassword extends Controller
             }
         );
 
+        $user = User::where('email', $request->email)->first();
+
         $status === Password::PASSWORD_RESET;
 
         if ($status) {
-            return redirect()->route('admin.login')->with('status', __($status));
+
+            if ($user->isAn('admin') || $user->isAn('ueuser')) {
+                return redirect()->route('admin.login')->with('status', __($status));
+            } else {
+                return redirect()->route('reseller.login')->with('status', __($status));
+            }
         } else {
             return back()->withErrors(['email' => [__($status)]]);
         }

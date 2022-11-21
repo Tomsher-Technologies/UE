@@ -29,7 +29,6 @@ class ResellerLoginController extends Controller
 
     public function authenticate(Request $request)
     {
-
         $request->validate([
             'email' => "required|email",
             'password' => "required"

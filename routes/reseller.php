@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\HubEz\HubEzController;
 use App\Http\Controllers\Reseller\Auth\ResellerLoginController;
 use App\Http\Controllers\Reseller\BookingController;
@@ -10,9 +11,11 @@ use App\Http\Livewire\Reseller\Agent\AgentCreate;
 use App\Http\Livewire\Reseller\Agent\AgentEdit;
 use App\Http\Livewire\Reseller\Agent\AgentIndex;
 use App\Http\Livewire\Reseller\Agent\AgentShow;
+use App\Http\Livewire\Reseller\Agent\ProfitMargin;
 use App\Http\Livewire\Reseller\Users\UserCreate;
 use App\Http\Livewire\Reseller\Users\UserEdit;
 use App\Http\Livewire\Reseller\Users\UserIndex;
+use App\Models\Common\DynamicContents;
 use App\Models\Common\Settings;
 use App\Models\Integrators\Integrator;
 use App\Models\Orders\Order;
@@ -70,20 +73,24 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
 
             Route::post('/book', [BookingController::class, 'bookingView'])->name('view');
             Route::post('/book/submit', [BookingController::class, 'booking'])->name('submit');
+
+            // Route::get('/book', function () {
+            //     return redirect()->route('reseller.dashboard');
+            // });
+            // Route::get('/book/submit', function () {
+            //     return redirect()->route('reseller.dashboard');
+            // });
         });
 
-        Route::get('/book', function () {
-            return redirect()->route('reseller.dashboard');
-        });
-        Route::get('/book/submit', function () {
-            return redirect()->route('reseller.dashboard');
-        });
+
 
         Route::group(['prefix' => 'agents', 'as' => 'agents.'], function () {
             Route::get('/', AgentIndex::class)->name('index');
             Route::get('/create', AgentCreate::class)->name('create');
             Route::get('/{user}/edit', AgentEdit::class)->name('edit');
             Route::get('/{user}/show', AgentShow::class)->name('show');
+
+            Route::get('/profitMargin/{user}', ProfitMargin::class )->name('profitMargin');
         });
 
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
@@ -91,6 +98,26 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
             Route::get('/create', UserCreate::class)->name('create');
             Route::get('/{user}/edit', UserEdit::class)->name('edit');
         });
+
+        Route::get('/terms', function () {
+            $terms = Cache::rememberForever('terms', function () {
+                return DynamicContents::where('name', 'terms')->first();
+            });
+
+            return view('reseller.pages.others.terms')->with([
+                'data' => $terms
+            ]);
+        })->name('terms');
+
+        Route::get('/privacy', function () {
+            $privacy = Cache::rememberForever('privacy', function () {
+                return DynamicContents::where('name', 'privacyploicy')->first();
+            });
+
+            return view('reseller.pages.others.terms')->with([
+                'data' => $privacy
+            ]);
+        })->name('privacy');
 
         include 'profile.php';
     });

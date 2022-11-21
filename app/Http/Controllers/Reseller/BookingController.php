@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Reseller;
 
 use App\Http\Controllers\Common\MailController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Reseller\BookingRequest;
+use App\Models\Common\DynamicContents;
 use App\Models\Common\Settings;
 use App\Models\Integrators\Integrator;
 use App\Models\Orders\Order;
@@ -19,9 +21,15 @@ class BookingController extends Controller
     public function bookingView(Request $request)
     {
         $details = Auth()->user()->customerDetails;
+
+        $terms = Cache::rememberForever('terms', function () {
+            return DynamicContents::where('name', 'terms')->first();
+        });
+
         return view('reseller.pages.booking')->with([
             'orequest' => $request,
             'details' => $details,
+            'terms' => $terms,
         ]);
     }
 
@@ -131,7 +139,6 @@ class BookingController extends Controller
 
             $mailer = new MailController();
             $mailer->newBooking(Auth()->user(), $order);
-            
         } else {
             $order->update([
                 'invoice_url' => $responseCollection['resultMsg'],

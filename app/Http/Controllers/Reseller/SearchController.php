@@ -79,12 +79,13 @@ class SearchController extends Controller
                     // add surcharge
                     $zone->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone, $country);
 
+                    // add profit margin
+                    $zone->weight->rate +=  getFrofirMargin($integrator->id, $billable_weight, $zone, $country, $del_type, $grade);
+
                     // Round rate for final result
                     $zone->weight->rate = round($zone->weight->rate, 2);
                 }
             }
-
-            // getFrofirMargin($integrator->id, $billable_weight, $zone, $country, $del_type, $grade);
         }
 
         $integrators = $integrators->reject(function ($integrator) {
@@ -95,10 +96,11 @@ class SearchController extends Controller
             return $integrator->zones->weight ? false : true;
         });
 
-        // ddd($integrators);
+        $hasSpecialRequest = hasSpecialRequest($billable_weight);
 
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
+            'hasSpecialRequest' => $hasSpecialRequest,
             'search_id' => $search_id,
         ]);
     }

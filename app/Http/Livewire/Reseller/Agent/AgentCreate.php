@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Reseller\Agent;
 
 use App\Helpers\Password;
+use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
 use Bouncer;
@@ -13,6 +14,8 @@ class AgentCreate extends Component
     public $name;
     public $email;
     public $password;
+    public $grade;
+    public $status;
     public $phone;
     public $address;
     public $msp;
@@ -23,12 +26,15 @@ class AgentCreate extends Component
     public $request_limit;
 
     public $image;
+    public $grades;
 
     protected function rules()
     {
         return [
             'password' => ['required', new Password],
             'name' => 'required',
+            'grade' => 'required',
+            'status' => 'required',
             'email' => ['required', 'email'],
             'phone' => ['nullable'],
             'address' => ['nullable'],
@@ -47,6 +53,13 @@ class AgentCreate extends Component
         'email.email' => 'The email address format is not valid.',
         'email.required' => 'The email address is required.',
     ];
+
+    public function mount()
+    {
+        $this->grades = Grade::all();
+        $this->grade = $this->grades->first()->id;
+        $this->status = 1;
+    }
 
     public function updatedPhoto()
     {
@@ -68,9 +81,10 @@ class AgentCreate extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
-            'status' => 1,
+            'status' => $this->status,
             'parent_id' => Auth()->user()->id,
-            'grade_id' => 0,
+            'grade_id' => $this->grade,
+            'verified' => 1,
         ]);
 
         Bouncer::assign('reselleruser')->to($customer);

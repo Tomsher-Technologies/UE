@@ -203,23 +203,23 @@
                 <div class="col-lg-4">
                     <div class="card text-center mb-lg-0 bg-grd1 text-light">
                         <div class="card-body">
-                            <h4 class="h2 mb-0 text-light">200</h4>
-                            <div>Total Customers</div>
+                            <h4 class="h2 mb-0 text-light">{{ $total_customer }}</h4>
+                            <div>Total Sub Agents</div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="card text-center mb-lg-0 bg-grd2 text-light">
                         <div class="card-body">
-                            <h4 class="h2 mb-0 text-light">3,917</h4>
-                            <div>Total Enquiry</div>
+                            <h4 class="h2 mb-0 text-light">{{ $total_search }}</h4>
+                            <div>Total Searches</div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="card text-center mb-lg-0 bg-grd3 text-light">
                         <div class="card-body">
-                            <h4 class="h2 mb-0 text-light">10,211</h4>
+                            <h4 class="h2 mb-0 text-light">{{ $total_orders }}</h4>
                             <div>Total Bookings</div>
                         </div>
                     </div>
@@ -233,46 +233,38 @@
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
                                         <small class="flex lh-24pt">30 Days</small>
-                                        <small class="lh-24pt">60</small>
+                                        <small class="lh-24pt">{{ $total_customer_month }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd1" role="progressbar" style="width: 91%"
+                                        <div class="progress-bar bg-grd1" role="progressbar"
+                                            style="width: {{ ($total_customer_month / $total_customer) * 100 }}%"
                                             aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
-                                        <small class="flex lh-24pt">15 Days</small>
-                                        <small class="lh-24pt">15</small>
-                                    </p>
-                                    <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd1" role="progressbar" style="width: 22%"
-                                            aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="mb-4pt">
-                                    <p class="d-flex align-items-center mb-0">
                                         <small class="flex lh-24pt">7 Days</small>
-                                        <small class="lh-24pt">4</small>
+                                        <small class="lh-24pt">{{ $total_customer_week }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd1" role="progressbar" style="width: 5%"
+                                        <div class="progress-bar bg-grd1" role="progressbar" style="width: {{ ($total_customer_week / $total_customer) * 100 }}%"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <p class="d-flex align-items-center mb-0">
                                         <small class="flex lh-24pt">Today</small>
-                                        <small class="lh-24pt">1</small>
+                                        <small class="lh-24pt">{{ $total_customer_day }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd1" role="progressbar" style="width: 1.06%"
+                                        <div class="progress-bar bg-grd1" role="progressbar" style="width: {{ ($total_customer_day / $total_customer) * 100 }}%"
                                             aria-valuenow="1.06" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="text-center">
-                                <a href="" class="btn btn-sm btn-outline-secondary">View Customers</a>
+                                <a href="{{ route('reseller.agents.index') }}"
+                                    class="btn btn-sm btn-outline-secondary">View Sub Agents</a>
                             </div>
                         </div>
                     </div>
@@ -284,46 +276,37 @@
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
                                         <small class="flex lh-24pt">30 Days</small>
-                                        <small class="lh-24pt">60</small>
+                                        <small class="lh-24pt">{{ $total_search_month }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: 91%"
+                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: {{ ($total_search_month / $total_search) * 100 }}%"
                                             aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
-                                        <small class="flex lh-24pt">15 Days</small>
-                                        <small class="lh-24pt">15</small>
-                                    </p>
-                                    <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: 22%"
-                                            aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="mb-4pt">
-                                    <p class="d-flex align-items-center mb-0">
                                         <small class="flex lh-24pt">7 Days</small>
-                                        <small class="lh-24pt">4</small>
+                                        <small class="lh-24pt">{{ $total_search_week }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: 5%"
+                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: {{ ($total_search_week / $total_search) * 100 }}%"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <p class="d-flex align-items-center mb-0">
                                         <small class="flex lh-24pt">Today</small>
-                                        <small class="lh-24pt">1</small>
+                                        <small class="lh-24pt">{{ $total_search_day }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: 1.06%"
+                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: {{ ($total_search_day / $total_search) * 100 }}%"
                                             aria-valuenow="1.06" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="text-center">
-                                <a href="" class="btn btn-sm btn-outline-secondary">View Enquiry</a>
+                                <a href="{{ route('reseller.search.history') }}"
+                                    class="btn btn-sm btn-outline-secondary">View Searches</a>
                             </div>
                         </div>
                     </div>
@@ -335,46 +318,37 @@
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
                                         <small class="flex lh-24pt">30 Days</small>
-                                        <small class="lh-24pt">60</small>
+                                        <small class="lh-24pt">{{ $total_orders_month }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: 91%"
+                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: {{ ($total_orders_month / $total_orders) * 100 }}%"
                                             aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
-                                        <small class="flex lh-24pt">15 Days</small>
-                                        <small class="lh-24pt">15</small>
-                                    </p>
-                                    <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: 22%"
-                                            aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="mb-4pt">
-                                    <p class="d-flex align-items-center mb-0">
                                         <small class="flex lh-24pt">7 Days</small>
-                                        <small class="lh-24pt">4</small>
+                                        <small class="lh-24pt">{{ $total_orders_week }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: 5%"
+                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: {{ ($total_orders_week / $total_orders) * 100 }}%"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <p class="d-flex align-items-center mb-0">
                                         <small class="flex lh-24pt">Today</small>
-                                        <small class="lh-24pt">1</small>
+                                        <small class="lh-24pt">{{ $total_orders_day }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: 1.06%"
+                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: {{ ($total_orders_day / $total_orders) * 100 }}%"
                                             aria-valuenow="1.06" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="text-center">
-                                <a href="" class="btn btn-sm btn-outline-secondary">View Bookings</a>
+                                <a href="{{ route('reseller.booking.history') }}"
+                                    class="btn btn-sm btn-outline-secondary">View Bookings</a>
                             </div>
                         </div>
                     </div>

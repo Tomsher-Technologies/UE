@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Customer;
+namespace App\Http\Livewire\Reseller\Agent;
 
-use App\Models\Customer\Grade;
 use App\Models\Customer\ProfitMargin as CustomerProfitMargin;
 use App\Models\Integrators\Integrator;
 use App\Models\User;
@@ -11,7 +10,7 @@ use App\Models\Zones\Zone;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
-class   ProfitMargin extends Component
+class ProfitMargin extends Component
 {
     public User $element;
     public $integrators;
@@ -19,7 +18,6 @@ class   ProfitMargin extends Component
     public $applied_for_txt = "&nbsp;";
     public $applied_for_items = NULL;
 
-    // 
     public $type = 'import';
     public $integrator;
     public $rate_type = 'percentage';
@@ -49,10 +47,10 @@ class   ProfitMargin extends Component
         'rate_type.required' => 'Please ente a type',
         'rate.required' => 'Please ente a rate',
         'weight.required' => 'Please ente a weight',
-        'end_weight.required' => 'Please ente an end weight',
+        'end_weight.required' => 'Please ente a end weight',
     ];
 
-    public function mount($user)
+    public function mount(User $user)
     {
         $this->element = $user;
         $this->integrators = Cache::rememberForever('integrators', function () {
@@ -60,7 +58,6 @@ class   ProfitMargin extends Component
         });
         $this->integrator = $this->integrators->first()->id;
     }
-
 
     public function save()
     {
@@ -143,7 +140,7 @@ class   ProfitMargin extends Component
         }
         $margins = $this->element->profitmargin()->get();
         $margins->load('integrator');
-        return view('livewire.admin.customer.profit-margin')->with([
+        return view('livewire.reseller.agent.profit-margin')->extends('layouts.reseller.app')->with([
             'margins' => $margins
         ]);
     }
