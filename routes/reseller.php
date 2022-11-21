@@ -74,12 +74,12 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
             Route::post('/book', [BookingController::class, 'bookingView'])->name('view');
             Route::post('/book/submit', [BookingController::class, 'booking'])->name('submit');
 
-            // Route::get('/book', function () {
-            //     return redirect()->route('reseller.dashboard');
-            // });
-            // Route::get('/book/submit', function () {
-            //     return redirect()->route('reseller.dashboard');
-            // });
+            Route::get('/book', function () {
+                return redirect()->route('reseller.dashboard');
+            });
+            Route::get('/book/submit', function () {
+                return redirect()->route('reseller.dashboard');
+            });
         });
 
 

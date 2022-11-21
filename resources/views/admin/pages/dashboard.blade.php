@@ -6,7 +6,7 @@
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
                     <h2 class="mb-0">Dashboard</h2>
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item active">
                             Dashboard
                         </li>
@@ -23,9 +23,9 @@
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex align-items-center">
                             <div class="flex d-flex align-items-center">
-                                <div class="h2 mb-0 mr-3">{{ $ueusers }}</div>
+                                <div class="h2 mb-0 mr-3">{{ $customer }}</div>
                                 <div class="flex">
-                                    <div class="card-title">UE Admin Users</div>
+                                    <div class="card-title">Customers</div>
                                 </div>
                             </div>
                             {{-- <i class="material-icons icon-32pt text-20 ml-8pt">assessment</i> --}}
@@ -36,9 +36,9 @@
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex align-items-center">
                             <div class="flex d-flex align-items-center">
-                                <div class="h2 mb-0 mr-3">{{ $vendors }}</div>
+                                <div class="h2 mb-0 mr-3">{{ $searches }}</div>
                                 <div class="flex">
-                                    <div class="card-title">Customers</div>
+                                    <div class="card-title">Searches</div>
                                 </div>
                             </div>
                             {{-- <i class="material-icons icon-32pt text-20 ml-8pt">shopping_basket</i> --}}
@@ -49,9 +49,9 @@
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex align-items-center">
                             <div class="flex d-flex align-items-center">
-                                <div class="h2 mb-0 mr-3">{{ $customer }}</div>
+                                <div class="h2 mb-0 mr-3">{{ $bookings }}</div>
                                 <div class="flex">
-                                    <div class="card-title">Users</div>
+                                    <div class="card-title">Booking</div>
                                 </div>
                             </div>
                             {{-- <i class="material-icons icon-32pt text-20 ml-8pt">perm_identity</i> --}}
@@ -67,10 +67,10 @@
                             <div class="flex">
                                 <div class="card-title">Total request</div>
                                 <!-- <div class="card-subtitle text-50 d-flex align-items-center">2.6% <i
-                                                                                                                        class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                                                                                </div> -->
+                                                                                                                                                                                                                class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
+                                                                                                                                                                                                        </div> -->
                             </div>
-                            <div class="ml-3 align-self-start">
+                            {{-- <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
                                     <a href="" class="dropdown-toggle" data-toggle="dropdown" data-caret="false"><i
                                             class="material-icons text-50">more_horiz</i></a>
@@ -78,7 +78,7 @@
                                         <a href="" class="dropdown-item">View report</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
                             <div class="chart w-100" style="height: 150px;">
@@ -101,11 +101,8 @@
                             <div class="h2 mb-0 mr-3">5.63%</div>
                             <div class="flex">
                                 <div class="card-title">Conversion rate</div>
-                                <!-- <div class="card-subtitle text-50 d-flex align-items-center">3.6% <i
-                                                                                                                        class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                                                                                </div> -->
                             </div>
-                            <div class="ml-3 align-self-start">
+                            {{-- <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
                                     <a href="" class="dropdown-toggle" data-toggle="dropdown" data-caret="false"><i
                                             class="material-icons text-50">more_horiz</i></a>
@@ -113,7 +110,7 @@
                                         <a href="" class="dropdown-item">View report</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="card-body d-flex flex-column justify-content-center">
                             <small class="text-muted text-uppercase mb-3 d-block font-weight-bold">Conversion
@@ -142,42 +139,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-lg-4 col-md-12 card-group-row__col">
-                                                                                                    <div class="card card-group-row__card">
-                                                                                                        <div class="card-body d-flex flex-row align-items-center flex-0">
-                                                                                                            <div class="h2 mb-0 mr-3">3645</div>
-                                                                                                            <div class="flex">
-                                                                                                                <div class="card-title">Average Booking</div>
-                                                                                                                <div class="card-subtitle text-50 d-flex align-items-center">6.7% <i
-                                                                                                                        class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                            <div class="ml-3 align-self-start">
-                                                                                                                <div class="dropdown mb-2">
-                                                                                                                    <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                                                                                                        data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                                                                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                                                                                        <a href="" class="dropdown-item">View report</a>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div
-                                                                                                            class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
-                                                                                                            <div class="chart w-100" style="height: 150px;">
-                                                                                                                <canvas class="chart-canvas js-update-chart-line" id="averageOrderValueChart"
-                                                                                                                    data-chart-legend="#averageOrderValueChartLegend"
-                                                                                                                    data-chart-line-border-color="primary" data-chart-prefix="$"
-                                                                                                                    data-chart-dark-mode="false">
-                                                                                                                    <span style="font-size: 1rem;"><strong>Average Order Value</strong> chart
-                                                                                                                        goes here.</span>
-                                                                                                                </canvas>
-                                                                                                            </div>
-                                                                                                            <div id="averageOrderValueChartLegend"
-                                                                                                                class="chart-legend chart-legend--horizontal mt-16pt"></div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div> -->
+
                 <div class="col-lg-4 col-md-6 card-group-row__col">
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex flex-row align-items-center flex-0">
@@ -185,7 +147,7 @@
                             <div class="flex">
                                 <div class="card-title">Avarage Booking</div>
                             </div>
-                            <div class="ml-3 align-self-start">
+                            {{-- <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
                                     <a href="" class="dropdown-toggle" data-toggle="dropdown"
                                         data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
@@ -193,10 +155,9 @@
                                         <a href="" class="dropdown-item">View report</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
-                        <div
-                            class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
+                        <div class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
                             <div class="chart w-100" style="height: 200px;">
                                 <canvas class="chart-canvas js-update-chart-bar" id="totalVisitorsChart"
                                     data-chart-legend="#totalVisitorsChartLegend"
@@ -243,15 +204,18 @@
                                 </th>
                                 <th>
                                     <a href="javascript:void(0)" class="sort"
-                                        data-sort="js-lists-values-orders-name">Countries</a>
+                                        data-sort="js-lists-values-orders-from">From Country</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-orders-to">To
+                                        Country</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)">Vendor</a>
                                 </th>
                                 <th>
                                     <a href="javascript:void(0)" class="sort"
-                                        data-sort="js-lists-values-orders-name">Vendor</a>
-                                </th>
-                                <th>
-                                    <a href="javascript:void(0)" class="sort"
-                                        data-sort="js-lists-values-orders-date">Date</a>
+                                        data-sort="js-lists-values-orders-weight">Billable Weight</a>
                                 </th>
                                 <th>
                                     <a href="javascript:void(0)" class="sort"
@@ -260,124 +224,42 @@
                             </tr>
                         </thead>
                         <tbody class="list" id="orders">
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <a class="js-lists-values-orders-name" href="">Jenell D. Matney</a>
-                                    </div>
-                                </td>
-                                <td class="js-lists-values-orders-date text-50">USA</td>
-                                <td>
-                                    <a class="js-lists-values-orders-amount" href=""><img
-                                            src="{{ adminAsset('images/aramex.png') }}"></a>
-                                </td>
-                                <td>
-                                    12/05/2022
-                                </td>
-                                <td>
-                                    320</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <a class="js-lists-values-orders-name" href="">Sherri J. Cardenas</a>
-                                    </div>
-                                </td>
-                                <td class="js-lists-values-orders-date text-50">UK</td>
-                                <td>
-                                    <a class="js-lists-values-orders-amount" href=""><img
-                                            src="{{ adminAsset('images/aramex.png') }}"></a>
-                                </td>
-                                <td>
-                                    12/05/2022
-                                </td>
-                                <td>
-                                    320</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <a class="js-lists-values-orders-name" href="">Joseph S. Ferland</a>
-                                    </div>
-                                </td>
-                                <td class="js-lists-values-orders-date text-50">CANADA</td>
-                                <td>
-                                    <a class="js-lists-values-orders-amount" href=""><img
-                                            src="{{ adminAsset('images/fedx.png') }}"></a>
-                                </td>
-                                <td>
-                                    12/05/2022
-                                </td>
-                                <td>
-                                    562
-                                </td>
-                            </tr>
-                            <tr class="selected">
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <a class="js-lists-values-orders-name" href="">Bryan K. Davis</a>
-                                    </div>
-                                </td>
-                                <td class="js-lists-values-orders-date text-50">USA</td>
-                                <td>
-                                    <a class="js-lists-values-orders-amount" href=""><img
-                                            src="{{ adminAsset('images/ups.png') }}"></a>
-                                </td>
-                                <td>
-                                    12/05/2022
-                                </td>
-                                <td>
-                                    246
-                                </td>
-                            </tr>
-                            <tr class="selected">
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <a class="js-lists-values-orders-name" href="">Elizabeth J. Ohara</a>
-                                    </div>
-                                </td>
-                                <td class="js-lists-values-orders-date text-50">USA</td>
-                                <td>
-                                    <a class="js-lists-values-orders-amount" href=""><img
-                                            src="{{ adminAsset('images/ups.png') }}"></a>
-                                </td>
-                                <td>
-                                    12/05/2022
-                                </td>
-                                <td>
-                                    246
-                                </td>
-                            </tr>
+                            @if ($recent_booking->count())
+                                @foreach ($recent_booking as $booking)
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <a class="js-lists-values-orders-name"
+                                                    href="{{ route('admin.customer.show', $booking->user) }}">
+                                                    {{ $booking->user->name }}
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="js-lists-values-orders-date text-50">
+                                            {{ $booking->search->fromCountry->name }}
+                                        </td>
+                                        <td class="js-lists-values-orders-date text-50">
+                                            {{ $booking->search->toCountry->name }}
+                                        </td>
+                                        <td>
+                                            <a class="js-lists-values-orders-amount" href="#">
+                                                <img style="width: 100px"
+                                                    src="{{ $booking->integrator->getLogoImage() }}">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ $booking->billable_weight }}
+                                        </td>
+                                        <td>
+                                            {{ $booking->rate }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
                     </table>
                 </div>
-                <div class="card-footer">
-                    <ul class="pagination justify-content-start pagination-xsm m-0">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true" class="material-icons">chevron_left</span>
-                                <span>Prev</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Page 1">
-                                <span>1</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Page 2">
-                                <span>2</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span>Next</span>
-                                <span aria-hidden="true" class="material-icons">chevron_right</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+
             </div>
         </div>
     </div>
@@ -386,4 +268,5 @@
 @push('header')
 @endpush
 @push('footer')
+
 @endpush

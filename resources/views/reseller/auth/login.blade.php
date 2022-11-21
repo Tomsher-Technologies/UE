@@ -35,7 +35,7 @@
                             <div class="ue-content">
                                 <div class="ue-header">
                                     <a href="login.html" class="ue-logo"><img width="180"
-                                            src="{{ adminAsset('images/logo/logo2.png') }}" alt="Logo"></a>
+                                            src="{{ resellerAsset('images/logo/logo2.png') }}" alt="Logo"></a>
 
                                 </div>
                                 <div class="ue-form">
@@ -86,12 +86,11 @@
                                         <div class=" d-flex flex-column pl-0 pt-3">
 
 
-                                            <p class="mb-8pt d-flex">
-                                                <a href="" class="text-70 text-underline mr-8pt small">UE
-                                                    Terms</a>
-                                                <a href="" class="text-70 text-underline small">UE Privacy
+                                            {{-- <p class="mb-8pt d-flex">
+                                                <a href="{{ route('reseller.terms') }}" class="text-70 text-underline mr-8pt small">Terms and conditions</a>
+                                                <a href="{{ route('reseller.privacy') }}" class="text-70 text-underline small">Privacy
                                                     policy</a>
-                                            </p>
+                                            </p> --}}
                                             <p class="text-50 small mt-n1 mb-0">Copyright 2022 &copy; All rights
                                                 reserved.</p>
                                         </div>
@@ -128,7 +127,7 @@
             -webkit-box-pack: justify;
             -ms-flex-pack: justify;
             justify-content: space-between;
-            margin-bottom: 100px;
+            margin-bottom: 20px;
         }
 
         .ue-template-layout1 .ue-bg-color {

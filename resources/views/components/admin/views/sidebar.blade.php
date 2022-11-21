@@ -1,10 +1,10 @@
 <div class="mdk-drawer js-mdk-drawer layout-compact__drawer" id="default-drawer">
     <div class="mdk-drawer__content js-sidebar-mini" data-responsive-width="992px" data-layout="compact">
         <div class="sidebar sidebar-mini sidebar-dark-pickled-bluewood sidebar-left d-flex flex-column">
-            <a href="index.html" class="sidebar-brand p-0 navbar-height d-flex justify-content-center">
-                <span class="avatar avatar-sm ">
+            <a href="{{ route('admin.dashboard') }}" class="sidebar-brand p-0 navbar-height d-flex justify-content-center">
+                <span class=" ">
                     <span class="avatar-title rounded bg-primary ">
-                        <img src="{{ adminAsset('images/logo/logo.png') }}" class="img-fluid rotate-img"
+                        <img src="{{ asset('images/logo-white.png') }}" class="img-fluid"
                             alt="logo" />
                     </span>
                 </span>

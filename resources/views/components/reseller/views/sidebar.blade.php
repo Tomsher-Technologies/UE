@@ -1,16 +1,40 @@
+<style>
+    [dir] .layout-boxed #default-drawer .sidebar-brand {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    [dir] .logo .avatar-title img,
+    .layout-boxed #default-drawer .sidebar-brand-icon {
+        width: 100%;
+        margin: 0;
+    }
+
+    .brand-name {
+        padding: 20px 0;
+    }
+    .logo + .brand-name {
+        padding: 0;
+    }
+</style>
+
 <div class="mdk-drawer js-mdk-drawer" id="default-drawer">
     <div class="mdk-drawer__content">
         <div class="sidebar sidebar-light sidebar-light-dodger-blue sidebar-left" data-perfect-scrollbar>
             <!-- Sidebar Content -->
             <a href="{{ route('reseller.dashboard') }}"
                 class="sidebar-brand sidebar-brand-dark bg-primary-pickled-bluewood">
-                <!-- <img class="sidebar-brand-icon" src="public/images/illustration/student/128/white.svg" alt="Luma"> -->
-                <span class="logo avatar avatar-xl sidebar-brand-icon h-auto">
-                    <span class="avatar-title rounded bg-transparent">
-                        <img src="{{ resellerAsset('images/logo/logo2.png') }}" class="img-fluid"
-                            alt="{{ auth()->user()->name }}" /></span>
-                </span>
-                <span class="font-size-16pt" style="line-height: 1;"> {{ auth()->user()->name }} </span>
+
+                @if (auth()->user()->customerDetails->getProfileImage())
+                    <span class="logo avatar avatar-xl sidebar-brand-icon h-auto">
+                        <span class="avatar-title rounded bg-transparent">
+                            <img src="{{ auth()->user()->customerDetails->getProfileImage() }}" class="img-fluid"
+                                alt="{{ auth()->user()->name }}" /></span>
+                    </span>
+                @endif
+
+                <span class="brand-name font-size-16pt" style="line-height: 1;"> {{ auth()->user()->name }} </span>
             </a>
             <ul class="sidebar-menu">
                 <li class="sidebar-menu-item {{ request()->routeIs('reseller.dashboard*') ? 'active' : '' }}">
