@@ -63,9 +63,9 @@
     <script src="{{ adminAsset('vendor/moment-range.js') }}"></script>
     <script src="{{ adminAsset('vendor/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ adminAsset('js/flatpickr.js') }}"></script>
-    {{-- <script src="{{ adminAsset('vendor/Chart.min.js') }}"></script>
+    <script src="{{ adminAsset('vendor/Chart.min.js') }}"></script>
     <script src="{{ adminAsset('js/chartjs.js') }}"></script>
-    <script src="{{ adminAsset('js/chartjs-rounded-bar.js') }}"></script> --}}
+    <script src="{{ adminAsset('js/chartjs-rounded-bar.js') }}"></script>
     {{-- <script src="{{ adminAsset('js/page.ecommerce.js') }}"></script> --}}
     <script src="{{ adminAsset('vendor/list.min.js') }}"></script>
     <script src="{{ adminAsset('js/list.js') }}"></script>

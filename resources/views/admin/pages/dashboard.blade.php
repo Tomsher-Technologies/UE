@@ -38,7 +38,7 @@
                             <div class="flex d-flex align-items-center">
                                 <div class="h2 mb-0 mr-3">{{ $searches }}</div>
                                 <div class="flex">
-                                    <div class="card-title">Searches</div>
+                                    <div class="card-title">Total Searches</div>
                                 </div>
                             </div>
                             {{-- <i class="material-icons icon-32pt text-20 ml-8pt">shopping_basket</i> --}}
@@ -51,7 +51,7 @@
                             <div class="flex d-flex align-items-center">
                                 <div class="h2 mb-0 mr-3">{{ $bookings }}</div>
                                 <div class="flex">
-                                    <div class="card-title">Booking</div>
+                                    <div class="card-title">Total Booking</div>
                                 </div>
                             </div>
                             {{-- <i class="material-icons icon-32pt text-20 ml-8pt">perm_identity</i> --}}
@@ -60,15 +60,15 @@
                 </div>
             </div>
             <div class="row card-group-row">
-                <div class="col-lg-4 col-md-6 card-group-row__col">
+                <div class="col-lg-6 col-md-6 card-group-row__col">
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex flex-row align-items-center flex-0">
-                            <div class="h2 mb-0 mr-3">82</div>
+                            <div class="h2 mb-0 mr-3">{{ $seaches_this_week }}</div>
                             <div class="flex">
-                                <div class="card-title">Total request</div>
+                                <div class="card-title">Searches This Week</div>
                                 <!-- <div class="card-subtitle text-50 d-flex align-items-center">2.6% <i
-                                                                                                                                                                                                                class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                                                                                                                                                                        </div> -->
+                                                                                                                                                                                                                                                    class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
+                                                                                                                                                                                                                                            </div> -->
                             </div>
                             {{-- <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
@@ -82,90 +82,26 @@
                         </div>
                         <div class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
                             <div class="chart w-100" style="height: 150px;">
-                                <canvas class="chart-canvas js-update-chart-line js-update-chart-area" id="totalSalesChart"
-                                    data-chart-legend="#totalSalesChartLegend"
-                                    data-chart-line-background-color="gradient:primary"
-                                    data-chart-line-background-opacity="0.24" data-chart-line-border-color="primary"
-                                    data-chart-prefix="$" data-chart-dark-mode="false">
-                                    <span style="font-size: 1rem;"><strong>Total request</strong> chart goes
-                                        here.</span>
-                                </canvas>
+                                {!! $searchchartjs->render() !!}
+                                
                             </div>
                             <div id="totalSalesChartLegend" class="chart-legend chart-legend--horizontal mt-16pt"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 card-group-row__col">
-                    <div class="card card-group-row__card">
-                        <div class="card-body d-flex flex-row align-items-center flex-0">
-                            <div class="h2 mb-0 mr-3">5.63%</div>
-                            <div class="flex">
-                                <div class="card-title">Conversion rate</div>
-                            </div>
-                            {{-- <div class="ml-3 align-self-start">
-                                <div class="dropdown mb-2">
-                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" data-caret="false"><i
-                                            class="material-icons text-50">more_horiz</i></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="" class="dropdown-item">View report</a>
-                                    </div>
-                                </div>
-                            </div> --}}
-                        </div>
-                        <div class="card-body d-flex flex-column justify-content-center">
-                            <small class="text-muted text-uppercase mb-3 d-block font-weight-bold">Conversion
-                                Funnel</small>
-                            <small class="d-flex align-items-start font-weight-bold text-muted mb-2">
-                                <span class="flex d-flex flex-column">
-                                    <span class="text-body">Booking request</span>
-                                    5 visits
-                                </span>
-                                <span class="mx-3">7.04%</span>
-                            </small>
-                            <small class="d-flex align-items-start font-weight-bold text-muted mb-2">
-                                <span class="flex d-flex flex-column">
-                                    <span class="text-body">Quoates Submitted</span>
-                                    5 visits
-                                </span>
-                                <span class="mx-3">7.04%</span>
-                            </small>
-                            <small class="d-flex align-items-start font-weight-bold text-muted">
-                                <span class="flex d-flex flex-column">
-                                    <span class="text-body">Booked</span>
-                                    4 orders
-                                </span>
-                                <span class="mx-3">5.63%</span>
-                            </small>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-lg-4 col-md-6 card-group-row__col">
+
+                <div class="col-lg-6 col-md-6 card-group-row__col">
                     <div class="card card-group-row__card">
                         <div class="card-body d-flex flex-row align-items-center flex-0">
-                            <div class="h2 mb-0 mr-3">452</div>
+                            <div class="h2 mb-0 mr-3">{{ $bookings_this_week->count() }}</div>
                             <div class="flex">
-                                <div class="card-title">Avarage Booking</div>
+                                <div class="card-title">Bookings This Week</div>
                             </div>
-                            {{-- <div class="ml-3 align-self-start">
-                                <div class="dropdown mb-2">
-                                    <a href="" class="dropdown-toggle" data-toggle="dropdown"
-                                        data-caret="false"><i class="material-icons text-50">more_horiz</i></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="" class="dropdown-item">View report</a>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
                         <div class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
                             <div class="chart w-100" style="height: 200px;">
-                                <canvas class="chart-canvas js-update-chart-bar" id="totalVisitorsChart"
-                                    data-chart-legend="#totalVisitorsChartLegend"
-                                    data-chart-line-background-color="gradient:primary" data-chart-suffix="k"
-                                    data-chart-dark-mode="false">
-                                    <span style="font-size: 1rem;"><strong>Total Visitors</strong> chart goes
-                                        here.</span>
-                                </canvas>
+                                {!! $bookingchartjs->render() !!}
                             </div>
                             <div id="totalVisitorsChartLegend" class="chart-legend chart-legend--horizontal mt-16pt">
                             </div>
@@ -203,8 +139,8 @@
                                         data-sort="js-lists-values-orders-name">Name</a>
                                 </th>
                                 <th>
-                                    <a href="javascript:void(0)" class="sort"
-                                        data-sort="js-lists-values-orders-from">From Country</a>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-orders-from">From
+                                        Country</a>
                                 </th>
                                 <th>
                                     <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-orders-to">To
@@ -220,6 +156,9 @@
                                 <th>
                                     <a href="javascript:void(0)" class="sort"
                                         data-sort="js-lists-values-orders-amount">Amount</a>
+                                </th>
+                                <th>
+                                    &nbsp;
                                 </th>
                             </tr>
                         </thead>
@@ -253,6 +192,9 @@
                                         <td>
                                             {{ $booking->rate }}
                                         </td>
+                                        <td>
+                                            <a href="#" class="btn btn-primary w-100">View</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif
@@ -268,5 +210,67 @@
 @push('header')
 @endpush
 @push('footer')
-
+    {{-- <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            (function() {
+                "use strict";
+                var ctx = document.getElementById("bookingchartjs");
+                window.bookingchartjs = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+                            "Saturday"
+                        ],
+                        datasets: [{
+                            "label": "Total Booking This Week",
+                            "backgroundColor": "rgb(0, 107, 110,0.31)",
+                            "borderColor": "rgba(0, 107, 110, 0.7)",
+                            "pointBorderColor": "rgba(0, 107, 110, 0.7)",
+                            "pointBackgroundColor": "rgba(0, 107, 110, 0.7)",
+                            "pointHoverBackgroundColor": "#fff",
+                            "pointHoverBorderColor": "rgba(220,220,220,1)",
+                            "data": [1, 2, 2, 0, 0, 0, 0]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Chart.js Line Chart'
+                            }
+                        },
+                        hover: {
+                            mode: 'index',
+                            intersec: false
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Month'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Value'
+                                },
+                                min: 0,
+                                max: 100,
+                                ticks: {
+                                    // forces step size to be 50 units
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            })();
+        });
+    </script> --}}
 @endpush

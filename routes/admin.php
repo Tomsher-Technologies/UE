@@ -39,10 +39,22 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
         // return view('welcome');
 
-        $user = User::find(1);
-        // $user->notify(new NewUserNotification($user))->delay(now()->addMinute());
-        // Notification::notify($user, new NewUserNotification($user));
-        Mail::to('shabeer@tomshe.com')->later(1, new NewCustomerMail($user));
+        $t = date('P');
+        $sign = substr($t, 0, 1);
+        $vals = substr($t, 1, 2);
+        $tot = $sign . $vals . " hour";
+
+        $nowtime = DateTime::createFromFormat("h:i A", "11:00 AM");
+        echo $nowtime->format('h:i A');
+
+        date_add($nowtime, date_interval_create_from_date_string($tot));
+        $date = date_format($nowtime, 'h:i A');
+        echo "<br>" . $date;
+
+        // $user = User::find(1);
+        // // $user->notify(new NewUserNotification($user))->delay(now()->addMinute());
+        // // Notification::notify($user, new NewUserNotification($user));
+        // Mail::to('shabeer@tomshe.com')->later(1, new NewCustomerMail($user));
 
         // $email = Cache::rememberForever('notification_email', function () {
         //     return Settings::where('group', 'notification_email')->get();
