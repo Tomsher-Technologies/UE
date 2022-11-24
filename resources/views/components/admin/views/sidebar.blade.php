@@ -1,11 +1,11 @@
 <div class="mdk-drawer js-mdk-drawer layout-compact__drawer" id="default-drawer">
     <div class="mdk-drawer__content js-sidebar-mini" data-responsive-width="992px" data-layout="compact">
         <div class="sidebar sidebar-mini sidebar-dark-pickled-bluewood sidebar-left d-flex flex-column">
-            <a href="{{ route('admin.dashboard') }}" class="sidebar-brand p-0 navbar-height d-flex justify-content-center">
+            <a href="{{ route('admin.dashboard') }}"
+                class="sidebar-brand p-0 navbar-height d-flex justify-content-center">
                 <span class=" ">
                     <span class="avatar-title rounded bg-primary ">
-                        <img src="{{ asset('images/logo-white.png') }}" class="img-fluid"
-                            alt="logo" />
+                        <img src="{{ asset('images/logo-white.png') }}" class="img-fluid" alt="logo" />
                     </span>
                 </span>
             </a>
@@ -185,6 +185,24 @@
                                         add_box
                                     </span>
                                     <span class="sidebar-menu-text">Grades</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.searches') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        search
+                                    </span>
+                                    <span class="sidebar-menu-text">Search History</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.searches') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        search
+                                    </span>
+                                    <span class="sidebar-menu-text">Booking History</span>
                                 </a>
                             </li>
                         </ul>

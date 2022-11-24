@@ -67,8 +67,8 @@
                             <div class="flex">
                                 <div class="card-title">Searches This Week</div>
                                 <!-- <div class="card-subtitle text-50 d-flex align-items-center">2.6% <i
-                                                                                                                                                                                                                                                    class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
-                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                        class="material-icons text-accent icon-16pt ml-4pt">keyboard_arrow_up</i>
+                                                                                                                                                                                                                                                </div> -->
                             </div>
                             {{-- <div class="ml-3 align-self-start">
                                 <div class="dropdown mb-2">
@@ -83,7 +83,7 @@
                         <div class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
                             <div class="chart w-100" style="height: 150px;">
                                 {!! $searchchartjs->render() !!}
-                                
+
                             </div>
                             <div id="totalSalesChartLegend" class="chart-legend chart-legend--horizontal mt-16pt"></div>
                         </div>

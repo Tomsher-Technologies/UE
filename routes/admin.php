@@ -14,6 +14,7 @@ use App\Http\Livewire\Admin\Customer\Grade\GradeProfitMargin;
 use App\Http\Livewire\Admin\Customer\GradeEdit;
 use App\Http\Livewire\Admin\Customer\ProfitMargin;
 use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
+use App\Http\Livewire\Admin\Search\Search;
 use App\Mail\Admin\NewCustomerMail;
 use App\Models\Common\Settings;
 use App\Models\User;
@@ -100,6 +101,10 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::get('/{user}/profit-margin', [CustomerController::class, 'profitMargin'])->name('profitMargin');
         });
 
+        Route::resource('customer', CustomerController::class)->parameters([
+            'customer' => 'user'
+        ])->only(['index', 'create', 'edit', 'show']);
+
         Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {
             Route::get('/', Grade::class)->name('index');
             Route::get('/{grade}/edit', GradeEdit::class)->name('edit');
@@ -108,16 +113,15 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
         Route::get('/profit-margin/{profit_margin}/edit', ProfitMarginEdit::class)->name('profitMargin.edit');
 
-        Route::resource('customer', CustomerController::class)->parameters([
-            'customer' => 'user'
-        ])->only(['index', 'create', 'edit', 'show']);
-
         Route::group(['prefix' => 'integrator', 'as' => 'integrator.'], function () {
             Route::get('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRatesView'])->name('uploadRates');
             Route::post('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRates']);
 
             Route::get('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZoneView'])->name('uploadZones');
             Route::post('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZone']);
+            
+            Route::get('/{integrator}/upload/od-pincodes', [IntegratorController::class, 'uploadOdPinView'])->name('uploadOdPin');
+            Route::post('/{integrator}/upload/od-pincodes', [IntegratorController::class, 'uploadOdPin']);
 
             Route::get('/export', [IntegratorController::class, 'exportView'])->name('export');
             Route::post('/export', [IntegratorController::class, 'export']);
@@ -127,26 +131,15 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
         Route::resource('surcharge', SurchargeController::class)->only(['index', 'create', 'edit']);
 
+        Route::get('/searches', Search::class )->name('searches');
+
         Route::name('special_rates.')->group(function () {
-            Route::get('/special_rates', [SpecialRateController::class, 'index'])->name('index');
-            // Route::get('/{user}/special_rates/create', [SpecialRateController::class, 'create'])->name('create');
-            // Route::get('/{user}/special_rates/show/{special_rate}', [SpecialRateController::class, 'show'])->name('show');
+            Route::get('/special_rates', [SpecialRateController::class, 'index'])->name('index');\
             Route::get('/special_rates/{special_rate}/edit/', [SpecialRateController::class, 'edit'])->name('edit');
         });
 
-        // Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {
-
-        // });
 
         Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);
         include 'profile.php';
     });
-
-
-    // Route::middleware(['auth', 'auth.session', 'ueuser'])->group(function () {
-    //     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-    //     Route::get('dashboard', [UeUserDashboard::class, 'index'])->name('dashboard');
-    //     include 'profile.php';
-    // });
-
 });

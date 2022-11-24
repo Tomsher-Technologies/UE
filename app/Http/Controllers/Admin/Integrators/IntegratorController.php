@@ -9,6 +9,7 @@ use App\Models\Integrators\Integrator;
 use App\Http\Requests\StoreintegratorRequest;
 use App\Http\Requests\UpdateintegratorRequest;
 use App\Imports\ImportRateImport;
+use App\Imports\ODPicodeImport;
 use App\Imports\ZoneImport;
 use App\Models\Integrators\Uploads;
 use App\Models\Rates\ImportRate;
@@ -138,9 +139,15 @@ class IntegratorController extends Controller
 
         Excel::import($import, request()->file('importfile'));
 
-        return back()->with([
-            'import_errors' => $import->errors
-        ]);
+        if ($import->errors) {
+            return back()->with([
+                'import_errors' => $import->errors
+            ]);
+        } else {
+            return back()->with([
+                'status' => "Import successful"
+            ]);
+        }
     }
 
     public function uploadZoneView(Integrator $integrator)
@@ -177,9 +184,60 @@ class IntegratorController extends Controller
 
         Excel::import($import, request()->file('importfile'));
 
-        return back()->with([
-            'import_errors' => $import->errors
+        if ($import->errors) {
+            return back()->with([
+                'import_errors' => $import->errors
+            ]);
+        } else {
+            return back()->with([
+                'status' => "Import successful"
+            ]);
+        }
+    }
+
+    public function uploadOdPinView(Integrator $integrator)
+    {
+        return view('admin.integrators.uploadpins')->with([
+            'integrator' => $integrator
         ]);
+    }
+    public function uploadOdPin(Request $request, Integrator $integrator)
+    {
+        $request->validate([
+            'importfile' => 'required|file|max:10000|mimes:xlsx,csv,txt',
+        ], [
+            'importfile.required' => 'Please select a file',
+        ]);
+
+        $uploadedFile = $request->file('importfile');
+        $filename = time() . $uploadedFile->getClientOriginalName();
+
+        $file = Storage::disk('public')->putFileAs(
+            'uploaded/odpincodes/' . $filename,
+            $uploadedFile,
+            $filename
+        );
+
+        Uploads::create([
+            'integrator_id' => $integrator->id,
+            'name' => $filename,
+            'type' => "OD Pincode",
+            'path' => 'storage/' . $file,
+        ]);
+
+        $import = new ODPicodeImport($integrator->id);
+
+        Excel::import($import, request()->file('importfile'));
+
+        if ($import->errors) {
+            return back()->with([
+                'import_errors' => $import->errors
+            ]);
+        } else {
+            return back()->with([
+                'status' => "Import successful"
+            ]);
+        }
     }
 
     public function exportView()
