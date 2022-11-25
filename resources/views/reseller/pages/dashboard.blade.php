@@ -60,9 +60,16 @@
                                 <div class="form-group text-left">
                                     <label class="text-white" for="filter_name">Pickup City</label>
                                     <div>
-                                        <div class="autocomplete">
-                                            <select id="fromCity" class="form-control select2" name="fromCity"></select>
+
+                                        <div class="searchable">
+                                            <input name="fromCity" type="text" placeholder="search city"
+                                                onkeyup="filterCity(this,event,'from')">
+                                            <ul></ul>
                                         </div>
+
+                                        {{-- <div class="autocomplete">
+                                            <select id="fromCity" class="form-control select2" name="fromCity"></select>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -70,10 +77,17 @@
                                 <div class="form-group text-left">
                                     <label class="text-white" for="filter_name">Pickup Pincode</label>
                                     <div>
-                                        <div class="autocomplete">
+
+                                        <div class="searchable">
+                                            <input name="fromPincode" type="number" placeholder="search pincode"
+                                                onkeyup="filterPin(this,event,'from')">
+                                            <ul></ul>
+                                        </div>
+
+                                        {{-- <div class="autocomplete">
                                             <select id="fromPincode" class="form-control select2"
                                                 name="fromPincode"></select>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -93,9 +107,16 @@
                                 <div class="form-group text-left">
                                     <label class="text-white" for="filter_name">Delivery City</label>
                                     <div>
-                                        <div class="autocomplete">
-                                            <select id="toCity" class="form-control select2" name="toCity"></select>
+
+                                        <div class="searchable">
+                                            <input name="toCity" id="toCity" type="text" placeholder="search city"
+                                                onkeyup="filterCity(this,event,'to')">
+                                            <ul></ul>
                                         </div>
+
+                                        {{-- <div class="autocomplete">
+                                            <select id="toCity" class="form-control select2" name="toCity"></select>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -103,9 +124,14 @@
                                 <div class="form-group text-left">
                                     <label class="text-white" for="filter_name">Delivery Pincode</label>
                                     <div>
-                                        <div class="autocomplete">
-                                            <select id="toPincode" class="form-control select2" name="toPincode"></select>
+                                        <div class="searchable">
+                                            <input name="toPincode" id="toPincode" type="text"
+                                                placeholder="search pincode" onkeyup="filterPin(this,event,'to')">
+                                            <ul></ul>
                                         </div>
+                                        {{-- <div class="autocomplete">
+                                            <select id="toPincode" class="form-control select2" name="toPincode"></select>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -247,7 +273,8 @@
                                         <small class="lh-24pt">{{ $total_customer_week }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd1" role="progressbar" style="width: {{ ($total_customer_week / $total_customer) * 100 }}%"
+                                        <div class="progress-bar bg-grd1" role="progressbar"
+                                            style="width: {{ ($total_customer_week / $total_customer) * 100 }}%"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -257,7 +284,8 @@
                                         <small class="lh-24pt">{{ $total_customer_day }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd1" role="progressbar" style="width: {{ ($total_customer_day / $total_customer) * 100 }}%"
+                                        <div class="progress-bar bg-grd1" role="progressbar"
+                                            style="width: {{ ($total_customer_day / $total_customer) * 100 }}%"
                                             aria-valuenow="1.06" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -279,7 +307,8 @@
                                         <small class="lh-24pt">{{ $total_search_month }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: {{ ($total_search_month / $total_search) * 100 }}%"
+                                        <div class="progress-bar bg-grd2" role="progressbar"
+                                            style="width: {{ ($total_search_month / $total_search) * 100 }}%"
                                             aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -289,7 +318,8 @@
                                         <small class="lh-24pt">{{ $total_search_week }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: {{ ($total_search_week / $total_search) * 100 }}%"
+                                        <div class="progress-bar bg-grd2" role="progressbar"
+                                            style="width: {{ ($total_search_week / $total_search) * 100 }}%"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -299,7 +329,8 @@
                                         <small class="lh-24pt">{{ $total_search_day }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd2" role="progressbar" style="width: {{ ($total_search_day / $total_search) * 100 }}%"
+                                        <div class="progress-bar bg-grd2" role="progressbar"
+                                            style="width: {{ ($total_search_day / $total_search) * 100 }}%"
                                             aria-valuenow="1.06" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -321,7 +352,8 @@
                                         <small class="lh-24pt">{{ $total_orders_month }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: {{ ($total_orders_month / $total_orders) * 100 }}%"
+                                        <div class="progress-bar bg-grd3" role="progressbar"
+                                            style="width: {{ ($total_orders_month / $total_orders) * 100 }}%"
                                             aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -331,7 +363,8 @@
                                         <small class="lh-24pt">{{ $total_orders_week }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: {{ ($total_orders_week / $total_orders) * 100 }}%"
+                                        <div class="progress-bar bg-grd3" role="progressbar"
+                                            style="width: {{ ($total_orders_week / $total_orders) * 100 }}%"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -341,7 +374,8 @@
                                         <small class="lh-24pt">{{ $total_orders_day }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
-                                        <div class="progress-bar bg-grd3" role="progressbar" style="width: {{ ($total_orders_day / $total_orders) * 100 }}%"
+                                        <div class="progress-bar bg-grd3" role="progressbar"
+                                            style="width: {{ ($total_orders_day / $total_orders) * 100 }}%"
                                             aria-valuenow="1.06" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -370,7 +404,6 @@
         div.searchable {
             width: 300px;
             float: left;
-            margin: 0 15px;
         }
 
         .searchable input {
@@ -433,81 +466,164 @@
             container = $(that).closest(".searchable");
             input_val = $(that).val().toUpperCase();
 
-            if (["ArrowDown", "ArrowUp", "Enter"].indexOf(event.key) != -1) {
-                keyControl(event, container)
-            } else {
-                // li = container.find("ul li");
-                // li.each(function(i, obj) {
-                //     if ($(this).text().toUpperCase().indexOf(input_val) > -1) {
-                //         $(this).show();
-                //     } else {
-                //         $(this).hide();
-                //     }
-                // });
-
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                    }
-                });
-
-                $.ajax({
-                    method: "POST",
-                    url: '{{ route('getCountries') }}',
-                    dataType: 'json',
-                    data: {
-                        name: input_val
-                    }
-                }).done(function(data) {
-                    container.find("ul").empty()
-                    var results = $.map(data, function(obj) {
-                        return {
-                            id: obj.id,
-                            text: obj.text
-                        };
-                    })
-                    results.forEach(element => {
-                        container.find("ul").append('<li data-val="' + element.id + '">' + element.text +
-                            '</li>');
-                    });
-                });
-                container.find("ul li").removeClass("selected");
-                setTimeout(function() {
-                    container.find("ul li:visible").first().addClass("selected");
-                }, 100)
-            }
-        }
-
-        function keyControl(e, container) {
-            if (e.key == "ArrowDown") {
-
-                if (container.find("ul li").hasClass("selected")) {
-                    if (container.find("ul li:visible").index(container.find("ul li.selected")) + 1 < container.find(
-                            "ul li:visible").length) {
-                        container.find("ul li.selected").removeClass("selected").nextAll().not('[style*="display: none"]')
-                            .first().addClass("selected");
-                    }
-
-                } else {
-                    container.find("ul li:first-child").addClass("selected");
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 }
-
-            } else if (e.key == "ArrowUp") {
-
-                if (container.find("ul li:visible").index(container.find("ul li.selected")) > 0) {
-                    container.find("ul li.selected").removeClass("selected").prevAll().not('[style*="display: none"]')
-                        .first().addClass("selected");
-                }
-            } else if (e.key == "Enter") {
-                container.find("input").val(container.find("ul li.selected").text()).blur();
-                onSelect(container.find("ul li.selected").text())
-            }
-
-            container.find("ul li.selected")[0].scrollIntoView({
-                behavior: "smooth",
             });
+
+            $.ajax({
+                method: "POST",
+                url: '{{ route('getCountries') }}',
+                dataType: 'json',
+                data: {
+                    name: input_val
+                }
+            }).done(function(data) {
+                container.find("ul").empty()
+                var results = $.map(data, function(obj) {
+                    return {
+                        id: obj.id,
+                        text: obj.text
+                    };
+                })
+                results.forEach(element => {
+                    container.find("ul").append('<li data-val="' + element.id + '">' + element.text +
+                        '</li>');
+                });
+            });
+            container.find("ul li").removeClass("selected");
+            setTimeout(function() {
+                container.find("ul li:visible").first().addClass("selected");
+            }, 100)
+
         }
+
+        function filterCity(that, event, type) {
+            let container, input, filter, li, input_val;
+            container = $(that).closest(".searchable");
+            input_val = $(that).val().toUpperCase();
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                }
+            });
+
+            if (type == 'from') {
+                country = $('#fromCountry').val();
+                console.log(country);
+            } else {
+                country = $('#toCountry').val();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: '{{ route('getCities') }}',
+                dataType: 'json',
+                data: {
+                    country: country,
+                    name: input_val
+                }
+            }).done(function(data) {
+                container.find("ul").empty()
+                var results = $.map(data, function(obj) {
+                    return {
+                        id: obj.id,
+                        text: obj.text
+                    };
+                })
+                results.forEach(element => {
+                    container.find("ul").append('<li data-val="' + element.id + '">' + element.text +
+                        '</li>');
+                });
+            });
+            container.find("ul li").removeClass("selected");
+            setTimeout(function() {
+                container.find("ul li:visible").first().addClass("selected");
+            }, 100)
+
+        }
+
+        function filterPin(that, event, type) {
+            let container, input, filter, li, input_val;
+            container = $(that).closest(".searchable");
+            input_val = $(that).val().toUpperCase();
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                }
+            });
+
+            if (type == 'from') {
+                country = $('#fromCountry').val();
+                city = $('#fromCity').val();
+            } else {
+                country = $('#toCountry').val();
+                city = $('#toCity').val();
+                console.log(city);
+            }
+
+            $.ajax({
+                method: "POST",
+                url: '{{ route('getPincode') }}',
+                dataType: 'json',
+                data: {
+                    country: country,
+                    city: city,
+                    name: input_val
+                }
+            }).done(function(data) {
+                container.find("ul").empty()
+                var results = $.map(data, function(obj) {
+                    return {
+                        id: obj.id,
+                        text: obj.text
+                    };
+                })
+                results.forEach(element => {
+                    container.find("ul").append('<li data-val="' + element.id + '">' + element.text +
+                        '</li>');
+                });
+            });
+            container.find("ul li").removeClass("selected");
+            setTimeout(function() {
+                container.find("ul li:visible").first().addClass("selected");
+            }, 100)
+        }
+
+        // function keyControl(e, container) {
+        //     if (e.key == "ArrowDown") {
+
+        //         if (container.find("ul li").hasClass("selected")) {
+        //             if (container.find("ul li:visible").index(container.find("ul li.selected")) + 1 < container.find(
+        //                     "ul li:visible").length) {
+        //                 container.find("ul li.selected").removeClass("selected").nextAll().not('[style*="display: none"]')
+        //                     .first().addClass("selected");
+        //             }
+
+        //         } else {
+        //             container.find("ul li:first-child").addClass("selected");
+        //         }
+
+        //     } else if (e.key == "ArrowUp") {
+
+        //         if (container.find("ul li:visible").index(container.find("ul li.selected")) > 0) {
+        //             container.find("ul li.selected").removeClass("selected").prevAll().not('[style*="display: none"]')
+        //                 .first().addClass("selected");
+        //         }
+        //     } else if (e.key == "Enter") {
+        //         container.find("input").val(container.find("ul li.selected").text()).blur();
+        //         onSelect(container.find("ul li.selected").text())
+        //     }
+
+        //     container.find("ul li.selected")[0].scrollIntoView({
+        //         behavior: "smooth",
+        //     });
+        // }
 
         function onSelect(val) {
             alert(val)
@@ -526,7 +642,8 @@
 
         $(document).on('click', '.searchable ul li', function() {
             $(this).closest(".searchable").find("input").val($(this).text()).blur();
-            onSelect($(this).text())
+            // $(this).closest(".searchable").find(".searchVal").val($(this).text()).blur();
+            // onSelect($(this).text())
         });
 
         $(".searchable ul li").hover(function() {
@@ -622,7 +739,6 @@
         });
 
         $('#fromCountry').select2({
-            tags: true,
             ajax: {
                 url: '{{ route('getCountries') }}',
                 dataType: 'json',
@@ -640,16 +756,14 @@
                         results: $.map(data, function(obj) {
                             return {
                                 id: obj.id,
-                                text: obj.text
+                                text: obj.text,
                             };
                         })
                     };
                 }
             },
-            minimumResultsForSearch: 10
         });
         $('#toCountry').select2({
-            tags: true,
             ajax: {
                 url: '{{ route('getCountries') }}',
                 dataType: 'json',
@@ -675,127 +789,126 @@
             minimumResultsForSearch: 10
         });
 
-        $('#fromCity').select2({
-            tags: true,
-            ajax: {
-                url: '{{ route('getCities') }}',
-                dataType: 'json',
-                method: 'POST',
-                delay: 250,
-                data: function(params) {
-                    var query = {
-                        name: params.term,
-                        country: $('#fromCountry').val()
-                    }
-                    return query;
-                },
-                processResults: function(data) {
-                    return {
-                        results: $.map(data, function(obj) {
-                            return {
-                                id: obj.id,
-                                text: obj.text
-                            };
-                        })
-                    };
-                }
-            },
-            minimumResultsForSearch: 10
-        });
-        $('#toCity').select2({
-            tags: true,
-            ajax: {
-                url: '{{ route('getCities') }}',
-                dataType: 'json',
-                method: 'POST',
-                delay: 250,
-                data: function(params) {
-                    console.log(params.term);
-                    var query = {
-                        name: params.term,
-                        country: $('#toCountry').val()
-                    }
-                    return query;
-                },
-                processResults: function(data) {
-                    return {
-                        results: $.map(data, function(obj) {
-                            return {
-                                id: obj.id,
-                                text: obj.text
-                            };
-                        })
-                    };
-                }
-            },
-            minimumResultsForSearch: 10
-        });
+        // $('#fromCity').select2({
+        //     tags: true,
+        //     ajax: {
+        //         url: '{{ route('getCities') }}',
+        //         dataType: 'json',
+        //         method: 'POST',
+        //         delay: 250,
+        //         data: function(params) {
+        //             var query = {
+        //                 name: params.term,
+        //                 country: $('#fromCountry').val()
+        //             }
+        //             return query;
+        //         },
+        //         processResults: function(data) {
+        //             return {
+        //                 results: $.map(data, function(obj) {
+        //                     return {
+        //                         id: obj.id,
+        //                         text: obj.text
+        //                     };
+        //                 })
+        //             };
+        //         }
+        //     },
+        //     minimumResultsForSearch: 10
+        // });
+        // $('#toCity').select2({
+        //     tags: true,
+        //     ajax: {
+        //         url: '{{ route('getCities') }}',
+        //         dataType: 'json',
+        //         method: 'POST',
+        //         delay: 250,
+        //         data: function(params) {
+        //             console.log(params.term);
+        //             var query = {
+        //                 name: params.term,
+        //                 country: $('#toCountry').val()
+        //             }
+        //             return query;
+        //         },
+        //         processResults: function(data) {
+        //             return {
+        //                 results: $.map(data, function(obj) {
+        //                     return {
+        //                         id: obj.id,
+        //                         text: obj.text
+        //                     };
+        //                 })
+        //             };
+        //         }
+        //     },
+        //     minimumResultsForSearch: 10
+        // });
 
-        $('#fromPincode').select2({
-            minimumInputLength: 2,
-            tags: true,
-            ajax: {
-                url: '{{ route('getPincode') }}',
-                dataType: 'json',
-                method: 'POST',
-                delay: 250,
-                data: function(params) {
-                    var query = {
-                        name: params.term,
-                        country: $('#fromCountry').val(),
-                        city: $('#fromCity option:selected').text()
-                    }
-                    return query;
-                },
-                processResults: function(data) {
-                    return {
-                        results: $.map(data, function(obj) {
-                            return {
-                                id: obj.id,
-                                text: obj.text
-                            };
-                        })
-                    };
-                }
-            },
-            minimumResultsForSearch: 10
-        });
-        $('#toPincode').select2({
-            minimumInputLength: 2,
-            tags: true,
-            ajax: {
-                url: '{{ route('getPincode') }}',
-                dataType: 'json',
-                method: 'POST',
-                delay: 250,
-                data: function(params) {
-                    console.log(params.term);
-                    var query = {
-                        name: params.term,
-                        country: $('#toCountry').val(),
-                        city: $('#toCity option:selected').text()
-                    }
-                    return query;
-                },
-                processResults: function(data) {
-                    return {
-                        results: $.map(data, function(obj) {
-                            return {
-                                id: obj.id,
-                                text: obj.text
-                            };
-                        })
-                    };
-                }
-            },
-            minimumResultsForSearch: 10
-        });
+        // $('#fromPincode').select2({
+        //     minimumInputLength: 2,
+        //     tags: true,
+        //     ajax: {
+        //         url: '{{ route('getPincode') }}',
+        //         dataType: 'json',
+        //         method: 'POST',
+        //         delay: 250,
+        //         data: function(params) {
+        //             var query = {
+        //                 name: params.term,
+        //                 country: $('#fromCountry').val(),
+        //                 city: $('#fromCity option:selected').text()
+        //             }
+        //             return query;
+        //         },
+        //         processResults: function(data) {
+        //             return {
+        //                 results: $.map(data, function(obj) {
+        //                     return {
+        //                         id: obj.id,
+        //                         text: obj.text
+        //                     };
+        //                 })
+        //             };
+        //         }
+        //     },
+        //     minimumResultsForSearch: 10
+        // });
+        // $('#toPincode').select2({
+        //     minimumInputLength: 2,
+        //     tags: true,
+        //     ajax: {
+        //         url: '{{ route('getPincode') }}',
+        //         dataType: 'json',
+        //         method: 'POST',
+        //         delay: 250,
+        //         data: function(params) {
+        //             console.log(params.term);
+        //             var query = {
+        //                 name: params.term,
+        //                 country: $('#toCountry').val(),
+        //                 city: $('#toCity option:selected').text()
+        //             }
+        //             return query;
+        //         },
+        //         processResults: function(data) {
+        //             return {
+        //                 results: $.map(data, function(obj) {
+        //                     return {
+        //                         id: obj.id,
+        //                         text: obj.text
+        //                     };
+        //                 })
+        //             };
+        //         }
+        //     },
+        //     minimumResultsForSearch: 10
+        // });
     </script>
 
     <script>
         $('#type').on('change', function() {
             val = $(this).val();
-            console.log(val);
             if (val == 'import') {
                 $('#toCountry').append('<option value="229" selcted>United Arab Emirates</option>');
                 $("#fromCountry option[value='229']").remove();

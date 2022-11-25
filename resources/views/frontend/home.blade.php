@@ -37,31 +37,32 @@
 
                                 <ul class="navbar-nav">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="#">Home
+                                        <a class="nav-link" href="#home">
+                                            Home
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">
+                                        <a class="nav-link" href="#about">
                                             About
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">
+                                        <a class="nav-link" href="#services">
                                             Services
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">
-                                            Network
+                                        <a class="nav-link" href="#network">
+                                            Work Process 
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">
+                                        <a class="nav-link" href="#customer-zone">
                                             Customer Zone
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">
+                                    <li  class="nav-item">
+                                        <a class="nav-link" href="#contact">
                                             Contact
                                         </a>
                                     </li>
@@ -70,7 +71,8 @@
                         </div>
                         <div class="navbar-right-info">
                             @if (auth()->user())
-                                <a href="{{ auth()->user()->isAn('admin') ?  route('admin.dashboard') : route('reseller.dashboard') }}" class="theme-btn btn-style-one">
+                                <a href="{{ auth()->user()->isAn('admin')? route('admin.dashboard'): route('reseller.dashboard') }}"
+                                    class="theme-btn btn-style-one">
                                     <span>
                                         Dashboard
                                     </span>
@@ -93,7 +95,7 @@
     <!-- End Main Header -->
 
     <!-- Bnner Section -->
-    <section class="banner-section mt-0 style-three mx-4">
+    <section class="banner-section mt-0 style-three mx-4" id="home">
         <div class="swiper-container banner-slider">
             <div class="swiper-wrapper">
                 <!-- Slide Item -->
@@ -184,7 +186,7 @@
     <!-- End Bnner Section -->
 
     <!-- About Section Two -->
-    <section class="about-section-two">
+    <section class="about-section-two" id="about">
         <div class="auto-container">
             <div class="sec-title text-center">
                 <div class="sub-title">About Company</div>
@@ -246,7 +248,7 @@
     </section>
 
     <!-- Work-process Section -->
-    <section class="work-process-section">
+    <section class="work-process-section" id="network">
         <div class="bg" style="background-image: url({{ asset('images/we_work_img.jpg') }})"></div>
         <div class="auto-container">
             <div class="sec-title text-center light">
@@ -339,7 +341,7 @@
     </section>
 
     <!-- Whychooseus section two -->
-    <section class="whychooseus-section-two service_section">
+    <section class="whychooseus-section-two service_section" id="customer-zone" >
         <div class="auto-container">
             <div class="sec-title text-center">
                 <div class="sub-title">OUR SERVICES</div>
@@ -480,7 +482,7 @@
     </section>
 
     <!-- Services Section -->
-    <section class="services-section">
+    <section class="services-section" id="services">
         <div class="auto-container">
             <div class="sec-title text-center">
                 <div class="sub-title">Why Choose Us</div>
@@ -604,7 +606,7 @@
     </section>
 
     <!--Main Footer-->
-    <footer class="main-footer style-two"
+    <footer id="contact" class="main-footer style-two"
         style="
         background-image: url({{ asset('images/background/bg-10.jpg') }});
     ">

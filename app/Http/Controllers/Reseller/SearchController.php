@@ -22,11 +22,15 @@ use App\Helpers\CalculationHelpers;
 use App\Models\Customer\Grade;
 use App\Models\Orders\SearchItem;
 use App\Models\Zones\City;
+use App\Models\Zones\OdPincodes;
 
 class SearchController extends Controller
 {
     public function searchNew(Request $request)
     {
+
+        // dd($reque    st);
+
         $search_id = $this->saveSearch($request);
 
         $grade = Grade::where('id', Auth::user()->grade_id)->first();
@@ -34,11 +38,11 @@ class SearchController extends Controller
         $del_type = $request->shipping_type;
         $package_type = $request->package_type;
 
-        if (config('app.default_country_code') == $request->fromCountry) {
+        if ( $del_type == 'export' ) {
             // $del_type = 'export';
             $model = ExportRate::class;
             $country = $request->toCountry;
-        } else if (config('app.default_country_code') == $request->toCountry) {
+        } else if ($del_type == 'import') {
             // $del_type = 'import';
             $country = $request->fromCountry;
             $model = ImportRate::class;
@@ -48,9 +52,32 @@ class SearchController extends Controller
             $model = TransitRate::class;
         }
 
+        // dd($model);
+
+        // if (config('app.default_country_code') == $request->fromCountry) {
+        //     // $del_type = 'export';
+        //     $model = ExportRate::class;
+        //     $country = $request->toCountry;
+        // } else if (config('app.default_country_code') == $request->toCountry) {
+        //     // $del_type = 'import';
+        //     $country = $request->fromCountry;
+        //     $model = ImportRate::class;
+        // } else {
+        //     // $del_type = 'transit';
+        //     $country = $request->toCountry;
+        //     $model = TransitRate::class;
+        // }
+
         $integrators = Cache::rememberForever('integrators', function () {
             return Integrator::all();
         });
+
+        $od_pincodes = OdPincodes::where('country_id', '1')
+            ->where('pincode', '100001')
+            ->get();
+        // $od_pincodes = OdPincodes::where('country_id', $country)
+        //     ->where('pincode', $request->toPincode)
+        //     ->get();
 
         foreach ($integrators as $integrator) {
 
@@ -76,6 +103,15 @@ class SearchController extends Controller
                 }
 
                 if ($zone->weight) {
+
+                    // add out of delivery charge
+
+                    $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
+
+                    if ($od_pincode) {
+                        $zone->weight->rate += $od_pincode->rate;
+                    }
+
                     // add surcharge
                     $zone->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone, $country);
 

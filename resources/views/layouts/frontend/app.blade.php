@@ -31,21 +31,15 @@
     </div>
 
     <script src="{{ asset('js/jquery.js') }}"></script>
-    <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('js/jquery.fancybox.js') }}"></script>
     <script src="{{ asset('js/isotope.js') }}"></script>
     <script src="{{ asset('js/owl.js') }}"></script>
-    <script src="{{ asset('js/appear.js') }}"></script>
     <script src="{{ asset('js/wow.js') }}"></script>
-    <script src="{{ asset('js/lazyload.js') }}"></script>
-    <script src="{{ asset('js/scrollbar.js') }}"></script>
     <script src="{{ asset('js/TweenMax.min.js') }}"></script>
     <script src="{{ asset('js/swiper.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.polyglot.language.switcher.js') }}"></script>
-    {{-- <script src="{{ asset('js/jquery.ajaxchimp.min.js') }}"></script> --}}
-    <script src="{{ asset('js/parallax-scroll.js') }}"></script>
+    <script src="{{ asset('js/smoothscrolling.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
 
     <script src="{{ asset('js/script.js') }}"></script>
 
