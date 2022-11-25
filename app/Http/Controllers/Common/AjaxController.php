@@ -48,15 +48,18 @@ class AjaxController extends Controller
 
     public function getPincode(Request $request)
     {
+
+        $country_code = Country::where('id', $request->country)->first()->code;
+
         if ($request->name && $request->name !== '' && $request->name !== NULL) {
-            $pincode = City::where('country_id', $request->country)
+            $pincode = City::where('country_code',  $country_code)
                 ->where('city', 'LIKE', $request->city)
-                ->where('pincode', 'LIKE', $request->name . "%")
+                // ->where('pincode', 'LIKE', $request->name . "%")
                 ->select(['id', 'pincode as text'])->get();
         } else {
-            $pincode = City::where('country_id', $request->country)
+            $pincode = City::where('country_code', $country_code)
                 ->where('city', 'LIKE', $request->city)
-                ->where('pincode', 'LIKE', $request->name . "%")
+                // ->where('pincode', 'LIKE', $request->name . "%")
                 ->limit(10)
                 ->select(['id', 'pincode as text'])->get();
         }

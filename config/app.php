@@ -18,7 +18,7 @@ return [
     'admin_prefix' => env('ADMIN_PREFIX', 'admin'),
     'ueuser_prefix' => env('UEUSER_PREFIX', 'ueuserlogin'),
 
-    'default_country_code' => env('DEFAULT_COUNTRY_CODE', '229'),
+    'default_country_code' => env('DEFAULT_COUNTRY_CODE', '692'),
 
     'hubez_url' => "http://www.hub-ez.com/api/",
 

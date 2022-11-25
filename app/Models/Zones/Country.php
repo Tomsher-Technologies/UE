@@ -16,7 +16,7 @@ class Country extends Model
 
     public function city()
     {
-        return $this->hasMany(City::class);
+        return $this->hasMany(City::class,'code','country_code');
     }
 
     public function zone()

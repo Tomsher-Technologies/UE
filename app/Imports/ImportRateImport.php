@@ -76,7 +76,6 @@ class ImportRateImport implements ToCollection
                             'rate' => $row[$index + 2] ? (float)$row[$index + 2] : 0
                         ]);
                     } else {
-                        
                         $model = $model::updateOrCreate([
                             'integrator_id' => $this->integrator,
                             'weight' => (float)$weight,

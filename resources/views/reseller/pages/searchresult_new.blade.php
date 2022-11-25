@@ -32,7 +32,7 @@
                                         <tr class="selected">
                                             <td>
                                                 <div class="flex d-flex align-items-center mr-sm-16pt mb-8pt mb-sm-0">
-                                                    <div class="avatar avatar-4by3 mr-12pt">
+                                                    <div class="avatar avatar-4by3 mr-12pt d-flex align-items-center">
                                                         @if ($integrator->logo)
                                                             <img src="{{ $integrator->getLogoImage() }}"
                                                                 alt="{{ $integrator->name }}" class="avatar-img rounded" />
@@ -99,6 +99,11 @@
 @endsection
 
 @push('header')
+    <style>
+        .avatar-img {
+            height: auto !important;
+        }
+    </style>
 @endpush
 @push('footer')
     <script>

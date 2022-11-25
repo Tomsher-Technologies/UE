@@ -1,6 +1,7 @@
 @extends('layouts.reseller.app')
 @section('content')
-    <div class="mdk-box mdk-box--bg-primary bg-dark js-mdk-box mb-0" data-effects="parallax-background blend-background">
+    <div class="mdk-box  search-banner  js-mdk-box mb-0">
+        {{-- mdk-box--bg-primary data-effects="parallax-background blend-background" --}}
         <div class="mdk-box__bg">
             <div class="mdk-box__bg-front">
             </div>
@@ -14,7 +15,7 @@
                         <div class="row align-items-center">
                             <div class="col-sm-6">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Shipment Type</label>
+                                    <label class="text-black" for="filter_name">Shipment Type</label>
                                     <div>
                                         <div class="autocomplete">
                                             <select class="form-control" id="type" name="shipping_type" required>
@@ -29,7 +30,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Package Type</label>
+                                    <label class="text-black" for="filter_name">Package Type</label>
                                     <div>
                                         <div class="autocomplete">
                                             <select class="form-control" id="type" name="package_type" required>
@@ -47,7 +48,7 @@
                         <div class="row align-items-center">
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Pickup Country</label>
+                                    <label class="text-black" for="filter_name">Pickup Country</label>
                                     <div>
                                         <div class="autocomplete">
                                             <select id="fromCountry" class="form-control select2" name="fromCountry"
@@ -58,7 +59,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Pickup City</label>
+                                    <label class="text-black" for="filter_name">Pickup City</label>
                                     <div>
 
                                         <div class="searchable">
@@ -75,7 +76,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Pickup Pincode</label>
+                                    <label class="text-black" for="filter_name">Pickup Pincode</label>
                                     <div>
 
                                         <div class="searchable">
@@ -95,7 +96,7 @@
                         <div class="row align-items-center">
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Delivery Country</label>
+                                    <label class="text-black" for="filter_name">Delivery Country</label>
                                     <div>
                                         <div class="autocomplete">
                                             <select id="toCountry" class="form-control" name="toCountry" required></select>
@@ -105,7 +106,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Delivery City</label>
+                                    <label class="text-black" for="filter_name">Delivery City</label>
                                     <div>
 
                                         <div class="searchable">
@@ -122,7 +123,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Delivery Pincode</label>
+                                    <label class="text-black" for="filter_name">Delivery Pincode</label>
                                     <div>
                                         <div class="searchable">
                                             <input name="toPincode" id="toPincode" type="text"
@@ -139,7 +140,7 @@
                         <div class="row align-items-center">
                             <div class="col-sm-12">
                                 <div class="form-group text-left">
-                                    <label class="text-white" for="filter_name">Number of Pieces</label>
+                                    <label class="text-black" for="filter_name">Number of Pieces</label>
                                     <div>
                                         <div class="autocomplete">
                                             <input readonly="readonly" value="1" class="form-control" type="number"
@@ -153,11 +154,11 @@
                         <div id="packgaeContainer">
                             <div class="row text-left">
                                 <div class="col-12">
-                                    <label class="text-white" for="filter_name">Package - Dimensions(CM)</label>
+                                    <label class="text-black" for="filter_name">Package - Dimensions(CM)</label>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group text-left">
-                                        <label class="text-white" for="filter_name">Length</label>
+                                        <label class="text-black" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
                                                 <input class="form-control" step=".1" type="number"
@@ -168,7 +169,7 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group text-left">
-                                        <label class="text-white" for="filter_name">Height</label>
+                                        <label class="text-black" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
                                                 <input class="form-control" step=".1" type="number"
@@ -179,7 +180,7 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group text-left">
-                                        <label class="text-white" for="filter_name">Width</label>
+                                        <label class="text-black" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
                                                 <input class="form-control" step=".1" type="number"
@@ -190,7 +191,7 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group text-left">
-                                        <label class="text-white" for="filter_name">Actual Weight</label>
+                                        <label class="text-black" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
                                                 <input class="form-control" type="number" step=".1"
@@ -263,7 +264,7 @@
                                     </p>
                                     <div class="progress" style="height: 4px">
                                         <div class="progress-bar bg-grd1" role="progressbar"
-                                            style="width: {{ ($total_customer_month / $total_customer) * 100 }}%"
+                                            style="width: {{ $total_customer == 0 ? 0 : ($total_customer_month / $total_customer) * 100 }}%"
                                             aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -274,7 +275,7 @@
                                     </p>
                                     <div class="progress" style="height: 4px">
                                         <div class="progress-bar bg-grd1" role="progressbar"
-                                            style="width: {{ ($total_customer_week / $total_customer) * 100 }}%"
+                                            style="width: {{ $total_customer == 0 ? 0 : ($total_customer_week / $total_customer) * 100 }}%"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -285,7 +286,7 @@
                                     </p>
                                     <div class="progress" style="height: 4px">
                                         <div class="progress-bar bg-grd1" role="progressbar"
-                                            style="width: {{ ($total_customer_day / $total_customer) * 100 }}%"
+                                            style="width: {{ $total_customer == 0 ? 0 : ($total_customer_day / $total_customer) * 100 }}%"
                                             aria-valuenow="1.06" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -308,7 +309,7 @@
                                     </p>
                                     <div class="progress" style="height: 4px">
                                         <div class="progress-bar bg-grd2" role="progressbar"
-                                            style="width: {{ ($total_search_month / $total_search) * 100 }}%"
+                                            style="width: {{ $total_search == 0 ? 0 : ($total_search_month / $total_search) * 100 }}%"
                                             aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -319,7 +320,7 @@
                                     </p>
                                     <div class="progress" style="height: 4px">
                                         <div class="progress-bar bg-grd2" role="progressbar"
-                                            style="width: {{ ($total_search_week / $total_search) * 100 }}%"
+                                            style="width: {{ $total_search == 0 ? 0 : ($total_search_week / $total_search) * 100 }}%"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -330,7 +331,7 @@
                                     </p>
                                     <div class="progress" style="height: 4px">
                                         <div class="progress-bar bg-grd2" role="progressbar"
-                                            style="width: {{ ($total_search_day / $total_search) * 100 }}%"
+                                            style="width: {{ $total_search == 0 ? 0 : ($total_search_day / $total_search) * 100 }}%"
                                             aria-valuenow="1.06" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -353,7 +354,7 @@
                                     </p>
                                     <div class="progress" style="height: 4px">
                                         <div class="progress-bar bg-grd3" role="progressbar"
-                                            style="width: {{ ($total_orders_month / $total_orders) * 100 }}%"
+                                            style="width: {{ $total_orders == 0 ? 0 : ($total_orders_month / $total_orders) * 100 }}%"
                                             aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -364,7 +365,7 @@
                                     </p>
                                     <div class="progress" style="height: 4px">
                                         <div class="progress-bar bg-grd3" role="progressbar"
-                                            style="width: {{ ($total_orders_week / $total_orders) * 100 }}%"
+                                            style="width: {{ $total_orders == 0 ? 0 : ($total_orders_day / $total_orders) * 100 }}%"
                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -375,7 +376,7 @@
                                     </p>
                                     <div class="progress" style="height: 4px">
                                         <div class="progress-bar bg-grd3" role="progressbar"
-                                            style="width: {{ ($total_orders_day / $total_orders) * 100 }}%"
+                                            style="width: {{ $total_orders == 0 ? 0 : ($total_orders_day / $total_orders) * 100 }}%"
                                             aria-valuenow="1.06" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -391,45 +392,62 @@
         </div>
     </div>
 
-    <div class="searchable">
+    {{-- <div class="searchable">
         <input type="text" placeholder="search countries" onkeyup="filterFunction(this,event)">
         <ul></ul>
-    </div>
+    </div> --}}
 @endsection
 
 @push('header')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
+        .search-banner {
+            background-image: url(https://blackswancapital.eu/wp-content/uploads/2020/03/20_03-scaled.jpg);
+            background-size: cover;
+            /* background-image: url(https://themefie.com/html/foodka/assets/img//home-3/banner-bg.png); */
+            /* background-color: #bafdff */
+
+
+        }
+
+
+
+        .select2-container .select2-selection--single {
+            height: 40px !important;
+        }
+
         div.searchable {
-            width: 300px;
-            float: left;
+            width: 100% float: left;
+            background: #fff;
+            border-radius: 5px;
         }
 
         .searchable input {
             width: 100%;
-            height: 50px;
-            font-size: 18px;
+            height: 40px;
+            font-size: 15px;
             padding: 10px;
             -webkit-box-sizing: border-box;
-            /* Safari/Chrome, other WebKit */
             -moz-box-sizing: border-box;
-            /* Firefox, other Gecko */
             box-sizing: border-box;
-            /* Opera/IE 8+ */
             display: block;
             font-weight: 400;
             line-height: 1.6;
-            color: #495057;
+            color: #000;
             background-color: #fff;
             background-clip: padding-box;
             border: 1px solid #ced4da;
+            outline: none;
             border-radius: .25rem;
             transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
             background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right .75rem center/8px 10px;
         }
 
         .searchable ul {
+            position: absolute;
+            z-index: 1000;
+            width: 92%;
             display: none;
             list-style-type: none;
             background-color: #fff;
@@ -910,16 +928,16 @@
         $('#type').on('change', function() {
             val = $(this).val();
             if (val == 'import') {
-                $('#toCountry').append('<option value="229" selcted>United Arab Emirates</option>');
-                $("#fromCountry option[value='229']").remove();
+                $('#toCountry').append('<option value="692" selcted>United Arab Emirates</option>');
+                $("#fromCountry option[value='692']").remove();
             }
             if (val == 'export') {
-                $('#fromCountry').append('<option value="229" selcted>United Arab Emirates</option>');
-                $("#toCountry option[value='229']").remove();
+                $('#fromCountry').append('<option value="692" selcted>United Arab Emirates</option>');
+                $("#toCountry option[value='692']").remove();
             }
             if (val == 'transit') {
-                $('#fromCountry').append('<option value="229" selcted>United Arab Emirates</option>');
-                $("#toCountry option[value='229']").remove();
+                $('#fromCountry').append('<option value="692" selcted>United Arab Emirates</option>');
+                $("#toCountry option[value='692']").remove();
             }
         });
     </script>

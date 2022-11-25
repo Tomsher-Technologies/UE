@@ -103,7 +103,6 @@ class SearchController extends Controller
                 }
 
                 if ($zone->weight) {
-
                     // add out of delivery charge
 
                     $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
