@@ -11,6 +11,7 @@ use Bouncer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 
 class AgentEdit extends Component
@@ -73,13 +74,13 @@ class AgentEdit extends Component
         $this->agent->save();
 
         if ($this->image) {
-            $storedImage =  $this->image->store('public/agentphotos');
+            $storedImage =  $this->image->store('public/customerphotos');
 
             if (Storage::exists($this->customerDetails->image)) {
                 Storage::delete($this->customerDetails->image);
             }
 
-            $this->customerDetails->image =  $storedImage;
+            $this->customerDetails->image =  Str::remove('public/', $storedImage);
             $this->reset('image');
         }
 

@@ -197,7 +197,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button" href="{{ route('admin.searches') }}">
+                                <a class="sidebar-menu-button" href="{{ route('admin.bookings') }}">
                                     <span
                                         class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
                                         search

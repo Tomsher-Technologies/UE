@@ -97,6 +97,18 @@
                                     <span class="sidebar-menu-text">Add New Agents</span>
                                 </a>
                             </li>
+                            <li
+                                class="sidebar-menu-item {{ request()->routeIs('reseller.agents.create') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('reseller.agents.create') }}">
+                                    <span class="sidebar-menu-text">See Booking History</span>
+                                </a>
+                            </li>
+                            <li
+                                class="sidebar-menu-item {{ request()->routeIs('reseller.agents.create') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('reseller.agents.create') }}">
+                                    <span class="sidebar-menu-text">See Search History</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endif

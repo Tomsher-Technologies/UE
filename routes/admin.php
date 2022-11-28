@@ -9,12 +9,14 @@ use App\Http\Controllers\Admin\SpecialRate\SpecialRateController;
 use App\Http\Controllers\Admin\Surcharge\SurchargeController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
 use App\Http\Controllers\HubEz\HubEzController;
+use App\Http\Livewire\Admin\Booking\BookingHistory;
+use App\Http\Livewire\Admin\Booking\BookingHistoryDetails;
 use App\Http\Livewire\Admin\Customer\Grade;
 use App\Http\Livewire\Admin\Customer\Grade\GradeProfitMargin;
 use App\Http\Livewire\Admin\Customer\GradeEdit;
 use App\Http\Livewire\Admin\Customer\ProfitMargin;
 use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
-use App\Http\Livewire\Admin\Search\Search;
+use App\Http\Livewire\Admin\Search\SearchHistory;
 use App\Mail\Admin\NewCustomerMail;
 use App\Models\Common\Settings;
 use App\Models\User;
@@ -119,7 +121,7 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
             Route::get('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZoneView'])->name('uploadZones');
             Route::post('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZone']);
-            
+
             Route::get('/{integrator}/upload/od-pincodes', [IntegratorController::class, 'uploadOdPinView'])->name('uploadOdPin');
             Route::post('/{integrator}/upload/od-pincodes', [IntegratorController::class, 'uploadOdPin']);
 
@@ -131,10 +133,12 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
         Route::resource('surcharge', SurchargeController::class)->only(['index', 'create', 'edit']);
 
-        Route::get('/searches', Search::class )->name('searches');
+        Route::get('/searches', SearchHistory::class)->name('searches');
+        Route::get('/bookings', BookingHistory::class)->name('bookings');
+        Route::get('/bookings/details/{order}', BookingHistoryDetails::class)->name('bookings.details');
 
         Route::name('special_rates.')->group(function () {
-            Route::get('/special_rates', [SpecialRateController::class, 'index'])->name('index');\
+            Route::get('/special_rates', [SpecialRateController::class, 'index'])->name('index');
             Route::get('/special_rates/{special_rate}/edit/', [SpecialRateController::class, 'edit'])->name('edit');
         });
 

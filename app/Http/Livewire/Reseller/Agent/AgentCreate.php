@@ -7,6 +7,7 @@ use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
 use Bouncer;
+use Illuminate\Support\Str;
 
 class AgentCreate extends Component
 {
@@ -91,7 +92,7 @@ class AgentCreate extends Component
 
         $storedImage = NULL;
         if ($this->image) {
-            $storedImage =  $this->image->store('public/agentphotos');
+            $storedImage =  $this->image->store('public/customerphotos');
         }
 
         $customer->customerDetails()->create([
@@ -99,7 +100,7 @@ class AgentCreate extends Component
             'address' => $this->address,
             'msp' => $this->msp !== "" ? $this->msp : NULL,
             'msp_type' => $this->msp_type,
-            'image' => $storedImage,
+            'image' => Str::remove('public/', $storedImage),
             'request_limit' => $this->request_limit,
             'limit_weight' => $this->limit_weight,
         ]);

@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Search extends Component
+class SearchHistory extends Component
 {
     use WithPagination;
 
@@ -51,14 +51,17 @@ class Search extends Component
         if ($this->package_type !== '0') {
             $query->where('package_type', $this->package_type);
         }
-        
-        if ($this->package_type !== '0') {
-            $query->where('package_type', $this->package_type);
+
+
+        if ($this->start_date && $this->end_date) {
+            $st_date = Carbon::parse($this->start_date)->startOfDay();
+            $en_date = Carbon::parse($this->end_date)->endOfDay();
+            $query->whereBetween('created_at', [$st_date, $en_date]);
         }
 
         $searches = $query->with(['user', 'fromCountry', 'toCountry'])->paginate(15);
 
-        return view('livewire.admin.search.search')->extends('layouts.admin')->with([
+        return view('livewire.admin.search.search-history')->extends('layouts.admin')->with([
             'searches' => $searches
         ]);
     }

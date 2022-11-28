@@ -63,7 +63,7 @@
                                     <div>
 
                                         <div class="searchable">
-                                            <input name="fromCity" type="text" placeholder="search city"
+                                            <input name="fromCity" id="fromCity" type="text" placeholder="search city"
                                                 onkeyup="filterCity(this,event,'from')">
                                             <ul></ul>
                                         </div>
@@ -80,8 +80,8 @@
                                     <div>
 
                                         <div class="searchable">
-                                            <input name="fromPincode" type="number" placeholder="search pincode"
-                                                onkeyup="filterPin(this,event,'from')">
+                                            <input name="fromPincode" id="fromPincode" type="number"
+                                                placeholder="search pincode" onkeyup="filterPin(this,event,'from')">
                                             <ul></ul>
                                         </div>
 
@@ -259,7 +259,7 @@
                             <div class="text-50 mb-16pt">
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
-                                        <small class="flex lh-24pt">30 Days</small>
+                                        <small class="flex lh-24pt">This month</small>
                                         <small class="lh-24pt">{{ $total_customer_month }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
@@ -270,7 +270,7 @@
                                 </div>
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
-                                        <small class="flex lh-24pt">7 Days</small>
+                                        <small class="flex lh-24pt">This week</small>
                                         <small class="lh-24pt">{{ $total_customer_week }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
@@ -304,7 +304,7 @@
                             <div class="text-50 mb-16pt">
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
-                                        <small class="flex lh-24pt">30 Days</small>
+                                        <small class="flex lh-24pt">This month</small>
                                         <small class="lh-24pt">{{ $total_search_month }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
@@ -315,7 +315,7 @@
                                 </div>
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
-                                        <small class="flex lh-24pt">7 Days</small>
+                                        <small class="flex lh-24pt">This week</small>
                                         <small class="lh-24pt">{{ $total_search_week }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
@@ -349,7 +349,7 @@
                             <div class="text-50 mb-16pt">
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
-                                        <small class="flex lh-24pt">30 Days</small>
+                                        <small class="flex lh-24pt">This month</small>
                                         <small class="lh-24pt">{{ $total_orders_month }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
@@ -360,7 +360,7 @@
                                 </div>
                                 <div class="mb-4pt">
                                     <p class="d-flex align-items-center mb-0">
-                                        <small class="flex lh-24pt">7 Days</small>
+                                        <small class="flex lh-24pt">This week</small>
                                         <small class="lh-24pt">{{ $total_orders_week }}</small>
                                     </p>
                                     <div class="progress" style="height: 4px">
@@ -670,8 +670,6 @@
         });
     </script>
 
-
-
     <script>
         $id = 2;
 
@@ -807,6 +805,15 @@
             minimumResultsForSearch: 10
         });
 
+        $('#fromCountry').on('select2:select', function(e) {
+            $('#fromCity').val("")
+            $('#fromPincode').val("")
+        });
+        $('#toCountry').on('select2:select', function(e) {
+            $('#toCity').val("")
+            $('#toPincode').val("")
+        });
+
         // $('#fromCity').select2({
         //     tags: true,
         //     ajax: {
@@ -930,14 +937,26 @@
             if (val == 'import') {
                 $('#toCountry').append('<option value="692" selcted>United Arab Emirates</option>');
                 $("#fromCountry option[value='692']").remove();
+                $('#toCity').val("")
+                $('#toPincode').val("")
+                $('#fromCity').val("")
+                $('#fromPincode').val("")
             }
             if (val == 'export') {
                 $('#fromCountry').append('<option value="692" selcted>United Arab Emirates</option>');
                 $("#toCountry option[value='692']").remove();
+                $('#toCity').val("")
+                $('#toPincode').val("")
+                $('#fromCity').val("")
+                $('#fromPincode').val("")
             }
             if (val == 'transit') {
                 $('#fromCountry').append('<option value="692" selcted>United Arab Emirates</option>');
                 $("#toCountry option[value='692']").remove();
+                $('#toCity').val("")
+                $('#toPincode').val("")
+                $('#fromCity').val("")
+                $('#fromPincode').val("")
             }
         });
     </script>

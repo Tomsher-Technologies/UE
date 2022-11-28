@@ -6,6 +6,7 @@ use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 use Bouncer;
 
 class Create extends Component
@@ -94,7 +95,7 @@ class Create extends Component
             'address' => $this->address,
             'msp' => $this->msp !== "" ? $this->msp : NULL,
             'msp_type' => $this->msp_type,
-            'image' => $storedImage,
+            'image' => Str::remove('public/', $storedImage),
             'request_limit' => $this->request_limit,
             'limit_weight' => $this->limit_weight,
         ]);

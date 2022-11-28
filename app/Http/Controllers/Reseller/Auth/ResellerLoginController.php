@@ -98,8 +98,8 @@ class ResellerLoginController extends Controller
             $uploadedFile = $request->file('logoimage');
             $filename = time() . $uploadedFile->getClientOriginalName();
             $logo_name = Storage::disk('public')->putFileAs(
-                'agentphotos',
-                $uploadedFile,
+                'customerphotos',
+                $uploadedFile, 
                 $filename
             );
         }

@@ -80,7 +80,7 @@ class Edit extends Component
                 Storage::delete($this->customerDetails->image);
             }
 
-            $this->customerDetails->image =  $storedImage;
+            $this->customerDetails->image =  Str::remove('public/', $storedImage);
             $this->reset('image');
         }
 

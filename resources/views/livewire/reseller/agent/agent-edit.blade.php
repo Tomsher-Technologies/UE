@@ -1,7 +1,7 @@
 <div class="page-section border-bottom-2">
     <div class="container-fluid page__container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <div class="page-separator">
                     <div class="page-separator__text">Edit Agent</div>
                 </div>
@@ -119,7 +119,7 @@
                         @if (!$agent->verified)
                             <div class="col-md-6 p-0 text-right" id="approveCustomer">
                                 <button wire:click="approveCustomer()" class="btn btn-success">Approve
-                                    Customer</button>
+                                    Agent</button>
                             </div>
                         @endif
                     </div>
@@ -140,6 +140,17 @@
                         });
                     })
                 </script>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        {{-- <a href="{{ route('admin.special_rates.create', $user) }}" class="btn btn-primary w-100 mb-2">Special
+                                rate</a> --}}
+                        <a href="{{ route('reseller.agents.profitMargin', $agent) }}" class="btn btn-primary w-100 mb-2">
+                            Profit Margin
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

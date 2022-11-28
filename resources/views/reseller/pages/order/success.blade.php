@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-    <div class="page-section container-fluid page__container">
+    {{-- <div class="page-section container-fluid page__container">
         <div class="page-separator">
             <div class="page-separator__text">Booking Summary</div>
         </div>
@@ -94,8 +94,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <p class="mb-0"><strong>Basic Plan - Monthly Subscription</strong></p>
-                            <p class="text-50">For the period of June 20, 2018 to July 20, 2018</p>
+                            
                         </td>
                     </tr>
                 </tbody>
@@ -121,5 +120,5 @@
             </table>
         </div>
 
-    </div>
+    </div> --}}
 @endsection

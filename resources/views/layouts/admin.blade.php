@@ -50,6 +50,8 @@
             <x-admin.views.footer />
         </div>
         <x-admin.views.sidebar />
+
+        @stack('modals')
     </div>
 
     <script src="{{ adminAsset('vendor/popper.min.js') }}"></script>

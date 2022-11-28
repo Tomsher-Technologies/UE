@@ -87,7 +87,7 @@ class BookingController extends Controller
 
         $requestArray["Weight"] = $request->totalweight;
         $requestArray["DeclareCurrency"] = "AED";
-        $requestArray["DeclareValue"] = 1.0;
+        $requestArray["DeclareValue"] = $request->rate;
         $requestArray["ServiceCode"] = $integrator->service_code;
         $requestArray["DutyType"] = "DDU";
         $requestArray["Content"] = $request->item_name;
@@ -188,10 +188,8 @@ class BookingController extends Controller
 
     public function bookingHistoryDetails(Order $order)
     {
-
         $integrator = $order->integrator;
         $search = $order->search;
-
         return view('reseller.pages.order.success')->with([
             'order' => $order,
             'integrator' => $integrator,

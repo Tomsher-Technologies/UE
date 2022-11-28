@@ -32,6 +32,6 @@ class CustomerDetails extends Model
 
     public function getProfileImage()
     {
-        return $this->image ? URL::to('storage' . Str::remove('public', $this->image)) : NULL;
+        return $this->image ? URL::to('storage/' . $this->image) : NULL;
     }
 }
