@@ -21,11 +21,16 @@ use Illuminate\Support\Str;
 use App\Helpers\CalculationHelpers;
 use App\Models\Customer\Grade;
 use App\Models\Orders\SearchItem;
+use App\Models\Zones\City;
+use App\Models\Zones\OdPincodes;
 
 class SearchController extends Controller
 {
     public function searchNew(Request $request)
     {
+
+        // dd($reque    st);
+
         $search_id = $this->saveSearch($request);
 
         $grade = Grade::where('id', Auth::user()->grade_id)->first();
@@ -33,11 +38,11 @@ class SearchController extends Controller
         $del_type = $request->shipping_type;
         $package_type = $request->package_type;
 
-        if (config('app.default_country_code') == $request->fromCountry) {
+        if ( $del_type == 'export' ) {
             // $del_type = 'export';
             $model = ExportRate::class;
             $country = $request->toCountry;
-        } else if (config('app.default_country_code') == $request->toCountry) {
+        } else if ($del_type == 'import') {
             // $del_type = 'import';
             $country = $request->fromCountry;
             $model = ImportRate::class;
@@ -47,9 +52,32 @@ class SearchController extends Controller
             $model = TransitRate::class;
         }
 
+        // dd($model);
+
+        // if (config('app.default_country_code') == $request->fromCountry) {
+        //     // $del_type = 'export';
+        //     $model = ExportRate::class;
+        //     $country = $request->toCountry;
+        // } else if (config('app.default_country_code') == $request->toCountry) {
+        //     // $del_type = 'import';
+        //     $country = $request->fromCountry;
+        //     $model = ImportRate::class;
+        // } else {
+        //     // $del_type = 'transit';
+        //     $country = $request->toCountry;
+        //     $model = TransitRate::class;
+        // }
+
         $integrators = Cache::rememberForever('integrators', function () {
             return Integrator::all();
         });
+
+        $od_pincodes = OdPincodes::where('country_id', '1')
+            ->where('pincode', '100001')
+            ->get();
+        // $od_pincodes = OdPincodes::where('country_id', $country)
+        //     ->where('pincode', $request->toPincode)
+        //     ->get();
 
         foreach ($integrators as $integrator) {
 
@@ -75,15 +103,24 @@ class SearchController extends Controller
                 }
 
                 if ($zone->weight) {
+                    // add out of delivery charge
+
+                    $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
+
+                    if ($od_pincode) {
+                        $zone->weight->rate += $od_pincode->rate;
+                    }
+
                     // add surcharge
                     $zone->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone, $country);
+
+                    // add profit margin
+                    $zone->weight->rate +=  getFrofirMargin($integrator->id, $billable_weight, $zone, $country, $del_type, $grade);
 
                     // Round rate for final result
                     $zone->weight->rate = round($zone->weight->rate, 2);
                 }
             }
-
-            // getFrofirMargin($integrator->id, $billable_weight, $zone, $country, $del_type, $grade);
         }
 
         $integrators = $integrators->reject(function ($integrator) {
@@ -94,10 +131,11 @@ class SearchController extends Controller
             return $integrator->zones->weight ? false : true;
         });
 
-        // ddd($integrators);
+        $hasSpecialRequest = hasSpecialRequest($billable_weight);
 
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
+            'hasSpecialRequest' => $hasSpecialRequest,
             'search_id' => $search_id,
         ]);
     }
@@ -111,6 +149,11 @@ class SearchController extends Controller
         if ($result) {
             return $result->id;
         }
+
+        // $toCity = City::whereId($request->toCity)->get();
+        // $fromCity = City::find($request->fromCity);
+
+        // dd($toCity);
 
         $search = Search::create([
             'user_id' => Auth::user()->id,
@@ -267,9 +310,9 @@ class SearchController extends Controller
     //     ]);
     // }
 
-    public function searchHistory($user_id = 0)
+    public function searchHistory()
     {
-        $user_id = $user_id == 0 ? Auth()->user()->id : $user_id;
+        $user_id = Auth()->user()->id;
 
         $searches = Search::with(['toCountry', 'fromCountry'])->where('user_id', $user_id)->paginate(15);
 

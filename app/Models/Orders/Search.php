@@ -2,6 +2,7 @@
 
 namespace App\Models\Orders;
 
+use App\Models\User;
 use App\Models\Zones\Country;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

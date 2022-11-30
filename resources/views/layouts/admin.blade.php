@@ -50,6 +50,8 @@
             <x-admin.views.footer />
         </div>
         <x-admin.views.sidebar />
+
+        @stack('modals')
     </div>
 
     <script src="{{ adminAsset('vendor/popper.min.js') }}"></script>
@@ -66,7 +68,7 @@
     <script src="{{ adminAsset('vendor/Chart.min.js') }}"></script>
     <script src="{{ adminAsset('js/chartjs.js') }}"></script>
     <script src="{{ adminAsset('js/chartjs-rounded-bar.js') }}"></script>
-    <script src="{{ adminAsset('js/page.ecommerce.js') }}"></script>
+    {{-- <script src="{{ adminAsset('js/page.ecommerce.js') }}"></script> --}}
     <script src="{{ adminAsset('vendor/list.min.js') }}"></script>
     <script src="{{ adminAsset('js/list.js') }}"></script>
     <script src="{{ adminAsset('js/toggle-check-all.js') }}"></script>

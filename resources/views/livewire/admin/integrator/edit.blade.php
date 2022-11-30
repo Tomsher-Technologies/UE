@@ -24,7 +24,7 @@
         @if ($c_image)
             <div class="col-md-12 p-0 mb-3">
                 Current Logo:
-                <img class="w-auto d-block mw-100" src="{{ $c_image }}">
+                <img class="logoimg" class="w-auto d-block mw-100" src="{{ $c_image }}">
             </div>
         @endif
 
@@ -37,7 +37,7 @@
         @if ($image && !$errors->get('image'))
             <div class="col-md-12 p-0 mb-3">
                 Logo Preview:
-                <img class="w-auto d-block mw-100" src="{{ $image->temporaryUrl() }}">
+                <img class="logoimg" class="w-auto d-block mw-100" src="{{ $image->temporaryUrl() }}">
             </div>
         @endif
 

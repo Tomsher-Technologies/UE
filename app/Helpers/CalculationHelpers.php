@@ -3,6 +3,9 @@
 use App\Models\Customer\Grade;
 use App\Models\Customer\ProfitMargin;
 use App\Models\Surcharge\Surcharge;
+use App\Models\User;
+use App\Models\Zones\OdPincodes;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 function getSurcharge($integrator_id, $billable_weight, $zone, $country)
@@ -35,15 +38,15 @@ function getSurcharge($integrator_id, $billable_weight, $zone, $country)
     }
 }
 
-function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade)
+
+function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, $user_id)
 {
-    // profitmargin
-    // user pf
-    // grade
-    // if sub, add parent pm
-    $userMargins = Auth::user()
+
+    $user = User::find($user_id);
+
+    $userMargins = $user
         ->profitmargin()
-        ->where('type', $type)
+        ->whereIn('type', array('all', $type))
         ->where('weight', '<=', $billable_weight)
         ->where('end_weight', '>=', $billable_weight)
         ->whereIn('integrator_id', array(0, $integrator_id))
@@ -62,27 +65,69 @@ function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $typ
         return true;
     });
 
-    if($userMargins->count()){
-        ddd($userMargins);
+    return $userMargins;
+}
+
+function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade)
+{
+    $total_margin = 0;
+
+    $userMargins = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->id);
+    foreach ($userMargins as $userMargin) {
+        if ($userMargin->rate_type == 'amount') {
+            $total_margin += $userMargin->rate;
+        } else {
+            $total_margin += ($userMargin->rate / 100) * $zone->weight->rate;
+        }
+    }
+
+    if (Auth()->user()->isA('reselleruser')) {
+        $parent_user_margin = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->parent_id);
+
+        if ($parent_user_margin->count()) {
+            foreach ($parent_user_margin as $userMargin) {
+                if ($userMargin->rate_type == 'amount') {
+                    $total_margin += $userMargin->rate;
+                } else {
+                    $total_margin += ($userMargin->rate / 100) * $zone->weight->rate;
+                }
+            }
+        }
     }
 
     $gradeMargins = $grade
         ->profitmargin()
-        ->where('type', $type)
+        ->where('type', array('all', $type))
         ->whereIn('integrator_id', [$integrator_id, 0])
         ->where('weight', '<=', $billable_weight)
         ->where('end_weight', '>=', $billable_weight)
         ->get();
 
-    // Check if both grade and customer has same profit margin to same country or zone
-
-    $total_margin = 0;
-
-    foreach ($userMargins as $userMargin) {
-        if ($userMargin->rate_type == 'amount') {
-            return $userMargin->rate;
+    foreach ($gradeMargins as $margin) {
+        if ($margin->rate_type == 'amount') {
+            $total_margin += $margin->rate;
         } else {
-            return ($userMargin->rate / 100) * $zone->weight->rate;
+            $total_margin += ($margin->rate / 100) * $zone->weight->rate;
         }
     }
+
+    return $total_margin;
+}
+
+
+function hasSpecialRequest($billable_weight)
+{
+    $user = Auth()->user();
+    $user->load(['customerDetails']);
+
+    $request_today = $user->specialrate()->whereDate('created_at', Carbon::today())->count();
+
+    if (
+        $user->customerDetails->limit_weight > $billable_weight ||
+        $request_today >= $user->customerDetails->limit_weight
+    ) {
+        return false;
+    }
+
+    return true;
 }

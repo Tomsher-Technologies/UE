@@ -63,7 +63,7 @@ class ZoneImport implements ToCollection
                         'country_id' => $country->id,
                     ]);
                 }
-                if ($row[4]) {
+                if (isset($row[4])) {
                     Zone::updateOrCreate([
                         'type' => 'transit',
                         'integrator_id' => $this->integrator,

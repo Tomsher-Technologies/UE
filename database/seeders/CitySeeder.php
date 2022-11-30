@@ -30,7 +30,7 @@ class CitySeeder extends Seeder
                 $c_id = $countries->where('code', $data['0'])->pluck('id')->first();
                 if ($c_id) {
                     City::create([
-                        'country_id' => $c_id,
+                        'country_code' => $data['0'],
                         "city" => $data['2'],
                         "pincode" => $data['1'],
                         "state" => $data['3']

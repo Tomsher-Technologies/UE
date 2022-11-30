@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPasswordNotification;
 use App\Models\Customer\CustomerDetails;
 use App\Models\Customer\Grade;
 use App\Models\Customer\ProfitMargin;
+use App\Models\Orders\Order;
 use App\Models\Orders\Search;
 use App\Models\Surcharge\Surcharge;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Laravel\Sanctum\HasApiTokens;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 use Wildside\Userstamps\Userstamps;
@@ -34,7 +37,8 @@ class User extends Authenticatable
         'password',
         'status',
         'parent_id',
-        'grade_id'
+        'grade_id',
+        'verified',
     ];
 
     /**
@@ -150,5 +154,15 @@ class User extends Authenticatable
     public function searches()
     {
         return $this->hasMany(Search::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

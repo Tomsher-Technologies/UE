@@ -30,6 +30,10 @@
                                             class="btn btn-secondary w-100 mb-2">
                                             Upload Zones
                                         </a>
+                                        <a href="{{ route('admin.integrator.uploadOdPin', $integrator) }}"
+                                            class="btn btn-secondary w-100 mb-2">
+                                            Upload Out of Delivery Pincodes
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -40,3 +44,11 @@
         </div>
     </div>
 @endsection
+@push('header')
+    <style>
+        .logoimg{
+            width: 350px;
+            display: block;
+        }
+    </style>
+@endpush

@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="ue-form">
                                     <h2>Register</h2>
-                                    <form method="POST" action="{{ route('reseller.register') }}">
+                                    <form method="POST" action="{{ route('reseller.register') }}" enctype="multipart/form-data">
                                         @csrf
                                         <x-form.status />
                                         <x-form.error name="register" />
@@ -70,12 +70,27 @@
                                         <div class="form-group">
                                             <div class=" ue-transition-delay-1">
                                                 <input type="text" class="form-control" name="address"
-                                                    placeholder="Your address" value="{{ old('address') }}"
-                                                    required>
+                                                    placeholder="Your address" value="{{ old('address') }}" required>
                                                 <i class="flaticon-envelope"></i>
                                             </div>
                                             <x-form.error name="address" />
                                         </div>
+
+                                        <div class="form-group">
+                                            <div class=" ue-transition-delay-1">
+
+                                                <div class="custom-file">
+                                                    <input name="logoimage" accept="image/*" type="file"
+                                                        id="logoimage" class="custom-file-input">
+                                                    <label for="logoimage" id="logoimagelable" class="custom-file-label">Choose file</label>
+                                                </div>
+
+                                                {{-- <input type="file" class="form-control" name="logoimage"
+                                                    placeholder="Your address" value="{{ old('address') }}" required> --}}
+                                            </div>
+                                            <x-form.error name="logoimage" />
+                                        </div>
+
                                         <div class="form-group">
                                             <div class=" ue-transition-delay-2">
                                                 <input type="password" class="form-control" name="password"
@@ -86,8 +101,9 @@
                                         </div>
                                         <div class="form-group">
                                             <div class=" ue-transition-delay-2">
-                                                <input type="password" class="form-control" name="password_confirmation"
-                                                    placeholder="Confirm Password" required>
+                                                <input type="password" class="form-control"
+                                                    name="password_confirmation" placeholder="Confirm Password"
+                                                    required>
                                                 <i class="flaticon-padlock"></i>
                                             </div>
                                         </div>
@@ -257,6 +273,13 @@
     <script src="{{ resellerAsset('js/app.js') }}"></script>
     <script src="{{ resellerAsset('vendor/select2/select2.min.js') }}"></script>
     <script src="{{ resellerAsset('js/select2.js') }}"></script>
+
+    <script>
+        document.getElementById('logoimage').onchange = function(e) {
+            $('#logoimagelable').html(e.target.files[0].name);
+        };
+    </script>
+
 </body>
 
 </html>

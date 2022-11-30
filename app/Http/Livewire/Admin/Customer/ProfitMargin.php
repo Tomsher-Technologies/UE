@@ -25,6 +25,7 @@ class   ProfitMargin extends Component
     public $rate_type = 'percentage';
     public $rate;
     public $weight;
+    public $end_weight;
     public $applied_for = 'all';
     public $applied_for_id;
 
@@ -36,6 +37,7 @@ class   ProfitMargin extends Component
             'rate_type' => 'required',
             'rate' => ['required'],
             'weight' => ['required'],
+            'end_weight' => ['required'],
             'applied_for' => ['required'],
             'applied_for_id' => ['required'],
         ];
@@ -47,6 +49,7 @@ class   ProfitMargin extends Component
         'rate_type.required' => 'Please ente a type',
         'rate.required' => 'Please ente a rate',
         'weight.required' => 'Please ente a weight',
+        'end_weight.required' => 'Please ente an end weight',
     ];
 
     public function mount($user)
@@ -69,6 +72,7 @@ class   ProfitMargin extends Component
             'applied_for' => $this->applied_for,
             'applied_for_id' => $this->applied_for_id,
             'weight' => $this->weight,
+            'end_weight' => $this->end_weight,
             'rate_type' => $this->rate_type,
             'rate' => $this->rate,
         ]);
@@ -78,6 +82,7 @@ class   ProfitMargin extends Component
         $this->reset('rate_type');
         $this->reset('rate');
         $this->reset('weight');
+        $this->reset('end_weight');
         $this->reset('applied_for');
         $this->reset('applied_for_id');
         $this->reset('applied_for_txt');

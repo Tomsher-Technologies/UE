@@ -15,6 +15,19 @@
                         </div>
                         <form method="POST" action="{{ route('admin.integrator.export') }}" enctype="multipart/form-data">
                             @csrf
+
+                            <div class="form-group" wire:ignore>
+                                <label class="form-label">Choose a type</label>
+                                <select name="type" id="" class="form-control mb-2">
+                                    <option {{ old('type') == 'import' ? 'selected' : '' }} value="import" selected>Import
+                                    </option>
+                                    <option {{ old('type') == 'export' ? 'selected' : '' }} value="export">Export</option>
+                                    <option {{ old('type') == 'transit' ? 'selected' : '' }} value="transit">Transit
+                                    </option>
+                                </select>
+                                <x-form.error name="type" />
+                            </div>
+
                             <div class="form-group" id="integrator">
                                 <label class="form-label">Choose an integrator</label>
                                 <select name="integrator" id="" class="form-control mb-2">
@@ -37,7 +50,7 @@
 
                             <div class="form-group" id="integrator">
                                 <label class="form-label">Choose an country</label>
-                                <select name="country" id="" class="form-control mb-2">
+                                <select name="country" id="country" class="form-control mb-2">
                                     <option selected value="0">All</option>
                                     @foreach ($countries as $country)
                                         <option {{ old('country') == $country->id ? 'selected' : '' }}
@@ -48,17 +61,7 @@
                                 <x-form.error name="integrator" />
                             </div>
 
-                            <div class="form-group" wire:ignore>
-                                <label class="form-label">Choose a type</label>
-                                <select name="type" id="" class="form-control mb-2">
-                                    <option {{ old('type') == 'import' ? 'selected' : '' }} value="import" selected>Import
-                                    </option>
-                                    <option {{ old('type') == 'export' ? 'selected' : '' }} value="export">Export</option>
-                                    <option {{ old('type') == 'transit' ? 'selected' : '' }} value="transit">Transit
-                                    </option>
-                                </select>
-                                <x-form.error name="type" />
-                            </div>
+
                             <input class="btn btn-primary" type="submit" value="Export">
                         </form>
                     </div>
@@ -70,4 +73,7 @@
 @endsection
 
 @push('footer')
+    <script>
+        $('#country').select2();
+    </script>
 @endpush

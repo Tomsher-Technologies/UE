@@ -25,7 +25,7 @@
 
                 <div class="card mb-4">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('reseller.user.profile-update') }}">
+                        <form method="POST" action="{{ route('reseller.user.profile-update') }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <h5>Edit Details</h5>
@@ -50,6 +50,16 @@
                                 <input type="text" name="address" autocomplete="address-level1" class="form-control"
                                     value="{{ $details->address }}">
                             </div>
+
+                            @if ($details->image)
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Image</label>
+                                    <img class="d-block" style="width: 500px;"
+                                        src="{{ URL::to($details->getProfileImage()) }}" alt="">
+                                    <input type="file" name="logoimage" class="form-control">
+                                </div>
+                            @endif
+
                             <button type="submit" class="btn btn-primary mb-0">Submit</button>
                         </form>
                     </div>
@@ -92,7 +102,7 @@
                                         placeholder="Password">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <button type="submit" class="btn btn-danger mb-0">Log Out</button>
+                                    <button type="submit" class="btn btn-danger mb-0 h-100">Log Out</button>
                                 </div>
                             </div>
                         </form>

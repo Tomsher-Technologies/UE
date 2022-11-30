@@ -7,9 +7,9 @@
                 <div class="page-separator__text">Upload Zone</div>
             </div>
 
-            @if (session('import_errors') && count(session('import_errors')) > 0)
-                
+            <x-form.status />
 
+            @if (session('import_errors') && count(session('import_errors')) > 0)
                 <div class="alert alert-danger">
                     {{ count(session('import_errors')) }} Errors. Could not import data for {{ Str::plural('zone', count(session('import_errors'))) }}
                     {{ implode(session('import_errors'), ', ') }},

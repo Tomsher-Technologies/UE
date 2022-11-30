@@ -3,23 +3,29 @@
 namespace App\Http\Livewire\Reseller\Agent;
 
 use App\Helpers\Password;
+use App\Http\Controllers\Common\MailController;
 use App\Models\Customer\CustomerDetails;
+use App\Models\Customer\Grade;
 use App\Models\User;
 use Bouncer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 
 class AgentEdit extends Component
 {
     use WithFileUploads;
-    
+
     public User $agent;
     public CustomerDetails $customerDetails;
 
     public $image;
     public $c_image;
     public $password;
+
+    public $grades;
 
     protected function rules()
     {
@@ -28,14 +34,14 @@ class AgentEdit extends Component
             'agent.name' => 'required',
             'agent.email' => ['required', 'email', 'unique:users,email,' . $this->agent->id],
             'agent.grade_id' => ['required'],
+            'agent.status' => ['required'],
             'customerDetails.phone' => ['nullable'],
             'customerDetails.address' => ['nullable'],
             'customerDetails.msp' => ['nullable', 'integer'],
             'customerDetails.msp_type' => ['nullable'],
             'customerDetails.request_limit' => ['nullable'],
             'customerDetails.limit_weight' => ['nullable'],
-            'customerDetails.profit_margin' => ['nullable'],
-            'customerDetails.profit_margin_type' => ['nullable'],
+            'customerDetails.rate_sheet_status' => 'required',
         ];
     }
 
@@ -69,14 +75,20 @@ class AgentEdit extends Component
         $this->agent->save();
 
         if ($this->image) {
-            $storedImage =  $this->image->store('public/agentphotos');
+            $storedImage =  $this->image->store('public/customerphotos');
 
             if (Storage::exists($this->customerDetails->image)) {
                 Storage::delete($this->customerDetails->image);
             }
 
-            $this->customerDetails->image =  $storedImage;
+            $this->customerDetails->image =  Str::remove('public/', $storedImage);
             $this->reset('image');
+        }
+ 
+        if ($this->customerDetails->rate_sheet_status) {
+            $this->agent->allow('download-rate-sheet');
+        }else{
+            $this->agent->disallow('download-rate-sheet');
         }
 
         $this->customerDetails->save();
@@ -89,8 +101,27 @@ class AgentEdit extends Component
         $this->dispatchBrowserEvent('memberUpdated');
     }
 
+    public function approveCustomer()
+    {
+        $this->agent->verified = 1;
+        $this->agent->status = 1;
+        $this->agent->save();
+
+        $mailController = new MailController();
+        $mailController->agentApprovel($this->agent);
+
+        $this->dispatchBrowserEvent('memberApproved');
+    }
+
     public function mount(User $user)
     {
+        if ($user->parent_id !== Auth()->user()->id) {
+            abort(404);
+        }
+
+        $this->grades = Grade::all();
+        $this->grade =  $user->grade_id;
+
         $this->agent = $user;
         $this->customerDetails = $user->customerDetails;
     }
