@@ -76,7 +76,7 @@ class SearchController extends Controller
         //     ->where('pincode', '100001')
         //     ->get();
         $od_pincodes = OdPincodes::where('country_id', $country)
-            ->where('pincode', $request->toPincode)
+            ->whereIn('pincode', [$request->toPincode, $request->toCity])
             ->get();
 
         foreach ($integrators as $integrator) {
