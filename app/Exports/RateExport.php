@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Customer\Grade;
 use App\Models\Rates\ExportRate;
 use App\Models\Rates\ImportRate;
 use App\Models\Rates\TransitRate;
@@ -9,6 +10,7 @@ use App\Models\Zones\Zone;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -17,6 +19,7 @@ class RateExport implements FromCollection, WithHeadings
 {
 
     public Request $request;
+    public Grade $grade;
 
     public $data;
     public $zone;
@@ -29,6 +32,8 @@ class RateExport implements FromCollection, WithHeadings
 
         $query = Zone::where('type', $this->request->type);
 
+        $this->grade = Grade::where('id', Auth::user()->grade_id)->first();
+
         if ($this->request->integrator !== "0") {
             $query->where('integrator_id', $this->request->integrator);
         }
@@ -36,7 +41,7 @@ class RateExport implements FromCollection, WithHeadings
             $query->where('country_id', $this->request->country);
         }
 
-        $this->zone = $query->select(['id', 'zone_code'])->get();
+        $this->zone = $query->get();
 
         // ddd($this->zone);
 
@@ -54,7 +59,13 @@ class RateExport implements FromCollection, WithHeadings
                 break;
         }
         $this->data = $model::with('zone')->where('integrator_id', $this->request->integrator)->get();
-        $this->unique_weight = $this->data->pluck('weight')->unique();
+
+        if ($this->request->weight) {
+            $w = $this->data->where('weight', '>=', $this->request->weight)->pluck('weight')->unique()->first();
+            $this->unique_weight = array($w);
+        } else {
+            $this->unique_weight = $this->data->pluck('weight')->unique();
+        }
     }
 
     public function headings(): array
@@ -77,7 +88,16 @@ class RateExport implements FromCollection, WithHeadings
             $array['weight'] = $weight;
 
             foreach ($this->zone_unique as  $zone) {
-                $array[$zone]  = $this->data->where('zone.zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+                $rate = $this->data->where('zone.zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+                // if ($rate !== 0) {
+
+                //     $mzone = $this->zone->where('zone_code', $zone)->first();
+                //     $mzone->weight = new Collection();
+                //     $mzone->weight->rate = $rate;
+
+                //     $rate += getFrofirMargin($this->request->integrator, $weight, $mzone, $this->request->country, $this->request->type, $this->grade);
+                // }
+                $array[$zone]  = $rate;
             }
 
             $collection1->push($array);

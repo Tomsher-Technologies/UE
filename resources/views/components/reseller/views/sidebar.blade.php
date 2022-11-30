@@ -14,7 +14,8 @@
     .brand-name {
         padding: 20px 0;
     }
-    .logo + .brand-name {
+
+    .logo+.brand-name {
         padding: 0;
     }
 </style>
@@ -43,6 +44,16 @@
                         <span class="sidebar-menu-text">Dashboard</span>
                     </a>
                 </li>
+
+                @if (auth()->user()->can('download-rate-sheet'))
+                    <li class="sidebar-menu-item {{ request()->routeIs('reseller.ratesheet*') ? 'active' : '' }}">
+                        <a class="sidebar-menu-button" href="{{ route('reseller.ratesheet.export') }}">
+                            <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment</span>
+                            <span class="sidebar-menu-text">Rate Sheet</span>
+                        </a>
+                    </li>
+                @endif
+
                 <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.history*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('reseller.search.history') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">search</span>
@@ -97,7 +108,7 @@
                                     <span class="sidebar-menu-text">Add New Agents</span>
                                 </a>
                             </li>
-                            <li
+                            {{-- <li
                                 class="sidebar-menu-item {{ request()->routeIs('reseller.agents.create') ? 'active' : '' }}">
                                 <a class="sidebar-menu-button" href="{{ route('reseller.agents.create') }}">
                                     <span class="sidebar-menu-text">See Booking History</span>
@@ -108,7 +119,7 @@
                                 <a class="sidebar-menu-button" href="{{ route('reseller.agents.create') }}">
                                     <span class="sidebar-menu-text">See Search History</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
                 @endif

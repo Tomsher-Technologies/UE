@@ -72,7 +72,16 @@
         </div> --}}
 
         <div class="form-group">
-            <label class="form-label">Assigned UE USer</label>
+            <label class="form-label">Can Download Rate Sheet</label>
+            <select wire:model="rate_sheet_status" class="form-control custom-select mb-2">
+                <option value="1" selected>Yes</option>
+                <option value="0">No</option>
+            </select>
+            <x-form.error name="rate_sheet_status" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Assigned UE User</label>
             <select wire:model="parent_user" class="form-control custom-select mb-2">
                 <option value="0">Select a UE user</option>
                 @foreach ($parent_users as $user)

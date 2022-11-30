@@ -41,6 +41,7 @@ class Edit extends Component
             'customerDetails.msp_type' => ['nullable'],
             'customerDetails.request_limit' => ['nullable'],
             'customerDetails.limit_weight' => ['nullable'],
+            'customerDetails.rate_sheet_status' => 'required',
         ];
     }
 
@@ -82,6 +83,12 @@ class Edit extends Component
 
             $this->customerDetails->image =  Str::remove('public/', $storedImage);
             $this->reset('image');
+        }
+
+        if ($this->customerDetails->rate_sheet_status) {
+            $this->user->allow('download-rate-sheet');
+        }else{
+            $this->user->disallow('download-rate-sheet');
         }
 
         $this->customerDetails->save();

@@ -71,6 +71,16 @@
             </select>
             <x-form.error name="customerDetails.profit_margin_type" />
         </div> --}}
+
+        <div class="form-group">
+            <label class="form-label">Can Download Rate Sheet</label>
+            <select wire:model="customerDetails.rate_sheet_status" class="form-control custom-select mb-2">
+                <option value="1" selected>Yes</option>
+                <option value="0">No</option>
+            </select>
+            <x-form.error name="customerDetails.rate_sheet_status" />
+        </div>
+
         <div class="form-group">
             <label class="form-label">Password</label>
             <input wire:model="password" type="password" class="form-control mb-2">

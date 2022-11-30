@@ -23,6 +23,7 @@ class CustomerDetails extends Model
         'profit_margin_type',
         'request_limit',
         'user_id',
+        'rate_sheet_status',
     ];
 
     public function customer()

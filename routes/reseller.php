@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\HubEz\HubEzController;
 use App\Http\Controllers\Reseller\Auth\ResellerLoginController;
 use App\Http\Controllers\Reseller\BookingController;
+use App\Http\Controllers\Reseller\RateSheet\RateSheetController;
 use App\Http\Controllers\Reseller\ResellerDashboardController;
 use App\Http\Controllers\Reseller\SearchController;
 use App\Http\Livewire\Reseller\Agent\AgentCreate;
@@ -82,8 +83,6 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
             });
         });
 
-
-
         Route::group(['prefix' => 'agents', 'as' => 'agents.'], function () {
             Route::get('/', AgentIndex::class)->name('index');
             Route::get('/create', AgentCreate::class)->name('create');
@@ -97,6 +96,11 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
             Route::get('/', UserIndex::class)->name('index');
             Route::get('/create', UserCreate::class)->name('create');
             Route::get('/{user}/edit', UserEdit::class)->name('edit');
+        });
+
+        Route::group(['prefix' => 'ratesheet', 'as' => 'ratesheet.'], function () {
+            Route::get('/', [RateSheetController::class, 'view'])->name('export');
+            Route::post('/', [RateSheetController::class, 'download']);
         });
 
         Route::get('/terms', function () {

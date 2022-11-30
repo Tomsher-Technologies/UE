@@ -1,19 +1,16 @@
-@extends('layouts.admin')
+@extends('layouts.reseller.app')
 
 @section('content')
     <div class="container page__container">
         <div class="page-section">
             <div class="page-separator">
-                <div class="page-separator__text">Export</div>
+                <div class="page-separator__text">Download Rate Sheet</div>
             </div>
             <x-form.status />
             <div class="card mb-lg-32pt">
                 <div class="container page__container">
                     <div class="page-section">
-                        <div class="page-separator">
-                            <div class="page-separator__text">Export Rates</div>
-                        </div>
-                        <form method="POST" action="{{ route('admin.integrator.export') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('reseller.ratesheet.export') }}">
                             @csrf
 
                             <div class="form-group" wire:ignore>
@@ -31,7 +28,6 @@
                             <div class="form-group" id="integrator">
                                 <label class="form-label">Choose an integrator</label>
                                 <select name="integrator" id="" class="form-control mb-2">
-                                    <option selected value="0">All</option>
                                     @foreach ($integrators as $integrator)
                                         <option {{ old('integrator') == $integrator->id ? 'selected' : '' }}
                                             value="{{ $integrator->id }}">
@@ -45,7 +41,7 @@
                                 <label class="form-label">Weight</label>
                                 <input name="weight" step=".1" type="number" class="form-control mb-2"
                                     value="{{ old('weight') }}">
-                                <x-form.error name="user.email" />
+                                <x-form.error name="weight" />
                             </div>
 
                             <div class="form-group" id="integrator">
@@ -58,9 +54,8 @@
                                             {{ $country->name }}</option>
                                     @endforeach
                                 </select>
-                                <x-form.error name="integrator" />
+                                <x-form.error name="country" />
                             </div>
-
 
                             <input class="btn btn-primary" type="submit" value="Export">
                         </form>
@@ -74,6 +69,6 @@
 
 @push('footer')
     <script>
-        $('#country').select2();
+        $("#country").select2();
     </script>
 @endpush

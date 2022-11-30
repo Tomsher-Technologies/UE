@@ -28,6 +28,8 @@ class AgentCreate extends Component
 
     public $image;
     public $grades;
+ 
+    public $rate_sheet_status;
 
     protected function rules()
     {
@@ -44,6 +46,7 @@ class AgentCreate extends Component
             'msp_type' => ['nullable'],
             'request_limit' => ['nullable'],
             'limit_weight' => ['nullable'],
+            'rate_sheet_status' => ['required'],
         ];
     }
 
@@ -103,9 +106,15 @@ class AgentCreate extends Component
             'image' => Str::remove('public/', $storedImage),
             'request_limit' => $this->request_limit,
             'limit_weight' => $this->limit_weight,
+            'rate_sheet_status' => $this->rate_sheet_status ,
         ]);
 
+        if ($this->rate_sheet_status == "1") {
+            $customer->allow('download-rate-sheet');
+        }
+
         $this->reset('name');
+        $this->reset('rate_sheet_status');
         $this->reset('email');
         $this->reset('phone');
         $this->reset('password');

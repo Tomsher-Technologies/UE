@@ -64,6 +64,15 @@
                     </div> --}}
 
                     <div class="form-group">
+                        <label class="form-label">Can Download Rate Sheet</label>
+                        <select wire:model="rate_sheet_status" class="form-control custom-select mb-2">
+                            <option value="1" selected>Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                        <x-form.error name="rate_sheet_status" />
+                    </div>
+
+                    <div class="form-group">
                         <label class="form-label">Grade</label>
                         <select wire:model="grade" class="form-control custom-select">
                             @foreach ($grades as $item)

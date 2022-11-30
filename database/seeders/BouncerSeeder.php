@@ -104,27 +104,32 @@ class BouncerSeeder extends Seeder
         //     'group' => "Customers"
         // ]);
 
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'manage-dynamic-content',
+        //     'title' => 'Manage dynamic content',
+        //     'group' => "Dynamic content"
+        // ]);
         $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'manage-dynamic-content',
-            'title' => 'Manage dynamic content',
-            'group' => "Dynamic content"
+            'name' => 'download-rate-sheet',
+            'title' => 'Download Rate Sheet',
+            'group' => "Customer"
         ]);
 
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'list-special-rates',
-            'title' => 'View special rates',
-            'group' => "Special Rates"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'edit-special-rates',
-            'title' => 'Edit special rates',
-            'group' => "Special Rates"
-        ]);
-        $ban = Bouncer::ability()->firstOrCreate([
-            'name' => 'create-special-rates',
-            'title' => 'Create special rates',
-            'group' => "Special Rates"
-        ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'list-special-rates',
+        //     'title' => 'View special rates',
+        //     'group' => "Special Rates"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'edit-special-rates',
+        //     'title' => 'Edit special rates',
+        //     'group' => "Special Rates"
+        // ]);
+        // $ban = Bouncer::ability()->firstOrCreate([
+        //     'name' => 'create-special-rates',
+        //     'title' => 'Create special rates',
+        //     'group' => "Special Rates"
+        // ]);
 
         // $ban = Bouncer::ability()->firstOrCreate([
         //     'name' => 'list-integrators',

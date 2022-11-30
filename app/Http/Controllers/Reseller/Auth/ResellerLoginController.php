@@ -64,6 +64,7 @@ class ResellerLoginController extends Controller
     {
         return view('reseller.auth.register');
     }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -109,7 +110,8 @@ class ResellerLoginController extends Controller
         $user->customerDetails()->create([
             'phone' => $request->phone,
             'address' => $request->address,
-            'image' => $logo_name
+            'image' => $logo_name,
+            'rate_sheet_status' =>false
         ]);
 
         $mailController = new MailController();
