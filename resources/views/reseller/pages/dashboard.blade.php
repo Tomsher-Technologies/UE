@@ -216,7 +216,7 @@
 
                         <div class="row align-items-center">
                             <div class="col-sm-12">
-                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="submit">Search</button>
+                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="submit">Quote</button>
                             </div>
                         </div>
                     </form>
@@ -471,6 +471,10 @@
         .searchable ul li.selected {
             background-color: #e8e8e8;
             color: #333;
+        }
+
+        #searchForm label.text-black {
+            font-size: 15px;
         }
     </style>
 @endpush

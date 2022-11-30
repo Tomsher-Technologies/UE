@@ -92,6 +92,24 @@
                             No results found
                         </p>
                     @endif
+                
+                    <div class="">
+                        <div class="col-12">
+                            <hr>
+                            <p class="mb-0">
+                                Note:
+                            </p>
+                            <ul>
+                                <li>
+                                    Inclusive of Covid / fuel surcharges, if applicable.
+                                </li>
+                                <li>
+                                    Based on the weight and size
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

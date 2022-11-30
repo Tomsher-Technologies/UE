@@ -38,7 +38,7 @@ class SearchController extends Controller
         $del_type = $request->shipping_type;
         $package_type = $request->package_type;
 
-        if ( $del_type == 'export' ) {
+        if ($del_type == 'export') {
             // $del_type = 'export';
             $model = ExportRate::class;
             $country = $request->toCountry;
@@ -72,12 +72,12 @@ class SearchController extends Controller
             return Integrator::all();
         });
 
-        $od_pincodes = OdPincodes::where('country_id', '1')
-            ->where('pincode', '100001')
-            ->get();
-        // $od_pincodes = OdPincodes::where('country_id', $country)
-        //     ->where('pincode', $request->toPincode)
+        // $od_pincodes = OdPincodes::where('country_id', '1')
+        //     ->where('pincode', '100001')
         //     ->get();
+        $od_pincodes = OdPincodes::where('country_id', $country)
+            ->where('pincode', $request->toPincode)
+            ->get();
 
         foreach ($integrators as $integrator) {
 
