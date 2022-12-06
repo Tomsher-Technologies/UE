@@ -326,4 +326,13 @@ class SearchController extends Controller
         $items = SearchItem::where('search_id', $request->id)->get();
         return json_encode($items);
     }
+
+    public function agentsSearchHistory()
+    {
+        $users = Auth()->user()->children()->select('id')->get()->toArray();
+        $searches = Search::whereIn('user_id', $users)->with(['toCountry', 'fromCountry','user'])->paginate(15);
+        return view('reseller.agents.search_history')->with([
+            'searches' => $searches,
+        ]);
+    }
 }

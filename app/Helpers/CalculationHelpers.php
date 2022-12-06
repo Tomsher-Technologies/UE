@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Common\Settings;
 use App\Models\Customer\Grade;
 use App\Models\Customer\ProfitMargin;
 use App\Models\Surcharge\Surcharge;
@@ -7,6 +8,7 @@ use App\Models\User;
 use App\Models\Zones\OdPincodes;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 function getSurcharge($integrator_id, $billable_weight, $zone, $country)
 {
@@ -119,6 +121,10 @@ function hasSpecialRequest($billable_weight)
 {
     $user = Auth()->user();
     $user->load(['customerDetails']);
+
+    $global_daily_limit = Cache::rememberForever('global_daily_limit', function () {
+        return Settings::where('group', 'booking')->get();
+    });
 
     $request_today = $user->specialrate()->whereDate('created_at', Carbon::today())->count();
 

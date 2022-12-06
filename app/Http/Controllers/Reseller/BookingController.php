@@ -82,7 +82,7 @@ class BookingController extends Controller
         $requestArray["ReceiverCountry"] = $search->toCountry->code;
         $requestArray["ReceiverProvince"] = $search->toCountry->code;
         $requestArray["ReceiverCity"] = $search->to_city;
-        $requestArray["ReceiverZip"] = $search->to_pin ?? 0;
+        $requestArray["ReceiverZip"] = $search->to_pin == NULL ? 0 : $search->to_pin;
         $requestArray["ReceiverContactPerson"] = $request->receiver_contact_person;
 
         $requestArray["Weight"] = $request->totalweight;
@@ -194,6 +194,15 @@ class BookingController extends Controller
             'order' => $order,
             'integrator' => $integrator,
             'search' => $search,
+        ]);
+    }
+
+    public function agentsBookingHistory()
+    {
+        $users = Auth()->user()->children()->select('id')->get()->toArray();
+        $booking_history = Order::whereIn('user_id', $users)->where('order_status', '!=', 0)->with(['integrator', 'search', 'user'])->paginate(15);
+        return view('reseller.agents.booking_history')->with([
+            'bookings' => $booking_history,
         ]);
     }
 }
