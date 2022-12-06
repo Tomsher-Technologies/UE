@@ -196,4 +196,13 @@ class BookingController extends Controller
             'search' => $search,
         ]);
     }
+
+    public function agentsBookingHistory()
+    {
+        $users = Auth()->user()->children()->select('id')->get()->toArray();
+        $booking_history = Order::whereIn('user_id', $users)->where('order_status', '!=', 0)->with(['integrator', 'search','user'])->paginate(15);
+        return view('reseller.agents.booking_history')->with([
+            'bookings' => $booking_history,
+        ]);
+    }
 }

@@ -89,6 +89,9 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
             Route::get('/{user}/edit', AgentEdit::class)->name('edit');
             Route::get('/{user}/show', AgentShow::class)->name('show');
 
+            Route::get('/booking-history', [BookingController::class, 'agentsBookingHistory'])->name('booking.history');
+            Route::get('/search-history', [SearchController::class, 'agentsSearchHistory'])->name('search.history');
+
             Route::get('/profitMargin/{user}', ProfitMargin::class)->name('profitMargin');
         });
 
