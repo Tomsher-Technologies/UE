@@ -49,6 +49,8 @@
                     <div class="flex">
                         <p class="text-white-70 mb-8pt "><strong>Booking Details</strong></p>
                         <p class="text-white icon-16pt">
+                            <strong class="font-weight-bolder ">Booking Id :
+                            </strong>#{{ Str::padLeft($order->id, 4, '0') }} <br>
                             <strong class="font-weight-bolder ">Booking date :
                             </strong>{{ $order->created_at->format('d/m/Y h:i:s A') }}
 

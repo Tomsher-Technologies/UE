@@ -10,10 +10,10 @@
             <form action="{{ route('reseller.booking.submit') }}" id="bookForm" method="POST">
                 @csrf
 
-                <input type="hidden" name="integrator" value="{{ $orequest->integrator }}">
-                <input type="hidden" name="rate" value="{{ $orequest->rate }}">
-                <input type="hidden" name="search_id" value="{{ $orequest->search_id }}">
-                <input type="hidden" name="totalweight" value="{{ $orequest->totalweight }}">
+                <input type="hidden" name="integrator" value="{{ old('integrator', $orequest->integrator) }}">
+                <input type="hidden" name="rate" value="{{ old('rate', $orequest->rate) }}">
+                <input type="hidden" name="search_id" value="{{ old('search_id', $orequest->search_id) }}">
+                <input type="hidden" name="totalweight" value="{{ old('totalweight', $orequest->totalweight) }}">
 
                 <div class="page-separator">
                     <div class="page-separator__text">
@@ -92,8 +92,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
                 <div class="row">
                     <div class="col-sm-6">

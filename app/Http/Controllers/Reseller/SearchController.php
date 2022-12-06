@@ -131,7 +131,7 @@ class SearchController extends Controller
             return $integrator->zones->weight ? false : true;
         });
 
-        $hasSpecialRequest = hasSpecialRequest($billable_weight);
+        $hasSpecialRequest = hasSpecialRequest($billable_weight, $search_id);
 
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
@@ -314,8 +314,8 @@ class SearchController extends Controller
     {
         $user_id = Auth()->user()->id;
 
-        $searches = Search::with(['toCountry', 'fromCountry'])->where('user_id', $user_id)->paginate(15);
-
+        $searches = Search::with(['toCountry', 'fromCountry', 'activeSpecialRate'])->where('user_id', $user_id)->paginate(15);
+        // dd($searches);
         return view('reseller.pages.search_history')->with([
             'searches' => $searches,
         ]);
@@ -330,7 +330,7 @@ class SearchController extends Controller
     public function agentsSearchHistory()
     {
         $users = Auth()->user()->children()->select('id')->get()->toArray();
-        $searches = Search::whereIn('user_id', $users)->with(['toCountry', 'fromCountry','user'])->paginate(15);
+        $searches = Search::whereIn('user_id', $users)->with(['toCountry', 'fromCountry', 'user'])->paginate(15);
         return view('reseller.agents.search_history')->with([
             'searches' => $searches,
         ]);
