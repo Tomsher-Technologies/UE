@@ -2,6 +2,7 @@
 
 namespace App\Models\Orders;
 
+use App\Models\SpecialRate;
 use App\Models\User;
 use App\Models\Zones\Country;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,6 +34,15 @@ class Search extends Model
     public function items()
     {
         return $this->hasMany(SearchItem::class);
+    }
+
+    public function specialRate()
+    {
+        return $this->hasOne(SpecialRate::class);
+    }
+    public function activeSpecialRate()
+    {
+        return $this->specialRate()->where('status', 1);
     }
 
     public function toCountry()

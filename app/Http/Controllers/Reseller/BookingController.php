@@ -81,7 +81,7 @@ class BookingController extends Controller
         $requestArray["ReceiverEmail"] = $request->receiver_email;
         $requestArray["ReceiverCountry"] = $search->toCountry->code;
         $requestArray["ReceiverProvince"] = $search->toCountry->code;
-        $requestArray["ReceiverCity"] = $search->to_city;
+        $requestArray["ReceiverCity"] = $search->to_city !== NULL ? $search->to_city : $request->receiver_town;
         $requestArray["ReceiverZip"] = $search->to_pin == NULL ? 0 : $search->to_pin;
         $requestArray["ReceiverContactPerson"] = $request->receiver_contact_person;
 
@@ -147,11 +147,13 @@ class BookingController extends Controller
             $order->save();
         }
 
-        return view('reseller.pages.order.success')->with([
-            'order' => $order,
-            'integrator' => $integrator,
-            'search' => $search,
-        ]);
+        return redirect()->route('reseller.booking.history.details',$order);
+
+        // return view('reseller.pages.order.success')->with([
+        //     'order' => $order,
+        //     'integrator' => $integrator,
+        //     'search' => $search,
+        // ]);
     }
 
     public function authenticate()

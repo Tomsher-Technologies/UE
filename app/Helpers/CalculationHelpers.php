@@ -3,6 +3,7 @@
 use App\Models\Common\Settings;
 use App\Models\Customer\Grade;
 use App\Models\Customer\ProfitMargin;
+use App\Models\SpecialRate;
 use App\Models\Surcharge\Surcharge;
 use App\Models\User;
 use App\Models\Zones\OdPincodes;
@@ -117,8 +118,15 @@ function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $typ
 }
 
 
-function hasSpecialRequest($billable_weight)
+function hasSpecialRequest($billable_weight, $search_id)
 {
+
+    $count = SpecialRate::where('search_id', $search_id)->count();
+
+    if ($count >= 1) {
+        return false;
+    }
+
     $user = Auth()->user();
     $user->load(['customerDetails']);
 
