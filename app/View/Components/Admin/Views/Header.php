@@ -3,6 +3,7 @@
 namespace App\View\Components\Admin\Views;
 
 use App\Models\SpecialRate;
+use Carbon\Carbon;
 use Illuminate\View\Component;
 
 class Header extends Component
@@ -24,8 +25,9 @@ class Header extends Component
      */
     public function render()
     {
-        $specialrate = SpecialRate::limit(5)->latest()->with('user')->get();
-        // dd($specialrate);
-        return view('components.admin.views.header');
+        $specialrate = SpecialRate::where('status', 0)->whereBetween('request_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->limit(5)->latest()->with('user')->get();
+        return view('components.admin.views.header')->with([
+            'specialrates' => $specialrate
+        ]);
     }
 }

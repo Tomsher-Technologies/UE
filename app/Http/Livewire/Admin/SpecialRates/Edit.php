@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Admin\SpecialRates;
 
 use App\Models\SpecialRate;
+use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class Edit extends Component
@@ -18,11 +20,10 @@ class Edit extends Component
     protected function rules()
     {
         return [
-            'rate.name' => 'required',
-            'rate.approved_rate' => 'required',
-            'rate.rate_type' => 'required',
+            'rate.approved_rate' => Rule::requiredIf($this->rate->status == 1),
             'rate.status' => 'required',
-            'rate.expiry_date' => 'required',
+            // 'rate.rate_type' => 'required',
+            // 'rate.expiry_date' => 'required',
         ];
     }
 
@@ -35,6 +36,18 @@ class Edit extends Component
     public function save()
     {
         $validatedData = $this->validate();
+        $this->rate->rate_type = 1;
+        // dd($this->rate->approved_rate);
+        
+        if ($this->rate->approved_rate  == "" ||  $this->rate->approved_rate == NULL) {
+            $this->rate->update([
+                'approved_rate' => NULL
+            ]);
+        }
+
+        if ($this->rate->status == 1) {
+            $this->rate->approval_date = Carbon::now();
+        }
 
         $this->rate->save();
 
