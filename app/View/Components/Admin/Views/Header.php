@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Admin\Views;
 
+use App\Models\SpecialRate;
 use Illuminate\View\Component;
 
 class Header extends Component
@@ -23,6 +24,8 @@ class Header extends Component
      */
     public function render()
     {
+        $specialrate = SpecialRate::limit(5)->latest()->with('user')->get();
+        // dd($specialrate);
         return view('components.admin.views.header');
     }
 }

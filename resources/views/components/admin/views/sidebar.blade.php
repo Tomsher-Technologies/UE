@@ -16,7 +16,7 @@
                         <a class="sidebar-menu-button" href="{{ route('admin.dashboard') }}">
                             <span
                                 class="material-symbols-outlined sidebar-menu-icon sidebar-menu-icon--left material-icons">
-                                manage_accounts
+                                dashboard
                             </span>
                             <span class="sidebar-menu-text">Dashboard </span>
                         </a>
@@ -70,7 +70,7 @@
                                 aria-controls="surcharge" aria-selected="false">
                                 <span
                                     class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
-                                    person_pin_circle
+                                    local_gas_station
                                 </span>
                                 <span class="sidebar-menu-text">Surcharge</span>
                             </a>
@@ -182,9 +182,18 @@
                                 <a class="sidebar-menu-button" href="{{ route('admin.grades.index') }}">
                                     <span
                                         class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                        add_box
+                                        bar_chart
                                     </span>
                                     <span class="sidebar-menu-text">Grades</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.special_rates.index') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        av_timer
+                                    </span>
+                                    <span class="sidebar-menu-text">Special Requests</span>
                                 </a>
                             </li>
                             <li class="sidebar-menu-item">
@@ -200,7 +209,7 @@
                                 <a class="sidebar-menu-button" href="{{ route('admin.bookings') }}">
                                     <span
                                         class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                        search
+                                        history
                                     </span>
                                     <span class="sidebar-menu-text">Booking History</span>
                                 </a>

@@ -88,7 +88,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="form-label">Consignee Address</label>
-                            <textarea name="receiver_address"class="form-control" cols="30" rows="5">{{ old('receiver_address') }}</textarea>
+                            <textarea name="receiver_address"class="form-control" cols="30" rows="5" required>{{ old('receiver_address') }}</textarea>
                         </div>
                     </div>
                 </div>
