@@ -28,9 +28,6 @@ class SearchController extends Controller
 {
     public function searchNew(Request $request)
     {
-
-        // dd($reque    st);
-
         $search_id = $this->saveSearch($request);
 
         $grade = Grade::where('id', Auth::user()->grade_id)->first();
@@ -97,6 +94,18 @@ class SearchController extends Controller
 
                 if ($over_weight && $over_weight->count()) {
                     $zone->weight = $over_weight;
+
+                    $highest  = $model::where('zone_id', $zone->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
+
+                    // dd($highest);
+
+                    $wei = $billable_weight * $integrator->rate_multiplier;
+
+                    $zone->weight->rate *= $wei;
+
+                    if ($highest) {
+                        $zone->weight->rate += $highest->rate;
+                    }
                 } else {
                     $weight = $model::where('zone_id', $zone->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
                     $zone->weight = $weight;
@@ -104,7 +113,6 @@ class SearchController extends Controller
 
                 if ($zone->weight) {
                     // add out of delivery charge
-
                     $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
 
                     if ($od_pincode) {
