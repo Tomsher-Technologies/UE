@@ -2,13 +2,17 @@
 
 namespace App\Http\Livewire\Admin\Surcharge;
 
+use App\Models\Integrators\Integrator;
 use App\Models\Surcharge\Surcharge;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class Edit extends Component
 {
 
     public Surcharge $surcharge;
+
+    public $integrators;
 
     protected function rules()
     {
@@ -43,6 +47,9 @@ class Edit extends Component
     public function mount($surcharge)
     {
         $this->surcharge = $surcharge;
+        $this->integrators = Cache::rememberForever('integrators', function () {
+            return Integrator::all();
+        });
     }
 
     public function updated($propertyName)

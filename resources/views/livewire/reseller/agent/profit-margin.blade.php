@@ -151,10 +151,10 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('admin.profitMargin.edit', $margin) }}"
+                                        {{-- <a href="{{ route('admin.profitMargin.edit', $margin) }}"
                                             class="btn btn-secondary">
                                             <i class="material-icons">mode_edit</i>
-                                        </a>
+                                        </a> --}}
                                         <button wire:click="$emit('triggerDelete',{{ $margin->id }})"
                                             class="btn btn-accent delete">
                                             <i class="material-icons">delete_forever</i>

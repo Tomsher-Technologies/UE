@@ -12,10 +12,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Events\AfterSheet;
+use \Maatwebsite\Excel\Sheet;
 
-class RateExport implements FromCollection, WithHeadings
+
+class RateExport implements FromCollection, WithHeadings, WithEvents
 {
 
     public Request $request;
@@ -30,9 +34,9 @@ class RateExport implements FromCollection, WithHeadings
     {
         $this->request = $request;
 
-        $query = Zone::where('type', $this->request->type);
-
         $this->grade = Grade::where('id', Auth::user()->grade_id)->first();
+
+        $query = Zone::where('type', $this->request->type);
 
         if ($this->request->integrator !== "0") {
             $query->where('integrator_id', $this->request->integrator);
@@ -40,10 +44,7 @@ class RateExport implements FromCollection, WithHeadings
         if ($this->request->country !== "0") {
             $query->where('country_id', $this->request->country);
         }
-
         $this->zone = $query->get();
-
-        // ddd($this->zone);
 
         $this->zone_unique = $this->zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
 
@@ -104,4 +105,67 @@ class RateExport implements FromCollection, WithHeadings
         }
         return $collection1;
     }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+
+                $highest = $event->sheet->getDelegate()->getHighestRowAndColumn();
+
+                $styleArray = [
+                    'font' => [
+                        'bold' => true,
+                        'color' => ['rgb' => 'FFFFFF'],
+                    ],
+                    'fill' => [
+                        'fillType' => 'solid',
+                        'rotation' => 0,
+                        'color' => ['rgb' => '000000'],
+                    ],
+                ];
+
+                $event->sheet->getDelegate()->getStyle('A1:' . $highest['column'] . '1')
+                    ->applyFromArray($styleArray);
+
+
+                $event->sheet->getDelegate()->getStyle('A1')
+                    ->applyFromArray([
+                        'font' => [
+                            'bold' => true,
+                            'color' => ['rgb' => 'FFFFFF'],
+                        ],
+                        'fill' => [
+                            'fillType' => 'solid',
+                            'rotation' => 0,
+                            'color' => ['rgb' => 'FFF000'],
+                        ],
+                    ]);
+
+                $cell = "A" . ($highest['row'] + 5);
+                $event->sheet->setCellValue($cell, 'Note: All rates are in AED');
+
+                $event->sheet->getDelegate()->getStyle('A1:' . $highest['column'] . $highest['row'])
+                    ->getAlignment()
+                    ->applyFromArray(array(
+                        'horizontal'       => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+                        'vertical'         => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
+                        'wrap'         => TRUE
+                    ));
+
+
+                $sheet = $event->sheet;
+
+                $event->sheet->addHeadingRows();
+
+                // $sheet->mergeCells("A1:E1");
+            },
+        ];
+    }
 }
+
+Sheet::macro('addHeadingRows', function (Sheet $sheet) {
+    $sheet->appendRow(array(
+        'appended', 'appended'
+    ));
+});

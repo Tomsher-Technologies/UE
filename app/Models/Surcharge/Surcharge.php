@@ -13,6 +13,11 @@ class Surcharge extends Model
 
     protected $fillable = [
         'name',
+        'integrator_id',
+        'start_weight',
+        'end_weight',
+        'applied_for',
+        'applied_for_id',
         'rate',
         'rate_type',
         'status',

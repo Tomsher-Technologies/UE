@@ -30,8 +30,8 @@ class Create extends Component
             'integrator_id' => 'required',
             'start_weight' => 'required',
             'end_weight' => 'required',
-            'applied_for' => 'required',
-            'applied_for_id' => 'required',
+            // 'applied_for' => 'required',
+            // 'applied_for_id' => 'required',
         ];
     }
 
@@ -47,9 +47,6 @@ class Create extends Component
             return Integrator::all();
         });
         $this->integrator_id = $this->integrators->first()->id;
-
-        
-
     }
 
     public function save()
@@ -57,10 +54,15 @@ class Create extends Component
         $validatedData = $this->validate();
 
         $surchareg = Surcharge::create([
+            'integrator_id' => $this->integrator_id,
             'name' => $this->name,
             'rate' => $this->rate,
+            'start_weight' => $this->start_weight,
+            'end_weight' => $this->end_weight,
             'rate_type' => $this->rate_type,
             'status' => $this->status,
+            'applied_for' => 'all',
+            'applied_for_id' => 0,
         ]);
 
         $this->reset('name');
