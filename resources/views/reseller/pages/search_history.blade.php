@@ -3,7 +3,7 @@
     <div class="page-section border-bottom-2">
         <div class="container-fluid page__container">
             <div class="page-separator">
-                <div class="page-separator__text">Search History</div>
+                <div class="page-separator__text">Quote History</div>
             </div>
             <div class="search-result">
                 <div class="card mb-0">

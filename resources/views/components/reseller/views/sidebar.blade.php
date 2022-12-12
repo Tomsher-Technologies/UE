@@ -57,7 +57,7 @@
                 <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.history*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('reseller.search.history') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">search</span>
-                        <span class="sidebar-menu-text">Search History</span>
+                        <span class="sidebar-menu-text">Quote History</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item {{ request()->routeIs('reseller.booking.history*') ? 'active' : '' }}">
@@ -117,7 +117,7 @@
                             <li
                                 class="sidebar-menu-item {{ request()->routeIs('reseller.agents.search.history') ? 'active' : '' }}">
                                 <a class="sidebar-menu-button" href="{{ route('reseller.agents.search.history') }}">
-                                    <span class="sidebar-menu-text">See Search History</span>
+                                    <span class="sidebar-menu-text">See Quote History</span>
                                 </a>
                             </li>
                         </ul>
