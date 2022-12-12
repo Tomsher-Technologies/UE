@@ -53,4 +53,15 @@ class Search extends Model
     {
         return $this->belongsTo(Country::class, 'from_country');
     }
+
+    public static function shipment_types()
+    {
+        return collect(
+            [
+                ['code' => 'export',  'label' => 'Export'],
+                ['code' => 'import',  'label' => 'Import'],
+                ['code' => 'tansit',  'label' => 'Tansit'],
+            ]
+        );
+    }
 }

@@ -25,8 +25,9 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap"
         rel="stylesheet">
 
-    @livewireScripts
     @livewireStyles
+    @powerGridStyles
+
 
     @stack('header')
 </head>
@@ -57,11 +58,15 @@
     <script src="{{ resellerAsset('js/select2.js') }}"></script>
     <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    @livewireScripts
+    @powerGridScripts
 
     <form id="logoutForm" method="POST" action="{{ route('logout') }}">
         @csrf
     </form>
     @stack('footer')
+
+
 </body>
 
 </html>

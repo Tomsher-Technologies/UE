@@ -97,7 +97,6 @@ class SearchController extends Controller
 
                     $highest  = $model::where('zone_id', $zone->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
 
-                    // dd($highest);
 
                     $wei = $billable_weight * $integrator->rate_multiplier;
 
@@ -108,6 +107,11 @@ class SearchController extends Controller
                     }
                 } else {
                     $weight = $model::where('zone_id', $zone->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
+
+                    // if ($integrator->id == 2) {
+                    //     ddd($zone);
+                    // }
+
                     $zone->weight = $weight;
                 }
 
@@ -320,13 +324,14 @@ class SearchController extends Controller
 
     public function searchHistory()
     {
-        $user_id = Auth()->user()->id;
+        // $user_id = Auth()->user()->id;
+        // $searches = Search::with(['toCountry', 'fromCountry', 'activeSpecialRate'])->where('user_id', $user_id)->paginate(15);
+        // // dd($searches);
+        // return view('reseller.pages.search_history')->with([
+        //     'searches' => $searches,
+        // ]);
 
-        $searches = Search::with(['toCountry', 'fromCountry', 'activeSpecialRate'])->where('user_id', $user_id)->paginate(15);
-        // dd($searches);
-        return view('reseller.pages.search_history')->with([
-            'searches' => $searches,
-        ]);
+        return view('reseller.pages.new_search_history');
     }
 
     public function searchHistoryItems(Request $request)

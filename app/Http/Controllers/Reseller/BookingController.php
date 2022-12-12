@@ -181,11 +181,12 @@ class BookingController extends Controller
 
     public function bookingHistory()
     {
-        $booking_history = Auth()->user()->orders()->where('order_status', '!=', 0)->with(['integrator', 'search'])->paginate(15);
-        // ddd($booking_history);
-        return view('reseller.pages.booking_history')->with([
-            'bookings' => $booking_history,
-        ]);
+        // $booking_history = Auth()->user()->orders()->where('order_status', '!=', 0)->with(['integrator', 'search'])->paginate(15);
+        // // ddd($booking_history);
+        // return view('reseller.pages.booking_history')->with([
+        //     'bookings' => $booking_history,
+        // ]);
+        return view('reseller.pages.new_booking_history');
     }
 
     public function bookingHistoryDetails(Order $order)
@@ -206,5 +207,6 @@ class BookingController extends Controller
         return view('reseller.agents.booking_history')->with([
             'bookings' => $booking_history,
         ]);
+        // return view('reseller.agents.new_booking_history');
     }
 }

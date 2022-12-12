@@ -165,7 +165,7 @@ class RateExport implements FromCollection, WithHeadings, WithEvents
 }
 
 Sheet::macro('addHeadingRows', function (Sheet $sheet) {
-    $sheet->appendRow(array(
-        'appended', 'appended'
-    ));
+    // $sheet->appendRow(array(
+    //     'appended', 'appended'
+    // ));
 });
