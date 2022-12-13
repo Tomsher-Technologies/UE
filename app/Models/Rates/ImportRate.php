@@ -16,6 +16,7 @@ class ImportRate extends Model
         'rate',
         'weight',
         'zone_id',
+        'zone_code',
         'pack_type',
     ];
     
