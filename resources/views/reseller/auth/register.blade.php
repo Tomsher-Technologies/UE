@@ -135,7 +135,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-12 ue-none-767 ue-bg-img"
-                            style="background-image:url(https://www.universalexpressgroup.com/wp-content/uploads/2020/02/deliveryvanoncountrysideroadonsunset-universal-express.png)">
+                            style="background-image:url({{ asset('images/bg.jpg') }})">
                         </div>
                     </div>
                 </div>
