@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-function getSurcharge($integrator_id, $billable_weight, $zone, $country)
+function getSurcharge($integrator_id, $billable_weight, $zone_code, $country, $rate)
 {
     $surcharges = Surcharge::where('integrator_id', $integrator_id)
         ->where('status', 1)
@@ -19,11 +19,11 @@ function getSurcharge($integrator_id, $billable_weight, $zone, $country)
         ->where('end_weight', '>=', $billable_weight)
         ->get();
 
-    $surcharges = $surcharges->reject(function ($surcharge) use ($zone, $country) {
+    $surcharges = $surcharges->reject(function ($surcharge) use ($zone_code, $country) {
         if ($surcharge->applied_for == 'all') {
             return false;
         }
-        if ($surcharge->applied_for == 'zone' && $surcharge->applied_for_id == $zone->id) {
+        if ($surcharge->applied_for == 'zone' && $surcharge->applied_for_id == $zone_code) {
             return false;
         }
         if ($surcharge->applied_for == 'country' && $surcharge->applied_for_id == $country) {
@@ -36,13 +36,13 @@ function getSurcharge($integrator_id, $billable_weight, $zone, $country)
         if ($surcharge->rate_type == 1) {
             return $surcharge->rate;
         } else {
-            return ($surcharge->rate / 100) * $zone->weight->rate;
+            return ($surcharge->rate / 100) * $rate;
         }
     }
 }
 
 
-function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, $user_id)
+function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, $user_id, $rate)
 {
 
     $user = User::find($user_id);
@@ -59,7 +59,7 @@ function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, 
         if ($userMargin->applied_for == 'all') {
             return false;
         }
-        if ($userMargin->applied_for == 'zone' && $userMargin->applied_for_id == $zone->id) {
+        if ($userMargin->applied_for == 'zone' && $userMargin->applied_for_id == $zone) {
             return false;
         }
         if ($userMargin->applied_for == 'country' && $userMargin->applied_for_id == $country) {
@@ -71,28 +71,28 @@ function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, 
     return $userMargins;
 }
 
-function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade)
+function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, $rate)
 {
     $total_margin = 0;
 
-    $userMargins = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->id);
+    $userMargins = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->id, $rate);
     foreach ($userMargins as $userMargin) {
         if ($userMargin->rate_type == 'amount') {
             $total_margin += $userMargin->rate;
         } else {
-            $total_margin += ($userMargin->rate / 100) * $zone->weight->rate;
+            $total_margin += ($userMargin->rate / 100) * $rate;
         }
     }
 
     if (Auth()->user()->isA('reselleruser')) {
-        $parent_user_margin = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->parent_id);
+        $parent_user_margin = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->parent_id, $rate);
 
         if ($parent_user_margin->count()) {
             foreach ($parent_user_margin as $userMargin) {
                 if ($userMargin->rate_type == 'amount') {
                     $total_margin += $userMargin->rate;
                 } else {
-                    $total_margin += ($userMargin->rate / 100) * $zone->weight->rate;
+                    $total_margin += ($userMargin->rate / 100) * $rate;
                 }
             }
         }
@@ -110,7 +110,7 @@ function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $typ
         if ($margin->rate_type == 'amount') {
             $total_margin += $margin->rate;
         } else {
-            $total_margin += ($margin->rate / 100) * $zone->weight->rate;
+            $total_margin += ($margin->rate / 100) * $rate;
         }
     }
 

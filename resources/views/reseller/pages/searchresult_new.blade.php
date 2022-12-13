@@ -51,7 +51,7 @@
                                             <td class="text-center text-70">
                                                 <div class="mr-sm-16pt mb-8pt mb-sm-0">
                                                     <span class="card-title mb-4pt btn btn-dark text-white" disabled>AED
-                                                        {{ $integrator->zones->weight->rate }}</span>
+                                                        {{ $integrator->weight->rate }}</span>
                                                 </div>
                                             </td>
                                             <td class="text-center text-70">
@@ -64,7 +64,7 @@
                                                         <input type="hidden" name="integrator"
                                                             value="{{ $integrator->id }}">
                                                         <input type="hidden" name="rate"
-                                                            value="{{ $integrator->zones->weight->rate }}">
+                                                            value="{{ $integrator->weight->rate }}">
                                                         <input type="hidden" name="search_id" value="{{ $search_id }}">
                                                         <input type="hidden" name="totalweight"
                                                             value="{{ $integrator->billable_weight }}">
@@ -73,7 +73,7 @@
 
                                                     @if ($hasSpecialRequest)
                                                         <a href="#" data-iid="{{ $integrator->id }}"
-                                                            data-rate="{{ $integrator->zones->weight->rate }}"
+                                                            data-rate="{{ $integrator->weight->rate }}"
                                                             data-sid="{{ $search_id }}"
                                                             data-totalweight="{{ $integrator->billable_weight }}"
                                                             data-toggle="modal" data-target="#exampleModal"
