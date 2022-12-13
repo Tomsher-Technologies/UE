@@ -49,28 +49,28 @@ class ZoneImport implements ToCollection
             if ($country) {
                 if ($row[2]) {
                     Zone::updateOrCreate([
-                        'type' => 'import',
+                        'type' => $this->type,
                         'integrator_id' => $this->integrator,
                         'zone_code' => $row[2],
                         'country_id' => $country->id,
                     ]);
                 }
-                if ($row[3]) {
-                    Zone::updateOrCreate([
-                        'type' => 'export',
-                        'integrator_id' => $this->integrator,
-                        'zone_code' => $row[3],
-                        'country_id' => $country->id,
-                    ]);
-                }
-                if (isset($row[4])) {
-                    Zone::updateOrCreate([
-                        'type' => 'transit',
-                        'integrator_id' => $this->integrator,
-                        'zone_code' => $row[4],
-                        'country_id' => $country->id,
-                    ]);
-                }
+                // if ($row[3]) {
+                //     Zone::updateOrCreate([
+                //         'type' => 'export',
+                //         'integrator_id' => $this->integrator,
+                //         'zone_code' => $row[3],
+                //         'country_id' => $country->id,
+                //     ]);
+                // }
+                // if (isset($row[4])) {
+                //     Zone::updateOrCreate([
+                //         'type' => 'transit',
+                //         'integrator_id' => $this->integrator,
+                //         'zone_code' => $row[4],
+                //         'country_id' => $country->id,
+                //     ]);
+                // }
             } else {
                 if (!in_array($row[0], $this->errors)) {
                     $this->errors[] = $row[0] . '( ' . $row[1] . ' )';

@@ -17,6 +17,7 @@ class OverWeightRate extends Model
         'from_weight',
         'end_weight',
         'zone_id',
+        'zone_code',
         'pack_type',
     ];
 

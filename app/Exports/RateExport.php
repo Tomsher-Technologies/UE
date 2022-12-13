@@ -23,21 +23,18 @@ class RateExport implements FromCollection, WithHeadings, WithEvents
 {
 
     public Request $request;
-    public Grade $grade;
 
     public $data;
     public $zone;
     public $zone_unique;
-    public $unique_weight;
+    public $unique_weight = [];
+    public $unique_types;
 
     public function __construct($request)
     {
         $this->request = $request;
 
-        $this->grade = Grade::where('id', Auth::user()->grade_id)->first();
-
         $query = Zone::where('type', $this->request->type);
-
         if ($this->request->integrator !== "0") {
             $query->where('integrator_id', $this->request->integrator);
         }
@@ -47,6 +44,7 @@ class RateExport implements FromCollection, WithHeadings, WithEvents
         $this->zone = $query->get();
 
         $this->zone_unique = $this->zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
+
 
         switch ($this->request->type) {
             case "import":
@@ -59,19 +57,30 @@ class RateExport implements FromCollection, WithHeadings, WithEvents
                 $model = new TransitRate();
                 break;
         }
+
         $this->data = $model::with('zone')->where('integrator_id', $this->request->integrator)->get();
 
+        $this->unique_types = $this->data->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
+
         if ($this->request->weight) {
-            $w = $this->data->where('weight', '>=', $this->request->weight)->pluck('weight')->unique()->first();
-            $this->unique_weight = array($w);
+            foreach ($this->unique_types as $unique_types) {
+                $w = $this->data->where('pack_type', '=', $unique_types)->where('weight', '>=', $this->request->weight)->pluck('weight')->unique()->first();
+                $this->unique_weight[$unique_types] = array($w);
+            }
         } else {
-            $this->unique_weight = $this->data->pluck('weight')->unique();
+            foreach ($this->unique_types as $unique_types) {
+                $this->unique_weight[$unique_types] = $this->data->where('pack_type', '=', $unique_types)->pluck('weight')->unique();
+            }
         }
+
+        // dd($this->data->only(1));
+
     }
 
     public function headings(): array
     {
         $zone =  $this->zone_unique;
+        array_unshift($zone, 'Type');
         array_unshift($zone, 'Weight');
         return $zone;
     }
@@ -83,26 +92,23 @@ class RateExport implements FromCollection, WithHeadings, WithEvents
     {
         $collection1 = new Collection([]);
 
-        foreach ($this->unique_weight as $weight) {
+        foreach ($this->unique_types as $unique_types) {
+            foreach ($this->unique_weight[$unique_types] as $weight) {
 
-            $array = [];
-            $array['weight'] = $weight;
+                $array = [];
+                $array['weight'] = $weight;
+                $array['type'] = $unique_types;
 
-            foreach ($this->zone_unique as  $zone) {
-                $rate = $this->data->where('zone.zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
-                // if ($rate !== 0) {
+                foreach ($this->zone_unique as  $zone) {
+                    $rate = $this->data->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+                    $array[$zone]  = $rate;
+                }
 
-                //     $mzone = $this->zone->where('zone_code', $zone)->first();
-                //     $mzone->weight = new Collection();
-                //     $mzone->weight->rate = $rate;
-
-                //     $rate += getFrofirMargin($this->request->integrator, $weight, $mzone, $this->request->country, $this->request->type, $this->grade);
-                // }
-                $array[$zone]  = $rate;
+                $collection1->push($array);
             }
-
-            $collection1->push($array);
         }
+
+
         return $collection1;
     }
 
@@ -165,7 +171,7 @@ class RateExport implements FromCollection, WithHeadings, WithEvents
 }
 
 Sheet::macro('addHeadingRows', function (Sheet $sheet) {
-    $sheet->appendRow(array(
-        'appended', 'appended'
-    ));
+    // $sheet->appendRow(array(
+    //     'appended', 'appended'
+    // ));
 });
