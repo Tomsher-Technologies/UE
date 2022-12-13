@@ -46,7 +46,7 @@
 
 <body class="layout-compact layout-compact"
     style="
-    background-image: url(https://www.universalexpressgroup.com/wp-content/uploads/2020/02/deliveryvanoncountrysideroadonsunset-universal-express.png);
+    background-image: url({{ asset('images/bg.jpg') }});
     background-size: cover;
     background-repeat: no-repeat;
 ">
