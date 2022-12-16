@@ -37,6 +37,9 @@
         .sidebar-menu-text {
             text-align: center;
         }
+        .swal2-styled.swal2-confirm {
+            margin-right: 50px;
+        }
     </style>
 
     @stack('header')
@@ -95,4 +98,5 @@
     </form>
     @stack('footer')
 </body>
+
 </html>

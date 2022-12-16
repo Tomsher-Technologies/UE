@@ -21,7 +21,7 @@ class Listing extends Component
             $query->where('name', 'LIKE', '%' . $this->search . '%');
         }
 
-        $surcharges = $query->paginate(15);
+        $surcharges = $query->with('integrator')->paginate(15);
 
         return view('livewire.admin.surcharge.listing')->with([
             'surcharges' => $surcharges

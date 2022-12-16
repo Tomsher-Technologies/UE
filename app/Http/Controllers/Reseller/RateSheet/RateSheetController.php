@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reseller\RateSheet;
 
 use App\Exports\RateExport;
+use App\Exports\RateZoneExport;
 use App\Http\Controllers\Controller;
 use App\Models\Integrators\Integrator;
 use App\Models\Zones\Country;
@@ -23,14 +24,16 @@ class RateSheetController extends Controller
     public function download(Request $request)
     {
         $name = "Rate Sheet " . time() . '.xlsx';
-        $export = new RateExport($request);
+        // $export = new RateExport($request);
+        $export = new RateZoneExport($request);
 
-        if ($export->data->count() <= 0) {
-            return back()->with([
-                'error' => 'No records found'
-            ]);
-        }
+        // dd($export);
 
+        // if ($export->data->count() <= 0) {
+        //     return back()->with([
+        //         'error' => 'No records found'
+        //     ]);
+        // }
         return Excel::download($export, $name);
     }
 }
