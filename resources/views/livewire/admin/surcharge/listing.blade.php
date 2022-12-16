@@ -16,6 +16,21 @@
                 </th>
                 <th>
                     <a href="javascript:void(0)">
+                        Integrator
+                    </a>
+                </th>
+                <th>
+                    <a href="javascript:void(0)">
+                        Start weight
+                    </a>
+                </th>
+                <th>
+                    <a href="javascript:void(0)">
+                        End weight
+                    </a>
+                </th>
+                <th>
+                    <a href="javascript:void(0)">
                         Rate
                     </a>
                 </th>
@@ -32,6 +47,15 @@
                 <tr>
                     <td>
                         {{ $surcharge->name }}
+                    </td>
+                    <td>
+                        {{ $surcharge->integrator == null ? "All" : $surcharge->integrator->name }}
+                    </td>
+                    <td>
+                        {{ $surcharge->start_weight }}
+                    </td>
+                    <td>
+                        {{ $surcharge->end_weight }}
                     </td>
                     <td>
                         {{ $surcharge->rate }}

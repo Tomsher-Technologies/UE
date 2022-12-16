@@ -43,7 +43,7 @@ class ZoneImport implements ToCollection
             $c_code = $row[1];
 
             $country = $countries->filter(function ($item) use ($c_name, $c_code) {
-                return  stristr($item->name, $c_name) || stristr($item->code, $c_code);
+                return  stristr($item->code, $c_code);
             })->first();
 
             if ($country) {

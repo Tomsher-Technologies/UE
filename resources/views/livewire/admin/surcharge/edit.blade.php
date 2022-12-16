@@ -19,12 +19,6 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">Rate</label>
-            <input wire:model="surcharge.rate" type="number" class="form-control mb-2">
-            <x-form.error name="surcharge.rate" />
-        </div>
-
-        <div class="form-group">
             <label class="form-label">Start Weight</label>
             <input wire:model="surcharge.start_weight" type="number" step="0.1" class="form-control mb-2">
             <x-form.error name="surcharge.start_weight" />
@@ -42,6 +36,12 @@
                 <option value="2">Percentage</option>
             </select>
             <x-form.error name="surcharge.rate_type" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Rate</label>
+            <input wire:model="surcharge.rate" type="number" class="form-control mb-2">
+            <x-form.error name="surcharge.rate" />
         </div>
 
         <div class="form-group">

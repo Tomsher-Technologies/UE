@@ -83,15 +83,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Status</label>
-                        <select wire:model="status" class="form-control custom-select">
-                            <option value="1" selected>Active</option>
-                            <option value="0">Inactive</option>
-                        </select>
-                        <x-form.error name="status" />
-                    </div>
-
-                    <div class="form-group">
                         <label class="form-label">Password</label>
                         <input wire:model="password" type="password" class="form-control mb-2">
                         <x-form.error name="password" />

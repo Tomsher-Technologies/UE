@@ -11,7 +11,6 @@
 
     <meta name="robots" content="noindex">
 
-
     <link type="text/css" href="{{ resellerAsset('vendor/spinkit.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ resellerAsset('vendor/perfect-scrollbar.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ resellerAsset('css/material-icons.css') }}" rel="stylesheet">
@@ -27,13 +26,10 @@
 
     @livewireStyles
     @powerGridStyles
-
-
     @stack('header')
 </head>
 
 <body class="layout-boxed">
-
 
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
         <div class="mdk-drawer-layout__content page-content">
@@ -42,10 +38,8 @@
             <x-reseller.views.footer />
         </div>
         <x-reseller.views.sidebar />
-
         @stack('modals')
     </div>
-
 
     <script src="{{ resellerAsset('vendor/popper.min.js') }}"></script>
     <script src="{{ resellerAsset('vendor/bootstrap.min.js') }}"></script>
@@ -65,8 +59,6 @@
         @csrf
     </form>
     @stack('footer')
-
-
 </body>
 
 </html>

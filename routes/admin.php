@@ -103,6 +103,9 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::get('/{user}/profit-margin', [CustomerController::class, 'profitMargin'])->name('profitMargin');
         });
 
+        Route::get('/import/profit-margin', [CustomerController::class, 'importProfitMarginView'])->name('profitMargin.import');
+        Route::post('/import/profit-margin', [CustomerController::class, 'importProfitMargin']);
+
         Route::resource('customer', CustomerController::class)->parameters([
             'customer' => 'user'
         ])->only(['index', 'create', 'edit', 'show']);

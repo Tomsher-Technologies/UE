@@ -15,12 +15,11 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use \Maatwebsite\Excel\Sheet;
 
 
-class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
+class RateExport implements FromCollection, WithHeadings, WithEvents
 {
 
     public Request $request;
@@ -78,7 +77,7 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
 
     public function headings(): array
     {
-        $zone = $this->zone_unique;
+        $zone =  $this->zone_unique;
         array_unshift($zone, 'Type');
         array_unshift($zone, 'Weight');
         return $zone;
@@ -109,9 +108,6 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
             }
         }
 
-        if ($collection1->count() <= 0) {
-            
-        }
 
         return $collection1;
     }
@@ -171,11 +167,6 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
                 // $sheet->mergeCells("A1:E1");
             },
         ];
-    }
-
-    public function title(): string
-    {
-        return 'Rate';
     }
 }
 

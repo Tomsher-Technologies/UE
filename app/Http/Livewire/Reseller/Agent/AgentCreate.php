@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Reseller\Agent;
 
 use App\Helpers\Password;
+use App\Http\Controllers\Common\MailController;
 use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
@@ -62,7 +63,7 @@ class AgentCreate extends Component
     {
         $this->grades = Grade::all();
         $this->grade = $this->grades->first()->id;
-        $this->status = 1;
+        $this->rate_sheet_status = 1;
     }
 
     public function updatedPhoto()
@@ -85,10 +86,10 @@ class AgentCreate extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
-            'status' => $this->status,
+            'status' => 0,
             'parent_id' => Auth()->user()->id,
             'grade_id' => $this->grade,
-            'verified' => 1,
+            'verified' => 0,
         ]);
 
         Bouncer::assign('reselleruser')->to($customer);
@@ -112,6 +113,9 @@ class AgentCreate extends Component
         if ($this->rate_sheet_status == "1") {
             $customer->allow('download-rate-sheet');
         }
+
+        $mailController = new MailController();
+        $mailController->newCustomerRegister($customer);
 
         $this->reset('name');
         $this->reset('rate_sheet_status');

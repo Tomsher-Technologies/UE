@@ -10,7 +10,7 @@
             <div class="card mb-lg-32pt">
                 <div class="container page__container">
                     <div class="page-section">
-                        <form method="POST" action="{{ route('reseller.ratesheet.export') }}">
+                        <form method="POST" id="form" action="{{ route('reseller.ratesheet.export') }}">
                             @csrf
 
                             <div class="form-group" wire:ignore>
@@ -70,5 +70,17 @@
 @push('footer')
     <script>
         $("#country").select2();
+
+        window.onblur = function() {
+            swal.close()
+        }
+
+        $('#form').on('submit', function() {
+            new swal({
+                title: "Loading...",
+                imageUrl: "{{ asset('images/786.gif') }}",
+                showConfirmButton: false,
+            });
+        });
     </script>
 @endpush
