@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Imports\Admin\ProfitMarginImport;
+use App\Imports\Admin\UserImport;
 use App\Models\Customer\Grade;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -116,6 +117,27 @@ class CustomerController extends Controller
         $import = new ProfitMarginImport();
         Excel::import($import, request()->file('importfile'));
 
+        if ($import->errors) {
+            return back()->with([
+                'import_errors' => $import->errors
+            ]);
+        } else {
+            return back()->with([
+                'status' => "Import successful"
+            ]);
+        }
+    }
+
+
+    public function importUserView()
+    {
+        return view('admin.customer.user-import');
+    }
+
+    public function importUser(Request $request)
+    {
+        $import = new UserImport();
+        Excel::import($import, request()->file('importfile'));
         if ($import->errors) {
             return back()->with([
                 'import_errors' => $import->errors
