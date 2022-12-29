@@ -36,8 +36,10 @@ class UserImport implements ToCollection
                 'email' => 'required|email',
             ]);
 
-            if (!$validator->fails()) {
-                
+            $user = User::where('email', $row[1])->exists();
+
+            if (!$validator->fails() && !$user) {
+
                 $user = User::create([
                     'name' => $row[0],
                     'email' => $row[1],
@@ -54,7 +56,6 @@ class UserImport implements ToCollection
                     'phone' => $row[2],
                     'address' => $row[3]
                 ]);
-
             }
         }
     }
