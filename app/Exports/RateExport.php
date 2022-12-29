@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Customer\Grade;
+use App\Models\Integrators\Integrator;
 use App\Models\Rates\ExportRate;
 use App\Models\Rates\ImportRate;
 use App\Models\Rates\TransitRate;
@@ -30,6 +31,8 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
     public $zone_unique;
     public $unique_weight = [];
     public $unique_types;
+    public $color = "000000";
+    public $bg_color = "FFFFFF";
 
     public function __construct($request)
     {
@@ -74,6 +77,27 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
                 $this->unique_weight[$unique_types] = $this->data->where('pack_type', '=', $unique_types)->pluck('weight')->unique();
             }
         }
+
+        $integrator = Integrator::where('id', $this->request->integrator)->first();
+        if ($integrator) {
+
+            if ($integrator->integrator_code == "aramex") {
+                $this->color = "FFFFFF";
+                $this->bg_color = "FF1105";
+            }
+            if ($integrator->integrator_code == "dhl") {
+                $this->color = "D81635";
+                $this->bg_color = "FFCB05";
+            }
+            if ($integrator->integrator_code == "fedex") {
+                $this->color = "FFFFFF";
+                $this->bg_color = "4F0470";
+            }
+            if ($integrator->integrator_code == "ups") {
+                $this->color = "FFFFFF";
+                $this->bg_color = "FEB501";
+            }
+        }
     }
 
     public function headings(): array
@@ -110,7 +134,6 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
         }
 
         if ($collection1->count() <= 0) {
-            
         }
 
         return $collection1;
@@ -126,12 +149,12 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
                 $styleArray = [
                     'font' => [
                         'bold' => true,
-                        'color' => ['rgb' => 'FFFFFF'],
+                        'color' => ['rgb' => $this->color],
                     ],
                     'fill' => [
                         'fillType' => 'solid',
                         'rotation' => 0,
-                        'color' => ['rgb' => '000000'],
+                        'color' => ['rgb' => $this->bg_color],
                     ],
                 ];
 
@@ -139,18 +162,18 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
                     ->applyFromArray($styleArray);
 
 
-                $event->sheet->getDelegate()->getStyle('A1')
-                    ->applyFromArray([
-                        'font' => [
-                            'bold' => true,
-                            'color' => ['rgb' => 'FFFFFF'],
-                        ],
-                        'fill' => [
-                            'fillType' => 'solid',
-                            'rotation' => 0,
-                            'color' => ['rgb' => 'FFF000'],
-                        ],
-                    ]);
+                // $event->sheet->getDelegate()->getStyle('A1')
+                //     ->applyFromArray([
+                //         'font' => [
+                //             'bold' => true,
+                //             'color' => ['rgb' => 'FFFFFF'],
+                //         ],
+                //         'fill' => [
+                //             'fillType' => 'solid',
+                //             'rotation' => 0,
+                //             'color' => ['rgb' => 'FFF000'],
+                //         ],
+                //     ]);
 
                 $cell = "A" . ($highest['row'] + 5);
                 $event->sheet->setCellValue($cell, 'Note: All rates are in AED');
