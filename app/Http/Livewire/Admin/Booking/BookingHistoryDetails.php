@@ -12,7 +12,7 @@ class BookingHistoryDetails extends Component
 
     public function mount(Order $order){
         $this->order = $order;
-        $this->order->load(['search','search.toCountry','search.fromCountry']);
+        $this->order->load(['search','search.toCountry','search.fromCountry','integrator']);
     }
 
     public function render()
