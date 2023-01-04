@@ -32,56 +32,56 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');
     });
-    Route::get('/time', function () {
+    // Route::get('/time', function () {
 
-        // $str = "06:30 PM _ 06:45 PM";
+    //     // $str = "06:30 PM _ 06:45 PM";
 
-        // $d = explode(' - ', $str);
+    //     // $d = explode(' - ', $str);
 
-        // dd($d[0]);
+    //     // dd($d[0]);
 
-        // return view('welcome');
+    //     // return view('welcome');
 
-        $t = date('P');
-        $sign = substr($t, 0, 1);
-        $vals = substr($t, 1, 2);
-        $tot = $sign . $vals . " hour";
+    //     $t = date('P');
+    //     $sign = substr($t, 0, 1);
+    //     $vals = substr($t, 1, 2);
+    //     $tot = $sign . $vals . " hour";
 
-        $nowtime = DateTime::createFromFormat("h:i A", "11:00 AM");
-        echo $nowtime->format('h:i A');
+    //     $nowtime = DateTime::createFromFormat("h:i A", "11:00 AM");
+    //     echo $nowtime->format('h:i A');
 
-        date_add($nowtime, date_interval_create_from_date_string($tot));
-        $date = date_format($nowtime, 'h:i A');
-        echo "<br>" . $date;
+    //     date_add($nowtime, date_interval_create_from_date_string($tot));
+    //     $date = date_format($nowtime, 'h:i A');
+    //     echo "<br>" . $date;
 
-        // $user = User::find(1);
-        // // $user->notify(new NewUserNotification($user))->delay(now()->addMinute());
-        // // Notification::notify($user, new NewUserNotification($user));
-        // Mail::to('shabeer@tomshe.com')->later(1, new NewCustomerMail($user));
+    //     // $user = User::find(1);
+    //     // // $user->notify(new NewUserNotification($user))->delay(now()->addMinute());
+    //     // // Notification::notify($user, new NewUserNotification($user));
+    //     // Mail::to('shabeer@tomshe.com')->later(1, new NewCustomerMail($user));
 
-        // $email = Cache::rememberForever('notification_email', function () {
-        //     return Settings::where('group', 'notification_email')->get();
-        // });
+    //     // $email = Cache::rememberForever('notification_email', function () {
+    //     //     return Settings::where('group', 'notification_email')->get();
+    //     // });
 
-        // $email = $email->where('name', 'new_user_reg')->first()->value;
+    //     // $email = $email->where('name', 'new_user_reg')->first()->value;
 
-        // ddd($emails);
+    //     // ddd($emails);
 
-        // $str = '709999';
+    //     // $str = '709999';
 
-        // $weight_limit = explode('-', $str);
+    //     // $weight_limit = explode('-', $str);
 
-        // if (isset($weight_limit[1])) {
-        //     dd($weight_limit);
-        // } else {
-        //     dd($str);
-        // }
+    //     // if (isset($weight_limit[1])) {
+    //     //     dd($weight_limit);
+    //     // } else {
+    //     //     dd($str);
+    //     // }
 
 
-        // $time_str = "11:00 pm";
-        // $time = date("h:i A", strtotime($time_str . ' + 3 hours'));
-        // dd($time);
-    });
+    //     // $time_str = "11:00 pm";
+    //     // $time = date("h:i A", strtotime($time_str . ' + 3 hours'));
+    //     // dd($time);
+    // });
 
     Route::get('/test', [HubEzController::class, 'placeOrder']);
 
@@ -137,7 +137,13 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
         Route::resource('integrator', IntegratorController::class)->only(['index', 'create', 'edit', 'show']);
 
+
+        Route::group(['prefix' => 'surcharge', 'as' => 'surcharge.'], function () {
+            Route::get('/import', [SurchargeController::class, 'importView'])->name('import');
+            Route::post('/import', [SurchargeController::class, 'import']);
+        });
         Route::resource('surcharge', SurchargeController::class)->only(['index', 'create', 'edit']);
+
 
         Route::get('/searches', SearchHistory::class)->name('searches');
         Route::get('/bookings', BookingHistory::class)->name('bookings');
