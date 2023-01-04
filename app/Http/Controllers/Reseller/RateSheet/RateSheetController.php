@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Integrators\Integrator;
 use App\Models\Zones\Country;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RateSheetController extends Controller
@@ -23,17 +24,12 @@ class RateSheetController extends Controller
     }
     public function download(Request $request)
     {
-        $name = "Rate Sheet " . time() . '.xlsx';
-        // $export = new RateExport($request);
+        $integrators = Cache::rememberForever('integrators', function () {
+            return Integrator::all();
+        });
+        $integrator = $integrators->where('id', $request->integrator)->first();
+        $name = "$integrator->name Rate Sheet " . time() . '.xlsx';
         $export = new RateZoneExport($request);
-
-        // dd($export);
-
-        // if ($export->data->count() <= 0) {
-        //     return back()->with([
-        //         'error' => 'No records found'
-        //     ]);
-        // }
         return Excel::download($export, $name);
     }
 }
