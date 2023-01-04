@@ -3,6 +3,7 @@
 namespace App\Mail\Admin;
 
 use App\Models\Common\Settings;
+use App\Models\Customer\CustomerDetails;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,6 +16,7 @@ class NewCustomerMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public User $user;
+    public CustomerDetails $userDetails;
 
     /**
      * Create a new message instance.
@@ -24,6 +26,7 @@ class NewCustomerMail extends Mailable implements ShouldQueue
     public function __construct($user)
     {
         $this->user = $user;
+        $this->userDetails = $user->customerDetails;
     }
 
     /**
