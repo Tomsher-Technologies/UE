@@ -216,23 +216,17 @@ final class BookingHistoryTable extends PowerGridComponent
      * @return array<int, \PowerComponents\LivewirePowerGrid\Button>
      */
 
-    /*
+
     public function actions(): array
     {
-       return [
-           Button::add('edit')
-               ->caption('Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('order.edit', ['order' => 'id']),
-
-           Button::add('destroy')
-               ->caption('Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('order.destroy', ['order' => 'id'])
-               ->method('delete')
+        return [
+            Button::add('edit')
+                ->caption('Edit')
+                ->class('btn btn-sm btn-primary')
+                ->route('reseller.booking.history.details', ['order' => 'id']),
         ];
     }
-    */
+
 
     /*
     |--------------------------------------------------------------------------

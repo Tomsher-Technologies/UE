@@ -108,7 +108,7 @@
                                     <span class="sidebar-menu-text">Add New Agents</span>
                                 </a>
                             </li>
-                            <li
+                            {{-- <li
                                 class="sidebar-menu-item {{ request()->routeIs('reseller.agents.booking.history') ? 'active' : '' }}">
                                 <a class="sidebar-menu-button" href="{{ route('reseller.agents.booking.history') }}">
                                     <span class="sidebar-menu-text">See Booking History</span>
@@ -119,7 +119,7 @@
                                 <a class="sidebar-menu-button" href="{{ route('reseller.agents.search.history') }}">
                                     <span class="sidebar-menu-text">See Quote History</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
                 @endif

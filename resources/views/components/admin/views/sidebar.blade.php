@@ -144,7 +144,7 @@
                                     <span class="sidebar-menu-text">Add New Integrators</span>
                                 </a>
                             </li>
-                            <li class="sidebar-menu-item">
+                            {{-- <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button" href="{{ route('admin.integrator.export') }}">
                                     <span
                                         class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
@@ -152,7 +152,7 @@
                                     </span>
                                     <span class="sidebar-menu-text">Export Rates</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 @endif
@@ -178,16 +178,7 @@
                                     <span class="sidebar-menu-text">Add New Customers</span>
                                 </a>
                             </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                    href="{{ route('admin.profitMargin.import') }}">
-                                    <span
-                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                        add_box
-                                    </span>
-                                    <span class="sidebar-menu-text">Import Profit Margin</span>
-                                </a>
-                            </li>
+
                             <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button" href="{{ route('admin.grades.index') }}">
                                     <span
@@ -233,6 +224,15 @@
                                     <span class="sidebar-menu-text">Import Customers</span>
                                 </a>
                             </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.profitMargin.import') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        file_upload
+                                    </span>
+                                    <span class="sidebar-menu-text">Import Profit Margin</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 @endif
@@ -263,6 +263,15 @@
                                     </a>
                                 </li>
                             @endif
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.surcharge.import') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        file_upload
+                                    </span>
+                                    <span class="sidebar-menu-text">Upload Surcharge</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 @endif

@@ -11,23 +11,25 @@ use App\Models\Zones\Zone;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Events\BeforeSheet;
 use \Maatwebsite\Excel\Sheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-
-class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
+class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle, WithDrawings
 {
 
     public Request $request;
 
     public $data;
     public $zone;
+    public $integrator;
     public $zone_unique;
     public $unique_weight = [];
     public $unique_types;
@@ -78,22 +80,22 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
             }
         }
 
-        $integrator = Integrator::where('id', $this->request->integrator)->first();
-        if ($integrator) {
+        $this->integrator = Integrator::where('id', $this->request->integrator)->first();
+        if ($this->integrator) {
 
-            if ($integrator->integrator_code == "aramex") {
+            if ($this->integrator->integrator_code == "aramex") {
                 $this->color = "FFFFFF";
                 $this->bg_color = "FF1105";
             }
-            if ($integrator->integrator_code == "dhl") {
+            if ($this->integrator->integrator_code == "dhl") {
                 $this->color = "D81635";
                 $this->bg_color = "FFCB05";
             }
-            if ($integrator->integrator_code == "fedex") {
+            if ($this->integrator->integrator_code == "fedex") {
                 $this->color = "FFFFFF";
                 $this->bg_color = "4F0470";
             }
-            if ($integrator->integrator_code == "ups") {
+            if ($this->integrator->integrator_code == "ups") {
                 $this->color = "FFFFFF";
                 $this->bg_color = "FEB501";
             }
@@ -155,12 +157,13 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
                         'fillType' => 'solid',
                         'rotation' => 0,
                         'color' => ['rgb' => $this->bg_color],
-                    ],
+                    ]
                 ];
 
-                $event->sheet->getDelegate()->getStyle('A1:' . $highest['column'] . '1')
+                $event->sheet->getDelegate()->getStyle('A6:' . $highest['column'] . '6')
                     ->applyFromArray($styleArray);
 
+                $event->sheet->getDelegate()->getRowDimension('6')->setRowHeight(20);
 
                 // $event->sheet->getDelegate()->getStyle('A1')
                 //     ->applyFromArray([
@@ -181,7 +184,7 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
                 $event->sheet->getDelegate()->getStyle('A1:' . $highest['column'] . $highest['row'])
                     ->getAlignment()
                     ->applyFromArray(array(
-                        'horizontal'       => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+                        'horizontal'       => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                         'vertical'         => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
                         'wrap'         => TRUE
                     ));
@@ -190,8 +193,11 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
                 $sheet = $event->sheet;
 
                 $event->sheet->addHeadingRows();
-
-                // $sheet->mergeCells("A1:E1");
+            }, BeforeSheet::class => function (BeforeSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+                $sheet->insertNewRowBefore(1, 4);
+                $sheet->mergeCells("A1:E5");
+                $sheet->mergeCells("F1:J5");
             },
         ];
     }
@@ -199,6 +205,23 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle
     public function title(): string
     {
         return 'Rate';
+    }
+
+    public function drawings()
+    {
+        $drawing = new Drawing();
+        $drawing->setName('Linex');
+        $drawing->setPath(public_path('/images/logo.png'));
+        $drawing->setHeight(50);
+        $drawing->setCoordinates('B2');
+
+        $drawing2 = new Drawing();
+        $drawing2->setName($this->integrator->name);
+        $drawing2->setPath(storage_path('app/' . $this->integrator->logo));
+        $drawing2->setHeight(50);
+        $drawing2->setCoordinates('F2');
+
+        return [$drawing, $drawing2];
     }
 }
 

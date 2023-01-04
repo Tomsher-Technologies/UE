@@ -3,18 +3,15 @@
     <div class="container page__container">
         <div class="page-section">
             <div class="page-separator">
-                <div class="page-separator__text">Import Customers</div>
+                <div class="page-separator__text">Import Surcharge</div>
             </div>
 
             @if (session('import_errors') && count(session('import_errors')) > 0)
-                {{-- <div class="alert alert-danger">
+                <div class="alert alert-danger">
                     {{ count(session('import_errors')) }} Errors. Could not import data for
-                    {{ Str::plural('zone', count(session('import_errors'))) }}
-                    {{ implode(session('import_errors'), ', ') }},
-                    because the {{ Str::plural('country', count(session('import_errors'))) }} does not exist. Please create
-                    the
-                    {{ Str::plural('country', count(session('import_errors'))) }} first and then try uploading again.
-                </div> --}}
+                    {{ Str::plural('surcharge', count(session('import_errors'))) }}
+                    {{ implode(session('import_errors'), ', ') }}
+                </div>
             @endif
 
             <x-form.status />
@@ -23,7 +20,7 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('admin.user.import') }}"
+                            <form method="POST" action="{{ route('admin.surcharge.import') }}"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">

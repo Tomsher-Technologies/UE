@@ -39,16 +39,16 @@ class ProfitMarginImport implements ToCollection
                     $user->profitmargin()->updateOrCreate([
                         'integrator_id' => $integrator_id->id,
                         'type' => $row[4],
-                        'applied_for' => 'all',
-                        'applied_for_id' => $row[7],
+                        'applied_for' => $row[7],
+                        'applied_for_id' => $row[8],
                         'weight' => $row[5],
                         'end_weight' => $row[6],
                         'rate_type' => 'percentage',
                     ], [
-                        'rate' => $row[8]
+                        'rate' => $row[9]
                     ]);
                 } else {
-                    dd($row);
+                    // dd($row);
                     if (!in_array($user_email, $this->errors)) {
                         $this->errors[] = $row[0] . '( ' . $row[1] . ' )';
                     }

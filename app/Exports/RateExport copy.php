@@ -12,14 +12,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Events\BeforeSheet;
 use \Maatwebsite\Excel\Sheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-
-class RateExport implements FromCollection, WithHeadings, WithEvents
+class RateExport implements FromCollection, WithHeadings, WithEvents, WithDrawings, ShouldAutoSize
 {
 
     public Request $request;
@@ -163,12 +166,36 @@ class RateExport implements FromCollection, WithHeadings, WithEvents
                 $sheet = $event->sheet;
 
                 $event->sheet->addHeadingRows();
-
-                // $sheet->mergeCells("A1:E1");
+            },
+            BeforeSheet::class => function (BeforeSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+                $sheet->insertNewRowBefore(1, 3);
+                $sheet->mergeCells("A1:E1");
             },
         ];
     }
+
+    public function drawings()
+    {
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('This is my logo');
+        $drawing->setPath(public_path('/img/logo.jpg'));
+        $drawing->setHeight(50);
+        $drawing->setCoordinates('B3');
+
+        $drawing2 = new Drawing();
+        $drawing2->setName('Other image');
+        $drawing2->setDescription('This is a second image');
+        $drawing2->setPath(public_path('/img/other.jpg'));
+        $drawing2->setHeight(120);
+        $drawing2->setCoordinates('G2');
+
+        return [$drawing, $drawing2];
+    }
 }
+
+
 
 Sheet::macro('addHeadingRows', function (Sheet $sheet) {
     // $sheet->appendRow(array(

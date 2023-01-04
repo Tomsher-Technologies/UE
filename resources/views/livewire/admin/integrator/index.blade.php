@@ -15,6 +15,9 @@
                     <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a>
                 </th>
                 <th>
+                    <a href="javascript:void(0)">Code</a>
+                </th>
+                <th>
                     <a href="javascript:void(0)">Email</a>
                 </th>
                 <th>
@@ -40,6 +43,19 @@
                                     <p class="mb-0">
                                         <strong class="js-lists-values-name">
                                             {{ $integrator->name }}
+                                        </strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                            <div class="media-body">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-0">
+                                        <strong class="js-lists-values-name">
+                                            {{ $integrator->integrator_code }}
                                         </strong>
                                     </p>
                                 </div>

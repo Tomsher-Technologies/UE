@@ -677,7 +677,9 @@
                                                                             style="color: rgb(124, 124, 124); font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 125%; font-weight: 400; text-align: left;">
                                                                             <div
                                                                                 style="text-align: center; color: rgb(124, 124, 124); font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 125%; font-weight: 400;">
-                                                                                &nbsp;</div>
+                                                                                <img src="{{ asset('images/logo.png') }}"
+                                                                                    alt="">
+                                                                            </div>
 
                                                                             <div
                                                                                 style="text-align: center; color: rgb(124, 124, 124); font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 125%; font-weight: 400;">
