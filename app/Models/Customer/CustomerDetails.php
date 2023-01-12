@@ -24,6 +24,12 @@ class CustomerDetails extends Model
         'request_limit',
         'user_id',
         'rate_sheet_status',
+        'address_2',
+        'city',
+        'country',
+        'vat_number',
+        'account_number',
+        'company_name',
     ];
 
     public function customer()
