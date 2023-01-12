@@ -18,6 +18,8 @@ class Create extends Component
     public $integrator;
     public $start_weight;
     public $end_weight;
+    public $start_date;
+    public $end_date;
     public $type = 'all';
 
     public $applied_for = 'all';
@@ -38,8 +40,8 @@ class Create extends Component
             'integrator' => 'required',
             'start_weight' => 'required',
             'end_weight' => 'required',
-            // 'applied_for' => 'required',
-            // 'applied_for_id' => 'required',
+            'applied_for' => 'required',
+            'applied_for_id' => 'required',
         ];
     }
 
@@ -61,7 +63,7 @@ class Create extends Component
     public function save()
     {
         $validatedData = $this->validate();
- 
+
         $surchareg = Surcharge::create([
             'integrator_id' => $this->integrator,
             'name' => $this->name,
@@ -73,6 +75,8 @@ class Create extends Component
             'applied_for' => $this->applied_for,
             'applied_for_id' => $this->applied_for_id,
             'type' => $this->type,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
         ]);
 
         $this->reset('integrator');
@@ -81,6 +85,8 @@ class Create extends Component
         $this->reset('start_weight');
         $this->reset('applied_for_id');
         $this->reset('end_weight');
+        $this->reset('start_date');
+        $this->reset('end_date');
         $this->applied_for = 'all';
         $this->type = 'all';
         $this->rate_type = 1;
@@ -107,7 +113,9 @@ class Create extends Component
     public function getZones()
     {
         $this->applied_for_items = Zone::where('type', $this->type)->where('integrator_id', $this->integrator)->select('zone_code as name', 'zone_code as id')->distinct('zone_code')->get();
-        $this->applied_for_id = $this->applied_for_items->first()->id;
+        if ($this->applied_for_items->count()) {
+            $this->applied_for_id = $this->applied_for_items->first()->id;
+        }
     }
 
     public function updatedIntegrator()

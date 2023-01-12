@@ -90,6 +90,21 @@
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="col-6 form-group mb-0">
+                <label class="form-label">Start Date</label>
+                <input wire:model="start_date" type="date" class="form-control mb-2">
+                <x-form.error name="start_date" />
+            </div>
+            <div class="col-6 form-group">
+                <div class="form-group">
+                    <label class="form-label">End Date</label>
+                    <input wire:model="end_date" type="date" class="form-control mb-2">
+                    <x-form.error name="end_date" />
+                </div>
+            </div>
+        </div>
+
 
         <div class="form-group">
             <label class="form-label">Status</label>

@@ -29,22 +29,22 @@ class UserImport implements ToCollection
         foreach ($rows as $row) {
 
             $validator = Validator::make([
-                'name' => $row[0],
-                'email' => $row[1],
+                'name' => $row[2],
+                'email' => $row[3],
             ], [
                 'name' => 'required',
                 'email' => 'required|email',
             ]);
 
-            $user = User::where('email', $row[1])->exists();
+            $user = User::where('email', $row[3])->exists();
 
             if (!$validator->fails() && !$user) {
 
                 $user = User::create([
-                    'name' => $row[0],
-                    'email' => $row[1],
+                    'name' => $row[2],
+                    'email' => $row[3],
                     'status' => 1,
-                    'password' => Hash::make($row[1]),
+                    'password' => Hash::make($row[3]),
                     'parent_id' => 0,
                     'grade_id' => 1,
                     'verified' => 1,
@@ -53,8 +53,14 @@ class UserImport implements ToCollection
                 Bouncer::assign('reseller')->to($user);
 
                 $user->customerDetails()->create([
-                    'phone' => $row[2],
-                    'address' => $row[3]
+                    'account_number' => $row[0],
+                    'company_name' => $row[1],
+                    'address' => $row[5],
+                    'address_2' => $row[6],
+                    'city' => $row[7],
+                    'country' => $row[8],
+                    'vat_number' => $row[9],
+                    'phone' => $row[4],
                 ]);
             }
         }

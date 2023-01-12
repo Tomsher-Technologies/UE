@@ -23,6 +23,13 @@ class Surcharge extends Model
         'rate_type',
         'type',
         'status',
+        'start_date',
+        'end_date',
+    ];
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     public function integrator()
