@@ -16,6 +16,11 @@
             <x-form.error name="phone" />
         </div>
         <div class="form-group">
+            <label class="form-label">HubEz service code</label>
+            <input wire:model="service_code" type="text" class="form-control mb-2">
+            <x-form.error name="service_code" />
+        </div>
+        <div class="form-group">
             <label class="form-label">Address</label>
             <input wire:model="address" type="text" class="form-control mb-2">
             <x-form.error name="address" />

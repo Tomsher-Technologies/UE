@@ -28,6 +28,8 @@ class UserImport implements ToCollection
 
         foreach ($rows as $row) {
 
+
+
             $validator = Validator::make([
                 'name' => $row[2],
                 'email' => $row[3],
