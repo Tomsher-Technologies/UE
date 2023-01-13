@@ -24,7 +24,7 @@ class Integrator extends Model
         'integrator_code',
         'logo',
         'name',
-        'phone',
+        'service_code',
     ];
 
     public function zone()

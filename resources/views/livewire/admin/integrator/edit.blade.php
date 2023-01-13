@@ -3,22 +3,32 @@
         <div class="form-group">
             <label class="form-label">Name</label>
             <input wire:model="integrator.name" type="text" class="form-control mb-2">
-            <x-form.error name="user.name" />
+            <x-form.error name="integrator.name" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Identification Code (to be used in excel import, must be unique for each integrator)</label>
+            <input wire:model="integrator.integrator_code" type="text" class="form-control mb-2">
+            <x-form.error name="integrator.integrator_code" />
         </div>
         <div class="form-group">
             <label class="form-label">Email</label>
             <input wire:model="integrator.email" type="email" class="form-control mb-2">
-            <x-form.error name="user.email" />
+            <x-form.error name="integrator.email" />
         </div>
         <div class="form-group">
             <label class="form-label">Phone</label>
             <input wire:model="integrator.phone" type="text" class="form-control mb-2">
-            <x-form.error name="password" />
+            <x-form.error name="integrator.phone" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">HubEz service code</label>
+            <input wire:model="integrator.service_code" type="text" class="form-control mb-2">
+            <x-form.error name="integrator.service_code" />
         </div>
         <div class="form-group">
             <label class="form-label">Address</label>
             <input wire:model="integrator.address" type="text" class="form-control mb-2">
-            <x-form.error name="password" />
+            <x-form.error name="integrator.address" />
         </div>
 
         @if ($c_image)
