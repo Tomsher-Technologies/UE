@@ -47,14 +47,14 @@
                                         <div class="form-group">
                                             <div class=" ue-transition-delay-1">
                                                 <input type="email" class="form-control" name="email"
-                                                    placeholder="Email Address" value="pudapyres@mailinator.com">
+                                                    placeholder="Email Address">
                                                 <i class="flaticon-envelope"></i>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class=" ue-transition-delay-2">
                                                 <input type="password" class="form-control" name="password"
-                                                    placeholder="Password" value="password">
+                                                    placeholder="Password">
                                                 <i class="flaticon-padlock"></i>
                                             </div>
                                         </div>
@@ -64,7 +64,8 @@
                                                     class="ue-content-between d-flex align-items-center justify-content-between">
                                                     <button type="submit"
                                                         class="btn pl-4 pr-4 btn-rounded btn-primary">Login</button>
-                                                    <a href="{{ route('password.request') }}" class="switcher-text2">Forgot
+                                                    <a href="{{ route('password.request') }}"
+                                                        class="switcher-text2">Forgot
                                                         Password</a>
                                                 </div>
                                             </div>
