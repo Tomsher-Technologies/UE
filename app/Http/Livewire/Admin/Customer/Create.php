@@ -6,6 +6,7 @@ use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 use Bouncer;
 
 class Create extends Component
@@ -29,6 +30,8 @@ class Create extends Component
     public $grade = 1;
     public $grades;
 
+    public $rate_sheet_status;
+
     public $image;
 
     protected function rules()
@@ -45,6 +48,7 @@ class Create extends Component
             'msp_type' => ['nullable'],
             'request_limit' => ['nullable'],
             'limit_weight' => ['nullable'],
+            'rate_sheet_status' => ['required'],
         ];
     }
 
@@ -78,6 +82,7 @@ class Create extends Component
             'email' => $this->email,
             'password' => $this->password,
             'status' => 1,
+            'verified' => 1,
             'parent_id' => $this->parent_user,
             'grade_id' => $this->grade,
         ]);
@@ -94,10 +99,15 @@ class Create extends Component
             'address' => $this->address,
             'msp' => $this->msp !== "" ? $this->msp : NULL,
             'msp_type' => $this->msp_type,
-            'image' => $storedImage,
+            'image' => Str::remove('public/', $storedImage),
             'request_limit' => $this->request_limit,
             'limit_weight' => $this->limit_weight,
+            'rate_sheet_status' => $this->rate_sheet_status ,
         ]);
+
+        if ($this->rate_sheet_status == "1") {
+            $customer->allow('download-rate-sheet');
+        }
 
         $this->reset('name');
         $this->reset('email');
@@ -111,6 +121,7 @@ class Create extends Component
         $this->reset('grade');
         $this->reset('request_limit');
         $this->reset('limit_weight');
+        $this->reset('rate_sheet_status');
 
         Bouncer::refresh();
 
@@ -123,6 +134,7 @@ class Create extends Component
     {
         $this->grades = Grade::all();
         $this->parent_users = User::whereStatus(true)->whereIs('ueuser')->select(['id', 'name'])->get();
+        $this->rate_sheet_status = 1;
     }
 
     public function updated($propertyName)

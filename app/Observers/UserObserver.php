@@ -20,19 +20,9 @@ class UserObserver
      */
     public function created(User $user)
     {
-        if ($user->isA('reseller')) {
-            $admin_email = Cache::rememberForever('notification_email', function () {
-                return Settings::where('group', 'notification_email')->get();
-            });
-
-            $admin_email = $admin_email->where('name', 'new_user_reg')->first()->value;
-
-            $emails = explode(',', $admin_email);
-
-            foreach ($emails as $email) {
-                Mail::to($email)->queue(new NewCustomerMail($user));
-            }
-        }
+        // if ($user->isA('reseller')) {
+            
+        // }
     }
 
     /**

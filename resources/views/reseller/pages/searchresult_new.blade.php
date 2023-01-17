@@ -32,7 +32,7 @@
                                         <tr class="selected">
                                             <td>
                                                 <div class="flex d-flex align-items-center mr-sm-16pt mb-8pt mb-sm-0">
-                                                    <div class="avatar avatar-4by3 mr-12pt">
+                                                    <div class="avatar avatar-4by3 mr-12pt d-flex align-items-center">
                                                         @if ($integrator->logo)
                                                             <img src="{{ $integrator->getLogoImage() }}"
                                                                 alt="{{ $integrator->name }}" class="avatar-img rounded" />
@@ -51,33 +51,35 @@
                                             <td class="text-center text-70">
                                                 <div class="mr-sm-16pt mb-8pt mb-sm-0">
                                                     <span class="card-title mb-4pt btn btn-dark text-white" disabled>AED
-                                                        {{ $integrator->zones->weight->rate }}</span>
+                                                        {{ $integrator->weight->rate }}</span>
                                                 </div>
                                             </td>
                                             <td class="text-center text-70">
                                                 <div class="align-items-center mr-16pt">
                                                     {{-- <input type="button" value="Book Now" class="btn btn-primary"> --}}
 
-                                                    <form class="d-inline"
-                                                        action="{{ route('reseller.search.booking.view') }}" method="POST">
+                                                    <form class="d-inline" action="{{ route('reseller.booking.view') }}"
+                                                        method="POST">
                                                         @csrf
                                                         <input type="hidden" name="integrator"
                                                             value="{{ $integrator->id }}">
                                                         <input type="hidden" name="rate"
-                                                            value="{{ $integrator->zones->weight->rate }}">
+                                                            value="{{ $integrator->weight->rate }}">
                                                         <input type="hidden" name="search_id" value="{{ $search_id }}">
                                                         <input type="hidden" name="totalweight"
                                                             value="{{ $integrator->billable_weight }}">
                                                         <input type="submit" value="Book Now" class="btn btn-primary">
                                                     </form>
-                                                    
-                                                    <a href="#" data-iid="{{ $integrator->id }}"
-                                                        data-rate="{{ $integrator->zones->weight->rate }}"
-                                                        data-sid="{{ $search_id }}"
-                                                        data-totalweight="{{ $integrator->billable_weight }}"
-                                                        data-toggle="modal" data-target="#exampleModal"
-                                                        class="btn btn-primary">Request Special
-                                                        Price</a>
+
+                                                    @if ($hasSpecialRequest)
+                                                        <a href="#" data-iid="{{ $integrator->id }}"
+                                                            data-rate="{{ $integrator->weight->rate }}"
+                                                            data-sid="{{ $search_id }}"
+                                                            data-totalweight="{{ $integrator->billable_weight }}"
+                                                            data-toggle="modal" data-target="#exampleModal"
+                                                            class="btn btn-primary">Request Special
+                                                            Price</a>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -90,6 +92,24 @@
                             No results found
                         </p>
                     @endif
+                
+                    <div class="">
+                        <div class="col-12">
+                            <hr>
+                            <p class="mb-0">
+                                Note:
+                            </p>
+                            <ul>
+                                <li>
+                                    Inclusive of Covid / fuel surcharges, if applicable.
+                                </li>
+                                <li>
+                                    Based on the weight and size
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -97,6 +117,11 @@
 @endsection
 
 @push('header')
+    <style>
+        .avatar-img {
+            height: auto !important;
+        }
+    </style>
 @endpush
 @push('footer')
     <script>

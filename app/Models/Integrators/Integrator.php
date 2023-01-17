@@ -6,6 +6,7 @@ use App\Models\Rates\ExportRate;
 use App\Models\Rates\ImportRate;
 use App\Models\Rates\OverWeightRate;
 use App\Models\Rates\TransitRate;
+use App\Models\Zones\OdPincodes;
 use App\Models\Zones\Zone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,7 @@ class Integrator extends Model
         'integrator_code',
         'logo',
         'name',
-        'phone',
+        'service_code',
     ];
 
     public function zone()
@@ -58,5 +59,10 @@ class Integrator extends Model
     public function getLogoImage()
     {
         return $this->logo ? URL::to('storage' . Str::remove('public', $this->logo)) : NULL;
+    }
+
+    public function odpincodes()
+    {
+        return $this->hasMany(OdPincodes::class);
     }
 }

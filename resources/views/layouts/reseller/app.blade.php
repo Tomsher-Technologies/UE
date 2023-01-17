@@ -11,7 +11,6 @@
 
     <meta name="robots" content="noindex">
 
-
     <link type="text/css" href="{{ resellerAsset('vendor/spinkit.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ resellerAsset('vendor/perfect-scrollbar.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ resellerAsset('css/material-icons.css') }}" rel="stylesheet">
@@ -25,14 +24,12 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap"
         rel="stylesheet">
 
-    @livewireScripts
     @livewireStyles
-
+    @powerGridStyles
     @stack('header')
 </head>
 
 <body class="layout-boxed">
-
 
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
         <div class="mdk-drawer-layout__content page-content">
@@ -41,10 +38,8 @@
             <x-reseller.views.footer />
         </div>
         <x-reseller.views.sidebar />
-
         @stack('modals')
     </div>
-
 
     <script src="{{ resellerAsset('vendor/popper.min.js') }}"></script>
     <script src="{{ resellerAsset('vendor/bootstrap.min.js') }}"></script>
@@ -57,6 +52,8 @@
     <script src="{{ resellerAsset('js/select2.js') }}"></script>
     <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    @livewireScripts
+    @powerGridScripts
 
     <form id="logoutForm" method="POST" action="{{ route('logout') }}">
         @csrf

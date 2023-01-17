@@ -23,6 +23,13 @@ class CustomerDetails extends Model
         'profit_margin_type',
         'request_limit',
         'user_id',
+        'rate_sheet_status',
+        'address_2',
+        'city',
+        'country',
+        'vat_number',
+        'account_number',
+        'company_name',
     ];
 
     public function customer()
@@ -32,6 +39,6 @@ class CustomerDetails extends Model
 
     public function getProfileImage()
     {
-        return $this->image ? URL::to('storage' . Str::remove('public', $this->image)) : NULL;
+        return $this->image ? URL::to('storage/' . $this->image) : NULL;
     }
 }

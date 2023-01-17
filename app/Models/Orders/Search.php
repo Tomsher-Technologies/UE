@@ -2,6 +2,8 @@
 
 namespace App\Models\Orders;
 
+use App\Models\SpecialRate;
+use App\Models\User;
 use App\Models\Zones\Country;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +36,15 @@ class Search extends Model
         return $this->hasMany(SearchItem::class);
     }
 
+    public function specialRate()
+    {
+        return $this->hasOne(SpecialRate::class);
+    }
+    public function activeSpecialRate()
+    {
+        return $this->specialRate()->where('status', 1);
+    }
+
     public function toCountry()
     {
         return $this->belongsTo(Country::class, 'to_country');
@@ -41,5 +52,16 @@ class Search extends Model
     public function fromCountry()
     {
         return $this->belongsTo(Country::class, 'from_country');
+    }
+
+    public static function shipment_types()
+    {
+        return collect(
+            [
+                ['code' => 'export',  'label' => 'Export'],
+                ['code' => 'import',  'label' => 'Import'],
+                ['code' => 'tansit',  'label' => 'Tansit'],
+            ]
+        );
     }
 }

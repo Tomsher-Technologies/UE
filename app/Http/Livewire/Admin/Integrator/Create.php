@@ -14,6 +14,7 @@ class Create extends Component
     public $email;
     public $phone;
     public $address;
+    public $service_code;
 
     public $image;
 
@@ -21,14 +22,16 @@ class Create extends Component
     {
         return [
             'name' => 'required',
-            'email' => ['nullable', 'email'],
-            'phone' => ['nullable'],
-            'address' => ['nullable'],
+            'service_code' => 'required',
+            // 'email' => ['nullable', 'email'],
+            // 'phone' => ['nullable'],
+            // 'address' => ['nullable'],
         ];
     }
 
     protected $messages = [
         'name.required' => 'Please enter a name',
+        'service_code.required' => 'Please enter a HubEz service code',
         'email.email' => 'The email address format is not valid.',
     ];
 
@@ -55,17 +58,20 @@ class Create extends Component
 
         $integrator = Integrator::create([
             'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'address' => $this->address,
+            'integrator_code' => $this->getIntegratorCode($this->name),
+            // 'email' => $this->email,
+            // 'phone' => $this->phone,
+            // 'address' => $this->address,
             'logo' => $storedImage,
+            'service_code' => $this->service_code
         ]);
 
         $this->reset('name');
-        $this->reset('email');
-        $this->reset('phone');
-        $this->reset('address');
+        // $this->reset('email');
+        // $this->reset('phone');
+        // $this->reset('address');
         $this->reset('image');
+        $this->reset('service_code');
         $this->dispatchBrowserEvent('memberUpdated');
     }
 
@@ -77,5 +83,12 @@ class Create extends Component
     public function render()
     {
         return view('livewire.admin.integrator.create');
+    }
+
+    public function getIntegratorCode($name)
+    {
+        $code = strtolower($name);
+        $code = str_replace(' ', '', $code);
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $code);
     }
 }

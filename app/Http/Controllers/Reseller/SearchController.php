@@ -21,6 +21,8 @@ use Illuminate\Support\Str;
 use App\Helpers\CalculationHelpers;
 use App\Models\Customer\Grade;
 use App\Models\Orders\SearchItem;
+use App\Models\Zones\City;
+use App\Models\Zones\OdPincodes;
 
 class SearchController extends Controller
 {
@@ -33,11 +35,11 @@ class SearchController extends Controller
         $del_type = $request->shipping_type;
         $package_type = $request->package_type;
 
-        if (config('app.default_country_code') == $request->fromCountry) {
+        if ($del_type == 'export') {
             // $del_type = 'export';
             $model = ExportRate::class;
             $country = $request->toCountry;
-        } else if (config('app.default_country_code') == $request->toCountry) {
+        } else if ($del_type == 'import') {
             // $del_type = 'import';
             $country = $request->fromCountry;
             $model = ImportRate::class;
@@ -51,53 +53,87 @@ class SearchController extends Controller
             return Integrator::all();
         });
 
+        $od_pincodes = OdPincodes::where('country_id', $country)
+            ->whereIn('pincode', [$request->toPincode, $request->toCity])
+            ->get();
+
         foreach ($integrators as $integrator) {
 
             $billable_weight = $this->calculateWeight($request, $integrator->integrator_code);
             $integrator->billable_weight = $billable_weight;
 
+
+
             $zone = Zone::where('integrator_id', $integrator->id)->where('type', $del_type)->where('country_id', $country)->first();
-            $integrator->zones = $zone;
+
+            if ($zone) {
+                $zone_code = $zone->zone_code;
+            }
+
+            // if ($integrator->id == 2) {
+            //     dd($zone_code);
+            // }
+
+            // $integrator->zones = $zone;
 
             if ($zone) {
                 // overweight
                 $over_weight = OverWeightRate::where('integrator_id', $integrator->id)
-                    ->where('zone_id', $zone->id)
+                    ->where('zone_code', $zone_code)
                     ->where('from_weight', '<=', $billable_weight)
                     ->where('end_weight', '>=', $billable_weight)
                     ->first();
 
                 if ($over_weight && $over_weight->count()) {
-                    $zone->weight = $over_weight;
+                    $integrator->weight = $over_weight;
+
+                    $highest  = $model::where('zone_code', $zone_code)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
+
+                    $wei = $billable_weight * $integrator->rate_multiplier;
+
+                    $integrator->weight->rate *= $wei;
+
+                    if ($highest) {
+                        $integrator->weight->rate += $highest->rate;
+                    }
                 } else {
-                    $weight = $model::where('zone_id', $zone->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
-                    $zone->weight = $weight;
+                    $weight = $model::where('zone_code', $zone_code)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
+                    $integrator->weight = $weight;
                 }
 
-                if ($zone->weight) {
-                    // add surcharge
-                    $zone->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone, $country);
+                if ($integrator->weight) {
+                    // add out of delivery charge
+                    $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
 
-                    // Round rate for final result
-                    $zone->weight->rate = round($zone->weight->rate, 2);
+                    if ($od_pincode) {
+                        $integrator->weight->rate += $od_pincode->rate;
+                    }
+
+                    // add surcharge
+                    $integrator->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone_code, $country, $integrator->weight->rate);
+
+                    // // add profit margin
+                    $integrator->weight->rate +=  getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $del_type, $grade, $integrator->weight->rate);
+
+                    // // Round rate for final result
+                    $integrator->weight->rate = round($integrator->weight->rate, 2);
                 }
             }
-
-            // getFrofirMargin($integrator->id, $billable_weight, $zone, $country, $del_type, $grade);
         }
 
         $integrators = $integrators->reject(function ($integrator) {
-            return $integrator->zones ? false : true;
+            return $integrator->weight ? false : true;
         });
 
-        $integrators = $integrators->reject(function ($integrator) {
-            return $integrator->zones->weight ? false : true;
-        });
+        // $integrators = $integrators->reject(function ($integrator) {
+        //     return $integrator->weight->weight ? false : true;
+        // });
 
-        // ddd($integrators);
+        $hasSpecialRequest = hasSpecialRequest($billable_weight, $search_id);
 
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
+            'hasSpecialRequest' => $hasSpecialRequest,
             'search_id' => $search_id,
         ]);
     }
@@ -111,6 +147,11 @@ class SearchController extends Controller
         if ($result) {
             return $result->id;
         }
+
+        // $toCity = City::whereId($request->toCity)->get();
+        // $fromCity = City::find($request->fromCity);
+
+        // dd($toCity);
 
         $search = Search::create([
             'user_id' => Auth::user()->id,
@@ -267,20 +308,30 @@ class SearchController extends Controller
     //     ]);
     // }
 
-    public function searchHistory($user_id = 0)
+    public function searchHistory()
     {
-        $user_id = $user_id == 0 ? Auth()->user()->id : $user_id;
+        // $user_id = Auth()->user()->id;
+        // $searches = Search::with(['toCountry', 'fromCountry', 'activeSpecialRate'])->where('user_id', $user_id)->paginate(15);
+        // // dd($searches);
+        // return view('reseller.pages.search_history')->with([
+        //     'searches' => $searches,
+        // ]);
 
-        $searches = Search::with(['toCountry', 'fromCountry'])->where('user_id', $user_id)->paginate(15);
-
-        return view('reseller.pages.search_history')->with([
-            'searches' => $searches,
-        ]);
+        return view('reseller.pages.new_search_history');
     }
 
     public function searchHistoryItems(Request $request)
     {
         $items = SearchItem::where('search_id', $request->id)->get();
         return json_encode($items);
+    }
+
+    public function agentsSearchHistory()
+    {
+        $users = Auth()->user()->children()->select('id')->get()->toArray();
+        $searches = Search::whereIn('user_id', $users)->with(['toCountry', 'fromCountry', 'user'])->paginate(15);
+        return view('reseller.agents.search_history')->with([
+            'searches' => $searches,
+        ]);
     }
 }

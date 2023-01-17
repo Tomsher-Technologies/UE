@@ -1,7 +1,7 @@
 <div class="page-section border-bottom-2">
     <div class="container-fluid page__container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <div class="page-separator">
                     <div class="page-separator__text">Edit Agent</div>
                 </div>
@@ -49,7 +49,7 @@
                         <input wire:model="customerDetails.limit_weight" type="number" class="form-control mb-2">
                         <x-form.error name="customerDetails.limit_weight" />
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label class="form-label">Profit Margin</label>
                         <input wire:model="customerDetails.profit_margin" type="number" class="form-control mb-2">
                         <x-form.error name="customerDetails.profit_margin" />
@@ -61,11 +61,40 @@
                             <option value="amount">Amount</option>
                         </select>
                         <x-form.error name="customerDetails.profit_margin_type" />
-                    </div>
+                    </div> --}}
                     <div class="form-group">
-                        <label class="form-label">Password</label>
+                        <label class="form-label">Reset Password</label>
                         <input wire:model="agent.password" type="password" class="form-control mb-2">
                         <x-form.error name="agent.password" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Can Download Rate Sheet</label>
+                        <select wire:model="customerDetails.rate_sheet_status" class="form-control custom-select mb-2">
+                            <option value="1" selected>Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                        <x-form.error name="customerDetails.rate_sheet_status" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Grade</label>
+                        <select wire:model="agent.grade_id" class="form-control custom-select">
+                            @foreach ($grades as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-form.error name="agent.grade_id" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select wire:model="agent.status" class="form-control mb-2">
+                            <option value="1">Enabled</option>
+                            <option value="0">Disabled</option>
+                        </select>
+                        {{-- <input wire:model="agent.password" type="password" class="form-control mb-2"> --}}
+                        <x-form.error name="agent.status" />
                     </div>
 
 
@@ -91,9 +120,19 @@
                     @endif
 
 
-                    <div class="col-md-12 p-0">
-                        <button class="btn btn-primary">Update Customer</button>
+                    <div class="row no-gutters">
+                        <div class="col-md-6 p-0">
+                            <button class="btn btn-primary">Update Customer</button>
+                        </div>
+
+                        @if (!$agent->verified)
+                            <div class="col-md-6 p-0 text-right" id="approveCustomer">
+                                <button wire:click="approveCustomer()" class="btn btn-success">Approve
+                                    Agent</button>
+                            </div>
+                        @endif
                     </div>
+
                 </form>
                 <script>
                     window.addEventListener('memberUpdated', e => {
@@ -102,7 +141,25 @@
                             icon: 'success'
                         });
                     })
+
+                    window.addEventListener('memberApproved', e => {
+                        Swal.fire({
+                            title: 'Agent approved',
+                            icon: 'success'
+                        });
+                    })
                 </script>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        {{-- <a href="{{ route('admin.special_rates.create', $user) }}" class="btn btn-primary w-100 mb-2">Special
+                                rate</a> --}}
+                        <a href="{{ route('reseller.agents.profitMargin', $agent) }}" class="btn btn-primary w-100 mb-2">
+                            Profit Margin
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

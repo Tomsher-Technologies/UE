@@ -35,7 +35,7 @@
                             <div class="ue-content">
                                 <div class="ue-header">
                                     <a href="login.html" class="ue-logo"><img width="180"
-                                            src="{{ adminAsset('images/logo/logo2.png') }}" alt="Logo"></a>
+                                            src="{{ resellerAsset('images/logo/logo2.png') }}" alt="Logo"></a>
 
                                 </div>
                                 <div class="ue-form">
@@ -47,14 +47,14 @@
                                         <div class="form-group">
                                             <div class=" ue-transition-delay-1">
                                                 <input type="email" class="form-control" name="email"
-                                                    placeholder="Email Address" value="pudapyres@mailinator.com">
+                                                    placeholder="Email Address">
                                                 <i class="flaticon-envelope"></i>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class=" ue-transition-delay-2">
                                                 <input type="password" class="form-control" name="password"
-                                                    placeholder="Password" value="password">
+                                                    placeholder="Password">
                                                 <i class="flaticon-padlock"></i>
                                             </div>
                                         </div>
@@ -64,7 +64,8 @@
                                                     class="ue-content-between d-flex align-items-center justify-content-between">
                                                     <button type="submit"
                                                         class="btn pl-4 pr-4 btn-rounded btn-primary">Login</button>
-                                                    <a href="{{ route('password.request') }}" class="switcher-text2">Forgot
+                                                    <a href="{{ route('password.request') }}"
+                                                        class="switcher-text2">Forgot
                                                         Password</a>
                                                 </div>
                                             </div>
@@ -86,12 +87,11 @@
                                         <div class=" d-flex flex-column pl-0 pt-3">
 
 
-                                            <p class="mb-8pt d-flex">
-                                                <a href="" class="text-70 text-underline mr-8pt small">UE
-                                                    Terms</a>
-                                                <a href="" class="text-70 text-underline small">UE Privacy
+                                            {{-- <p class="mb-8pt d-flex">
+                                                <a href="{{ route('reseller.terms') }}" class="text-70 text-underline mr-8pt small">Terms and conditions</a>
+                                                <a href="{{ route('reseller.privacy') }}" class="text-70 text-underline small">Privacy
                                                     policy</a>
-                                            </p>
+                                            </p> --}}
                                             <p class="text-50 small mt-n1 mb-0">Copyright 2022 &copy; All rights
                                                 reserved.</p>
                                         </div>
@@ -100,7 +100,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-12 ue-none-767 ue-bg-img"
-                            style="background-image:url(https://www.universalexpressgroup.com/wp-content/uploads/2020/02/deliveryvanoncountrysideroadonsunset-universal-express.png)">
+                            style="background-image:url({{ asset('images/bg.jpg') }})">
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
             -webkit-box-pack: justify;
             -ms-flex-pack: justify;
             justify-content: space-between;
-            margin-bottom: 100px;
+            margin-bottom: 20px;
         }
 
         .ue-template-layout1 .ue-bg-color {

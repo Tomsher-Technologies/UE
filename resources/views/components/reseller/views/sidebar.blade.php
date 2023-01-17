@@ -1,16 +1,41 @@
+<style>
+    [dir] .layout-boxed #default-drawer .sidebar-brand {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    [dir] .logo .avatar-title img,
+    .layout-boxed #default-drawer .sidebar-brand-icon {
+        width: 100%;
+        margin: 0;
+    }
+
+    .brand-name {
+        padding: 20px 0;
+    }
+
+    .logo+.brand-name {
+        padding: 0;
+    }
+</style>
+
 <div class="mdk-drawer js-mdk-drawer" id="default-drawer">
     <div class="mdk-drawer__content">
         <div class="sidebar sidebar-light sidebar-light-dodger-blue sidebar-left" data-perfect-scrollbar>
             <!-- Sidebar Content -->
             <a href="{{ route('reseller.dashboard') }}"
                 class="sidebar-brand sidebar-brand-dark bg-primary-pickled-bluewood">
-                <!-- <img class="sidebar-brand-icon" src="public/images/illustration/student/128/white.svg" alt="Luma"> -->
-                <span class="logo avatar avatar-xl sidebar-brand-icon h-auto">
-                    <span class="avatar-title rounded bg-transparent">
-                        <img src="{{ resellerAsset('images/logo/logo2.png') }}" class="img-fluid"
-                            alt="{{ auth()->user()->name }}" /></span>
-                </span>
-                <span class="font-size-16pt" style="line-height: 1;"> {{ auth()->user()->name }} </span>
+
+                @if (auth()->user()->customerDetails->getProfileImage())
+                    <span class="logo avatar avatar-xl sidebar-brand-icon h-auto">
+                        <span class="avatar-title rounded bg-transparent">
+                            <img src="{{ auth()->user()->customerDetails->getProfileImage() }}" class="img-fluid"
+                                alt="{{ auth()->user()->name }}" /></span>
+                    </span>
+                @endif
+
+                <span class="brand-name font-size-16pt" style="line-height: 1;"> {{ auth()->user()->name }} </span>
             </a>
             <ul class="sidebar-menu">
                 <li class="sidebar-menu-item {{ request()->routeIs('reseller.dashboard*') ? 'active' : '' }}">
@@ -19,10 +44,26 @@
                         <span class="sidebar-menu-text">Dashboard</span>
                     </a>
                 </li>
+
+                @if (auth()->user()->can('download-rate-sheet'))
+                    <li class="sidebar-menu-item {{ request()->routeIs('reseller.ratesheet*') ? 'active' : '' }}">
+                        <a class="sidebar-menu-button" href="{{ route('reseller.ratesheet.export') }}">
+                            <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment</span>
+                            <span class="sidebar-menu-text">Rate Sheet</span>
+                        </a>
+                    </li>
+                @endif
+
                 <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.history*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('reseller.search.history') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">search</span>
-                        <span class="sidebar-menu-text">Search History</span>
+                        <span class="sidebar-menu-text">Quote History</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {{ request()->routeIs('reseller.booking.history*') ? 'active' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('reseller.booking.history') }}">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">bookmark_border</span>
+                        <span class="sidebar-menu-text">Booking History</span>
                     </a>
                 </li>
                 {{-- <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.search*') ? 'active' : '' }}">
@@ -67,6 +108,18 @@
                                     <span class="sidebar-menu-text">Add New Agents</span>
                                 </a>
                             </li>
+                            {{-- <li
+                                class="sidebar-menu-item {{ request()->routeIs('reseller.agents.booking.history') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('reseller.agents.booking.history') }}">
+                                    <span class="sidebar-menu-text">See Booking History</span>
+                                </a>
+                            </li>
+                            <li
+                                class="sidebar-menu-item {{ request()->routeIs('reseller.agents.search.history') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('reseller.agents.search.history') }}">
+                                    <span class="sidebar-menu-text">See Quote History</span>
+                                </a>
+                            </li> --}}
                         </ul>
                     </li>
                 @endif

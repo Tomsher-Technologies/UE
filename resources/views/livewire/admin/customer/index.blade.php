@@ -58,14 +58,7 @@
                                             {{ $user->name }}
                                         </strong>
                                     </p>
-
-
                                 </div>
-                                @if (!$user->verified)
-                                    <span class="badge badge-pill badge-accent py-2 px-3 text-center justify-content-center">
-                                        New
-                                    </span>
-                                @endif
                             </div>
                         </div>
                     </td>
@@ -79,16 +72,24 @@
                         {{ $user->customerDetails->address }}
                     </td>
                     <td>
-                        <div class="ml-auto mb-2 mb-sm-0 custom-control-inline mr-0">
-                            <div class="custom-control custom-checkbox-toggle ml-8pt">
-                                {{-- <form action="" class="s-inline"> --}}
-                                <input wire:click="toggleStatus({{ $user->id }})"
-                                    {{ $user->status == 1 ? 'checked' : '' }} value="{{ $user->id }}"
-                                    type="checkbox" id="active{{ $loop->iteration }}" class="custom-control-input" />
-                                <label class="custom-control-label" for="active{{ $loop->iteration }}">Active</label>
-                                {{-- </form> --}}
+                        @if ($user->verified)
+                            <div class="ml-auto mb-2 mb-sm-0 custom-control-inline mr-0">
+                                <div class="custom-control custom-checkbox-toggle ml-8pt">
+                                    {{-- <form action="" class="s-inline"> --}}
+                                    <input wire:click="toggleStatus({{ $user->id }})"
+                                        {{ $user->status == 1 ? 'checked' : '' }} value="{{ $user->id }}"
+                                        type="checkbox" id="active{{ $loop->iteration }}"
+                                        class="custom-control-input" />
+                                    <label class="custom-control-label"
+                                        for="active{{ $loop->iteration }}">Active</label>
+                                    {{-- </form> --}}
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <span class="badge badge-pill badge-accent py-2 px-3 text-center justify-content-center">
+                                New
+                            </span>
+                        @endif
                     </td>
                     <td>
                         <a href="{{ route('admin.customer.show', $user) }}" class="btn btn-primary">

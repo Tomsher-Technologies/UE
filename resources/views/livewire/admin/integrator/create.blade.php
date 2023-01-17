@@ -5,7 +5,7 @@
             <input wire:model="name" type="text" class="form-control mb-2">
             <x-form.error name="name" />
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="form-label">Email</label>
             <input wire:model="email" type="email" class="form-control mb-2">
             <x-form.error name="email" />
@@ -14,12 +14,17 @@
             <label class="form-label">Phone Number</label>
             <input wire:model="phone" type="text" class="form-control mb-2">
             <x-form.error name="phone" />
-        </div>
+        </div> --}}
         <div class="form-group">
+            <label class="form-label">HubEz service code</label>
+            <input wire:model="service_code" type="text" class="form-control mb-2">
+            <x-form.error name="service_code" />
+        </div>
+        {{-- <div class="form-group">
             <label class="form-label">Address</label>
             <input wire:model="address" type="text" class="form-control mb-2">
             <x-form.error name="address" />
-        </div>
+        </div> --}}
 
         <div class="form-group">
             <label class="form-label">Logo</label>

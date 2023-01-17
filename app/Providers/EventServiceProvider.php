@@ -36,6 +36,6 @@ class EventServiceProvider extends ServiceProvider
     {
         Settings::observe(SettingsObserver::class);
         Integrator::observe(IntegratorObserver::class);
-        User::observe(UserObserver::class);
+        // User::observe(UserObserver::class);
     }
 }

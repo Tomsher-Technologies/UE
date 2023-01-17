@@ -3,9 +3,12 @@
 namespace App\Http\Livewire\Reseller\Agent;
 
 use App\Helpers\Password;
+use App\Http\Controllers\Common\MailController;
+use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
 use Bouncer;
+use Illuminate\Support\Str;
 
 class AgentCreate extends Component
 {
@@ -13,6 +16,8 @@ class AgentCreate extends Component
     public $name;
     public $email;
     public $password;
+    public $grade;
+    public $status;
     public $phone;
     public $address;
     public $msp;
@@ -23,12 +28,17 @@ class AgentCreate extends Component
     public $request_limit;
 
     public $image;
+    public $grades;
+ 
+    public $rate_sheet_status;
 
     protected function rules()
     {
         return [
             'password' => ['required', new Password],
             'name' => 'required',
+            'grade' => 'required',
+            'status' => 'required',
             'email' => ['required', 'email'],
             'phone' => ['nullable'],
             'address' => ['nullable'],
@@ -37,6 +47,7 @@ class AgentCreate extends Component
             'msp_type' => ['nullable'],
             'request_limit' => ['nullable'],
             'limit_weight' => ['nullable'],
+            'rate_sheet_status' => ['required'],
         ];
     }
 
@@ -47,6 +58,13 @@ class AgentCreate extends Component
         'email.email' => 'The email address format is not valid.',
         'email.required' => 'The email address is required.',
     ];
+
+    public function mount()
+    {
+        $this->grades = Grade::all();
+        $this->grade = $this->grades->first()->id;
+        $this->rate_sheet_status = 1;
+    }
 
     public function updatedPhoto()
     {
@@ -68,16 +86,17 @@ class AgentCreate extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
-            'status' => 1,
+            'status' => 0,
             'parent_id' => Auth()->user()->id,
-            'grade_id' => 0,
+            'grade_id' => $this->grade,
+            'verified' => 0,
         ]);
 
         Bouncer::assign('reselleruser')->to($customer);
 
         $storedImage = NULL;
         if ($this->image) {
-            $storedImage =  $this->image->store('public/agentphotos');
+            $storedImage =  $this->image->store('public/customerphotos');
         }
 
         $customer->customerDetails()->create([
@@ -85,12 +104,21 @@ class AgentCreate extends Component
             'address' => $this->address,
             'msp' => $this->msp !== "" ? $this->msp : NULL,
             'msp_type' => $this->msp_type,
-            'image' => $storedImage,
+            'image' => Str::remove('public/', $storedImage),
             'request_limit' => $this->request_limit,
             'limit_weight' => $this->limit_weight,
+            'rate_sheet_status' => $this->rate_sheet_status ,
         ]);
 
+        if ($this->rate_sheet_status == "1") {
+            $customer->allow('download-rate-sheet');
+        }
+
+        $mailController = new MailController();
+        $mailController->newCustomerRegister($customer);
+
         $this->reset('name');
+        $this->reset('rate_sheet_status');
         $this->reset('email');
         $this->reset('phone');
         $this->reset('password');

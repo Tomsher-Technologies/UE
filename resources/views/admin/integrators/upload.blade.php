@@ -7,7 +7,7 @@
                 <div class="page-separator__text">Upload Rates</div>
             </div>
 
-
+            <x-form.status />
 
             @if (session('import_errors') && count(session('import_errors')) > 0)
                 <div class="alert alert-danger">

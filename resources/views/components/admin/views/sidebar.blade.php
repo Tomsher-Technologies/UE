@@ -1,11 +1,11 @@
 <div class="mdk-drawer js-mdk-drawer layout-compact__drawer" id="default-drawer">
     <div class="mdk-drawer__content js-sidebar-mini" data-responsive-width="992px" data-layout="compact">
         <div class="sidebar sidebar-mini sidebar-dark-pickled-bluewood sidebar-left d-flex flex-column">
-            <a href="index.html" class="sidebar-brand p-0 navbar-height d-flex justify-content-center">
-                <span class="avatar avatar-sm ">
+            <a href="{{ route('admin.dashboard') }}"
+                class="sidebar-brand p-0 navbar-height d-flex justify-content-center">
+                <span class=" ">
                     <span class="avatar-title rounded bg-primary ">
-                        <img src="{{ adminAsset('images/logo/logo.png') }}" class="img-fluid rotate-img"
-                            alt="logo" />
+                        <img src="{{ asset('images/logo-white.png') }}" class="img-fluid" alt="logo" />
                     </span>
                 </span>
             </a>
@@ -16,7 +16,7 @@
                         <a class="sidebar-menu-button" href="{{ route('admin.dashboard') }}">
                             <span
                                 class="material-symbols-outlined sidebar-menu-icon sidebar-menu-icon--left material-icons">
-                                manage_accounts
+                                dashboard
                             </span>
                             <span class="sidebar-menu-text">Dashboard </span>
                         </a>
@@ -70,7 +70,7 @@
                                 aria-controls="surcharge" aria-selected="false">
                                 <span
                                     class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
-                                    person_pin_circle
+                                    local_gas_station
                                 </span>
                                 <span class="sidebar-menu-text">Surcharge</span>
                             </a>
@@ -144,7 +144,7 @@
                                     <span class="sidebar-menu-text">Add New Integrators</span>
                                 </a>
                             </li>
-                            <li class="sidebar-menu-item">
+                            {{-- <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button" href="{{ route('admin.integrator.export') }}">
                                     <span
                                         class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
@@ -152,7 +152,7 @@
                                     </span>
                                     <span class="sidebar-menu-text">Export Rates</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 @endif
@@ -178,13 +178,59 @@
                                     <span class="sidebar-menu-text">Add New Customers</span>
                                 </a>
                             </li>
+
                             <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button" href="{{ route('admin.grades.index') }}">
                                     <span
                                         class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                        add_box
+                                        bar_chart
                                     </span>
                                     <span class="sidebar-menu-text">Grades</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.special_rates.index') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        av_timer
+                                    </span>
+                                    <span class="sidebar-menu-text">Special Requests</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.searches') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        search
+                                    </span>
+                                    <span class="sidebar-menu-text">Search History</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.bookings') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        history
+                                    </span>
+                                    <span class="sidebar-menu-text">Booking History</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.user.import') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        file_upload
+                                    </span>
+                                    <span class="sidebar-menu-text">Import Customers</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.profitMargin.import') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        file_upload
+                                    </span>
+                                    <span class="sidebar-menu-text">Import Profit Margin</span>
                                 </a>
                             </li>
                         </ul>
@@ -217,6 +263,15 @@
                                     </a>
                                 </li>
                             @endif
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button" href="{{ route('admin.surcharge.import') }}">
+                                    <span
+                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                        file_upload
+                                    </span>
+                                    <span class="sidebar-menu-text">Upload Surcharge</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 @endif

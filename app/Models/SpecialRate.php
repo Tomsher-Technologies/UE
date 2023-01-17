@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Orders\Search;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wildside\Userstamps\Userstamps;
@@ -28,6 +29,11 @@ class SpecialRate extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function searh()
+    {
+        return $this->belongsTo(Search::class);
     }
 
     public function status()

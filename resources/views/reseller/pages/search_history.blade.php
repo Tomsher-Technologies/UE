@@ -3,7 +3,7 @@
     <div class="page-section border-bottom-2">
         <div class="container-fluid page__container">
             <div class="page-separator">
-                <div class="page-separator__text">Search History</div>
+                <div class="page-separator__text">Quote History</div>
             </div>
             <div class="search-result">
                 <div class="card mb-0">
@@ -57,11 +57,32 @@
                                             <td>
                                                 {{ ucfirst($search->number_of_pieces) }}
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="button"
                                                     onclick="showModal({{ $search->id }})">
                                                     Show
                                                 </button>
+
+                                                @if ($search->activeSpecialRate)
+                                                    <br>
+                                                    <form class="d-inline" action="{{ route('reseller.booking.view') }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="integrator"
+                                                            value="{{ $search->activeSpecialRate->integrator_id }}">
+                                                        <input type="hidden" name="rate"
+                                                            value="{{ $search->activeSpecialRate->approved_rate }}">
+
+                                                        <input type="hidden" name="search_id" value="{{ $search->id }}">
+
+                                                        <input type="hidden" name="totalweight"
+                                                            value="{{ $search->activeSpecialRate->total_weight }}">
+
+                                                        <button class="btn btn-sm btn-success text-light pt-2 pb-2 mt-2">
+                                                            Continue booking with special rate
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

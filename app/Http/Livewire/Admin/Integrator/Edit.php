@@ -19,15 +19,20 @@ class Edit extends Component
     {
         return [
             'integrator.name' => 'required',
-            'integrator.email' => 'nullable',
-            'integrator.phone' => 'nullable',
-            'integrator.address' => 'nullable',
+            // 'integrator.email' => 'nullable',
+            // 'integrator.phone' => 'nullable',
+            // 'integrator.address' => 'nullable',
+            'integrator.service_code' => 'required',
+            'integrator.integrator_code' => 'required|unique:integrators,integrator_code,' . $this->integrator->id,
         ];
     }
 
     protected $messages = [
-        'user.name.required' => 'Please enter a name',
-        'integrator.email.email' => 'The email address format is not valid.',
+        'required.name.required' => 'Please enter a name',
+        'integrator.email.email' => 'The email address format is not valid',
+        'integrator.integrator_code.required' => 'Please enter a integrator code',
+        'integrator.service_code.required' => 'Please enter a HubEz service code',
+        'integrator.integrator_code.unique' => 'Integrator code must be unique',
     ];
 
     public function updatedPhoto()

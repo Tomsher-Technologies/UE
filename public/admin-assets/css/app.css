@@ -26703,9 +26703,16 @@ a:hover {
     }
 }
 
+
 @media (min-width: 1200px) {
     .mdk-drawer-layout .container,.mdk-drawer-layout .container-fluid,.mdk-drawer-layout .container-lg,.mdk-drawer-layout .container-md,.mdk-drawer-layout .container-sm,.mdk-drawer-layout .container-xl {
         max-width:1200px
+    }
+}
+
+@media (min-width: 1440px) {
+    .mdk-drawer-layout .container,.mdk-drawer-layout .container-fluid,.mdk-drawer-layout .container-lg,.mdk-drawer-layout .container-md,.mdk-drawer-layout .container-sm,.mdk-drawer-layout .container-xl {
+        max-width:1440px
     }
 }
 

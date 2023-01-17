@@ -18,7 +18,9 @@ return [
     'admin_prefix' => env('ADMIN_PREFIX', 'admin'),
     'ueuser_prefix' => env('UEUSER_PREFIX', 'ueuserlogin'),
 
-    'default_country_code' => env('DEFAULT_COUNTRY_CODE', '229'),
+    'default_country_code' => env('DEFAULT_COUNTRY_CODE', '692'),
+
+    'hubez_url' => "http://www.hub-ez.com/api/",
 
     /*
     |--------------------------------------------------------------------------
@@ -72,7 +74,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Dubai',
 
     /*
     |--------------------------------------------------------------------------
@@ -182,7 +184,7 @@ return [
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
-
+        Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class
     ],
 
     /*
