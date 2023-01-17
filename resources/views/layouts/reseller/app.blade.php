@@ -55,7 +55,7 @@
     @livewireScripts
     @powerGridScripts
 
-    <form id="logoutForm" method="POST" action="{{ route('logout') }}">
+    <form id="logoutForm" method="POST" action="{{ route('reseller.logout') }}">
         @csrf
     </form>
     @stack('footer')
