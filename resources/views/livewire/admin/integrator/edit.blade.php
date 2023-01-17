@@ -10,7 +10,7 @@
             <input wire:model="integrator.integrator_code" type="text" class="form-control mb-2">
             <x-form.error name="integrator.integrator_code" />
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="form-label">Email</label>
             <input wire:model="integrator.email" type="email" class="form-control mb-2">
             <x-form.error name="integrator.email" />
@@ -19,17 +19,17 @@
             <label class="form-label">Phone</label>
             <input wire:model="integrator.phone" type="text" class="form-control mb-2">
             <x-form.error name="integrator.phone" />
-        </div>
+        </div> --}}
         <div class="form-group">
             <label class="form-label">HubEz service code</label>
             <input wire:model="integrator.service_code" type="text" class="form-control mb-2">
             <x-form.error name="integrator.service_code" />
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="form-label">Address</label>
             <input wire:model="integrator.address" type="text" class="form-control mb-2">
             <x-form.error name="integrator.address" />
-        </div>
+        </div> --}}
 
         @if ($c_image)
             <div class="col-md-12 p-0 mb-3">

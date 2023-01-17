@@ -19,9 +19,9 @@ class Edit extends Component
     {
         return [
             'integrator.name' => 'required',
-            'integrator.email' => 'nullable',
-            'integrator.phone' => 'nullable',
-            'integrator.address' => 'nullable',
+            // 'integrator.email' => 'nullable',
+            // 'integrator.phone' => 'nullable',
+            // 'integrator.address' => 'nullable',
             'integrator.service_code' => 'required',
             'integrator.integrator_code' => 'required|unique:integrators,integrator_code,' . $this->integrator->id,
         ];

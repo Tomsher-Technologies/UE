@@ -23,9 +23,9 @@ class Create extends Component
         return [
             'name' => 'required',
             'service_code' => 'required',
-            'email' => ['nullable', 'email'],
-            'phone' => ['nullable'],
-            'address' => ['nullable'],
+            // 'email' => ['nullable', 'email'],
+            // 'phone' => ['nullable'],
+            // 'address' => ['nullable'],
         ];
     }
 
@@ -59,17 +59,17 @@ class Create extends Component
         $integrator = Integrator::create([
             'name' => $this->name,
             'integrator_code' => $this->getIntegratorCode($this->name),
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'address' => $this->address,
+            // 'email' => $this->email,
+            // 'phone' => $this->phone,
+            // 'address' => $this->address,
             'logo' => $storedImage,
             'service_code' => $this->service_code
         ]);
 
         $this->reset('name');
-        $this->reset('email');
-        $this->reset('phone');
-        $this->reset('address');
+        // $this->reset('email');
+        // $this->reset('phone');
+        // $this->reset('address');
         $this->reset('image');
         $this->reset('service_code');
         $this->dispatchBrowserEvent('memberUpdated');
