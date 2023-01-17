@@ -55,7 +55,7 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
     });
 
     Route::middleware(['auth', 'auth.session', 'reseller'])->group(function () {
-        Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+        Route::post('logout', [ResellerDashboardController::class, 'logout'])->name('logout');
         Route::get('dashboard', [ResellerDashboardController::class, 'index'])->name('dashboard');
 
         Route::group(['prefix' => 'search', 'as' => 'search.'], function () {

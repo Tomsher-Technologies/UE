@@ -51,7 +51,7 @@ class ResellerLoginController extends Controller
             } else {
                 Session::flush();
                 Auth::logout();
-                return redirect()->route('home');
+                return redirect()->route('reseller.login');
             }
         }
 

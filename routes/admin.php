@@ -94,7 +94,6 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-
         Route::resource('ueusers', UEUserController::class)->parameters([
             'ueusers' => 'user'
         ])->only(['index', 'create', 'edit', 'show']);

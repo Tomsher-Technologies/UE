@@ -7,6 +7,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ResellerDashboardController extends Controller
 {
@@ -27,7 +28,7 @@ class ResellerDashboardController extends Controller
         $total_search_month = $search->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
         $total_search_week = $search->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
         $total_search_day = $search->whereBetween('created_at', [Carbon::now()->startOfDay(), Carbon::now()->endOfDay()])->count();
-        
+
         $orders = $user->orders;
         $total_orders = $orders->count();
         $total_orders_month = $orders->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
@@ -54,5 +55,14 @@ class ResellerDashboardController extends Controller
             'total_orders_week' => $total_orders_week,
             'total_orders_day' => $total_orders_day,
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        Session::flush();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('reseller.login');
     }
 }
