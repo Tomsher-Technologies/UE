@@ -7,8 +7,8 @@
             <img width="150" class="mb-5" src="{{ adminAsset('images/logo/logo2.png') }}" alt="" />
         </center>
         <x-form.error name="login" />
-        <x-form.input name="email" type="email" text="Email" value="admin@eu.com" />
-        <x-form.input name="password" type="password" text="Password" value="password" />
+        <x-form.input name="email" type="email" text="Email" />
+        <x-form.input name="password" type="password" text="Password" />
         <div class="form-group">
             <div class="custom-control custom-checkbox">
                 <input class="custom-control-input" type="checkbox" value="1" id="invalidCheck01" name="remember_me" />
