@@ -27,6 +27,6 @@ class LogoutController extends Controller
         Session::flush();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('home');
+        return redirect()->route('admin.login');
     }
 }
