@@ -16,7 +16,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Approved Rate</label>
-            <input wire:model="rate.approved_rate" type="number" class="form-control mb-2">
+            <input wire:model="rate.approved_rate" type="number" step=".1" class="form-control mb-2">
             <x-form.error name="rate.approved_rate" />
         </div>
         {{-- <div class="form-group">

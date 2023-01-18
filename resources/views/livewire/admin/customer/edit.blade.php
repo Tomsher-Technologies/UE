@@ -39,7 +39,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Special request wight break</label>
-            <input wire:model="customerDetails.limit_weight" type="number" class="form-control mb-2">
+            <input wire:model="customerDetails.limit_weight" type="number" step=".1" class="form-control mb-2">
             <x-form.error name="customerDetails.limit_weight" />
         </div>
 

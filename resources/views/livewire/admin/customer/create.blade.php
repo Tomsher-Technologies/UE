@@ -41,18 +41,18 @@
         </div>
         <div class="form-group">
             <label class="form-label">MSP</label>
-            <input wire:model="msp" type="number" class="form-control mb-2">
+            <input wire:model="msp" type="number" step=".1" class="form-control mb-2">
             <x-form.error name="msp" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Special request limit per day</label>
-            <input wire:model="request_limit" type="number" class="form-control mb-2">
+            <input wire:model="request_limit" type="number"  class="form-control mb-2">
             <x-form.error name="request_limit" />
         </div>
         <div class="form-group">
             <label class="form-label">Special request wight break</label>
-            <input wire:model="limit_weight" type="number" class="form-control mb-2">
+            <input wire:model="limit_weight" type="number" step=".1" class="form-control mb-2">
             <x-form.error name="limit_weight" />
         </div>
 

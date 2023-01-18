@@ -7,7 +7,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Rate</label>
-            <input wire:model="approved_rate" type="number" class="form-control mb-2">
+            <input wire:model="approved_rate" type="number" step=".1" class="form-control mb-2">
             <x-form.error name="approved_rate" />
         </div>
         <div class="form-group">
