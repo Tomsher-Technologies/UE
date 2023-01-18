@@ -40,7 +40,7 @@
 
         <div class="form-group">
             <label class="form-label">Rate</label>
-            <input wire:model="surcharge.rate" type="number" class="form-control mb-2">
+            <input wire:model="surcharge.rate" type="number" step=".1" class="form-control mb-2">
             <x-form.error name="surcharge.rate" />
         </div>
 
