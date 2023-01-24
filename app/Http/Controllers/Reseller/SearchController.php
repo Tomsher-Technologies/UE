@@ -62,8 +62,6 @@ class SearchController extends Controller
             $billable_weight = $this->calculateWeight($request, $integrator->integrator_code);
             $integrator->billable_weight = $billable_weight;
 
-
-
             $zone = Zone::where('integrator_id', $integrator->id)->where('type', $del_type)->where('country_id', $country)->first();
 
             if ($zone) {
@@ -113,7 +111,7 @@ class SearchController extends Controller
                     $integrator->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone_code, $country, $integrator->weight->rate);
 
                     // // add profit margin
-                    $integrator->weight->rate +=  getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $del_type, $grade, $integrator->weight->rate);
+                    $integrator->weight->rate +=  getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $del_type, $grade, $integrator->weight->rate, $request->package_type);
 
                     // // Round rate for final result
                     $integrator->weight->rate = round($integrator->weight->rate, 2);
