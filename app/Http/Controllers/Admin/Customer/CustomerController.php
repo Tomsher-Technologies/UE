@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Imports\Admin\ProfitMarginImport;
 use App\Imports\Admin\UserImport;
 use App\Models\Customer\Grade;
+use App\Models\Integrators\Integrator;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\HeadingRowImport;
 
 class CustomerController extends Controller
 {
@@ -109,13 +112,23 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function importProfitMarginView()
+    public function importProfitMarginView(User $user)
     {
-        return view('admin.customer.profit-margin-import');
+        $integrators = Cache::rememberForever('integrators', function () {
+            return Integrator::all();
+        });
+
+        return view('admin.customer.profit-margin-import')->with([
+            'user' => $user,
+            'integrators' => $integrators
+        ]);
     }
-    public function importProfitMargin(Request $request)
+    public function importProfitMargin(User $user, Request $request)
     {
-        $import = new ProfitMarginImport();
+
+        $headings = (new HeadingRowImport())->toArray(request()->file('importfile'));
+
+        $import = new ProfitMarginImport($user, $request->integrator, $request->type, $headings[0]);
         Excel::import($import, request()->file('importfile'));
 
         if ($import->errors) {

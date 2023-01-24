@@ -23,9 +23,29 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('admin.profitMargin.import') }}"
+                            <form method="POST" action="{{ route('admin.customer.profitMargin.import', $user) }}"
                                 enctype="multipart/form-data">
                                 @csrf
+                                <div class="form-group">
+                                    <label class="form-label">Integrator</label>
+                                    <select name="integrator" class="form-control mb-2">
+                                        @foreach ($integrators as $integrator)
+                                            <option value="{{ $integrator->id }}">{{ $integrator->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-form.error name="integrator" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Integrator</label>
+                                    <select name="type" class="form-control mb-2">
+                                        <option value="import">Import</option>
+                                        <option value="export">Export</option>
+                                        <option value="transit">Transit</option>
+                                    </select>
+                                    <x-form.error name="type" />
+                                </div>
+
                                 <div class="form-group">
                                     <label class="form-label">Choose a file</label>
                                     <input accept=".xlsx,.csv" type="file" name="importfile" class="form-control mb-2">

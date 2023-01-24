@@ -100,10 +100,10 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
         Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
             Route::get('/{user}/profit-margin', [CustomerController::class, 'profitMargin'])->name('profitMargin');
-        });
 
-        Route::get('/import/profit-margin', [CustomerController::class, 'importProfitMarginView'])->name('profitMargin.import');
-        Route::post('/import/profit-margin', [CustomerController::class, 'importProfitMargin']);
+            Route::get('/{user}/import/profit-margin', [CustomerController::class, 'importProfitMarginView'])->name('profitMargin.import');
+            Route::post('/{user}/import/profit-margin', [CustomerController::class, 'importProfitMargin']);
+        });
 
         Route::get('/import/user', [CustomerController::class, 'importUserView'])->name('user.import');
         Route::post('/import/user', [CustomerController::class, 'importUser']);
