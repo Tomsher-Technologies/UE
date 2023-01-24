@@ -23,6 +23,9 @@ class ProfitMargin extends Model
         'type',
         'weight',
         'end_weight',
+        'product_type',
+        'start_date',
+        'applied_for_country',
     ];
 
     public function integrator()

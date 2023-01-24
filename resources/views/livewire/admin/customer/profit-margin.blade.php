@@ -1,8 +1,11 @@
 <div>
     <div class="container page__container">
         <div class="page-section">
-            <div class="page-separator">
+            <div class="page-separator justify-content-between">
                 <div class="page-separator__text">Add Profit Margin</div>
+                <a href="{{ route('admin.customer.profitMargin.import', $element ) }}" class="btn btn-primary">
+                    Inport Profit Margin
+                </a>
             </div>
 
             <form wire:submit.prevent="save">
