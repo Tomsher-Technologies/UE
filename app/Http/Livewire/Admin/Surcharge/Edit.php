@@ -20,12 +20,17 @@ class Edit extends Component
             'surcharge.name' => 'required',
             'surcharge.rate' => 'required',
             'surcharge.rate_type' => 'required',
+            'surcharge.type' => 'required',
             'surcharge.status' => 'required',
             'surcharge.integrator_id' => 'required',
             'surcharge.start_weight' => 'required',
             'surcharge.end_weight' => 'required',
             'surcharge.applied_for' => 'required',
             'surcharge.applied_for_id' => 'required',
+            'surcharge.sort_order' => 'required',
+            'surcharge.start_date' => 'required',
+            'surcharge.end_date' => 'required',
+            'surcharge.per_weight' => 'nullable',
         ];
     }
 
