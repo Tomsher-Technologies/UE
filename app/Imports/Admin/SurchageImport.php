@@ -57,8 +57,10 @@ class SurchageImport implements ToCollection
                 'applied_for_id' => $row[6],
                 'rate_type' => $row[7],
                 'rate' => $row[8],
-                'start_date' => $startDate,
+                'start_date' => $startDate->startOfDay(),
                 'end_date' => $endDate->endOfDay(),
+                'per_weight' => $row[11],
+                'sort_order' => $row[12],
                 'status' => 1,
             ]);
         }

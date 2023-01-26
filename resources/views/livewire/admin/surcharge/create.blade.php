@@ -105,6 +105,24 @@
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="col-6 form-group mb-0">
+                <label class="form-label">Applied Per Weight</label>
+                <select wire:model="per_weight" class="form-control custom-select">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+                <x-form.error name="per_weight" />
+            </div>
+            <div class="col-6 form-group">
+                <div class="form-group">
+                    <label class="form-label">Order</label>
+                    <input wire:model="sort_order" type="number" class="form-control mb-2">
+                    <x-form.error name="sort_order" />
+                </div>
+            </div>
+        </div>
+
 
         <div class="form-group">
             <label class="form-label">Status</label>

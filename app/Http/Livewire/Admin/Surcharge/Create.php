@@ -15,6 +15,8 @@ class Create extends Component
     public $rate;
     public $rate_type = 1;
     public $status = 1;
+    public $sort_order = 0;
+    public $per_weight = false;
     public $integrator;
     public $start_weight;
     public $end_weight;
@@ -37,11 +39,11 @@ class Create extends Component
             'name' => 'required',
             'rate' => 'required',
             'rate_type' => 'required',
-            'integrator' => 'required',
+            'integrator' => 'nullable',
             'start_weight' => 'required',
             'end_weight' => 'required',
             'applied_for' => 'required',
-            'applied_for_id' => 'required',
+            'applied_for_id' => 'nullable',
         ];
     }
 
@@ -77,8 +79,12 @@ class Create extends Component
             'type' => $this->type,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
+            'per_weight' => $this->per_weight,
+            'sort_order' => $this->sort_order,
         ]);
 
+        $this->reset('sort_order');
+        $this->reset('per_weight');
         $this->reset('integrator');
         $this->reset('rate');
         $this->reset('name');
