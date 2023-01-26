@@ -42,7 +42,7 @@ class ImportRateImport implements ToCollection
                 $model = new ExportRate();
                 break;
             case "transit":
-                $this->type = 'export';
+                $this->type = 'transit';
                 $model = new TransitRate();
                 break;
         }

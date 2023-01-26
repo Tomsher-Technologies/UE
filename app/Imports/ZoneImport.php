@@ -46,15 +46,14 @@ class ZoneImport implements ToCollection
                 return  stristr($item->code, $c_code);
             })->first();
 
-            if ($country) {
-                if ($row[2]) {
-                    Zone::updateOrCreate([
-                        'type' => $this->type,
-                        'integrator_id' => $this->integrator,
-                        'zone_code' => $row[2],
-                        'country_id' => $country->id,
-                    ]);
-                }
+            if (!$country) {
+
+                $country = Country::create([
+                    'name' => $c_name,
+                    'code' => $c_code
+                ]);
+
+
                 // if ($row[3]) {
                 //     Zone::updateOrCreate([
                 //         'type' => 'export',
@@ -71,11 +70,22 @@ class ZoneImport implements ToCollection
                 //         'country_id' => $country->id,
                 //     ]);
                 // }
-            } else {
-                if (!in_array($row[0], $this->errors)) {
-                    $this->errors[] = $row[0] . '( ' . $row[1] . ' )';
-                }
             }
+
+            if ($row[2]) {
+                Zone::updateOrCreate([
+                    'type' => $this->type,
+                    'integrator_id' => $this->integrator,
+                    'zone_code' => $row[2],
+                    'country_id' => $country->id,
+                ]);
+            }
+
+            //  else {
+            //     if (!in_array($row[0], $this->errors)) {
+            //         $this->errors[] = $row[0] . '( ' . $row[1] . ' )';
+            //     }
+            // }
         }
     }
 }
