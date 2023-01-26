@@ -12,12 +12,19 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-function getSurcharge($integrator_id, $billable_weight, $zone_code, $country, $rate)
+function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $country, $rate)
 {
-    $surcharges = Surcharge::where('integrator_id', $integrator_id)
+
+    $today = Carbon::now();
+
+    $surcharges = Surcharge::whereIn('integrator_id', array('0', $integrator_id))
+        ->whereIn('type', array('all', $type))
         ->where('status', 1)
         ->where('start_weight', '<=', $billable_weight)
         ->where('end_weight', '>=', $billable_weight)
+        ->whereDate('start_date', '<=', $today->startOfDay())
+        ->whereDate('end_date', '>=', $today->endOfDay())
+        ->orderBy('sort_order','ASC')
         ->get();
 
     $surcharges = $surcharges->reject(function ($surcharge) use ($zone_code, $country) {
