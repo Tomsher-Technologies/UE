@@ -108,7 +108,7 @@ class SearchController extends Controller
                     }
 
                     // add surcharge
-                    $integrator->weight->rate += getSurcharge($integrator->id, $billable_weight, $zone_code, $country, $integrator->weight->rate);
+                    $integrator->weight->rate += getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $integrator->weight->rate);
 
                     // // add profit margin
                     $integrator->weight->rate +=  getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $del_type, $grade, $integrator->weight->rate, $request->package_type);
