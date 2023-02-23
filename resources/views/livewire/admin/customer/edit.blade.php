@@ -82,6 +82,15 @@
         </div>
 
         <div class="form-group">
+            <label class="form-label">Is Sales Team</label>
+            <select wire:model="user.is_sales" class="form-control custom-select mb-2">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            <x-form.error name="user.is_sales" />
+        </div>
+
+        <div class="form-group">
             <label class="form-label">Password</label>
             <input wire:model="password" type="password" class="form-control mb-2">
             <x-form.error name="password" />

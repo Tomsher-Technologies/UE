@@ -39,6 +39,7 @@ class User extends Authenticatable
         'parent_id',
         'grade_id',
         'verified',
+        'is_sales',
     ];
 
     /**

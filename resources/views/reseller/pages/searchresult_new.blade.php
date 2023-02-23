@@ -5,6 +5,58 @@
             <div class="page-separator">
                 <div class="page-separator__text">Search Result</div>
             </div>
+
+            <style>
+                .overview p {
+                    font-size: 18px;
+                    margin-bottom: 5px;
+                }
+            </style>
+
+            <div class="overview">
+                <div class="card">
+                    <div class="container page__container">
+                        <div class="page-section">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p>
+                                        From country: <span>{{ $search->fromCountry->name }}</span>
+                                    </p>
+                                    <p>
+                                        To country: <span>{{ $search->toCountry->name }}</span>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p>
+                                        Shippment type: <span>{{ ucfirst($search->shipment_type) }}</span>
+                                    </p>
+                                    <p>
+                                        Package type: <span>{{ ucfirst($search->package_type) }}</span>
+                                    </p>
+                                    @if (auth()->user()->is_sales)
+                                        <form action="#" class="mt-4">
+                                            <p>
+                                                Change Profit margin
+                                            </p>
+                                            <div class="form-row">
+                                                <div class="col-12 col-md-8 mb-3">
+                                                    <input id="profit_margin" type="number" class="form-control"
+                                                    name="shipper_name" value="0" required="">
+                                                </div>
+                                                <div class="col-12 col-md-4 mb-3">
+                                                    <button type="button" id="change_profit_margin"
+                                                class="btn btn-primary float-right h-100">Change Profit Margin</button>
+                                                </div>
+                                            </div>                                            
+                                        </form>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="search-result">
                 <div class="card mb-0">
                     @if ($integrators->count() > 0)
@@ -17,7 +69,10 @@
                                             <a href="javascript:void(0)">Integrator</a>
                                         </th>
                                         <th>
-                                            <a href="javascript:void(0)">Total Weight</a>
+                                            <a href="javascript:void(0)">Actual weight</a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:void(0)">DIM weight</a>
                                         </th>
                                         <th class="text-center">
                                             <a href="javascript:void(0)">Amount</a>
@@ -46,11 +101,15 @@
                                                 </div>
                                             </td>
                                             <td class="text-center text-70">
+                                                {{ $actual_weight }}
+                                            </td>
+                                            <td class="text-center text-70">
                                                 {{ $integrator->billable_weight }}
                                             </td>
                                             <td class="text-center text-70">
                                                 <div class="mr-sm-16pt mb-8pt mb-sm-0">
-                                                    <span class="card-title mb-4pt btn btn-dark text-white" disabled>AED
+                                                    <span class="card-title mb-4pt btn btn-dark text-white price"
+                                                        disabled>AED
                                                         {{ $integrator->weight->rate }}</span>
                                                 </div>
                                             </td>
@@ -63,7 +122,9 @@
                                                         @csrf
                                                         <input type="hidden" name="integrator"
                                                             value="{{ $integrator->id }}">
-                                                        <input type="hidden" name="rate"
+                                                        <input type="hidden" class="act_rate" name="rate_2"
+                                                            value="{{ $integrator->weight->rate }}">
+                                                        <input type="hidden" class="new_rate" name="rate"
                                                             value="{{ $integrator->weight->rate }}">
                                                         <input type="hidden" name="search_id" value="{{ $search_id }}">
                                                         <input type="hidden" name="totalweight"
@@ -92,7 +153,7 @@
                             No results found
                         </p>
                     @endif
-                
+
                     <div class="">
                         <div class="col-12">
                             <hr>
@@ -124,6 +185,27 @@
     </style>
 @endpush
 @push('footer')
+
+    @if (auth()->user()->is_sales)
+        <script>
+            $('#change_profit_margin').on('click', function() {
+                $('.table tr').each(function() {
+                    if ($('.in_rate', this)) {
+                        var price = $('.act_rate', this).val()
+                        var margin = $('#profit_margin').val()
+                        var percentage = (margin / 100) * price;
+                        console.log(price);
+                        console.log(percentage);
+                        var new_price = parseFloat(price) + parseFloat(percentage);
+                        new_price = parseFloat(new_price).toFixed(2);
+                        $('.new_rate', this).val(new_price)
+                        $('.price', this).html('AED ' + new_price)
+                    }
+                });
+            });
+        </script>
+    @endif
+
     <script>
         $('#exampleModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)

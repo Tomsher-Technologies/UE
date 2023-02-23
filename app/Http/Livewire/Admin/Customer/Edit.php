@@ -35,6 +35,7 @@ class Edit extends Component
             'user.email' => ['required', 'email', 'unique:users,email,' . $this->user->id],
             'user.grade_id' => ['required'],
             'user.status' => ['required'],
+            'user.is_sales' => ['required'],
             'customerDetails.phone' => ['nullable'],
             'customerDetails.address' => ['nullable'],
             'customerDetails.msp' => ['nullable', 'integer'],

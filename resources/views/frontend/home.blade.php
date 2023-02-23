@@ -71,7 +71,7 @@
                         </div>
                         <div class="navbar-right-info">
                             @if (auth()->user())
-                                <a href="{{ auth()->user()->isAn('admin')? route('admin.dashboard'): route('reseller.dashboard') }}"
+                                <a href="{{ auth()->user()->isAn('admin') ? route('admin.dashboard'): route('reseller.dashboard') }}"
                                     class="theme-btn btn-style-one">
                                     <span>
                                         Dashboard

@@ -43,14 +43,39 @@
                             <div class="form-group row align-items-center mb-0">
                                 <div class="col-sm-12 d-flex align-items-center">
                                     <div class="flex pc-text-right">
-                                        <a href="{{ route('admin.integrator.uploadRates', $integrator) }}"
-                                            class="btn btn-secondary w-100 mb-2">
-                                            Upload Rates
-                                        </a>
-                                        <a href="{{ route('admin.integrator.uploadZones', $integrator) }}"
-                                            class="btn btn-secondary w-100 mb-2">
-                                            Upload Zones
-                                        </a>
+
+
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <a href="{{ route('admin.integrator.uploadRates', $integrator) }}"
+                                                    class="btn btn-secondary w-100 mb-2">
+                                                    Upload Rates
+                                                </a>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="{{ route('admin.integrator.rates', $integrator) }}"
+                                                    class="btn btn-primary w-100 mb-2">
+                                                    View Rates
+                                                </a>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <a href="{{ route('admin.integrator.uploadZones', $integrator) }}"
+                                                    class="btn btn-secondary w-100 mb-2">
+                                                    Upload Zones
+                                                </a>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="{{ route('admin.integrator.zones', $integrator) }}"
+                                                    class="btn btn-primary w-100 mb-2">
+                                                    View Zones
+                                                </a>
+                                            </div>
+                                        </div>
+
                                         <a href="{{ route('admin.integrator.uploadOdPin', $integrator) }}"
                                             class="btn btn-secondary w-100 mb-2">
                                             Upload Out of Delivery Pincodes
