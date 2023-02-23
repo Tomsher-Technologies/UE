@@ -5,10 +5,12 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\Common\DynamicContentsController;
 use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Integrators\IntegratorController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\SpecialRate\SpecialRateController;
 use App\Http\Controllers\Admin\Surcharge\SurchargeController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
 use App\Http\Controllers\HubEz\HubEzController;
+use App\Http\Controllers\Reseller\ODAController;
 use App\Http\Livewire\Admin\Booking\BookingHistory;
 use App\Http\Livewire\Admin\Booking\BookingHistoryDetails;
 use App\Http\Livewire\Admin\Customer\Grade;
@@ -19,6 +21,7 @@ use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
 use App\Http\Livewire\Admin\Search\SearchHistory;
 use App\Mail\Admin\NewCustomerMail;
 use App\Models\Common\Settings;
+use App\Models\Orders\Search;
 use App\Models\User;
 use App\Notifications\Admin\NewUserNotification;
 use Illuminate\Support\Facades\Cache;
@@ -32,58 +35,18 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');
     });
-    // Route::get('/time', function () {
 
-    //     // $str = "06:30 PM _ 06:45 PM";
+    Route::get('/test', function () {
+        $oda_controller = new ODAController();
 
-    //     // $d = explode(' - ', $str);
+        $search_id = Search::find(1);
 
-    //     // dd($d[0]);
+        $oda_charge = $oda_controller->checkODA('dhl', $search_id);
 
-    //     // return view('welcome');
+        dd($oda_charge);
+    });
 
-    //     $t = date('P');
-    //     $sign = substr($t, 0, 1);
-    //     $vals = substr($t, 1, 2);
-    //     $tot = $sign . $vals . " hour";
-
-    //     $nowtime = DateTime::createFromFormat("h:i A", "11:00 AM");
-    //     echo $nowtime->format('h:i A');
-
-    //     date_add($nowtime, date_interval_create_from_date_string($tot));
-    //     $date = date_format($nowtime, 'h:i A');
-    //     echo "<br>" . $date;
-
-    //     // $user = User::find(1);
-    //     // // $user->notify(new NewUserNotification($user))->delay(now()->addMinute());
-    //     // // Notification::notify($user, new NewUserNotification($user));
-    //     // Mail::to('shabeer@tomshe.com')->later(1, new NewCustomerMail($user));
-
-    //     // $email = Cache::rememberForever('notification_email', function () {
-    //     //     return Settings::where('group', 'notification_email')->get();
-    //     // });
-
-    //     // $email = $email->where('name', 'new_user_reg')->first()->value;
-
-    //     // ddd($emails);
-
-    //     // $str = '709999';
-
-    //     // $weight_limit = explode('-', $str);
-
-    //     // if (isset($weight_limit[1])) {
-    //     //     dd($weight_limit);
-    //     // } else {
-    //     //     dd($str);
-    //     // }
-
-
-    //     // $time_str = "11:00 pm";
-    //     // $time = date("h:i A", strtotime($time_str . ' + 3 hours'));
-    //     // dd($time);
-    // });
-
-    Route::get('/test', [HubEzController::class, 'placeOrder']);
+    // Route::get('/test', [HubEzController::class, 'placeOrder']);
 
     Route::middleware(['guest'])->group(function () {
         Route::get('login', [LoginController::class, 'loginView'])->name('login');
@@ -121,9 +84,11 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         Route::get('/profit-margin/{profit_margin}/edit', ProfitMarginEdit::class)->name('profitMargin.edit');
 
         Route::group(['prefix' => 'integrator', 'as' => 'integrator.'], function () {
+            Route::get('/{integrator}/rates', [IntegratorController::class, 'ratesView'])->name('rates');
             Route::get('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRatesView'])->name('uploadRates');
             Route::post('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRates']);
 
+            Route::get('/{integrator}/zones', [IntegratorController::class, 'zoneView'])->name('zones');
             Route::get('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZoneView'])->name('uploadZones');
             Route::post('/{integrator}/upload/zones', [IntegratorController::class, 'uploadZone']);
 
@@ -153,6 +118,10 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::get('/special_rates/{special_rate}/edit/', [SpecialRateController::class, 'edit'])->name('edit');
         });
 
+
+        Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
+            Route::get('/', [ReportsController::class, 'index'])->name('index');
+        });
 
         Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);
         include 'profile.php';

@@ -46,7 +46,7 @@ class ResellerLoginController extends Controller
 
         if (Auth::attempt($credentials, $request->remember_me)) {
             $request->session()->regenerate();
-            if (Auth::user()->isAn('reseller')) {
+            if (Auth::user()->isAn('reseller') || Auth::user()->isAn('ueuser') ) {
                 return redirect()->intended(route('reseller.dashboard'));
             } else {
                 Session::flush();

@@ -69,7 +69,7 @@ class SearchController extends Controller
             }
 
             // if ($integrator->id == 2) {
-            //     dd($zone_code);
+            //     dd($zone);
             // }
 
             // $integrator->zones = $zone;
@@ -101,11 +101,16 @@ class SearchController extends Controller
 
                 if ($integrator->weight) {
                     // add out of delivery charge
-                    $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
 
-                    if ($od_pincode) {
-                        $integrator->weight->rate += $od_pincode->rate;
-                    }
+                    $oda_controller = new ODAController();
+
+                    $oda_charge = $oda_controller->checkODA($integrator->integrator_code, $search_id);
+
+                    // $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
+
+                    // if ($oda_charge) {
+                    //     $integrator->weight->rate += $oda_charge;
+                    // }
 
                     // add surcharge
                     $integrator->weight->rate += getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $integrator->weight->rate);
@@ -129,10 +134,20 @@ class SearchController extends Controller
 
         $hasSpecialRequest = hasSpecialRequest($billable_weight, $search_id);
 
+        $search = Search::with(['toCountry', 'fromCountry'])->find($search_id);
+
+        $actual_weight = 0;
+
+        foreach ($request->weight as $weight) {
+            $actual_weight += $weight;
+        }
+
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
             'hasSpecialRequest' => $hasSpecialRequest,
             'search_id' => $search_id,
+            'search' => $search,
+            'actual_weight' => $actual_weight,
         ]);
     }
 

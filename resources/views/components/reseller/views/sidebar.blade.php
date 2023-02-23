@@ -66,28 +66,8 @@
                         <span class="sidebar-menu-text">Booking History</span>
                     </a>
                 </li>
-                {{-- <li class="sidebar-menu-item {{ request()->routeIs('reseller.search.search*') ? 'active' : '' }}">
-                    <a class="sidebar-menu-button" href="{{ route('reseller.search.search') }}">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">search</span>
-                        <span class="sidebar-menu-text">Search Rate</span>
-                    </a>
-                </li> --}}
-                {{-- <li class="sidebar-menu-item ">
-                    <a class="sidebar-menu-button" href="bookings.html">
-                        <span
-                            class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment_turned_in</span>
-                        <span class="sidebar-menu-text">Bookings</span>
-                    </a>
-                </li>
-                <li class="sidebar-menu-item ">
-                    <a class="sidebar-menu-button" href="enquiry.html">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">star_half
-                        </span>
-                        <span class="sidebar-menu-text">Enquiry</span>
-                    </a>
-                </li> --}}
 
-                @if (auth()->user()->isA('reseller'))
+                @if (auth()->user()->isA('reseller') && auth()->user()->is_sales != true)
                     <li class="sidebar-menu-item {{ request()->routeIs('reseller.agents*') ? 'active open' : '' }}">
                         <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse"
                             href="#enterprise_menu">
@@ -108,42 +88,9 @@
                                     <span class="sidebar-menu-text">Add New Agents</span>
                                 </a>
                             </li>
-                            {{-- <li
-                                class="sidebar-menu-item {{ request()->routeIs('reseller.agents.booking.history') ? 'active' : '' }}">
-                                <a class="sidebar-menu-button" href="{{ route('reseller.agents.booking.history') }}">
-                                    <span class="sidebar-menu-text">See Booking History</span>
-                                </a>
-                            </li>
-                            <li
-                                class="sidebar-menu-item {{ request()->routeIs('reseller.agents.search.history') ? 'active' : '' }}">
-                                <a class="sidebar-menu-button" href="{{ route('reseller.agents.search.history') }}">
-                                    <span class="sidebar-menu-text">See Quote History</span>
-                                </a>
-                            </li> --}}
                         </ul>
                     </li>
                 @endif
-
-                {{-- <li class="sidebar-menu-item {{ request()->routeIs('reseller.users*') ? 'active open' : '' }}">
-                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#user_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">extension</span>
-                        Users
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-                    <ul class="sidebar-submenu collapse sm-indent" id="user_menu">
-                        <li class="sidebar-menu-item {{ request()->routeIs('reseller.users.index') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('reseller.users.index') }}">
-                                <span class="sidebar-menu-text">All Users</span>
-                            </a>
-                        </li>
-                        <li
-                            class="sidebar-menu-item {{ request()->routeIs('reseller.users.create') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('reseller.users.create') }}">
-                                <span class="sidebar-menu-text">Add New User</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
             </ul>
             <!-- // END Sidebar Content -->
         </div>

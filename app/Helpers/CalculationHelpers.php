@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Cache;
 
 function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $country, $rate)
 {
-
     $today = Carbon::now();
 
     $surcharges = Surcharge::whereIn('integrator_id', array('0', $integrator_id))
@@ -41,11 +40,19 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
     });
 
     foreach ($surcharges as $surcharge) {
+        $surcharge_rate = 0;
+
         if ($surcharge->rate_type == 1) {
-            return $surcharge->rate;
+            $surcharge_rate = $surcharge->rate;
         } else {
-            return ($surcharge->rate / 100) * $rate;
+            $surcharge_rate = ($surcharge->rate / 100) * $rate;
         }
+
+        if($surcharge->per_weight){
+            $surcharge_rate = $surcharge_rate * $billable_weight;
+        }
+
+        return $surcharge_rate;
     }
 }
 

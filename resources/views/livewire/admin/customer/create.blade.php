@@ -47,7 +47,7 @@
 
         <div class="form-group">
             <label class="form-label">Special request limit per day</label>
-            <input wire:model="request_limit" type="number"  class="form-control mb-2">
+            <input wire:model="request_limit" type="number" class="form-control mb-2">
             <x-form.error name="request_limit" />
         </div>
         <div class="form-group">
@@ -78,6 +78,15 @@
                 <option value="0">No</option>
             </select>
             <x-form.error name="rate_sheet_status" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Is Sales Team</label>
+            <select wire:model="is_sales" class="form-control custom-select mb-2">
+                <option value="1">Yes</option>
+                <option value="0" selected>No</option>
+            </select>
+            <x-form.error name="is_sales" />
         </div>
 
         <div class="form-group">

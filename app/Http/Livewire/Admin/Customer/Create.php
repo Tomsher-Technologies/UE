@@ -28,6 +28,7 @@ class Create extends Component
     public $parent_user = 0;
 
     public $grade = 1;
+    public $is_sales = 0;
     public $grades;
 
     public $rate_sheet_status;
@@ -85,6 +86,7 @@ class Create extends Component
             'verified' => 1,
             'parent_id' => $this->parent_user,
             'grade_id' => $this->grade,
+            'is_sales' => $this->is_sales,
         ]);
 
         Bouncer::assign('reseller')->to($customer);
@@ -102,7 +104,7 @@ class Create extends Component
             'image' => Str::remove('public/', $storedImage),
             'request_limit' => $this->request_limit,
             'limit_weight' => $this->limit_weight,
-            'rate_sheet_status' => $this->rate_sheet_status ,
+            'rate_sheet_status' => $this->rate_sheet_status,
         ]);
 
         if ($this->rate_sheet_status == "1") {
