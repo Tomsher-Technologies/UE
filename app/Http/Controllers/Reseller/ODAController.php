@@ -45,17 +45,6 @@ class ODAController extends Controller
 
     public function dhl()
     {
-
-
-        $client = new Client();
-
-        $response = $client->request('POST', 'http://localhost/');
-
-        dd($response->getBody());
-
-
-        dd("Asd");
-
         $xml = '<?xml version="1.0" encoding="utf-8"?>
         <p:DCTRequest xmlns:p="http://www.dhl.com" xmlns:p1="http://www.dhl.com/datatypes" xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" schemaVersion="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dhl.com DCT-req.xsd">
           <GetQuote>
