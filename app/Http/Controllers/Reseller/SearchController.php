@@ -102,15 +102,23 @@ class SearchController extends Controller
                 if ($integrator->weight) {
                     // add out of delivery charge
 
+                    if ($integrator->weight > 70 && $integrator->integrator_code == 'ups') {
+                        $ups_charge = 0;
+                        $ups_charge = $this->UPSCharge($request);
+                        $integrator->weight->rate += $ups_charge;
+                    }
+
+
+
                     $oda_controller = new ODAController();
 
                     $oda_charge = $oda_controller->checkODA($integrator->integrator_code, $search_id);
 
                     // $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
 
-                    // if ($oda_charge) {
-                    //     $integrator->weight->rate += $oda_charge;
-                    // }
+                    if ($oda_charge) {
+                        $integrator->weight->rate += $oda_charge;
+                    }
 
                     // add surcharge
                     $integrator->weight->rate += getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $integrator->weight->rate);
@@ -149,6 +157,22 @@ class SearchController extends Controller
             'search' => $search,
             'actual_weight' => $actual_weight,
         ]);
+    }
+
+    public function UPSCharge(Request $request)
+    {
+        $charge = 0;
+
+        foreach ($request->weight as $index => $weight) {
+            $girth = (2 * $request->width[$index]) + (2 * $request->height[$index]);
+            if ($girth > 300 && $girth < 400) {
+                $charge += 208;
+            } else if ($girth > 400) {
+                $charge += 393;
+            }
+        }
+
+        return $charge;
     }
 
     public function saveSearch(Request $request)

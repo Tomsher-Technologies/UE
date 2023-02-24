@@ -39,7 +39,9 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
     Route::get('/test', function () {
         $oda_controller = new ODAController();
 
-        $search_id = Search::find(1);
+        $search_id = Search::find(19);
+
+        // dd($search_id);
 
         $oda_charge = $oda_controller->checkODA('dhl', $search_id);
 
