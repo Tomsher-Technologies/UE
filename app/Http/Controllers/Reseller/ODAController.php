@@ -147,38 +147,41 @@ class ODAController extends Controller
             <Shipment>
                 <Shipper>
                     <Name>universalexp</Name>
-                    <AttentionName></AttentionName>
+                    <AttentionName>universalexp</AttentionName>
                     <CompanyDisplayableName>universalexp</CompanyDisplayableName>
                     <PhoneNumber>971-562979199</PhoneNumber>
                     <ShipperNumber>W7583F</ShipperNumber>
                     <TaxIdentificationNumber>1234567877</TaxIdentificationNumber>
                     <Address>
-                        <AddressLine1>Dubai</AddressLine1>
+                        <AddressLine1>Wafi Residence</AddressLine1>
+                        <AddressLine2>Oud Metha Rd - Umm Hurair 2</AddressLine2>
                         <City>Dubai</City>
                         <PostalCode>0</PostalCode>
                         <CountryCode>AE</CountryCode>
                     </Address>
                 </Shipper>
                 <ShipTo>
-                    <CompanyName>CompanyName</CompanyName>
-                    <AttentionName>Ship To Attn Name</AttentionName>
+                    <CompanyName>Universal</CompanyName>
+                    <AttentionName>Universal</AttentionName>
                     <PhoneNumber>1234567890</PhoneNumber>
                     <Address>
-                        <AddressLine1>' . $search->to_city . '</AddressLine1>
-                        <City>' . $search->to_city . '</City>
-                        <PostalCode>' . $search->to_pin . '</PostalCode>
-                        <CountryCode>' . $search->toCountry->code . '</CountryCode>
+                        <AddressLine1>2501 E BLANCO BLVD UNIT D BLOOMFIELD</AddressLine1>
+                        <City>BLOOMFIELD</City>
+                        <PostalCode>87413</PostalCode>
+                        <StateProvinceCode>NJ</StateProvinceCode>
+                        <CountryCode>US</CountryCode>
                     </Address>
                 </ShipTo>
                 <ShipFrom>
-                    <CompanyName>CompanyName</CompanyName>
-                    <AttentionName>Ship From Attn Name</AttentionName>
-                    <PhoneNumber>1234567890</PhoneNumber>
+                    <CompanyName>Tomsher</CompanyName>
+                    <AttentionName>Tomsher</AttentionName>
+                    <PhoneNumber>505491096</PhoneNumber>
                     <Address>
-                        <AddressLine1>' . $search->from_city . '</AddressLine1>
-                        <City>' . $search->from_city . '</City>
-                        <PostalCode>' . $search->from_pin . '</PostalCode>
-                        <CountryCode>' . $search->fromCountry->code . '</CountryCode>
+                        <AddressLine1>Wafi Residence</AddressLine1>
+                        <AddressLine2>Oud Metha Rd - Umm Hurair 2</AddressLine2>
+                        <City>Dubai</City>
+                        <PostalCode>0</PostalCode>
+                        <CountryCode>AE</CountryCode>
                     </Address>
                 </ShipFrom>
                 <PaymentInformation>
@@ -189,7 +192,7 @@ class ODAController extends Controller
                     </Prepaid>
                 </PaymentInformation>
                 <Service>
-                    <Code>01</Code>
+                    <Code>65</Code>
                     <Description>UPS Express</Description>
                 </Service>
                 <Package>
@@ -208,7 +211,7 @@ class ODAController extends Controller
                     </Dimensions>
                     <PackageWeight>
                         <UnitOfMeasurement>
-                            <Code>KG</Code>
+                            <Code>KGS</Code>
                         </UnitOfMeasurement>
                         <Weight>' . $weight . '</Weight>
                     </PackageWeight>
@@ -226,9 +229,113 @@ class ODAController extends Controller
             </LabelSpecification>
         </ShipmentConfirmRequest>';
 
+        $xml = '<?xml version="1.0"?>
+        <AccessRequest xml:lang="en-US">
+            <AccessLicenseNumber>4DB0A329A26C3492</AccessLicenseNumber>
+            <UserId>universalexp</UserId>
+            <Password>Linexdubai123@</Password>
+        </AccessRequest>
+        <?xml version="1.0"?>
+        <ShipmentConfirmRequest xml:lang="en-US">
+            <Request>
+                <TransactionReference>
+                    <CustomerContext>universalexp</CustomerContext>
+                </TransactionReference>
+                <RequestAction>ShipConfirm</RequestAction>
+                <RequestOption>validate</RequestOption>
+            </Request>
+            <Shipment>
+                <Shipper>
+                    <Name>universalexp</Name>
+                    <AttentionName>universalexp</AttentionName>
+                    <CompanyDisplayableName>universalexp</CompanyDisplayableName>
+                    <PhoneNumber>971-562979199</PhoneNumber>
+                    <ShipperNumber>W7583F</ShipperNumber>
+                    <TaxIdentificationNumber>1234567877</TaxIdentificationNumber>
+                    <Address>
+                        <AddressLine1>Wafi Residence</AddressLine1>
+                        <AddressLine2>Oud Metha Rd - Umm Hurair 2</AddressLine2>
+                        <City>Dubai</City>
+                        <PostalCode>0</PostalCode>
+                        <CountryCode>AE</CountryCode>
+                    </Address>
+                </Shipper>
+                <ShipTo>
+                    <CompanyName>Universal</CompanyName>
+                    <AttentionName>VANESSA JACKSON</AttentionName>
+                    <PhoneNumber>1234567890</PhoneNumber>
+                    <Address>
+                        <AddressLine1>2501 E BLANCO BLVD UNIT D BLOOMFIEL</AddressLine1>
+                        <City>Bloomfield</City>
+                        <PostalCode>87413</PostalCode>
+                        <StateProvinceCode>NM</StateProvinceCode>
+                        <CountryCode>US</CountryCode>
+                    </Address>
+                </ShipTo>
+                <ShipFrom>
+                    <CompanyName>Tomsher</CompanyName>
+                    <AttentionName>Tomsher</AttentionName>
+                    <PhoneNumber>505491096</PhoneNumber>
+                    <Address>
+                        <AddressLine1>Wafi Residence</AddressLine1>
+                        <AddressLine2>Oud Metha Rd - Umm Hurair 2</AddressLine2>
+                        <City>Dubai</City>
+                        <PostalCode>0</PostalCode>
+                        <CountryCode>AE</CountryCode>
+                    </Address>
+                </ShipFrom>
+                <PaymentInformation>
+                    <Prepaid>
+                        <BillShipper>
+                            <AccountNumber>W7583F</AccountNumber>
+                        </BillShipper>
+                    </Prepaid>
+                </PaymentInformation>
+                <Service>
+                    <Code>65</Code>
+                    <Description>UPS Express</Description>
+                </Service>
+                <Package>
+                    <PackagingType>
+                        <Code>02</Code>
+                        <Description>Package</Description>
+                    </PackagingType>
+                    <Description>Priority</Description>
+                    <Dimensions>
+                        <UnitOfMeasurement>
+                            <Code>CM</Code>
+                        </UnitOfMeasurement>
+                        <Length>1</Length>
+                        <Width>1</Width>
+                        <Height>1</Height>
+                    </Dimensions>
+                    <PackageWeight>
+                        <UnitOfMeasurement>
+                            <Code>KGS</Code>
+                        </UnitOfMeasurement>
+                        <Weight>1</Weight>
+                    </PackageWeight>
+                </Package>
+                <Description>
+                    Hello
+                </Description>
+            </Shipment>
+            <LabelSpecification>
+                <LabelPrintMethod>
+                    <Code>GIF</Code>
+                    <Description>GIF</Description>
+                </LabelPrintMethod>
+                <LabelImageFormat>
+                    <Code>GIF</Code>
+                    <Description>GIF</Description>
+                </LabelImageFormat>
+            </LabelSpecification>
+        </ShipmentConfirmRequest>';
+
         $res = Http::withBody($xml, 'text/xml')->send('POST', 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm', ['verify' => false]);
 
-        // dd($res->body());
+        // dd($xml);
+        dd($res->body());
 
         if ($res->status() == '200') {
             
