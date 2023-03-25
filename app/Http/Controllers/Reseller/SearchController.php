@@ -102,6 +102,7 @@ class SearchController extends Controller
                 if ($integrator->weight) {
                     // add out of delivery charge
 
+
                     // dd($integrator->weight);
 
                     if ($integrator->weight->from_weight > 70 && $integrator->integrator_code == 'ups') {
@@ -109,7 +110,6 @@ class SearchController extends Controller
                         $ups_charge = $this->UPSCharge($request);
                         $integrator->weight->rate += $ups_charge;
                     }
-
 
 
                     $oda_controller = new ODAController();
