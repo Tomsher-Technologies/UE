@@ -102,17 +102,21 @@ class SearchController extends Controller
                 if ($integrator->weight) {
                     // add out of delivery charge
 
-                    // if ($integrator->weight > 70 && $integrator->integrator_code == 'ups') {
-                    //     $ups_charge = 0;
-                    //     $ups_charge = $this->UPSCharge($request);
-                    //     $integrator->weight->rate += $ups_charge;
-                    // }
+
+                    // dd($integrator->weight);
+
+                    if ($integrator->weight->from_weight > 70 && $integrator->integrator_code == 'ups') {
+                        $ups_charge = 0;
+                        $ups_charge = $this->UPSCharge($request);
+                        $integrator->weight->rate += $ups_charge;
+                    }
+
 
                     $oda_controller = new ODAController();
+                    $search = Search::find($search_id);
+                    $oda_charge = $oda_controller->checkODA($integrator->integrator_code, $search);
 
-                    $oda_charge = $oda_controller->checkODA($integrator->integrator_code, $search_id);
-
-                    // $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
+                    $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
 
                     if ($oda_charge) {
                         $integrator->weight->rate += $oda_charge;
