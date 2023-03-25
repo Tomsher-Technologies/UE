@@ -38,11 +38,11 @@ class ODAController extends Controller
 
         switch ($integrator_code) {
             case 'dhl':
-                $charge = $this->ups($search, $weight, $length, $height, $width);
+                $charge = $this->dhl($search, $weight, $length, $height, $width);
                 break;
 
             case 'fedex':
-                $charge = $this->ups($search, $weight, $length, $height, $width);
+                $charge = $this->fedex($search, $weight, $length, $height, $width);
                 break;
 
             case 'ups':
@@ -50,7 +50,7 @@ class ODAController extends Controller
                 break;
 
             default:
-                $charge = $this->ups($search, $weight, $length, $height, $width);
+                // $charge = $this->ups($search, $weight, $length, $height, $width);
                 break;
         }
 
@@ -108,12 +108,19 @@ class ODAController extends Controller
             $json = json_encode($xmlObject);
             $phpArray = json_decode($json, true);
 
-            if ($phpArray['GetQuoteResponse'] && $phpArray['GetQuoteResponse']['BkgDetails']) {
+
+            if ( isset($phpArray['GetQuoteResponse']) ) {
                 if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
-                    if ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']) {
+                    if ( isset($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp'] ['QtdShpExChrg'])) {
                         // dd($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']);
                         foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $item) {
-                            if ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
+                            if (isset($item['GlobalServiceName']) && $item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
+                                return (int)$item['ChargeValue'];
+                            }
+                        }
+                    }else{
+                        foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp'] as $item) {
+                            if (isset($item['GlobalServiceName']) && $item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
                                 return (int)$item['ChargeValue'];
                             }
                         }
@@ -335,28 +342,28 @@ class ODAController extends Controller
         $res = Http::withBody($xml, 'text/xml')->send('POST', 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm', ['verify' => false]);
 
         // dd($xml);
-        dd($res->body());
+        // dd($res->body());
 
-        if ($res->status() == '200') {
+        // if ($res->status() == '200') {
             
-            $xmlObject = simplexml_load_string($res->body());
+        //     $xmlObject = simplexml_load_string($res->body());
 
-            $json = json_encode($xmlObject);
-            $phpArray = json_decode($json, true);
+        //     $json = json_encode($xmlObject);
+        //     $phpArray = json_decode($json, true);
 
-            if ($phpArray['Response'] && $phpArray['Response']['ResponseStatusDescription'] !== 'Failure') {
-                if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
-                    if ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']) {
-                        // dd($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']);
-                        foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $item) {
-                            if ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
-                                return (int)$item['ChargeValue'];
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        //     if ($phpArray['GetQuoteResponse'] && $phpArray['Response']['ResponseStatusDescription'] !== 'Failure') {
+        //         if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
+        //             if ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']) {
+        //                 // dd($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']);
+        //                 foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $item) {
+        //                     if ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
+        //                         return (int)$item['ChargeValue'];
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         return 0;
     }
