@@ -28,12 +28,12 @@ class SpecialRate extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function searh()
     {
-        return $this->belongsTo(Search::class);
+        return $this->belongsTo(Search::class)->withTrashed();
     }
 
     public function status()
