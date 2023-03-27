@@ -22,6 +22,10 @@ final class SearchTable extends PowerGridComponent
     //Messages informing success/error data is updated.
     public bool $showUpdateMessages = true;
 
+    public string $sortField = 'created_at';
+    
+    public string $sortDirection = 'desc';
+
     /*
     |--------------------------------------------------------------------------
     |  Features Setup
@@ -94,7 +98,6 @@ final class SearchTable extends PowerGridComponent
     public function addColumns(): ?PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('id')
             ->addColumn('shipment_type')
             ->addColumn('package_type')
             ->addColumn('from_country_name')
@@ -129,12 +132,6 @@ final class SearchTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::add()
-                ->title('ID')
-                ->field('id')
-                ->searchable()
-                ->sortable(),
-
             Column::add()
                 ->title('SHIPMENT TYPE')
                 ->field('shipment_type')

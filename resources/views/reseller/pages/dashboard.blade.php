@@ -140,11 +140,11 @@
                         <div class="row align-items-center">
                             <div class="col-sm-12">
                                 <div class="form-group text-left">
-                                    <label class="text-black" for="filter_name">Number of Pieces</label>
+                                    <label class="text-black" for="filter_name">Total Number of Pieces</label>
                                     <div>
                                         <div class="autocomplete">
                                             <input readonly="readonly" value="1" class="form-control" type="number"
-                                                name="no_pieces" id="no_pieces" placeholder="Number of Pieces">
+                                                name="no_pieces" id="no_pieces" placeholder="Total Number of Pieces">
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +156,7 @@
                                 <div class="col-12">
                                     <label class="text-black" for="filter_name">Package - Dimensions(CM)</label>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-black" for="filter_name">Length</label>
                                         <div>
@@ -167,7 +167,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-black" for="filter_name">Height</label>
                                         <div>
@@ -178,7 +178,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-black" for="filter_name">Width</label>
                                         <div>
@@ -200,7 +200,18 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="col-3">
+                                    <div class="form-group text-left">
+                                        <label class="text-black" for="filter_name">Number Of Pieces</label>
+                                        <div>
+                                            <div class="autocomplete">
+                                                <input class="form-control no_piece" value="1" type="number"
+                                                    step="1" name="no_piece[1]" placeholder="Number Of Pieces"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row align-items-center mb-2">
@@ -211,7 +222,6 @@
                             </div>
                         </div>
 
-                        {{-- <input type="hidden" name="search_token" value="{{ $search_token }}"> --}}
                         <input type="hidden" id="search_token" name="search_token">
 
                         <div class="row align-items-center">
@@ -391,11 +401,6 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="searchable">
-        <input type="text" placeholder="search countries" onkeyup="filterFunction(this,event)">
-        <ul></ul>
-    </div> --}}
 @endsection
 
 @push('header')
@@ -405,13 +410,7 @@
         .search-banner {
             background-image: url(https://blackswancapital.eu/wp-content/uploads/2020/03/20_03-scaled.jpg);
             background-size: cover;
-            /* background-image: url(https://themefie.com/html/foodka/assets/img//home-3/banner-bg.png); */
-            /* background-color: #bafdff */
-
-
         }
-
-
 
         .select2-container .select2-selection--single {
             height: 40px !important;
@@ -480,8 +479,6 @@
 @endpush
 @push('footer')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-
     <script>
         function filterFunction(that, event) {
             let container, input, filter, li, input_val;
@@ -617,36 +614,6 @@
             }, 100)
         }
 
-        // function keyControl(e, container) {
-        //     if (e.key == "ArrowDown") {
-
-        //         if (container.find("ul li").hasClass("selected")) {
-        //             if (container.find("ul li:visible").index(container.find("ul li.selected")) + 1 < container.find(
-        //                     "ul li:visible").length) {
-        //                 container.find("ul li.selected").removeClass("selected").nextAll().not('[style*="display: none"]')
-        //                     .first().addClass("selected");
-        //             }
-
-        //         } else {
-        //             container.find("ul li:first-child").addClass("selected");
-        //         }
-
-        //     } else if (e.key == "ArrowUp") {
-
-        //         if (container.find("ul li:visible").index(container.find("ul li.selected")) > 0) {
-        //             container.find("ul li.selected").removeClass("selected").prevAll().not('[style*="display: none"]')
-        //                 .first().addClass("selected");
-        //         }
-        //     } else if (e.key == "Enter") {
-        //         container.find("input").val(container.find("ul li.selected").text()).blur();
-        //         onSelect(container.find("ul li.selected").text())
-        //     }
-
-        //     container.find("ul li.selected")[0].scrollIntoView({
-        //         behavior: "smooth",
-        //     });
-        // }
-
         function onSelect(val) {
             alert(val)
         }
@@ -664,8 +631,6 @@
 
         $(document).on('click', '.searchable ul li', function() {
             $(this).closest(".searchable").find("input").val($(this).text()).blur();
-            // $(this).closest(".searchable").find(".searchVal").val($(this).text()).blur();
-            // onSelect($(this).text())
         });
 
         $(".searchable ul li").hover(function() {
@@ -684,7 +649,7 @@
                                     <button class="btn btn-sm btn-primary text-light ml-2 remove-package"
                                         type="button">Remove Package</button>
                                 </div> 
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
@@ -695,7 +660,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
@@ -706,7 +671,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-white" for="filter_name">Width</label>
                                         <div>
@@ -728,18 +693,43 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-3">
+                                    <div class="form-group text-left">
+                                        <label class="text-black" for="filter_name">Number Of Pieces</label>
+                                        <div>
+                                            <div class="autocomplete">
+                                                <input class="form-control no_piece" type="number" value="1" step="1"
+                                                    name="no_piece[]" placeholder="Number Of Pieces" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>`);
         }
 
+        function getPackageCount() {
+            count = 0;
+            $('.no_piece').each(function(i, o) {
+                count += parseInt(o.value);
+            })
+            $('#no_pieces').val(count);
+        }
+
+        $(document).on('change', '.no_piece', function() {
+            getPackageCount();
+        });
+
         $('#addPackage').on('click', function() {
             addElement($id);
-            $('#no_pieces').get(0).value++
+            // $('#no_pieces').get(0).value++
+            getPackageCount()
             $id++;
         });
 
         $('body').on('click', '.remove-package', function() {
             $(this).closest('.row').remove();
-            $('#no_pieces').get(0).value--
+            // $('#no_pieces').get(0).value--
+            getPackageCount()
             $id--;
         });
     </script>
@@ -817,122 +807,6 @@
             $('#toCity').val("")
             $('#toPincode').val("")
         });
-
-        // $('#fromCity').select2({
-        //     tags: true,
-        //     ajax: {
-        //         url: '{{ route('getCities') }}',
-        //         dataType: 'json',
-        //         method: 'POST',
-        //         delay: 250,
-        //         data: function(params) {
-        //             var query = {
-        //                 name: params.term,
-        //                 country: $('#fromCountry').val()
-        //             }
-        //             return query;
-        //         },
-        //         processResults: function(data) {
-        //             return {
-        //                 results: $.map(data, function(obj) {
-        //                     return {
-        //                         id: obj.id,
-        //                         text: obj.text
-        //                     };
-        //                 })
-        //             };
-        //         }
-        //     },
-        //     minimumResultsForSearch: 10
-        // });
-        // $('#toCity').select2({
-        //     tags: true,
-        //     ajax: {
-        //         url: '{{ route('getCities') }}',
-        //         dataType: 'json',
-        //         method: 'POST',
-        //         delay: 250,
-        //         data: function(params) {
-        //             console.log(params.term);
-        //             var query = {
-        //                 name: params.term,
-        //                 country: $('#toCountry').val()
-        //             }
-        //             return query;
-        //         },
-        //         processResults: function(data) {
-        //             return {
-        //                 results: $.map(data, function(obj) {
-        //                     return {
-        //                         id: obj.id,
-        //                         text: obj.text
-        //                     };
-        //                 })
-        //             };
-        //         }
-        //     },
-        //     minimumResultsForSearch: 10
-        // });
-
-        // $('#fromPincode').select2({
-        //     minimumInputLength: 2,
-        //     tags: true,
-        //     ajax: {
-        //         url: '{{ route('getPincode') }}',
-        //         dataType: 'json',
-        //         method: 'POST',
-        //         delay: 250,
-        //         data: function(params) {
-        //             var query = {
-        //                 name: params.term,
-        //                 country: $('#fromCountry').val(),
-        //                 city: $('#fromCity option:selected').text()
-        //             }
-        //             return query;
-        //         },
-        //         processResults: function(data) {
-        //             return {
-        //                 results: $.map(data, function(obj) {
-        //                     return {
-        //                         id: obj.id,
-        //                         text: obj.text
-        //                     };
-        //                 })
-        //             };
-        //         }
-        //     },
-        //     minimumResultsForSearch: 10
-        // });
-        // $('#toPincode').select2({
-        //     minimumInputLength: 2,
-        //     tags: true,
-        //     ajax: {
-        //         url: '{{ route('getPincode') }}',
-        //         dataType: 'json',
-        //         method: 'POST',
-        //         delay: 250,
-        //         data: function(params) {
-        //             console.log(params.term);
-        //             var query = {
-        //                 name: params.term,
-        //                 country: $('#toCountry').val(),
-        //                 city: $('#toCity option:selected').text()
-        //             }
-        //             return query;
-        //         },
-        //         processResults: function(data) {
-        //             return {
-        //                 results: $.map(data, function(obj) {
-        //                     return {
-        //                         id: obj.id,
-        //                         text: obj.text
-        //                     };
-        //                 })
-        //             };
-        //         }
-        //     },
-        //     minimumResultsForSearch: 10
-        // });
     </script>
 
     <script>
