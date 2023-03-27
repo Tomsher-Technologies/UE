@@ -187,11 +187,6 @@ class SearchController extends Controller
             return $result->id;
         }
 
-        // $toCity = City::whereId($request->toCity)->get();
-        // $fromCity = City::find($request->fromCity);
-
-        // dd($toCity);
-
         $search = Search::create([
             'user_id' => Auth::user()->id,
             'package_type' => $request->package_type,
@@ -212,6 +207,7 @@ class SearchController extends Controller
                 'height' => $request->height[$index],
                 'width' => $request->width[$index],
                 'weight' => $request->weight[$index],
+                'no_pieces' => $request->no_piece[$index],
             ]);
         }
 
@@ -277,8 +273,9 @@ class SearchController extends Controller
         $actual_weight = 0;
 
         foreach ($request->weight as $index => $weight) {
-            $vol_weight = volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]);
-            $actual_weight += ($vol_weight > $weight) ? $vol_weight : $weight;
+            $vol_weight = volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]) * $request->no_piece[$index];
+            $m_weight = $weight * $request->no_piece[$index];
+            $actual_weight += ($vol_weight > $m_weight) ? $vol_weight : $m_weight;
         }
 
         return $actual_weight;
@@ -292,8 +289,8 @@ class SearchController extends Controller
         $vol_weight = 0;
 
         foreach ($request->weight as $index => $weight) {
-            $vol_weight += volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]);
-            $total_weight += $weight;
+            $vol_weight += volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]) * $request->no_piece[$index];
+            $total_weight += $weight * $request->no_piece[$index];
         }
 
         $actual_weight = ($vol_weight > $weight) ? $vol_weight : $weight;

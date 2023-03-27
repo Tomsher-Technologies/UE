@@ -23,13 +23,18 @@
         .pagination-nav .pagination {
             justify-content: center !important;
         }
+
+        @media (min-width: 576px) {
+            .modal-dialog {
+                max-width: 700px;
+            }
+        }
     </style>
 @endpush
 @push('footer')
     <script>
         Livewire.on('postAdded', id => {
             showModal(id);
-            // alert('A post was added with the id of: ' + postId);
         })
 
         function showModal(data) {
@@ -52,7 +57,8 @@
                         rowContent = "<tr><td class='text-center'>" + element['length'] +
                             "</td><td class='text-center'>" + element['height'] +
                             "</td><td class='text-center'>" + element['width'] +
-                            "</td><td class='text-center'>" + element['weight'] + "</td></tr>";
+                            "</td><td class='text-center'>" + element['weight'] +
+                            "</td><td class='text-center'>" + element['no_pieces'] + "</td></tr>";
                         $('#packages').append(rowContent);
                     });
                     $('#exampleModal').modal('show');
@@ -91,6 +97,9 @@
                                 </th>
                                 <th>
                                     <a href="javascript:void(0)">Actual Weight</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)">No:of Pieces</a>
                                 </th>
                             </tr>
                         </thead>
