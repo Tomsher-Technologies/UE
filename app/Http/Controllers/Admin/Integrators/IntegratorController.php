@@ -286,7 +286,7 @@ class IntegratorController extends Controller
     {
 
         // transit
-        $zone = Zone::where('type', 'transit')->with('country')->get();
+        $zone = Zone::where('integrator_id', $integrator->id)->where('type', 'transit')->with('country')->get();
         $transit_zone_unique = $zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
         $transit = TransitRate::where('integrator_id', $integrator->id)->get();
         $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
@@ -318,7 +318,7 @@ class IntegratorController extends Controller
         // dd($collection1);
 
         // import
-        $zone = Zone::where('type', 'import')->with('country')->get();
+        $zone = Zone::where('integrator_id', $integrator->id)->where('type', 'import')->with('country')->get();
         $import_zone_unique = $zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
         $transit = ImportRate::where('integrator_id', $integrator->id)->get();
         $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
@@ -349,7 +349,7 @@ class IntegratorController extends Controller
 
 
         // export
-        $zone = Zone::where('type', 'export')->with('country')->get();
+        $zone = Zone::where('integrator_id', $integrator->id)->where('type', 'export')->with('country')->get();
         $export_zone_unique = $zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
         $transit = ExportRate::where('integrator_id', $integrator->id)->get();
         $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();

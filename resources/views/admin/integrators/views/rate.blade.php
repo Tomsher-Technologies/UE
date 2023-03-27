@@ -33,7 +33,7 @@
                                             @foreach ($import_zones as $item)
                                                 <th>
                                                     <a href="javascript:void(0)" class="sort"
-                                                        data-sort="js-lists-values-country-code">{{ $item->zone_code }}</a>
+                                                        data-sort="js-lists-values-country-code">{{ $item }}</a>
                                                 </th>
                                             @endforeach
                                         </tr>
@@ -96,7 +96,7 @@
                                             
                                                 <th>
                                                     <a href="javascript:void(0)" class="sort"
-                                                        data-sort="js-lists-values-country-code">{{ $item->zone_code }}</a>
+                                                        data-sort="js-lists-values-country-code">{{ $item }}</a>
                                                 </th>
                                             @endforeach
                                         </tr>

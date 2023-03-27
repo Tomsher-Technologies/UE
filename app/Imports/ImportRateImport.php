@@ -76,7 +76,7 @@ class ImportRateImport implements ToCollection
                             'zone_code' => $heading,
                             'pack_type' => $pack_type
                         ], [
-                            'rate' => $row[$index + 2] ? (float)$row[$index + 2] : 0
+                            'rate' => $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0
                         ]);
                     } else {
                         $model = $model::updateOrCreate([
@@ -87,7 +87,7 @@ class ImportRateImport implements ToCollection
                             'zone_code' => $heading,
                             'pack_type' => $pack_type
                         ], [
-                            'rate' => $row[$index + 2] ? (float)$row[$index + 2] : 0
+                            'rate' => $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0
                         ]);
                     }
                 } else {
@@ -97,5 +97,10 @@ class ImportRateImport implements ToCollection
                 }
             }
         }
+    }
+
+    public function cleanRate($rate)
+    {
+        return str_replace(',', '', $rate);
     }
 }
