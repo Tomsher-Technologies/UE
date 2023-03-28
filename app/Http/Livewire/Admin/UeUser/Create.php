@@ -53,6 +53,7 @@ class Create extends Component
             'status' => 1,
             'password' => $this->password,
             'parent_id' => 1,
+            'grade_id' => 0,
         ]);
 
         Bouncer::assign('ueuser')->to($user);
