@@ -85,9 +85,9 @@ class SearchController extends Controller
                 if ($over_weight && $over_weight->count()) {
                     $integrator->weight = $over_weight;
 
-                    $highest  = $model::where('zone_code', $zone_code)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
+                    $highest  = $model::where('zone_code', $zone_code)->where('integrator_id', $integrator->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
 
-                    $wei = $billable_weight * $integrator->rate_multiplier;
+                    $wei = $billable_weight * $integrator->rate_multiplrrier;
 
                     $integrator->weight->rate *= $wei;
 
@@ -95,14 +95,12 @@ class SearchController extends Controller
                         $integrator->weight->rate += $highest->rate;
                     }
                 } else {
-                    $weight = $model::where('zone_code', $zone_code)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
+                    $weight = $model::where('zone_code', $zone_code)->where('integrator_id', $integrator->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
                     $integrator->weight = $weight;
                 }
 
                 if ($integrator->weight) {
                     // add out of delivery charge
-
-
                     // dd($integrator->weight);
 
                     if ($integrator->weight->from_weight > 70 && $integrator->integrator_code == 'ups') {
@@ -110,7 +108,6 @@ class SearchController extends Controller
                         $ups_charge = $this->UPSCharge($request);
                         $integrator->weight->rate += $ups_charge;
                     }
-
 
                     $oda_controller = new ODAController();
                     $search = Search::find($search_id);
