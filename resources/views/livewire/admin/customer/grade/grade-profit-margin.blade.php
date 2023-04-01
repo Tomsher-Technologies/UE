@@ -53,6 +53,23 @@
                 </div>
                 <div class="form-row">
                     <div class="col-6 form-group">
+                        <label class="form-label">Product Type</label>
+                        <select wire:model="product_type" class="form-control">
+                            <option value="all">All</option>
+                            <option value="letter">Letter / Envelope</option>
+                            <option value="doc">Document</option>
+                            <option value="package">Package / Non-Doc</option>
+                        </select>
+                        <x-form.error name="product_type" />
+                    </div>
+                    <div class="col-6 form-group mb-0">
+                        <label class="form-label">Start Date</label>
+                        <input wire:model="start_date" type="date" class="form-control mb-2">
+                        <x-form.error name="start_date" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-6 form-group">
                         <label class="form-label">Start Weight</label>
                         <input wire:model="weight" type="number" step=".1" class="form-control mb-2">
                         <x-form.error name="weight" />
@@ -74,7 +91,7 @@
                         <label class="form-label">Rate</label>
                         <input wire:model="rate" type="number" step=".1" class="form-control mb-2">
                         <x-form.error name="rate" />
-                    </div>
+                    </div> 
                 </div>
                 <div class="col-4 p-0">
                     <button class="btn btn-primary">Create Profit Margin</button>

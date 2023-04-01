@@ -32,6 +32,31 @@
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="col-6 form-group">
+                <label class="form-label">Applied For</label>
+                <select wire:model="surcharge.applied_for" class="form-control custom-select">
+                    <option value="all">All Orders</option>
+                    <option value="zone">Zones</option>
+                    <option value="country">Countries</option>
+                </select>
+                <x-form.error name="surcharge.applied_for" />
+            </div>
+            <div class="col-6 form-group mb-0">
+                <label class="form-label">{!! $applied_for_txt !!}</label>
+                <select id="applied_for_id" wire:model="surcharge.applied_for_id" class="form-control custom-select">
+                    @if ($applied_for_items !== null && $applied_for_items->count())
+                        @foreach ($applied_for_items as $items)
+                            <option value="{{ $items->id }}">{{ $items->name }}</option>
+                        @endforeach
+                    @else
+                        <option value="0">All</option>
+                    @endif
+                </select>
+                <x-form.error name="surcharge.applied_for_id" />
+            </div>
+        </div>
+
 
         <div class="form-row">
             <div class="col-6 form-group mb-0">
@@ -109,7 +134,7 @@
         </div>
 
         <div class="col-md-12 p-0">
-            <button class="btn btn-primary">Create Surcharge</button>
+            <button class="btn btn-primary">Update Surcharge</button>
         </div>
     </form>
     <script>
@@ -119,5 +144,10 @@
                 icon: 'success'
             });
         })
+
+        // $('#applied_for_id').on('change', function() {
+        //     console.log($(this).val());
+        //     @this.set('surcharge.applied_for_id', $(this).val())
+        // });
     </script>
 </div>

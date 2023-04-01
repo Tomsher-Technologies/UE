@@ -25,7 +25,7 @@ class Create extends Component
     public $type = 'all';
 
     public $applied_for = 'all';
-    public $applied_for_id;
+    public $applied_for_id = 0;
 
     public $applied_for_txt = "&nbsp;";
     public $applied_for_items = NULL;

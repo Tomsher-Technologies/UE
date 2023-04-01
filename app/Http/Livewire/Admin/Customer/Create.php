@@ -19,7 +19,7 @@ class Create extends Component
     public $phone;
     public $password;
     public $address;
-    public $msp;
+    public $msp = 0;
     public $request_limit;
     public $limit_weight;
     public $msp_type = 'percentage';
@@ -102,8 +102,8 @@ class Create extends Component
             'msp' => $this->msp !== "" ? $this->msp : NULL,
             'msp_type' => $this->msp_type,
             'image' => Str::remove('public/', $storedImage),
-            'request_limit' => $this->request_limit,
-            'limit_weight' => $this->limit_weight,
+            'request_limit' => $this->request_limit == '' ? 0 : $this->request_limit,
+            'limit_weight' => $this->limit_weight == '' ? 0 : $this->limit_weight,
             'rate_sheet_status' => $this->rate_sheet_status,
         ]);
 

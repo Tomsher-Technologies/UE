@@ -27,7 +27,7 @@ class ProfitMarginEdit extends Component
     public $end_weight;
     public $applied_for = 'all';
     public $applied_for_id;
-
+ 
 
     protected function rules()
     {
@@ -36,6 +36,8 @@ class ProfitMarginEdit extends Component
             'margin.integrator_id' => 'required',
             'margin.rate_type' => 'required',
             'margin.rate' => ['required'],
+            'margin.product_type' => ['required'],
+            'margin.start_date' => ['nullable'],
             'margin.weight' => ['required', 'lt:margin.end_weight'],
             'margin.end_weight' => ['required', 'gt:margin.weight'],
             'margin.applied_for' => ['required'],

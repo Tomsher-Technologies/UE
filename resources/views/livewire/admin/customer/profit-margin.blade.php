@@ -3,7 +3,7 @@
         <div class="page-section">
             <div class="page-separator justify-content-between">
                 <div class="page-separator__text">Add Profit Margin</div>
-                <a href="{{ route('admin.customer.profitMargin.import', $element ) }}" class="btn btn-primary">
+                <a href="{{ route('admin.customer.profitMargin.import', $element) }}" class="btn btn-primary">
                     Import Profit Margin
                 </a>
             </div>
@@ -51,6 +51,23 @@
                             @endif
                         </select>
                         <x-form.error name="applied_for_id" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-6 form-group">
+                        <label class="form-label">Product Type</label>
+                        <select wire:model="product_type" class="form-control">
+                            <option value="all">All</option>
+                            <option value="letter">Letter / Envelope</option>
+                            <option value="doc">Document</option>
+                            <option value="package">Package / Non-Doc</option>
+                        </select>
+                        <x-form.error name="product_type" />
+                    </div>
+                    <div class="col-6 form-group mb-0">
+                        <label class="form-label">Start Date</label>
+                        <input wire:model="start_date" type="date" class="form-control mb-2">
+                        <x-form.error name="start_date" />
                     </div>
                 </div>
                 <div class="form-row">

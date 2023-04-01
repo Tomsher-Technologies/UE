@@ -13,7 +13,7 @@
                             <x-form.error name="grade.name" />
                         </div>
                     </div>
-                    <div class="form-row">
+                    {{-- <div class="form-row">
                         <div class="col-6 form-group">
                             <label class="form-label">MSP Type</label>
                             <select wire:model="grade.msp_type" class="form-control custom-select">
@@ -27,7 +27,7 @@
                             <input wire:model="grade.msp" type="number" step=".1" class="form-control mb-2">
                             <x-form.error name="grade.msp" />
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-row">
                         <div class="col-6 form-group">
                             <label class="form-label">Profit Margin</label>

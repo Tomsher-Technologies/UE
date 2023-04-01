@@ -23,8 +23,12 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
         ->where('end_weight', '>=', $billable_weight)
         ->whereDate('start_date', '<=', $today->startOfDay())
         ->whereDate('end_date', '>=', $today->endOfDay())
-        ->orderBy('sort_order','ASC')
+        ->orWhere('start_date', null)
+        ->orWhere('end_date', null)
+        ->orderBy('sort_order', 'ASC')
         ->get();
+
+    // dd($surcharges);
 
     $surcharges = $surcharges->reject(function ($surcharge) use ($zone_code, $country) {
         if ($surcharge->applied_for == 'all') {
@@ -39,6 +43,10 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
         return true;
     });
 
+    // dd($surcharges);
+
+    $total_surcharge_rate = 0;
+
     foreach ($surcharges as $surcharge) {
         $surcharge_rate = 0;
 
@@ -48,12 +56,14 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
             $surcharge_rate = ($surcharge->rate / 100) * $rate;
         }
 
-        if($surcharge->per_weight){
+        if ($surcharge->per_weight) {
             $surcharge_rate = $surcharge_rate * $billable_weight;
         }
 
-        return $surcharge_rate;
+        $rate += $surcharge_rate;
     }
+
+    return $rate;
 }
 
 
@@ -68,7 +78,7 @@ function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, 
         ->whereIn('type', array('all', $type))
         ->where('weight', '<=', $billable_weight)
         ->where('end_weight', '>=', $billable_weight)
-        ->where('product_type', $package_type)
+        ->whereIn('product_type', array('all', $package_type))
         ->whereIn('integrator_id', array(0, $integrator_id))
         ->whereDate('start_date', '<=', Carbon::now()->startOfDay())
         ->get();
@@ -87,7 +97,6 @@ function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, 
         return true;
     });
 
-    // dd($userMargins);
 
     return $userMargins;
 }
@@ -101,14 +110,15 @@ function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $typ
         if ($userMargin->rate_type == 'amount') {
             $total_margin += $userMargin->rate;
         } else {
-            $total_margin += $userMargin->rate * $rate;
-            // $total_margin += ($userMargin->rate / 100) * $rate;
+            // $total_margin += $userMargin->rate * $rate;
+            $total_margin += ($userMargin->rate / 100) * $rate;
         }
     }
 
-    if (Auth()->user()->isA('reselleruser')) {
-        $parent_user_margin = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->parent_id, $rate);
+    // dd($total_margin);
 
+    if (Auth()->user()->isA('reselleruser')) {
+        $parent_user_margin = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->parent_id, $rate, $package_type);
         if ($parent_user_margin->count()) {
             foreach ($parent_user_margin as $userMargin) {
                 if ($userMargin->rate_type == 'amount') {
@@ -121,21 +131,41 @@ function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $typ
         }
     }
 
-    $gradeMargins = $grade
-        ->profitmargin()
-        ->where('type', array('all', $type))
-        ->whereIn('integrator_id', [$integrator_id, 0])
-        ->where('weight', '<=', $billable_weight)
-        ->where('end_weight', '>=', $billable_weight)
-        ->get();
+    // dd($userMargins->count());
 
-    foreach ($gradeMargins as $margin) {
-        if ($margin->rate_type == 'amount') {
-            $total_margin += $margin->rate;
-        } else {
-            $total_margin += ($margin->rate / 100) * $rate;
+    if ($userMargins->count() <= 0) {
+        $gradeMargins = $grade
+            ->profitmargin()
+            ->where('type', array('all', $type))
+            ->whereIn('integrator_id', [$integrator_id, 0])
+            ->where('weight', '<=', $billable_weight)
+            ->where('end_weight', '>=', $billable_weight)
+            ->get();
+
+        foreach ($gradeMargins as $margin) {
+            if ($margin->rate_type == 'amount') {
+                $total_margin += $margin->rate;
+            } else {
+                $total_margin += ($margin->rate / 100) * $rate;
+            }
         }
     }
+
+    // $gradeMargins = $grade
+    //     ->profitmargin()
+    //     ->where('type', array('all', $type))
+    //     ->whereIn('integrator_id', [$integrator_id, 0])
+    //     ->where('weight', '<=', $billable_weight)
+    //     ->where('end_weight', '>=', $billable_weight)
+    //     ->get();
+
+    // foreach ($gradeMargins as $margin) {
+    //     if ($margin->rate_type == 'amount') {
+    //         $total_margin += $margin->rate;
+    //     } else {
+    //         $total_margin += ($margin->rate / 100) * $rate;
+    //     }
+    // }
 
     return $total_margin;
 }

@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Admin\Surcharge;
 
 use App\Models\Integrators\Integrator;
 use App\Models\Surcharge\Surcharge;
+use App\Models\Zones\Country;
+use App\Models\Zones\Zone;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
@@ -13,6 +15,10 @@ class Edit extends Component
     public Surcharge $surcharge;
 
     public $integrators;
+
+    public $applied_for_txt = "&nbsp;";
+    public $applied_for_items = NULL;
+
 
     protected function rules()
     {
@@ -59,11 +65,61 @@ class Edit extends Component
 
     public function updated($propertyName)
     {
+        $this->dispatchBrowserEvent('contentChanged');
         $this->validateOnly($propertyName);
     }
 
     public function render()
     {
+        if ($this->surcharge->applied_for == 'zone') {
+            $this->getZones();
+        }
         return view('livewire.admin.surcharge.edit');
+    }
+
+    public function getZones()
+    {
+        // dd($this->surcharge->integrator_id);
+        $this->applied_for_items = Zone::where('type', $this->surcharge->type)->where('integrator_id', $this->surcharge->integrator_id)->select('zone_code as name', 'zone_code as id')->distinct('zone_code')->get();
+        // dd($this->applied_for_items);
+        if ($this->applied_for_items->count()) {
+            $this->surcharge->applied_for_id = $this->applied_for_items->first()->id;
+        }
+    }
+
+    public function updatedSurchargeIntegratorId()
+    {
+        if ($this->surcharge->applied_for == 'zone') {
+            $this->getZones();
+        }
+    }
+
+    public function updatedSurchargeType()
+    {
+        if ($this->surcharge->applied_for == 'zone') {
+            $this->getZones();
+        }
+    }
+
+    // public function updatedSurchargeAppliedForId($value){
+    //     dd($value);
+    //     $this->surcharge->applied_for_id = $value;
+    //     $this->surcharge->save();
+    // }
+
+    public function updatedSurchargeAppliedFor($value)
+    {
+        if ($value == 'zone') {
+            $this->applied_for_txt = "Select Zone";
+            $this->getZones();
+        } else if ($value == 'country') {
+            $this->applied_for_txt = "Select Country";
+            $this->applied_for_items = Country::all();
+            $this->surcharge->applied_for_id = 1;
+        } else {
+            $this->applied_for_txt = "&nbsp;";
+            $this->applied_for_items = NULL;
+            $this->surcharge->applied_for_id = 0;
+        }
     }
 }

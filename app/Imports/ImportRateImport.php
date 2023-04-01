@@ -54,7 +54,16 @@ class ImportRateImport implements ToCollection
 
         $weights = [];
 
-        // dd($this->headings);
+        // Delete Old Rate
+        OverWeightRate::where([
+            'integrator_id' => $this->integrator,
+            'shipment_type' => $this->type,
+        ])->delete();
+
+        $model::where([
+            'integrator_id' => $this->integrator,
+        ])->delete();
+
 
         foreach ($rows as $row) {
             $weight = $row[0];
@@ -64,7 +73,6 @@ class ImportRateImport implements ToCollection
             $pack_type = $row[1];
             foreach ($this->headings as $index => $heading) {
                 if ($heading_ids->where('zone_code', $heading)->first()) {
-
                     // if weight break is specified
                     if (isset($weight_break[1])) {
                         $model = OverWeightRate::updateOrCreate([
@@ -74,11 +82,15 @@ class ImportRateImport implements ToCollection
                             'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
                             // 'zone_id' => 1,
                             'zone_code' => $heading,
+                            'shipment_type' => $this->type,
                             'pack_type' => $pack_type
                         ], [
                             'rate' => $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0
                         ]);
                     } else {
+
+
+
                         $model = $model::updateOrCreate([
                             'integrator_id' => $this->integrator,
                             'weight' => (float)$weight,

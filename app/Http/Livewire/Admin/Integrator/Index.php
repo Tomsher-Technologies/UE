@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Integrator;
 
 use App\Models\Integrators\Integrator;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -36,6 +37,7 @@ class Index extends Component
     public function deleteUser($id)
     {
         $status = Integrator::where('id', $id)->first()->delete();
+        Cache::forget('integrators');
         if ($status) {
             $this->dispatchBrowserEvent('modelDeleted');
         } else {

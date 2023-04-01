@@ -34,7 +34,7 @@ class OrderConformation extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $subject = 'Your booking has been place';
+        $subject = 'Your booking has been placed';
 
         return $this->subject($subject)
             ->view('email.admin.newuser')

@@ -38,8 +38,8 @@ class Edit extends Component
             'user.is_sales' => ['required'],
             'customerDetails.phone' => ['nullable'],
             'customerDetails.address' => ['nullable'],
-            'customerDetails.msp' => ['nullable', 'integer'],
-            'customerDetails.msp_type' => ['nullable'],
+            // 'customerDetails.msp' => ['nullable', 'integer'],
+            // 'customerDetails.msp_type' => ['nullable'],
             'customerDetails.request_limit' => ['nullable'],
             'customerDetails.limit_weight' => ['nullable'],
             'customerDetails.rate_sheet_status' => 'required',
@@ -88,7 +88,7 @@ class Edit extends Component
 
         if ($this->customerDetails->rate_sheet_status) {
             $this->user->allow('download-rate-sheet');
-        }else{
+        } else {
             $this->user->disallow('download-rate-sheet');
         }
 
@@ -117,12 +117,19 @@ class Edit extends Component
     public function mount($user)
     {
         $this->user = $user;
+        if($user->customerDetails == null){
+            $user->customerDetails()->create([
+                'rate_sheet_status' => 0,
+            ]);
+            $user->load(['customerDetails']);
+        }
         $this->customerDetails = $user->customerDetails;
         $this->grades = Grade::all();
     }
 
-    public function updated($propertyName)
+    public function updated($propertyName, $value)
     {
+        $this->{$propertyName} = $this->cleanInput($value);
         $this->validateOnly($propertyName);
     }
 
@@ -130,5 +137,14 @@ class Edit extends Component
     {
         $this->c_image = $this->customerDetails->getProfileImage();
         return view('livewire.admin.customer.edit');
+    }
+
+    protected function cleanInput($input)
+    {
+        $input = trim($input);
+        if ($input === '') {
+            $input = null;
+        }
+        return $input;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Integrator;
 
 use App\Models\Integrators\Integrator;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -69,6 +70,8 @@ class Edit extends Component
         }
 
         $this->integrator->save();
+
+        Cache::forget('integrators');
 
         $this->dispatchBrowserEvent('memberUpdated');
     }
