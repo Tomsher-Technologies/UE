@@ -24,6 +24,7 @@ use App\Models\Orders\Search;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
 
@@ -35,15 +36,19 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
 
     Route::get('/test', function () {
 
-        $order = Order::find(5);
-        $integrator = Integrator::find(1);
-        $search = Search::with(['items', 'toCountry', 'fromCountry'])->find(1);
+        $response2 = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/GetHawbLables',  array('RPX201803661HK54')  );
 
-        return view('reseller.pages.order.success')->with([
-            'integrator' => $integrator,
-            'order' => $order,
-            'search' => $search,
-        ]);
+        dd($response2->json());
+
+        // $order = Order::find(5);
+        // $integrator = Integrator::find(1);
+        // $search = Search::with(['items', 'toCountry', 'fromCountry'])->find(1);
+
+        // return view('reseller.pages.order.success')->with([
+        //     'integrator' => $integrator,
+        //     'order' => $order,
+        //     'search' => $search,
+        // ]);
     });
 
     Route::middleware(['guest'])->group(function () {

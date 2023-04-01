@@ -85,9 +85,9 @@ class BookingController extends Controller
         $requestArray["ReceiverZip"] = $search->to_pin == NULL ? 0 : $search->to_pin;
         $requestArray["ReceiverContactPerson"] = $request->receiver_contact_person;
 
-        $requestArray["Weight"] = $request->totalweight;
+        $requestArray["Weight"] = (float)$request->totalweight;
         $requestArray["DeclareCurrency"] = "AED";
-        $requestArray["DeclareValue"] = $request->rate;
+        $requestArray["DeclareValue"] = (float)$request->rate;
         $requestArray["ServiceCode"] = $integrator->service_code;
         $requestArray["DutyType"] = "DDU";
         $requestArray["Content"] = $request->item_name;
@@ -110,7 +110,7 @@ class BookingController extends Controller
             'Content' => $request->item_name,
             'Price' => 1.0,
             'Pieces' => $search->number_of_pieces,
-            "Weight" => $request->totalweight,
+            "Weight" => (float)$request->totalweight,
             "HsCode" => "",
             "WebSite" => ""
         );
@@ -118,10 +118,10 @@ class BookingController extends Controller
         foreach ($search->items as $item) {
             $requestArray["hawbChildren"][] = array(
                 "ChildCustomerHawb" => $request->item_name,
-                "Weight" => $item->weight,
-                "Height" => $item->height,
-                "Width" => $item->width,
-                "Length" => $item->length
+                "Weight" => (float)$item->weight,
+                "Height" => (float)$item->height,
+                "Width" => (float)$item->width,
+                "Length" => (float)$item->length
             );
         }
 
@@ -130,6 +130,11 @@ class BookingController extends Controller
         $responseCollection = $response->json('result');
 
         if ($response->status() == 200 && $responseCollection['result']) {
+
+            $response2 = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/GetHawbLables', array($responseCollection['hawbNumber']));
+
+            dd($response2->json('result'));
+
             $order->update([
                 'hawbNumber' => $responseCollection['hawbNumber'],
                 'invoice_url' => $responseCollection['resultMsg'],
@@ -137,8 +142,8 @@ class BookingController extends Controller
             ]);
             $order->save();
 
-            $mailer = new MailController();
-            $mailer->newBooking(Auth()->user(), $order);
+            // $mailer = new MailController();
+            // $mailer->newBooking(Auth()->user(), $order);
         } else {
             $order->update([
                 'invoice_url' => $responseCollection['resultMsg'],
@@ -147,7 +152,9 @@ class BookingController extends Controller
             $order->save();
         }
 
-        return redirect()->route('reseller.booking.history.details',$order);
+        // dd($responseCollection);
+
+        return redirect()->route('reseller.booking.history.details', $order);
 
         // return view('reseller.pages.order.success')->with([
         //     'order' => $order,

@@ -63,7 +63,7 @@
                         @foreach ($applied_for_items as $items)
                             <option value="{{ $items->id }}">{{ $items->name }}</option>
                         @endforeach
-                    @else
+                    @else 
                         <option value="0">All</option>
                     @endif
                 </select>

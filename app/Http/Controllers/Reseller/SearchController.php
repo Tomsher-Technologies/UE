@@ -36,15 +36,12 @@ class SearchController extends Controller
         $package_type = $request->package_type;
 
         if ($del_type == 'export') {
-            // $del_type = 'export';
             $model = ExportRate::class;
             $country = $request->toCountry;
         } else if ($del_type == 'import') {
-            // $del_type = 'import';
             $country = $request->fromCountry;
             $model = ImportRate::class;
         } else {
-            // $del_type = 'transit';
             $country = $request->toCountry;
             $model = TransitRate::class;
         }
@@ -58,7 +55,6 @@ class SearchController extends Controller
             ->get();
 
         foreach ($integrators as $integrator) {
-
             $billable_weight = $this->calculateWeight($request, $integrator->integrator_code);
             $integrator->billable_weight = $billable_weight;
 
@@ -68,15 +64,10 @@ class SearchController extends Controller
                 $zone_code = $zone->zone_code;
             }
 
-            // if ($integrator->id == 2) {
-            //     dd($zone);
-            // }
-
-            // $integrator->zones = $zone;
 
             if ($zone) {
-                // overweight
                 $over_weight = OverWeightRate::where('integrator_id', $integrator->id)
+                    ->where('shipment_type', $del_type)
                     ->where('zone_code', $zone_code)
                     ->where('from_weight', '<=', $billable_weight)
                     ->where('end_weight', '>=', $billable_weight)
@@ -85,15 +76,19 @@ class SearchController extends Controller
                 if ($over_weight && $over_weight->count()) {
                     $integrator->weight = $over_weight;
 
-                    $highest  = $model::where('zone_code', $zone_code)->where('integrator_id', $integrator->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
+                    // $highest  = $model::where('zone_code', $zone_code)->where('integrator_id', $integrator->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
 
-                    $wei = $billable_weight * $integrator->rate_multiplrrier;
+                    $wei = $billable_weight * $integrator->rate_multiplier;
 
                     $integrator->weight->rate *= $wei;
 
-                    if ($highest) {
-                        $integrator->weight->rate += $highest->rate;
-                    }
+                    // if ($integrator->id == 2) {
+                    //     dd($over_weight);
+                    // }
+
+                    // if ($highest) {
+                    //     $integrator->weight->rate += $highest->rate;
+                    // }
                 } else {
                     $weight = $model::where('zone_code', $zone_code)->where('integrator_id', $integrator->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
                     $integrator->weight = $weight;
@@ -120,9 +115,9 @@ class SearchController extends Controller
                     }
 
                     // add surcharge
-                    $integrator->weight->rate += getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $integrator->weight->rate);
+                    $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $integrator->weight->rate);
 
-                    // // add profit margin
+                    // // // add profit margin
                     $integrator->weight->rate +=  getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $del_type, $grade, $integrator->weight->rate, $request->package_type);
 
                     // // Round rate for final result

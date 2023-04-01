@@ -16,7 +16,7 @@ class Grade extends Component
 
     public $name;
     public $msp_type = 'percentage';
-    public $msp;
+    public $msp = 0;
     public $profit_margin_type = 'percentage';
     public $profit_margin;
 

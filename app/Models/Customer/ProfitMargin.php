@@ -48,4 +48,8 @@ class ProfitMargin extends Model
         }
         return "";
     }
+
+    protected $casts = [
+        'start_date' => 'date:Y-m-d',
+    ];
 }

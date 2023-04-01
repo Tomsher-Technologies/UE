@@ -44,7 +44,7 @@
         </div>
 
 
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="form-label">MSP Type</label>
             <select wire:model="customerDetails.msp_type" class="form-control custom-select">
                 <option value="percentage">Percentage</option>
@@ -56,7 +56,7 @@
             <label class="form-label">MSP</label>
             <input wire:model="customerDetails.msp" type="number" class="form-control mb-2">
             <x-form.error name="customerDetails.msp" />
-        </div>
+        </div> --}}
 
         {{-- <div class="form-group">
             <label class="form-label">Profit Margin</label>

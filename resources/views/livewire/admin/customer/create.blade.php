@@ -31,19 +31,19 @@
             <x-form.error name="grade" />
         </div>
 
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="form-label">MSP Type</label>
             <select wire:model="msp_type" class="form-control custom-select">
                 <option value="percentage">Percentage</option>
                 <option value="amount">Amount</option>
             </select>
             <x-form.error name="msp_type" />
-        </div>
-        <div class="form-group">
+        </div> --}}
+        {{-- <div class="form-group">
             <label class="form-label">MSP</label>
             <input wire:model="msp" type="number" step=".1" class="form-control mb-2">
             <x-form.error name="msp" />
-        </div>
+        </div> --}}
 
         <div class="form-group">
             <label class="form-label">Special request limit per day</label>

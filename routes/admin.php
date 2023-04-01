@@ -21,14 +21,16 @@ use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
 use App\Http\Livewire\Admin\Search\SearchHistory;
 use App\Mail\Admin\NewCustomerMail;
 use App\Models\Common\Settings;
+use App\Models\Integrators\Uploads;
 use App\Models\Orders\Search;
 use App\Models\User;
 use App\Notifications\Admin\NewUserNotification;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Session;
 
 Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], function () {
 
@@ -37,15 +39,20 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
     });
 
     Route::get('/test', function () {
-        $oda_controller = new ODAController();
 
-        $search_id = Search::find(19);
+        // Uploads::where([
+        //     'path' => 'storage/uploaded/rates/1674016148DHL Import.csv/1674016148DHL Import.csv'
+        // ])->delete();
 
-        // dd($search_id);
+        // $oda_controller = new ODAController();
 
-        $oda_charge = $oda_controller->checkODA('dhl', $search_id);
+        // $search_id = Search::find(19);
 
-        dd($oda_charge);
+        // // dd($search_id);
+
+        // $oda_charge = $oda_controller->checkODA('dhl', $search_id);
+
+        // dd($oda_charge);
     });
 
     // Route::get('/test', [HubEzController::class, 'placeOrder']);
