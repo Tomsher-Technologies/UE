@@ -291,11 +291,15 @@ class IntegratorController extends Controller
         $transit = TransitRate::where('integrator_id', $integrator->id)->get();
         $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
 
+
+
         $unique_weight = [];
 
         foreach ($unique_types as $unique_type) {
             $unique_weight[$unique_type] = $transit->where('pack_type', '=', $unique_type)->pluck('weight')->unique();
         }
+
+        // dd($unique_weight);
 
         $collection1 = new Collection([]);
 
@@ -303,7 +307,7 @@ class IntegratorController extends Controller
             foreach ($unique_weight[$unique_type] as $weight) {
                 $array = [];
                 foreach ($transit_zone_unique as  $zone) {
-                    $rate = $transit->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+                    $rate = $transit->where('pack_type', $unique_type)->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
                     if ($rate) {
                         $array['weight'] = $weight;
                         $array['type'] = $unique_type;
@@ -335,7 +339,7 @@ class IntegratorController extends Controller
             foreach ($unique_weight[$unique_type] as $weight) {
                 $array = [];
                 foreach ($import_zone_unique as  $zone) {
-                    $rate = $transit->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+                    $rate = $transit->where('pack_type', $unique_type)->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
                     if ($rate) {
                         $array['weight'] = $weight;
                         $array['type'] = $unique_type;
@@ -366,7 +370,7 @@ class IntegratorController extends Controller
             foreach ($unique_weight[$unique_type] as $weight) {
                 $array = [];
                 foreach ($export_zone_unique as  $zone) {
-                    $rate = $transit->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+                    $rate = $transit->where('pack_type', $unique_type)->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
                     if ($rate) {
                         $array['weight'] = $weight;
                         $array['type'] = $unique_type;
