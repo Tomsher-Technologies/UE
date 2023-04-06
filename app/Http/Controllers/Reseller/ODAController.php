@@ -109,16 +109,16 @@ class ODAController extends Controller
             $phpArray = json_decode($json, true);
 
 
-            if ( isset($phpArray['GetQuoteResponse']) ) {
+            if (isset($phpArray['GetQuoteResponse'])) {
                 if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
-                    if ( isset($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp'] ['QtdShpExChrg'])) {
+                    if (isset($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'])) {
                         // dd($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']);
                         foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $item) {
                             if (isset($item['GlobalServiceName']) && $item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
                                 return (int)$item['ChargeValue'];
                             }
                         }
-                    }else{
+                    } else {
                         foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp'] as $item) {
                             if (isset($item['GlobalServiceName']) && $item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
                                 return (int)$item['ChargeValue'];
@@ -135,6 +135,27 @@ class ODAController extends Controller
     public function ups(Search $search, $weight, $length, $height, $width)
     {
         $url = "https://onlinetools.ups.com/ups.app/xml/ShipConfirm";
+
+        $pin = 0;
+        $provice_code = '';
+
+        if ($search->fromCountry->code == 'US') {
+            $pin = $search->from_pin;
+        } else if ($search->fromCountry->code == 'US') {
+            $pin = $search->to_pin;
+        }
+
+        if ($pin != 0) {
+            $res = Http::send('POST', 'http://postalcode.parseapi.com/api/885ca868ff01a9f6ddc424d2d0a84cac/75007', ['verify' => false]);
+            if ($res->status() == '200') {
+                $json = json_decode($res->body());
+                if (isset($json->state)) {
+                    $provice_code = $json->state->alpha2;
+                }
+            }
+        }
+
+
 
         $xml = '<?xml version="1.0"?>
         <AccessRequest xml:lang="en-US">
@@ -172,11 +193,15 @@ class ODAController extends Controller
                     <AttentionName>Universal</AttentionName>
                     <PhoneNumber>1234567890</PhoneNumber>
                     <Address>
-                        <AddressLine1>2501 E BLANCO BLVD UNIT D BLOOMFIELD</AddressLine1>
-                        <City>BLOOMFIELD</City>
-                        <PostalCode>87413</PostalCode>
-                        <StateProvinceCode>NJ</StateProvinceCode>
-                        <CountryCode>US</CountryCode>
+                        <AddressLine1>' . $search->to_city . '</AddressLine1>
+                        <City>' . $search->to_city . '</City>
+                        <PostalCode>' . $search->to_pin . '</PostalCode>';
+
+        if ($provice_code !== '') {
+            $xml .= '<StateProvinceCode>' . $provice_code . '</StateProvinceCode>';
+        }
+
+        $xml .= '<CountryCode>' . $search->toCountry->code . '</CountryCode>
                     </Address>
                 </ShipTo>
                 <ShipFrom>
@@ -184,11 +209,10 @@ class ODAController extends Controller
                     <AttentionName>Tomsher</AttentionName>
                     <PhoneNumber>505491096</PhoneNumber>
                     <Address>
-                        <AddressLine1>Wafi Residence</AddressLine1>
-                        <AddressLine2>Oud Metha Rd - Umm Hurair 2</AddressLine2>
-                        <City>Dubai</City>
-                        <PostalCode>0</PostalCode>
-                        <CountryCode>AE</CountryCode>
+                        <AddressLine1>' . $search->fromCountry->city . '</AddressLine1>
+                        <City>' . $search->fromCountry->city . '</City>
+                        <PostalCode>' . $search->from_pin . '</PostalCode>
+                        <CountryCode>' . $search->fromCountry->code . '</CountryCode>
                     </Address>
                 </ShipFrom>
                 <PaymentInformation>
@@ -235,7 +259,7 @@ class ODAController extends Controller
                 </LabelImageFormat>
             </LabelSpecification>
         </ShipmentConfirmRequest>';
-
+        
         $xml = '<?xml version="1.0"?>
         <AccessRequest xml:lang="en-US">
             <AccessLicenseNumber>4DB0A329A26C3492</AccessLicenseNumber>
@@ -344,26 +368,32 @@ class ODAController extends Controller
         // dd($xml);
         // dd($res->body());
 
-        // if ($res->status() == '200') {
-            
-        //     $xmlObject = simplexml_load_string($res->body());
+        if ($res->status() == '200') {
 
-        //     $json = json_encode($xmlObject);
-        //     $phpArray = json_decode($json, true);
+            $xmlObject = simplexml_load_string($res->body());
 
-        //     if ($phpArray['GetQuoteResponse'] && $phpArray['Response']['ResponseStatusDescription'] !== 'Failure') {
-        //         if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
-        //             if ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']) {
-        //                 // dd($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']);
-        //                 foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $item) {
-        //                     if ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
-        //                         return (int)$item['ChargeValue'];
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+            $json = json_encode($xmlObject);
+            $phpArray = json_decode($json, true);
+
+            // dd($phpArray );
+
+            if ($phpArray['Response'] && $phpArray['Response']['ResponseStatusDescription'] !== 'Failure') {
+                
+
+
+                
+                // if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
+                //     if ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']) {
+                //         // dd($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']);
+                //         foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $item) {
+                //             if ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
+                //                 return (int)$item['ChargeValue'];
+                //             }
+                //         }
+                //     }
+                // }
+            }
+        }
 
         return 0;
     }

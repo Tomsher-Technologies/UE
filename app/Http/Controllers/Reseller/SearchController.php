@@ -54,16 +54,20 @@ class SearchController extends Controller
             ->whereIn('pincode', [$request->toPincode, $request->toCity])
             ->get();
 
+        $country_id = [];
+        $c_code = Country::where('id', $country)->get()->first()->code;
+        $country_id = Country::where('code', $c_code)->get()->pluck('id')->toArray();
+
+
         foreach ($integrators as $integrator) {
             $billable_weight = $this->calculateWeight($request, $integrator->integrator_code);
             $integrator->billable_weight = $billable_weight;
 
-            $zone = Zone::where('integrator_id', $integrator->id)->where('type', $del_type)->where('country_id', $country)->first();
+            $zone = Zone::where('integrator_id', $integrator->id)->where('type', $del_type)->whereIn('country_id', $country_id)->first();
 
             if ($zone) {
                 $zone_code = $zone->zone_code;
             }
-
 
             if ($zone) {
                 $over_weight = OverWeightRate::where('integrator_id', $integrator->id)

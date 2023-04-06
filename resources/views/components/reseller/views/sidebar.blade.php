@@ -68,7 +68,7 @@
                 </li>
 
                 @if (auth()->user()->isA('reseller') && auth()->user()->is_sales != true)
-                    <li class="sidebar-menu-item {{ request()->routeIs('reseller.agents*') ? 'active open' : '' }}">
+                    {{-- <li class="sidebar-menu-item {{ request()->routeIs('reseller.agents*') ? 'active open' : '' }}">
                         <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse"
                             href="#enterprise_menu">
                             <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">extension</span>
@@ -89,7 +89,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                 @endif
             </ul>
             <!-- // END Sidebar Content -->
