@@ -20,18 +20,27 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <p>
-                                        From country: <span>{{ $search->fromCountry->name }}</span>
+                                        From: <br>
+                                        <b>{{ $search->fromCountry->name }}</b> <br>
+                                        <b>{{ $search->from_city }}</b> <br>
+                                        <b>{{ $search->from_pin }}</b>
                                     </p>
                                     <p>
-                                        To country: <span>{{ $search->toCountry->name }}</span>
+                                        Shippment type: <b>{{ ucfirst($search->shipment_type) }}</b>
+                                    </p>
+                                    <p>
+                                        No:of pieces: <b>{{ $search->number_of_pieces }}</b>
                                     </p>
                                 </div>
                                 <div class="col-lg-6">
                                     <p>
-                                        Shippment type: <span>{{ ucfirst($search->shipment_type) }}</span>
+                                        To: <br>
+                                        <b>{{ $search->toCountry->name }}</b> <br>
+                                        <b>{{ $search->to_city }}</b> <br>
+                                        <b>{{ $search->to_pin }}</b>
                                     </p>
                                     <p>
-                                        Package type: <span>{{ ucfirst($search->package_type) }}</span>
+                                        Package type: <b>{{ ucfirst($search->package_type) }}</b>
                                     </p>
                                     @if (auth()->user()->is_sales)
                                         <form action="#" class="mt-4">
@@ -41,13 +50,14 @@
                                             <div class="form-row">
                                                 <div class="col-12 col-md-8 mb-3">
                                                     <input id="profit_margin" type="number" class="form-control"
-                                                    name="shipper_name" value="0" required="">
+                                                        name="shipper_name" value="0" required="">
                                                 </div>
                                                 <div class="col-12 col-md-4 mb-3">
                                                     <button type="button" id="change_profit_margin"
-                                                class="btn btn-primary float-right h-100">Change Profit Margin</button>
+                                                        class="btn btn-primary float-right h-100">Change Profit
+                                                        Margin</button>
                                                 </div>
-                                            </div>                                            
+                                            </div>
                                         </form>
                                     @endif
                                 </div>
