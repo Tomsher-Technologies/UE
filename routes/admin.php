@@ -93,7 +93,8 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         Route::get('/profit-margin/{profit_margin}/edit', ProfitMarginEdit::class)->name('profitMargin.edit');
 
         Route::group(['prefix' => 'integrator', 'as' => 'integrator.'], function () {
-            Route::get('/{integrator}/rates', [IntegratorController::class, 'ratesView'])->name('rates');
+            Route::get('/{integrator}/rates/{type?}', [IntegratorController::class, 'ratesView'])->name('rates');
+
             Route::get('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRatesView'])->name('uploadRates');
             Route::post('/{integrator}/upload/rates', [IntegratorController::class, 'uploadRates']);
 

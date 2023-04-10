@@ -52,11 +52,38 @@
                                                     Upload Rates
                                                 </a>
                                             </div>
+
                                             <div class="col-6">
-                                                <a href="{{ route('admin.integrator.rates', $integrator) }}"
-                                                    class="btn btn-primary w-100 mb-2">
-                                                    View Rates
-                                                </a>
+                                                <div class="btn-group w-100" role="group">
+                                                    <button id="btnGroupDrop1" type="button"
+                                                        class="btn btn-primary w-100 mb-2 dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        View Rates
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('admin.integrator.rates', [
+                                                                'integrator' => $integrator,
+                                                                'type' => 'import',
+                                                            ]) }}">
+                                                            Import Rates
+                                                        </a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('admin.integrator.rates', [
+                                                                'integrator' => $integrator,
+                                                                'type' => 'export',
+                                                            ]) }}">
+                                                            Export Rates
+                                                        </a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('admin.integrator.rates', [
+                                                                'integrator' => $integrator,
+                                                                'type' => 'transit',
+                                                            ]) }}">
+                                                            Transit Rates
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
