@@ -282,24 +282,19 @@ class IntegratorController extends Controller
         return view('admin.integrators.views.zone')->with(['zones' => $zones]);
     }
 
-    public function ratesView(Integrator $integrator)
+    public function ratesView(Integrator $integrator, $type = 'import')
     {
-
         // transit
-        $zone = Zone::where('integrator_id', $integrator->id)->where('type', 'transit')->with('country')->get();
+        $zone = Zone::where('integrator_id', $integrator->id)->where('type', $type)->with('country')->get();
         $transit_zone_unique = $zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
         $transit = TransitRate::where('integrator_id', $integrator->id)->get();
         $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
-
-
 
         $unique_weight = [];
 
         foreach ($unique_types as $unique_type) {
             $unique_weight[$unique_type] = $transit->where('pack_type', '=', $unique_type)->pluck('weight')->unique();
         }
-
-        // dd($unique_weight);
 
         $collection1 = new Collection([]);
 
@@ -319,83 +314,80 @@ class IntegratorController extends Controller
             }
         }
 
-        // dd($collection1);
-
         // import
-        $zone = Zone::where('integrator_id', $integrator->id)->where('type', 'import')->with('country')->get();
-        $import_zone_unique = $zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
-        $transit = ImportRate::where('integrator_id', $integrator->id)->get();
-        $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
+        // $zone = Zone::where('integrator_id', $integrator->id)->where('type', 'import')->with('country')->get();
+        // $import_zone_unique = $zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
+        // $transit = ImportRate::where('integrator_id', $integrator->id)->get();
+        // $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
 
-        $unique_weight = [];
+        // $unique_weight = [];
 
-        foreach ($unique_types as $unique_type) {
-            $unique_weight[$unique_type] = $transit->where('pack_type', '=', $unique_type)->pluck('weight')->unique();
-        }
+        // foreach ($unique_types as $unique_type) {
+        //     $unique_weight[$unique_type] = $transit->where('pack_type', '=', $unique_type)->pluck('weight')->unique();
+        // }
 
-        $collection2 = new Collection([]);
+        // $collection2 = new Collection([]);
 
-        foreach ($unique_types as $unique_type) {
-            foreach ($unique_weight[$unique_type] as $weight) {
-                $array = [];
-                foreach ($import_zone_unique as  $zone) {
-                    $rate = $transit->where('pack_type', $unique_type)->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
-                    if ($rate) {
-                        $array['weight'] = $weight;
-                        $array['type'] = $unique_type;
-                        $array[$zone]  = $rate;
-                    }
-                }
+        // foreach ($unique_types as $unique_type) {
+        //     foreach ($unique_weight[$unique_type] as $weight) {
+        //         $array = [];
+        //         foreach ($import_zone_unique as  $zone) {
+        //             $rate = $transit->where('pack_type', $unique_type)->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+        //             if ($rate) {
+        //                 $array['weight'] = $weight;
+        //                 $array['type'] = $unique_type;
+        //                 $array[$zone]  = $rate;
+        //             }
+        //         }
 
-                $collection2->push($array);
-            }
-        }
+        //         $collection2->push($array);
+        //     }
+        // }
 
 
         // export
-        $zone = Zone::where('integrator_id', $integrator->id)->where('type', 'export')->with('country')->get();
-        $export_zone_unique = $zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
-        $transit = ExportRate::where('integrator_id', $integrator->id)->get();
-        $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
+        // $zone = Zone::where('integrator_id', $integrator->id)->where('type', 'export')->with('country')->get();
+        // $export_zone_unique = $zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
+        // $transit = ExportRate::where('integrator_id', $integrator->id)->get();
+        // $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
 
-        $unique_weight = [];
+        // $unique_weight = [];
 
-        foreach ($unique_types as $unique_type) {
-            $unique_weight[$unique_type] = $transit->where('pack_type', '=', $unique_type)->pluck('weight')->unique();
-        }
+        // foreach ($unique_types as $unique_type) {
+        //     $unique_weight[$unique_type] = $transit->where('pack_type', '=', $unique_type)->pluck('weight')->unique();
+        // }
 
-        $collection3 = new Collection([]);
+        // $collection3 = new Collection([]);
 
-        foreach ($unique_types as $unique_type) {
-            foreach ($unique_weight[$unique_type] as $weight) {
-                $array = [];
-                foreach ($export_zone_unique as  $zone) {
-                    $rate = $transit->where('pack_type', $unique_type)->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
-                    if ($rate) {
-                        $array['weight'] = $weight;
-                        $array['type'] = $unique_type;
-                        $array[$zone]  = $rate;
-                    }
-                }
+        // foreach ($unique_types as $unique_type) {
+        //     foreach ($unique_weight[$unique_type] as $weight) {
+        //         $array = [];
+        //         foreach ($export_zone_unique as  $zone) {
+        //             $rate = $transit->where('pack_type', $unique_type)->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+        //             if ($rate) {
+        //                 $array['weight'] = $weight;
+        //                 $array['type'] = $unique_type;
+        //                 $array[$zone]  = $rate;
+        //             }
+        //         }
 
-                if (!empty($array)) {
-                    $collection3->push($array);
-                }
-            }
-        }
+        //         if (!empty($array)) {
+        //             $collection3->push($array);
+        //         }
+        //     }
+        // }
 
         // dd($collection1->sortBy('type'));
 
-
-
         return view('admin.integrators.views.rate')
             ->with([
-                'transit' => $collection1->sortBy(['type', 'weight']),
-                'transit_zones' => $transit_zone_unique,
-                'import' => $collection2->sortBy(['type', 'weight']),
-                'import_zones' => $import_zone_unique,
-                'export' => $collection3->sortBy(['type', 'weight']),
-                'export_zones' => $export_zone_unique,
+                'rates' => $collection1->sortBy(['type', 'weight']),
+                'zones' => $transit_zone_unique,
+                'type' => $type,
+                // 'import' => $collection2->sortBy(['type', 'weight']),
+                // 'import_zones' => $import_zone_unique,
+                // 'export' => $collection3->sortBy(['type', 'weight']),
+                // 'export_zones' => $export_zone_unique,
             ]);
 
         // $export = ExportRate::where('integrator_id', $integrator->id)->get();
