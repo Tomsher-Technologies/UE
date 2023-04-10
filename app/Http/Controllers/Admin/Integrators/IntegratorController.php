@@ -285,9 +285,18 @@ class IntegratorController extends Controller
     public function ratesView(Integrator $integrator, $type = 'import')
     {
         // transit
+
+        if ($type == 'export') {
+            $model = ExportRate::class;
+        } else if ($type == 'import') {
+            $model = ImportRate::class;
+        } else {
+            $model = TransitRate::class;
+        }
+
         $zone = Zone::where('integrator_id', $integrator->id)->where('type', $type)->with('country')->get();
         $transit_zone_unique = $zone->sortBy('zone_code')->pluck('zone_code')->unique()->toArray();
-        $transit = TransitRate::where('integrator_id', $integrator->id)->get();
+        $transit = $model::where('integrator_id', $integrator->id)->get();
         $unique_types = $transit->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
 
         $unique_weight = [];
