@@ -64,7 +64,10 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
         Route::get('dashboard', [ResellerDashboardController::class, 'index'])->name('dashboard');
 
         Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
-            Route::get('/', [SearchController::class, 'searchView'])->name('search');
+            Route::get('/', function(){
+                return redirect()->route('reseller.dashboard');
+            })->name('search');
+            // Route::get('/', [SearchController::class, 'searchView'])->name('search');
             Route::post('/', [SearchController::class, 'searchNew']);
 
             Route::post('/special-request', [SearchController::class, 'specialRequest'])->name('specialRequest');

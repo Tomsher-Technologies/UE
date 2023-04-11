@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $country, $rate)
+function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $country, $country_code, $rate)
 {
     $today = Carbon::now();
 
@@ -67,11 +67,11 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
 }
 
 
-function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, $user_id, $rate, $package_type)
+function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $country_code, $type, $grade, $user_id, $rate, $package_type)
 {
     $user = User::find($user_id);
 
-    $country_code = Country::where('id', $country)->get()->first()->code;
+    // $country_code = Country::where('id', $country)->get()->first()->code;
 
     $userMargins = $user
         ->profitmargin()
@@ -101,11 +101,11 @@ function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, 
     return $userMargins;
 }
 
-function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, $rate, $package_type)
+function getFrofirMargin($integrator_id, $billable_weight, $zone, $country,$country_code, $type, $grade, $rate, $package_type)
 {
     $total_margin = 0;
 
-    $userMargins = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->id, $rate, $package_type);
+    $userMargins = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $country_code, $type, $grade, Auth()->user()->id, $rate, $package_type);
     foreach ($userMargins as $userMargin) {
         if ($userMargin->rate_type == 'amount') {
             $total_margin += $userMargin->rate;
@@ -118,7 +118,7 @@ function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $typ
     // dd($total_margin);
 
     if (Auth()->user()->isA('reselleruser')) {
-        $parent_user_margin = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $type, $grade, Auth()->user()->parent_id, $rate, $package_type);
+        $parent_user_margin = getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $country_code, $type, $grade, Auth()->user()->parent_id, $rate, $package_type);
         if ($parent_user_margin->count()) {
             foreach ($parent_user_margin as $userMargin) {
                 if ($userMargin->rate_type == 'amount') {
