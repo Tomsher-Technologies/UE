@@ -255,7 +255,5 @@ function secondHighest($arry)
 {
     $numbers = array_unique($arry);
     rsort($numbers);
-    // if (count($numbers) > 1) {
-    // }
     return $numbers[1] ?? $numbers[0];
 }
