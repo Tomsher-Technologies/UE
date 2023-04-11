@@ -33,7 +33,7 @@
                                     <label class="text-black" for="filter_name">Package Type</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select class="form-control" id="type" name="package_type" required>
+                                            <select class="form-control" id="package_type" name="package_type" required>
                                                 <option value="" disabled selected>Select a package type</option>
                                                 <option value="letter">Letter / Envelope</option>
                                                 <option value="doc">Document</option>
@@ -226,7 +226,8 @@
 
                         <div class="row align-items-center">
                             <div class="col-sm-12">
-                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="submit">Quote</button>
+                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="submit"
+                                    id="formSubmit">Quote</button>
                             </div>
                         </div>
                     </form>
@@ -237,15 +238,15 @@
     <div class="page-section border-bottom-2">
         <div class="container page__container">
             <div class="row">
-                <div class="col-lg-4">
+                {{-- <div class="col-lg-4">
                     <div class="card text-center mb-lg-0 bg-grd1 text-light">
                         <div class="card-body">
                             <h4 class="h2 mb-0 text-light">{{ $total_customer }}</h4>
                             <div>Total Sub Agents</div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
+                </div> --}}
+                <div class="col-lg-6">
                     <div class="card text-center mb-lg-0 bg-grd2 text-light">
                         <div class="card-body">
                             <h4 class="h2 mb-0 text-light">{{ $total_search }}</h4>
@@ -253,7 +254,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="card text-center mb-lg-0 bg-grd3 text-light">
                         <div class="card-body">
                             <h4 class="h2 mb-0 text-light">{{ $total_orders }}</h4>
@@ -583,7 +584,7 @@
             } else {
                 country = $('#toCountry').val();
                 city = $('#toCity').val();
-                console.log(city);
+                // console.log(city);
             }
 
             $.ajax({
@@ -837,5 +838,119 @@
                 $('#fromPincode').val("")
             }
         });
+    </script>
+
+    <script>
+        function storeData() {
+            var shipping_type = document.getElementById("type").value;
+            var package_type = document.getElementById("package_type").value;
+
+            var fromCountry = document.getElementById("fromCountry").value;
+            var fromCountry_text = $("#fromCountry option:selected").text();
+            var fromCity = document.getElementById("fromCity").value;
+            var fromPincode = document.getElementById("fromPincode").value;
+
+            var toCountry = document.getElementById("toCountry").value;
+            var toCountry_text = $("#toCountry option:selected").text();
+            var toCity = document.getElementById("toCity").value;
+            var toPincode = document.getElementById("toPincode").value;
+
+            var lengthArry = $('input[name="length[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+            var height = $('input[name="height[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+            var width = $('input[name="width[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+            var weight = $('input[name="weight[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+            var no_piece = $('input[no_piece="length[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+
+            console.log('data stored');
+            sessionStorage.shipping_type = shipping_type;
+            sessionStorage.package_type = package_type;
+
+            sessionStorage.fromCountry = fromCountry;
+            sessionStorage.fromCountry_text = fromCountry_text;
+            sessionStorage.fromCity = fromCity;
+            sessionStorage.fromPincode = fromPincode;
+
+            sessionStorage.toCountry = toCountry;
+            sessionStorage.toCountry_text = toCountry_text;
+            sessionStorage.toCity = toCity;
+            sessionStorage.toPincode = toPincode;
+
+            sessionStorage.lengthArry = length;
+            sessionStorage.height = height;
+            sessionStorage.width = width;
+            sessionStorage.weight = weight;
+            sessionStorage.no_piece = no_piece;
+
+            sessionStorage.clearData = 1
+        }
+
+        function getData() {
+            if (sessionStorage.clearData == 1) {
+                console.log('in get data');
+                if (
+                    sessionStorage.shipping_type &&
+                    sessionStorage.package_type &&
+                    sessionStorage.fromCountry_text &&
+                    sessionStorage.fromCountry &&
+                    sessionStorage.fromCity &&
+                    sessionStorage.fromPincode &&
+                    sessionStorage.toCountry_text &&
+                    sessionStorage.toCountry &&
+                    sessionStorage.toCity &&
+                    sessionStorage.toPincode
+                    // sessionStorage.lengthArry &&
+                    // sessionStorage.height &&
+                    // sessionStorage.width &&
+                    // sessionStorage.weight &&
+                    // sessionStorage.no_piece
+                ) {
+                    console.log('data taken');
+                    document.getElementById("type").value = sessionStorage.shipping_type;
+                    document.getElementById("package_type").value = sessionStorage.package_type;
+
+                    var newOption = new Option(sessionStorage.fromCountry_text, sessionStorage.fromCountry, false, false);
+                    $('#fromCountry').append(newOption).trigger('change');
+                    document.getElementById("fromCity").value = sessionStorage.fromCity;
+                    document.getElementById("fromPincode").value = sessionStorage.fromPincode;
+
+                    var newOption = new Option(sessionStorage.toCountry_text, sessionStorage.toCountry, false, false);
+                    $('#toCountry').append(newOption).trigger('change');
+                    document.getElementById("toCity").value = sessionStorage.toCity;
+                    document.getElementById("toPincode").value = sessionStorage.toPincode;
+
+                    sessionStorage.lengthArry.forEach(function(value, i) {
+                        console.log('%d: %s', i, value);
+                    });
+
+                    sessionStorage.clearData = 0
+                }
+            }
+        }
+
+        $(document).ready(function() {
+            getData();
+            console.log(sessionStorage.clearData);
+        });
+
+        $('#searchForm').submit(function() {
+            storeData();
+            console.log(sessionStorage.clearData);
+        });
+
+        // $('#formSubmit').on('click', function() {
+
+        //     $('#searchForm').submit();
+
+        // });
     </script>
 @endpush

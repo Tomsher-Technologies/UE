@@ -28,7 +28,8 @@ class SearchController extends Controller
 {
     public function searchNew(Request $request)
     {
-        $search_id = $this->saveSearch($request);
+        $search = $this->saveSearch($request);
+        $search_id = $search->id;
 
         $grade = Grade::where('id', Auth::user()->grade_id)->first();
 
@@ -50,13 +51,13 @@ class SearchController extends Controller
             return Integrator::all();
         });
 
-        $od_pincodes = OdPincodes::where('country_id', $country)
-            ->whereIn('pincode', [$request->toPincode, $request->toCity])
-            ->get();
+        // $od_pincodes = OdPincodes::where('country_id', $country)
+        //     ->whereIn('pincode', [$request->toPincode, $request->toCity])
+        //     ->get();
 
         $country_id = [];
-        $c_code = Country::where('id', $country)->get()->first()->code;
-        $country_id = Country::where('code', $c_code)->get()->pluck('id')->toArray();
+        $country_code = Country::where('id', $country)->get()->first()->code;
+        $country_id = Country::where('code', $country_code)->get()->pluck('id')->toArray();
 
 
         foreach ($integrators as $integrator) {
@@ -109,20 +110,20 @@ class SearchController extends Controller
                     }
 
                     $oda_controller = new ODAController();
-                    $search = Search::find($search_id);
+                    // $search = Search::find($search_id);
                     $oda_charge = $oda_controller->checkODA($integrator->integrator_code, $search);
 
-                    $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
+                    // $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
 
                     if ($oda_charge) {
                         $integrator->weight->rate += $oda_charge;
                     }
 
                     // add surcharge
-                    $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $integrator->weight->rate);
+                    $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate);
 
                     // // // add profit margin
-                    $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $del_type, $grade, $integrator->weight->rate, $request->package_type);
+                    $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country,$country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
 
                     // // Round rate for final result
                     $integrator->weight->rate = round($integrator->weight->rate, 2);
@@ -140,7 +141,9 @@ class SearchController extends Controller
 
         $hasSpecialRequest = hasSpecialRequest($billable_weight, $search_id);
 
-        $search = Search::with(['toCountry', 'fromCountry'])->find($search_id);
+        $search->load(['toCountry', 'fromCountry']);
+
+        // $search = Search::with(['toCountry', 'fromCountry'])->find($search_id);
 
         $actual_weight = 0;
 
@@ -181,7 +184,7 @@ class SearchController extends Controller
         $result = Search::where('search_hash', $search_token)->first();
 
         if ($result) {
-            return $result->id;
+            return $result;
         }
 
         $search = Search::create([
@@ -208,7 +211,7 @@ class SearchController extends Controller
             ]);
         }
 
-        return $search->id;
+        return $search;
     }
 
     public function specialRequest(Request $request)

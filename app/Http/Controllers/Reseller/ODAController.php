@@ -18,11 +18,11 @@ class ODAController extends Controller
     {
         $charge = 0;
 
-        $search->load([
-            'toCountry',
-            'fromCountry',
-            'items',
-        ]);
+        // $search->load([
+        //     'toCountry',
+        //     'fromCountry',
+        //     'items',
+        // ]);
 
         $weight = 0;
         $length = 0;
@@ -42,11 +42,11 @@ class ODAController extends Controller
                 break;
 
             case 'fedex':
-                $charge = $this->fedex($search, $weight, $length, $height, $width);
+                // $charge = $this->fedex($search, $weight, $length, $height, $width);
                 break;
 
             case 'ups':
-                $charge = $this->ups($search, $weight, $length, $height, $width);
+                // $charge = $this->ups($search, $weight, $length, $height, $width);
                 break;
 
             default:
@@ -108,6 +108,7 @@ class ODAController extends Controller
             $json = json_encode($xmlObject);
             $phpArray = json_decode($json, true);
 
+            // dd($phpArray);
 
             if (isset($phpArray['GetQuoteResponse'])) {
                 if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
