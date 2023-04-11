@@ -105,6 +105,10 @@ class SearchController extends Controller
                 }
 
                 if ($integrator->weight) {
+
+                    $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
+                    // dd($integrator->weight->rate);
+
                     // add out of delivery charge
                     // dd($integrator->weight);
 
