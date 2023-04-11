@@ -62,6 +62,7 @@ class SearchController extends Controller
 
         foreach ($integrators as $integrator) {
             $billable_weight = $this->calculateWeight($request, $integrator->integrator_code);
+            $billable_weight = round($billable_weight);
             $integrator->billable_weight = $billable_weight;
 
             $zone = Zone::where('integrator_id', $integrator->id)->where('type', $del_type)->whereIn('country_id', $country_id)->first();
@@ -77,6 +78,10 @@ class SearchController extends Controller
                     ->where('from_weight', '<=', $billable_weight)
                     ->where('end_weight', '>=', $billable_weight)
                     ->first();
+
+                // if ($integrator->id == 2) {
+                //     dd($over_weight);
+                // }
 
                 if ($over_weight && $over_weight->count()) {
                     $integrator->weight = $over_weight;
@@ -103,27 +108,27 @@ class SearchController extends Controller
                     // add out of delivery charge
                     // dd($integrator->weight);
 
-                    if ($integrator->weight->from_weight > 70 && $integrator->integrator_code == 'ups') {
-                        $ups_charge = 0;
-                        $ups_charge = $this->UPSCharge($request);
-                        $integrator->weight->rate += $ups_charge;
-                    }
+                    // if ($integrator->weight->from_weight > 70 && $integrator->integrator_code == 'ups') {
+                    //     $ups_charge = 0;
+                    //     $ups_charge = $this->UPSCharge($request);
+                    //     $integrator->weight->rate += $ups_charge;
+                    // }
+
+                    $integrator->weight->rate += weightCharges($request, $integrator->integrator_code, $billable_weight, $integrator->weight->rate);
 
                     $oda_controller = new ODAController();
-                    // $search = Search::find($search_id);
-                    $oda_charge = $oda_controller->checkODA($integrator->integrator_code, $search);
+                    $oda_charge = $oda_controller->checkODA($integrator->integrator_code, $search, $billable_weight);
 
                     // $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
 
                     if ($oda_charge) {
                         $integrator->weight->rate += $oda_charge;
                     }
-
                     // add surcharge
                     $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate);
 
                     // // // add profit margin
-                    $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country,$country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
+                    $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
 
                     // // Round rate for final result
                     $integrator->weight->rate = round($integrator->weight->rate, 2);

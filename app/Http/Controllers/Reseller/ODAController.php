@@ -14,7 +14,7 @@ use SoapClient;
 
 class ODAController extends Controller
 {
-    public function checkODA($integrator_code, Search $search)
+    public function checkODA($integrator_code, Search $search, $billable_weight)
     {
         $charge = 0;
 
@@ -24,13 +24,12 @@ class ODAController extends Controller
         //     'items',
         // ]);
 
-        $weight = 0;
+        $weight = $billable_weight;
         $length = 0;
         $height = 0;
         $width = 0;
 
         foreach ($search->items as $item) {
-            $weight += $item->weight;
             $length += $item->length;
             $height += $item->height;
             $width += $item->width;
@@ -42,11 +41,11 @@ class ODAController extends Controller
                 break;
 
             case 'fedex':
-                // $charge = $this->fedex($search, $weight, $length, $height, $width);
+                $charge = $this->fedex($search, $weight, $length, $height, $width);
                 break;
 
             case 'ups':
-                // $charge = $this->ups($search, $weight, $length, $height, $width);
+                $charge = $this->ups($search, $weight, $length, $height, $width);
                 break;
 
             default:
@@ -59,6 +58,13 @@ class ODAController extends Controller
 
     public function dhl(Search $search, $weight)
     {
+
+        if ($search->shipment_type == 'import') {
+            $acc_no = 961091970;
+        } else {
+            $acc_no = 454005062;
+        }
+
         $xml = '<?xml version="1.0" encoding="utf-8"?>
         <p:DCTRequest xmlns:p="http://www.dhl.com" xmlns:p1="http://www.dhl.com/datatypes" xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" schemaVersion="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dhl.com DCT-req.xsd">
           <GetQuote>
@@ -66,8 +72,8 @@ class ODAController extends Controller
               <ServiceHeader>
                 <MessageTime>2022-07-26T12:41:22+04:00</MessageTime>
                 <MessageReference>12121200000000000001000186352</MessageReference>
-                <SiteID>v62_HgPv70HtD2</SiteID>
-                <Password>2kIw86yqfs</Password>
+                <SiteID>v62_lkUvO4atNP</SiteID>
+                <Password>LYaftKZUVl</Password>
               </ServiceHeader>
               <MetaData>
                 <SoftwareName>Integra</SoftwareName>
@@ -90,7 +96,7 @@ class ODAController extends Controller
                   <Weight>' . $weight . '</Weight>
                 </Piece>
               </Pieces>
-              <PaymentAccountNumber>471110617</PaymentAccountNumber>
+              <PaymentAccountNumber>' . $acc_no . '</PaymentAccountNumber>
               <QtdShp />
             </BkgDetails>
             <To>
@@ -198,7 +204,7 @@ class ODAController extends Controller
                         <City>' . $search->to_city . '</City>
                         <PostalCode>' . $search->to_pin . '</PostalCode>';
 
-        if ($provice_code !== '') {
+        if ($search->shipment_type == 'export' && $provice_code !== '') {
             $xml .= '<StateProvinceCode>' . $provice_code . '</StateProvinceCode>';
         }
 
@@ -210,10 +216,16 @@ class ODAController extends Controller
                     <AttentionName>Tomsher</AttentionName>
                     <PhoneNumber>505491096</PhoneNumber>
                     <Address>
-                        <AddressLine1>' . $search->fromCountry->city . '</AddressLine1>
-                        <City>' . $search->fromCountry->city . '</City>
-                        <PostalCode>' . $search->from_pin . '</PostalCode>
-                        <CountryCode>' . $search->fromCountry->code . '</CountryCode>
+                        <AddressLine1>' . $search->from_city . '</AddressLine1>
+                        <City>Texas</City>
+                        <PostalCode>' . $search->from_pin . '</PostalCode>';
+
+        if ($search->shipment_type == 'import' && $provice_code !== '') {
+            $xml .= '<StateProvinceCode>' . $provice_code . '</StateProvinceCode>';
+            $xml .= '\n';
+        }
+
+        $xml .= '<CountryCode>' . $search->fromCountry->code . '</CountryCode>
                     </Address>
                 </ShipFrom>
                 <PaymentInformation>
@@ -260,7 +272,7 @@ class ODAController extends Controller
                 </LabelImageFormat>
             </LabelSpecification>
         </ShipmentConfirmRequest>';
-        
+
         $xml = '<?xml version="1.0"?>
         <AccessRequest xml:lang="en-US">
             <AccessLicenseNumber>4DB0A329A26C3492</AccessLicenseNumber>
@@ -379,10 +391,10 @@ class ODAController extends Controller
             // dd($phpArray );
 
             if ($phpArray['Response'] && $phpArray['Response']['ResponseStatusDescription'] !== 'Failure') {
-                
 
 
-                
+
+
                 // if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
                 //     if ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']) {
                 //         // dd($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']);

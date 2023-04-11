@@ -66,7 +66,6 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
     return $rate;
 }
 
-
 function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, $country_code, $type, $grade, $user_id, $rate, $package_type)
 {
     $user = User::find($user_id);
@@ -101,7 +100,7 @@ function getUserFrofirMargin($integrator_id, $billable_weight, $zone, $country, 
     return $userMargins;
 }
 
-function getFrofirMargin($integrator_id, $billable_weight, $zone, $country,$country_code, $type, $grade, $rate, $package_type)
+function getFrofirMargin($integrator_id, $billable_weight, $zone, $country, $country_code, $type, $grade, $rate, $package_type)
 {
     $total_margin = 0;
 
@@ -197,4 +196,64 @@ function hasSpecialRequest($billable_weight, $search_id)
     }
 
     return true;
+}
+
+
+function weightCharges($request, $integrator_code, $billable_weight, $rate)
+{
+    $total_caharge = 0;
+
+    if ($integrator_code == 'dhl') {
+        $large = 0;
+        foreach ($request->weight as $index => $weight) {
+            $large = max($request->length[$index], $request->height[$index], $request->width[$index], $large);
+            $vol_weight = volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]);
+            $b_weight = $vol_weight > $weight ? $vol_weight : $weight;
+            if ($large > 120 || $b_weight > 70) {
+                $total_caharge += 165;
+            }
+        }
+    }
+
+    // Additional handling service
+    if ($integrator_code == 'ups') {
+        foreach ($request->length as $index => $length) {
+            $secondSide = secondHighest(array($request->length[$index], $request->height[$index], $request->width[$index]));
+
+            $vol_weight = volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]);
+            $b_weight = max($vol_weight, $request->weight[$index]);
+
+            if ($length > 122 || $secondSide > 76 || $b_weight > 32) {
+                $total_caharge += 15;
+            }
+
+            $girth =  (2 * $request->width[$index]) + (2 * $request->height[$index]);
+            $girth +=  $request->length[$index];
+
+            // Large Package Surcharge
+            if ($girth > 300 && $girth <= 400) {
+                $total_caharge += 208;
+            }
+
+            // Over Maximum Limits
+            if (
+                $b_weight > 70 ||
+                $request->length[$index] > 274 ||
+                $girth > 400
+            ) {
+                $total_caharge += 393;
+            }
+        }
+    }
+
+
+
+    return $total_caharge;
+}
+
+function secondHighest($arry)
+{
+    $numbers = array_unique($arry);
+    rsort($numbers);
+    return $numbers[1];
 }
