@@ -290,8 +290,10 @@ class IntegratorController extends Controller
             $model = ExportRate::class;
         } else if ($type == 'import') {
             $model = ImportRate::class;
-        } else {
+        } else if ($type == 'transit') {
             $model = TransitRate::class;
+        } else {
+            abort(404);
         }
 
         $zone = Zone::where('integrator_id', $integrator->id)->where('type', $type)->with('country')->get();
