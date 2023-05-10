@@ -12,6 +12,7 @@ class Country extends Model
     protected $fillable = [
         'code',
         'name',
+        'search_keyword',
     ];
 
     public function city()

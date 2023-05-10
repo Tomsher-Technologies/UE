@@ -50,7 +50,8 @@ class ZoneImport implements ToCollection
 
                 $country = Country::create([
                     'name' => $c_name,
-                    'code' => $c_code
+                    'code' => $c_code,
+                    'search_keyword' => ''
                 ]);
 
 

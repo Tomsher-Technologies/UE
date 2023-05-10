@@ -27,38 +27,33 @@ class CountrySeeder extends Seeder
         $path =  "database/data/country.json";
         $json = json_decode(file_get_contents($path), true);
 
-        usort($json, function($a, $b) { //Sort the array using a user defined function
+        usort($json, function ($a, $b) { //Sort the array using a user defined function
             return $a['name']['common'] < $b['name']['common'] ? -1 : 1; //Compare the scores
-        }); 
+        });
 
         foreach ($json as $js) {
             $code = $js['cca2'];
+            try {
 
-            try{
-                if ($js['name']['common']) {
-                    Country::create([
-                        'code' => $code,
-                        'name' => $js['name']['common']
-                    ]);
-                }
+                $alt_name = [];
+
                 if ($js['name']['official']) {
-                    Country::create([
-                        'code' => $code,
-                        'name' => $js['name']['official']
-                    ]);
+                    $alt_name[] = $js['name']['official'];
                 }
+
                 if ($js['altSpellings']) {
                     foreach ($js['altSpellings'] as $i) {
-                        Country::create([
-                            'code' => $code,
-                            'name' => $i
-                        ]);
+                        $alt_name[] = $i;
                     }
                 }
-            }catch(Exception $e){
 
+                Country::create([
+                    'code' => $code,
+                    'name' => $js['name']['common'],
+                    'search_keyword' => implode(',', $alt_name)
+                ]);
+            } catch (Exception $e) {
             }
-            
         }
 
 

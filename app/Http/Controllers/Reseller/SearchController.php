@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use App\Helpers\CalculationHelpers;
+use App\Models\Customer\CustomerRates;
 use App\Models\Customer\Grade;
 use App\Models\Orders\SearchItem;
 use App\Models\Zones\City;
@@ -28,6 +29,9 @@ class SearchController extends Controller
 {
     public function searchNew(Request $request)
     {
+
+        $charge_break_down = [];
+
         $search = $this->saveSearch($request);
         $search_id = $search->id;
 
@@ -58,7 +62,6 @@ class SearchController extends Controller
         $country_id = [];
         $country_code = Country::where('id', $country)->get()->first()->code;
         $country_id = Country::where('code', $country_code)->get()->pluck('id')->toArray();
-
 
         foreach ($integrators as $integrator) {
             $billable_weight = $this->calculateWeight($request, $integrator->integrator_code);
@@ -101,35 +104,53 @@ class SearchController extends Controller
                     // }
                 } else {
                     $weight = $model::where('zone_code', $zone_code)->where('integrator_id', $integrator->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
+
+                    if ($integrator->id == 2) {
+                        // dd($weight);
+                    }
+
                     $integrator->weight = $weight;
                 }
 
                 if ($integrator->weight) {
 
+                    // 
+                    // User rates
+                    $user_rate = CustomerRates::where('user_id', auth()->user()->id)
+                        ->where('integrator_id', $integrator->id)
+                        ->where('type', $del_type)
+                        ->where('zone', $zone_code)
+                        ->where('integrator_id', $integrator->id)
+                        ->where('pac_type', $request->package_type)
+                        ->where('weight', '>=', $billable_weight)
+                        ->first();
+
+                    if ($user_rate) {
+                        $integrator->weight->rate = $user_rate->rate;
+                        // $diff =  $user_rate->rate - $integrator->weight->rate;
+                        // $cus_per = ($diff / $integrator->weight->rate) * 100;
+                        // dd($cus_per);
+                    }
+
                     $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
-                    // dd($integrator->weight->rate);
 
-                    // add out of delivery charge
-                    // dd($integrator->weight);
+                    $charge_break_down[$integrator->id]['Transportation Charge'] = $integrator->weight->rate;
 
-                    // if ($integrator->weight->from_weight > 70 && $integrator->integrator_code == 'ups') {
-                    //     $ups_charge = 0;
-                    //     $ups_charge = $this->UPSCharge($request);
-                    //     $integrator->weight->rate += $ups_charge;
-                    // }
+                    $weightCharges = weightCharges($request, $integrator->integrator_code, $billable_weight, $integrator->weight->rate);
 
-                    $integrator->weight->rate += weightCharges($request, $integrator->integrator_code, $billable_weight, $integrator->weight->rate);
+                    $charge_break_down[$integrator->id]['Oversize Charge'] = $weightCharges;
+
+                    $integrator->weight->rate += $weightCharges;
 
                     $oda_controller = new ODAController();
                     $oda_charge = $oda_controller->checkODA($integrator->integrator_code, $search, $billable_weight);
 
-                    // $od_pincode = $od_pincodes->where('integrator_id', $integrator->id)->first();
-
                     if ($oda_charge) {
+                        $charge_break_down[$integrator->id]['Remote Area Charge'] = $oda_charge;
                         $integrator->weight->rate += $oda_charge;
                     }
                     // add surcharge
-                    $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate);
+                    $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate, $charge_break_down);
 
                     // // // add profit margin
                     // $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
@@ -160,12 +181,15 @@ class SearchController extends Controller
             $actual_weight += $weight;
         }
 
+        // dd($charge_break_down);
+
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
             'hasSpecialRequest' => $hasSpecialRequest,
             'search_id' => $search_id,
             'search' => $search,
             'actual_weight' => $actual_weight,
+            'charge_break_down' => $charge_break_down,
         ]);
     }
 

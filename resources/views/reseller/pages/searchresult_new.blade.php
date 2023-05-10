@@ -127,6 +127,10 @@
                                                 <div class="align-items-center mr-16pt">
                                                     {{-- <input type="button" value="Book Now" class="btn btn-primary"> --}}
 
+                                                    <button type="button" class="btn btn-success exploder">
+                                                        Details
+                                                    </button>
+
                                                     <form class="d-inline" action="{{ route('reseller.booking.view') }}"
                                                         method="POST">
                                                         @csrf
@@ -154,6 +158,25 @@
                                                 </div>
                                             </td>
                                         </tr>
+
+                                        @isset($charge_break_down[$integrator->id])
+                                            <tr class="explode hide">
+                                                <td colspan="12" style="background: rgb(227 227 227); display: none">
+                                                    <table class="table table-condensed invoice-totals">
+                                                        <tbody>
+
+                                                            @foreach ($charge_break_down[$integrator->id] as $key => $item)
+                                                                <tr>
+                                                                    <th>{{ $key }}</th>
+                                                                    <td id="invoiceSubtotal">AED {{ round($item, 2) }}</td>
+                                                                </tr>
+                                                            @endforeach
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        @endisset
                                     @endforeach
                                 </tbody>
                             </table>
@@ -192,6 +215,53 @@
         .avatar-img {
             height: auto !important;
         }
+
+
+
+
+        [dir] .btn-success .shown {
+            background: url(https://datatables.net/examples/resources/details_open.png) no-repeat center center;
+            padding: 15px;
+        }
+
+        [dir] .btn-danger .tab-hide {
+            background: url(https://datatables.net/examples/resources/details_close.png) no-repeat center center;
+            padding: 15px;
+        }
+
+        .invoice-totals {
+            width: 50%;
+            float: right;
+            color: #2c2c2c;
+            margin-bottom: 0px !important;
+        }
+
+        .invoice-totals th,
+        tr,
+        td {
+            font-weight: normal;
+            font-family: 'Roboto';
+        }
+
+        .invoice-totals th {
+            font-size: 16px;
+            border-top: 0.5px solid #2c2c2c !important;
+        }
+
+
+        .invoice-totals td {
+            font-size: 16px;
+            border-top: 1px solid #1f1f1f !important
+        }
+
+
+        .invoice-totals tr:first-child th {
+            border-top: 0px solid #2c2c2c !important;
+        }
+
+        .invoice-totals tr:first-child td {
+            border-top: 0px solid #2c2c2c !important;
+        }
     </style>
 @endpush
 @push('footer')
@@ -215,6 +285,19 @@
             });
         </script>
     @endif
+
+    <script>
+        $(".exploder").click(function() {
+            $(this).toggleClass("btn-success btn-danger");
+            $(this).children("span").toggleClass("tab-hide");
+            $(this).closest("tr").next("tr").toggleClass("hide");
+            if ($(this).closest("tr").next("tr").hasClass("hide")) {
+                $(this).closest("tr").next("tr").children("td").slideUp();
+            } else {
+                $(this).closest("tr").next("tr").children("td").slideDown(350);
+            }
+        });
+    </script>
 
     <script>
         $('#exampleModal').on('show.bs.modal', function(event) {

@@ -18,12 +18,6 @@ class ODAController extends Controller
     {
         $charge = 0;
 
-        // $search->load([
-        //     'toCountry',
-        //     'fromCountry',
-        //     'items',
-        // ]);
-
         $weight = $billable_weight;
         $length = 0;
         $height = 0;
@@ -58,7 +52,6 @@ class ODAController extends Controller
 
     public function dhl(Search $search, $weight)
     {
-
         if ($search->shipment_type == 'import') {
             $acc_no = 961091970;
         } else {
@@ -108,6 +101,8 @@ class ODAController extends Controller
 
         $res = Http::withBody($xml, 'text/xml')->send('POST', 'https://xmlpi-ea.dhl.com/XMLShippingServlet', ['verify' => false]);
 
+        // dd($xml);
+
         if ($res->status() == '200') {
             $xmlObject = simplexml_load_string($res->body());
 
@@ -119,7 +114,6 @@ class ODAController extends Controller
             if (isset($phpArray['GetQuoteResponse'])) {
                 if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
                     if (isset($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'])) {
-                        // dd($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']);
                         foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $item) {
                             if (isset($item['GlobalServiceName']) && $item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
                                 return (int)$item['ChargeValue'];
@@ -178,6 +172,7 @@ class ODAController extends Controller
                 </TransactionReference>
                 <RequestAction>ShipConfirm</RequestAction>
                 <RequestOption>validate</RequestOption>
+                <SubVersion>1601</SubVersion>
             </Request>
             <Shipment>
                 <Shipper>
@@ -273,7 +268,7 @@ class ODAController extends Controller
             </LabelSpecification>
         </ShipmentConfirmRequest>';
 
-        $xml = '<?xml version="1.0"?>
+        $xml2 = '<?xml version="1.0"?>
         <AccessRequest xml:lang="en-US">
             <AccessLicenseNumber>4DB0A329A26C3492</AccessLicenseNumber>
             <UserId>universalexp</UserId>
@@ -287,6 +282,7 @@ class ODAController extends Controller
                 </TransactionReference>
                 <RequestAction>ShipConfirm</RequestAction>
                 <RequestOption>validate</RequestOption>
+                <SubVersion>1601</SubVersion>
             </Request>
             <Shipment>
                 <Shipper>
