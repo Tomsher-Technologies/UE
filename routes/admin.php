@@ -75,6 +75,9 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
             Route::get('/{user}/import/profit-margin', [CustomerController::class, 'importProfitMarginView'])->name('profitMargin.import');
             Route::post('/{user}/import/profit-margin', [CustomerController::class, 'importProfitMargin']);
+
+            Route::get('/{user}/import/new-rates', [CustomerController::class, 'newRateView'])->name('newRate');            
+            Route::post('/{user}/import/new-rates', [CustomerController::class, 'newRateImport']);            
         });
 
         Route::get('/import/user', [CustomerController::class, 'importUserView'])->name('user.import');

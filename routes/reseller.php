@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
 
@@ -36,9 +37,13 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
 
     Route::get('/test', function () {
 
-        $response2 = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/GetHawbLables',  array('RPX201803661HK54')  );
 
-        dd($response2->json());
+
+
+
+        // $response2 = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/GetHawbLables',  array('RPX201803661HK54')  );
+
+        // dd($response2->json());
 
         // $order = Order::find(5);
         // $integrator = Integrator::find(1);
@@ -64,7 +69,7 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
         Route::get('dashboard', [ResellerDashboardController::class, 'index'])->name('dashboard');
 
         Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
-            Route::get('/', function(){
+            Route::get('/', function () {
                 return redirect()->route('reseller.dashboard');
             })->name('search');
             // Route::get('/', [SearchController::class, 'searchView'])->name('search');

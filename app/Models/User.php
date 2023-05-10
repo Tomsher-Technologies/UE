@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
 use App\Models\Customer\CustomerDetails;
+use App\Models\Customer\CustomerRates;
 use App\Models\Customer\Grade;
 use App\Models\Customer\ProfitMargin;
 use App\Models\Orders\Order;
@@ -165,5 +166,10 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function customerRate()
+    {
+        return $this->hasMany(CustomerRates::class);
     }
 }

@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $country, $country_code, $rate)
+function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $country, $country_code, $rate, &$charge_break_down)
 {
     $today = Carbon::now();
 
@@ -59,6 +59,8 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
         if ($surcharge->per_weight) {
             $surcharge_rate = $surcharge_rate * $billable_weight;
         }
+
+        $charge_break_down[$integrator_id][$surcharge->name] = $surcharge_rate;
 
         $rate += $surcharge_rate;
     }

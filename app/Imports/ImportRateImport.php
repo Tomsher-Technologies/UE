@@ -63,7 +63,7 @@ class ImportRateImport implements ToCollection
         $model::where([
             'integrator_id' => $this->integrator,
         ])->delete();
-
+ 
 
         foreach ($rows as $row) {
             $weight = $row[0];

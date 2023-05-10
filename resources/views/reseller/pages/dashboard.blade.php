@@ -64,7 +64,7 @@
 
                                         <div class="searchable">
                                             <input name="fromCity" id="fromCity" type="text" placeholder="search city"
-                                                onkeyup="filterCity(this,event,'from')">
+                                                onkeyup="delayCity(this,event,'from')" placeholder="off">
                                             <ul></ul>
                                         </div>
 
@@ -81,7 +81,7 @@
 
                                         <div class="searchable">
                                             <input name="fromPincode" id="fromPincode" type="number"
-                                                placeholder="search pincode" onkeyup="filterPin(this,event,'from')">
+                                                placeholder="search pincode" onkeyup="filterPin(this,event,'from')" placeholder="off">
                                             <ul></ul>
                                         </div>
 
@@ -111,7 +111,7 @@
 
                                         <div class="searchable">
                                             <input name="toCity" id="toCity" type="text" placeholder="search city"
-                                                onkeyup="filterCity(this,event,'to')">
+                                                onkeyup="delayCity(this,event,'to')" placeholder="off">
                                             <ul></ul>
                                         </div>
 
@@ -127,7 +127,7 @@
                                     <div>
                                         <div class="searchable">
                                             <input name="toPincode" id="toPincode" type="text"
-                                                placeholder="search pincode" onkeyup="filterPin(this,event,'to')">
+                                                placeholder="search pincode" onkeyup="filterPin(this,event,'to')" placeholder="off">
                                             <ul></ul>
                                         </div>
                                         {{-- <div class="autocomplete">
@@ -264,7 +264,7 @@
                 </div>
             </div>
             <div class="row pt-3">
-                <div class="col-lg-4">
+                {{-- <div class="col-lg-4">
                     <div class="card mb-md-0">
                         <div class="card-body">
                             <div class="text-50 mb-16pt">
@@ -308,8 +308,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
+                </div> --}}
+                <div class="col-lg-6">
                     <div class="card mb-md-0">
                         <div class="card-body">
                             <div class="text-50 mb-16pt">
@@ -354,7 +354,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="card mb-md-0">
                         <div class="card-body">
                             <div class="text-50 mb-16pt">
@@ -517,6 +517,16 @@
                 container.find("ul li:visible").first().addClass("selected");
             }, 100)
 
+        }
+
+
+        let timeout = null;
+
+        function delayCity(that, event, type) {
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                filterCity(that, event, type);
+            }, 1500);
         }
 
         function filterCity(that, event, type) {
@@ -814,29 +824,51 @@
         $('#type').on('change', function() {
             val = $(this).val();
             if (val == 'import') {
-                $('#toCountry').append('<option value="692" selcted>United Arab Emirates</option>');
-                $("#fromCountry option[value='692']").remove();
+
+                $('#toCountry')
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append('<option value="1237" selcted>United Arab Emirates</option>')
+                    .val('1237');
+
+                // $('#toCountry').append('<option value="1237" selcted>United Arab Emirates</option>');
+                $("#fromCountry option[value='1237']").remove();
                 $('#toCity').val("")
                 $('#toPincode').val("")
                 $('#fromCity').val("")
                 $('#fromPincode').val("")
-            }
-            if (val == 'export') {
-                $('#fromCountry').append('<option value="692" selcted>United Arab Emirates</option>');
-                $("#toCountry option[value='692']").remove();
+            } else {
+                $('#fromCountry')
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append('<option value="1237" selcted>United Arab Emirates</option>')
+                    .val('1237');
+
+                $("#toCountry option[value='1237']").remove();
                 $('#toCity').val("")
                 $('#toPincode').val("")
                 $('#fromCity').val("")
                 $('#fromPincode').val("")
+
             }
-            if (val == 'transit') {
-                $('#fromCountry').append('<option value="692" selcted>United Arab Emirates</option>');
-                $("#toCountry option[value='692']").remove();
-                $('#toCity').val("")
-                $('#toPincode').val("")
-                $('#fromCity').val("")
-                $('#fromPincode').val("")
-            }
+            // if (val == 'export') {
+            //     $('#fromCountry').append('<option value="1237" selcted>United Arab Emirates</option>');
+            //     $("#toCountry option[value='1237']").remove();
+            //     $('#toCity').val("")
+            //     $('#toPincode').val("")
+            //     $('#fromCity').val("")
+            //     $('#fromPincode').val("")
+            // }
+            // if (val == 'transit') {
+            //     $('#fromCountry').append('<option value="1237" selcted>United Arab Emirates</option>');
+            //     $("#toCountry option[value='1237']").remove();
+            //     $('#toCity').val("")
+            //     $('#toPincode').val("")
+            //     $('#fromCity').val("")
+            //     $('#fromPincode').val("")
+            // }
         });
     </script>
 

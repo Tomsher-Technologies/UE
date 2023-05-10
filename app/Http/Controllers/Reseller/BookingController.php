@@ -125,15 +125,20 @@ class BookingController extends Controller
             );
         }
 
+        // dd(json_encode($requestArray));
+
         $response = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/apiCreateHawb', $requestArray);
 
         $responseCollection = $response->json('result');
+
+        // dd($response->body());
 
         if ($response->status() == 200 && $responseCollection['result']) {
 
             $response2 = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/GetHawbLables', array($responseCollection['hawbNumber']));
 
-            dd($response2->json('result'));
+            // dd($response2->body());
+            // dd($response2->json('result'));
 
             $order->update([
                 'hawbNumber' => $responseCollection['hawbNumber'],
