@@ -82,9 +82,9 @@ class SearchController extends Controller
                     ->where('end_weight', '>=', $billable_weight)
                     ->first();
 
-                // if ($integrator->id == 2) {
-                //     dd($over_weight);
-                // }
+                if ($integrator->id == 2) {
+                    // dd($zone);
+                }
 
                 if ($over_weight && $over_weight->count()) {
                     $integrator->weight = $over_weight;
@@ -103,18 +103,15 @@ class SearchController extends Controller
                     //     $integrator->weight->rate += $highest->rate;
                     // }
                 } else {
-                    $weight = $model::where('zone_code', $zone_code)->where('integrator_id', $integrator->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
-
-                    if ($integrator->id == 2) {
-                        // dd($weight);
-                    }
+                    $weight = $model::where('zone_code', $zone_code)
+                        ->where('integrator_id', $integrator->id)
+                        ->where('pack_type', $package_type)
+                        ->where('weight', '>=', $billable_weight)->first();
 
                     $integrator->weight = $weight;
                 }
 
                 if ($integrator->weight) {
-
-                    // 
                     // User rates
                     $user_rate = CustomerRates::where('user_id', auth()->user()->id)
                         ->where('integrator_id', $integrator->id)
@@ -126,10 +123,12 @@ class SearchController extends Controller
                         ->first();
 
                     if ($user_rate) {
-                        $integrator->weight->rate = $user_rate->rate;
-                        // $diff =  $user_rate->rate - $integrator->weight->rate;
-                        // $cus_per = ($diff / $integrator->weight->rate) * 100;
-                        // dd($cus_per);
+                        if ($user_rate->weight == $user_rate->end_weight) {
+                            $integrator->weight->rate = $user_rate->rate;
+                        } else {
+                            $rate = $user_rate->rate * $billable_weight;
+                            $integrator->weight->rate = $rate;
+                        }
                     }
 
                     $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);

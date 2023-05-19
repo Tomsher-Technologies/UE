@@ -190,8 +190,6 @@ class CustomerController extends Controller
 
         $headings = (new HeadingRowImport())->toArray(request()->file('importfile'));
 
-        // dd($headings );
-
         $import = new CustomerRates($user, $request->integrator, $request->type, $headings[0]);
         Excel::import($import, request()->file('importfile'));
 
