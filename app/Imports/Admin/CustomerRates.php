@@ -48,13 +48,18 @@ class CustomerRates implements ToCollection
         ])->delete();
 
         foreach ($rows as $row) {
+
+            $weight = $row[0];
+            $weight_break = explode('-', $weight);
+
             foreach ($this->headings as $index => $heading) {
                 $this->user->customerRate()->create([
                     'user_id' => $this->user->id,
                     'integrator_id' =>  $this->integrator,
                     'zone' =>  $heading,
                     'type' =>  $this->type,
-                    'weight' =>  $row[0],
+                    'weight' =>  $weight_break[0],
+                    'end_weight' =>  $weight_break[1] ?? $weight_break[0],
                     'pac_type' =>  $row[1],
                     'rate' =>  $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0,
                 ]);

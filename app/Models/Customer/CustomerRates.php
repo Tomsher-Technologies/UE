@@ -15,6 +15,7 @@ class CustomerRates extends Model
         'zone',
         'type',
         'weight',
+        'end_weight',
         'rate',
         'pac_type',
     ];
