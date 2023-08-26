@@ -9,10 +9,13 @@ class City extends Model
 {
     use HasFactory;
 
+    protected $table = 'cities_2';
+
     protected $fillable = [
         'city',
         'country_id',
         'is_remote',
+        'zip_to',
         'pincode',
         'state',
     ];

@@ -10,6 +10,7 @@ use App\Models\Common\Settings;
 use App\Models\Integrators\Integrator;
 use App\Models\Orders\Order;
 use App\Models\Orders\Search;
+use App\Models\Zones\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -80,7 +81,21 @@ class BookingController extends Controller
         $requestArray["ReceiverTel"] = str_replace(' ', '', $request->receiver_phone);
         $requestArray["ReceiverEmail"] = $request->receiver_email;
         $requestArray["ReceiverCountry"] = $search->toCountry->code;
-        $requestArray["ReceiverProvince"] = $search->toCountry->code;
+
+        // dd($search->to_city !== NULL ? $search->to_city : $request->receiver_town);
+
+        $requestArray["ReceiverProvince"] = NULL;
+        if ($search->toCountry->code == 'US') {
+            $res = Http::send('POST', "http://postalcode.parseapi.com/api/885ca868ff01a9f6ddc424d2d0a84cac/$search->to_pin", ['verify' => false]);
+            if ($res->status() == '200') {
+                $json = json_decode($res->body());
+                if (isset($json->state)) {
+                    $requestArray["ReceiverProvince"] = $json->state->alpha2;
+                }
+            }
+        }
+
+
         $requestArray["ReceiverCity"] = $search->to_city !== NULL ? $search->to_city : $request->receiver_town;
         $requestArray["ReceiverZip"] = $search->to_pin == NULL ? 0 : $search->to_pin;
         $requestArray["ReceiverContactPerson"] = $request->receiver_contact_person;
