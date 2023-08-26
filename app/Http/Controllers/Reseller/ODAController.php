@@ -113,16 +113,42 @@ class ODAController extends Controller
 
             if (isset($phpArray['GetQuoteResponse'])) {
                 if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
+
+                    if (isset($phpArray['GetQuoteResponse']['Note']['Condition']) && $phpArray['GetQuoteResponse']['Note']['Condition']['ConditionCode'] == '410301') {
+                        return 0;
+                    }
+
                     if (isset($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'])) {
                         foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $item) {
-                            if (isset($item['GlobalServiceName']) && $item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
+                            if (
+                                isset($item['GlobalServiceName']) &&
+                                ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY" || $item['GlobalServiceName'] == "REMOTE AREA PICKUP")
+                            ) {
+
                                 return (int)$item['ChargeValue'];
                             }
                         }
                     } else {
                         foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp'] as $item) {
-                            if (isset($item['GlobalServiceName']) && $item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
-                                return (int)$item['ChargeValue'];
+                            if (isset($item['QtdShpExChrg'])) {
+                                if (is_array($item['QtdShpExChrg'])) {
+                                    foreach ($item['QtdShpExChrg'] as $charge) {
+                                        if (
+                                            isset($charge['GlobalServiceName']) &&
+                                            ($charge['GlobalServiceName'] == "REMOTE AREA DELIVERY" || $charge['GlobalServiceName'] == "REMOTE AREA PICKUP")
+                                        ) {
+                                            return (int)$charge['ChargeValue'];
+                                        }
+                                    }
+                                } else {
+                                    if (
+                                        isset($item['GlobalServiceName']) &&
+                                        ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY" || $item['GlobalServiceName'] == "REMOTE AREA PICKUP")
+                                    ) {
+
+                                        return (int)$item['ChargeValue'];
+                                    }
+                                }
                             }
                         }
                     }
@@ -140,14 +166,33 @@ class ODAController extends Controller
         $pin = 0;
         $provice_code = '';
 
-        if ($search->fromCountry->code == 'US') {
-            $pin = $search->from_pin;
-        } else if ($search->fromCountry->code == 'US') {
-            $pin = $search->to_pin;
+        if ($search->toCountry->code !== 'AE') {
+            $from_country = $search->fromCountry->code;
+            $from_city = $search->from_city;
+            $from_pin = $search->from_pin;
+
+            $to_country =  $search->toCountry->code;
+            $to_city =  $search->to_city;
+            $to_pin =  $search->to_pin;
+        } else {
+            $to_country = $search->fromCountry->code;
+            $to_city = $search->from_city;
+            $to_pin = $search->from_pin;
+
+            $from_country =  $search->toCountry->code;
+            $from_city =  $search->to_city;
+            $from_pin =  $search->to_pin;
+        }
+
+        if ($to_country == 'US') {
+            $pin = $to_pin;
+        }
+        if ($from_country == 'US') {
+            $pin = $from_pin;
         }
 
         if ($pin != 0) {
-            $res = Http::send('POST', 'http://postalcode.parseapi.com/api/885ca868ff01a9f6ddc424d2d0a84cac/75007', ['verify' => false]);
+            $res = Http::send('POST', "http://postalcode.parseapi.com/api/885ca868ff01a9f6ddc424d2d0a84cac/$pin", ['verify' => false]);
             if ($res->status() == '200') {
                 $json = json_decode($res->body());
                 if (isset($json->state)) {
@@ -156,16 +201,16 @@ class ODAController extends Controller
             }
         }
 
+        // dd($provice_code);
 
-
-        $xml = '<?xml version="1.0"?>
-        <AccessRequest xml:lang="en-US">
+        $xml = "<?xml version='1.0'?>
+        <AccessRequest xml:lang='en-US'>
             <AccessLicenseNumber>4DB0A329A26C3492</AccessLicenseNumber>
             <UserId>universalexp</UserId>
             <Password>Linexdubai123@</Password>
         </AccessRequest>
-        <?xml version="1.0"?>
-        <ShipmentConfirmRequest xml:lang="en-US">
+        <?xml version='1.0'?>
+        <ShipmentConfirmRequest xml:lang='en-US'>
             <Request>
                 <TransactionReference>
                     <CustomerContext>universalexp</CustomerContext>
@@ -183,8 +228,7 @@ class ODAController extends Controller
                     <ShipperNumber>W7583F</ShipperNumber>
                     <TaxIdentificationNumber>1234567877</TaxIdentificationNumber>
                     <Address>
-                        <AddressLine1>Wafi Residence</AddressLine1>
-                        <AddressLine2>Oud Metha Rd - Umm Hurair 2</AddressLine2>
+                        <AddressLine1>universalexp</AddressLine1>
                         <City>Dubai</City>
                         <PostalCode>0</PostalCode>
                         <CountryCode>AE</CountryCode>
@@ -195,15 +239,15 @@ class ODAController extends Controller
                     <AttentionName>Universal</AttentionName>
                     <PhoneNumber>1234567890</PhoneNumber>
                     <Address>
-                        <AddressLine1>' . $search->to_city . '</AddressLine1>
-                        <City>' . $search->to_city . '</City>
-                        <PostalCode>' . $search->to_pin . '</PostalCode>';
+                        <AddressLine1>$to_city</AddressLine1>
+                        <City>$to_city</City>
+                        <PostalCode>$to_pin</PostalCode>";
 
-        if ($search->shipment_type == 'export' && $provice_code !== '') {
+        if ($to_country == 'US' && $provice_code !== '') {
             $xml .= '<StateProvinceCode>' . $provice_code . '</StateProvinceCode>';
         }
 
-        $xml .= '<CountryCode>' . $search->toCountry->code . '</CountryCode>
+        $xml .= "<CountryCode>$to_country</CountryCode>
                     </Address>
                 </ShipTo>
                 <ShipFrom>
@@ -211,16 +255,15 @@ class ODAController extends Controller
                     <AttentionName>Tomsher</AttentionName>
                     <PhoneNumber>505491096</PhoneNumber>
                     <Address>
-                        <AddressLine1>' . $search->from_city . '</AddressLine1>
-                        <City>Texas</City>
-                        <PostalCode>' . $search->from_pin . '</PostalCode>';
+                        <AddressLine1>$from_city</AddressLine1>
+                        <City>$from_city</City>
+                        <PostalCode>$from_pin</PostalCode>";
 
-        if ($search->shipment_type == 'import' && $provice_code !== '') {
+        if ($from_country == 'US' && $provice_code !== '') {
             $xml .= '<StateProvinceCode>' . $provice_code . '</StateProvinceCode>';
             $xml .= '\n';
         }
-
-        $xml .= '<CountryCode>' . $search->fromCountry->code . '</CountryCode>
+        $xml .= "<CountryCode>$from_country</CountryCode>
                     </Address>
                 </ShipFrom>
                 <PaymentInformation>
@@ -244,17 +287,20 @@ class ODAController extends Controller
                         <UnitOfMeasurement>
                             <Code>CM</Code>
                         </UnitOfMeasurement>
-                        <Length>' . $length . '</Length>
-                        <Width>' . $width . '</Width>
-                        <Height>' . $height . '</Height>
+                        <Length>$length</Length>
+                        <Width>$width</Width>
+                        <Height>$height</Height>
                     </Dimensions>
                     <PackageWeight>
                         <UnitOfMeasurement>
                             <Code>KGS</Code>
                         </UnitOfMeasurement>
-                        <Weight>' . $weight . '</Weight>
+                        <Weight>$weight</Weight>
                     </PackageWeight>
                 </Package>
+                <Description>
+                    Hello
+                </Description>
             </Shipment>
             <LabelSpecification>
                 <LabelPrintMethod>
@@ -266,7 +312,9 @@ class ODAController extends Controller
                     <Description>GIF</Description>
                 </LabelImageFormat>
             </LabelSpecification>
-        </ShipmentConfirmRequest>';
+        </ShipmentConfirmRequest>";
+
+        // dd($xml);
 
         $xml2 = '<?xml version="1.0"?>
         <AccessRequest xml:lang="en-US">
@@ -372,10 +420,10 @@ class ODAController extends Controller
             </LabelSpecification>
         </ShipmentConfirmRequest>';
 
-        $res = Http::withBody($xml, 'text/xml')->send('POST', 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm', ['verify' => false]);
-
-        // dd($xml);
-        // dd($res->body());
+        $res = Http::withBody($xml, 'text/xml')
+            ->send('POST', 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm', [
+                'verify' => false
+            ]);
 
         if ($res->status() == '200') {
 
@@ -384,23 +432,25 @@ class ODAController extends Controller
             $json = json_encode($xmlObject);
             $phpArray = json_decode($json, true);
 
-            // dd($phpArray );
+            // dd(array($xml, $phpArray));
 
             if ($phpArray['Response'] && $phpArray['Response']['ResponseStatusDescription'] !== 'Failure') {
-
-
-
-
-                // if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
-                //     if ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']) {
-                //         // dd($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg']);
-                //         foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'] as $item) {
-                //             if ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY") {
-                //                 return (int)$item['ChargeValue'];
-                //             }
-                //         }
-                //     }
-                // }
+                if (isset($phpArray['ShipmentCharges']) && isset($phpArray['ShipmentCharges']['ItemizedCharges'])) {
+                    if (isset($phpArray['ShipmentCharges']['ItemizedCharges'][0])) {
+                        foreach ($phpArray['ShipmentCharges']['ItemizedCharges'] as $item) {
+                            if ($item['Code'] == '190') {
+                                return $item['MonetaryValue'];
+                            }
+                        }
+                    } else {
+                        if (
+                            isset($phpArray['ShipmentCharges']['ItemizedCharges']['Code']) &&
+                            $phpArray['ShipmentCharges']['ItemizedCharges']['Code'] == '190'
+                        ) {
+                            return $phpArray['ShipmentCharges']['ItemizedCharges']['MonetaryValue'];
+                        }
+                    }
+                }
             }
         }
 
