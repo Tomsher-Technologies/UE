@@ -225,16 +225,14 @@ function weightCharges($request, $integrator_code, $billable_weight, $rate)
             $vol_weight = volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]);
             $b_weight = max($vol_weight, $request->weight[$index]);
 
-            if ($length > 122 || $secondSide > 76 || $b_weight > 32) {
-                $total_caharge += 15;
-            }
+            $t_total = 0;
 
             $girth =  (2 * $request->width[$index]) + (2 * $request->height[$index]);
             $girth +=  $request->length[$index];
 
             // Large Package Surcharge
             if ($girth > 300 && $girth <= 400) {
-                $total_caharge += 208;
+                $t_total += 208;
             }
 
             // Over Maximum Limits
@@ -243,8 +241,16 @@ function weightCharges($request, $integrator_code, $billable_weight, $rate)
                 $request->length[$index] > 274 ||
                 $girth > 400
             ) {
-                $total_caharge += 393;
+                $t_total += 393;
             }
+
+
+            if ($t_total == 0 && ($length > 122 || $secondSide > 76 || $b_weight > 32)) {
+                $t_total = 15;
+            }
+
+            $total_caharge += $t_total;
+
         }
     }
 
