@@ -239,7 +239,7 @@ function weightCharges($request, $integrator_code, $billable_weight, $rate)
 
             // Over Maximum Limits
             if (
-                $b_weight > 70 ||
+                $request->weight[$index] > 70 ||
                 $request->length[$index] > 274 ||
                 $girth > 400
             ) {
