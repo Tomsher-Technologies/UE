@@ -164,14 +164,14 @@
                                                 <td colspan="12" style="background: rgb(227 227 227); display: none">
                                                     <table class="table table-condensed invoice-totals">
                                                         <tbody>
-
                                                             @foreach ($charge_break_down[$integrator->id] as $key => $item)
-                                                                <tr>
-                                                                    <th>{{ $key }}</th>
-                                                                    <td id="invoiceSubtotal">AED {{ round($item, 2) }}</td>
-                                                                </tr>
+                                                                @if ($item > 0)
+                                                                    <tr>
+                                                                        <th>{{ $key }}</th>
+                                                                        <td id="invoiceSubtotal">AED {{ round($item, 2) }}</td>
+                                                                    </tr>
+                                                                @endif
                                                             @endforeach
-
                                                         </tbody>
                                                     </table>
                                                 </td>

@@ -28,7 +28,6 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
         ->orderBy('sort_order', 'ASC')
         ->get();
 
-    // dd($surcharges);
 
     $surcharges = $surcharges->reject(function ($surcharge) use ($zone_code, $country) {
         if ($surcharge->applied_for == 'all') {

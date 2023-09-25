@@ -115,7 +115,7 @@ class ODAController extends Controller
                 if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
 
                     if (isset($phpArray['GetQuoteResponse']['Note']['Condition']) && $phpArray['GetQuoteResponse']['Note']['Condition']['ConditionCode'] == '410301') {
-                        return 0;
+                        return [];
                     }
 
                     if (isset($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp']['QtdShpExChrg'])) {
@@ -124,11 +124,10 @@ class ODAController extends Controller
                                 isset($item['GlobalServiceName']) &&
                                 ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY" || $item['GlobalServiceName'] == "REMOTE AREA PICKUP")
                             ) {
-
-                                return (int)$item['ChargeValue'];
+                                return array('oda' => (float)$item['ChargeValue']);
                             }
                         }
-                    } else {
+                    } else if (isset($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp'])) {
                         foreach ($phpArray['GetQuoteResponse']['BkgDetails']['QtdShp'] as $item) {
                             if (isset($item['QtdShpExChrg'])) {
                                 if (is_array($item['QtdShpExChrg'])) {
@@ -137,7 +136,7 @@ class ODAController extends Controller
                                             isset($charge['GlobalServiceName']) &&
                                             ($charge['GlobalServiceName'] == "REMOTE AREA DELIVERY" || $charge['GlobalServiceName'] == "REMOTE AREA PICKUP")
                                         ) {
-                                            return (int)$charge['ChargeValue'];
+                                            return array('oda' => (float)$charge['ChargeValue']);
                                         }
                                     }
                                 } else {
@@ -145,8 +144,7 @@ class ODAController extends Controller
                                         isset($item['GlobalServiceName']) &&
                                         ($item['GlobalServiceName'] == "REMOTE AREA DELIVERY" || $item['GlobalServiceName'] == "REMOTE AREA PICKUP")
                                     ) {
-
-                                        return (int)$item['ChargeValue'];
+                                        return array('oda' => (float)$item['ChargeValue']);
                                     }
                                 }
                             }
@@ -156,7 +154,7 @@ class ODAController extends Controller
             }
         }
 
-        return 0;
+        return [];
     }
 
     public function ups(Search $search, $weight, $length, $height, $width)
@@ -439,7 +437,7 @@ class ODAController extends Controller
                     if (isset($phpArray['ShipmentCharges']['ItemizedCharges'][0])) {
                         foreach ($phpArray['ShipmentCharges']['ItemizedCharges'] as $item) {
                             if ($item['Code'] == '190') {
-                                return $item['MonetaryValue'];
+                                return array('oda' => $item['MonetaryValue']);
                             }
                         }
                     } else {
@@ -447,14 +445,14 @@ class ODAController extends Controller
                             isset($phpArray['ShipmentCharges']['ItemizedCharges']['Code']) &&
                             $phpArray['ShipmentCharges']['ItemizedCharges']['Code'] == '190'
                         ) {
-                            return $phpArray['ShipmentCharges']['ItemizedCharges']['MonetaryValue'];
+                            return array('oda' => $phpArray['ShipmentCharges']['ItemizedCharges']['MonetaryValue']);
                         }
                     }
                 }
             }
         }
 
-        return 0;
+        return [];
     }
 
     public function fedex(Search $search, $weight, $length, $height, $width)
@@ -536,27 +534,30 @@ class ODAController extends Controller
 
         $res = Http::withBody($xml, 'text/xml')->send('POST', 'https://ws.fedex.com:443/web-services', ['verify' => false]);
 
+        $rate = array();
+
         if ($res->status() == '200') {
             $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $res->body());
             $xml = new SimpleXMLElement($response);
             $body = $xml->xpath('//SOAP-ENV:Body')[0];
             $array = json_decode(json_encode((array)$body), TRUE);
-
             if ($array['RateReply']['RateReplyDetails']) {
                 foreach ($array['RateReply']['RateReplyDetails'] as $reply) {
-
                     if ($reply['RatedShipmentDetails']['ShipmentRateDetail']['Surcharges']) {
                         foreach ($reply['RatedShipmentDetails']['ShipmentRateDetail']['Surcharges'] as $surcharge) {
-                            if ($surcharge['SurchargeType'] == 'OUT_OF_DELIVERY_AREA') {
-                                return (int)$surcharge['Amount']['Amount'];
+                            if ($surcharge['SurchargeType'] == 'OUT_OF_DELIVERY_AREA' || $surcharge['SurchargeType'] == 'OUT_OF_PICKUP_AREA') {
+                                $rate['oda'] = (float)$surcharge['Amount']['Amount'];
                             }
                         }
+                    }
+                    if ($reply['RatedShipmentDetails']['ShipmentRateDetail']['FuelSurchargePercent']) {
+                        $rate['fsc'] = (float)$reply['RatedShipmentDetails']['ShipmentRateDetail']['FuelSurchargePercent'];
                     }
                 }
             }
         }
 
-        return 0;
+        return $rate;
     }
 
     public function db($from_address, $to_address)

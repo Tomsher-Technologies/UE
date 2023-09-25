@@ -1,8 +1,11 @@
 <div class="container page__container">
     <div class="page-section">
 
-        <div class="page-separator">
+        <div class="page-separator justify-content-between">
             <div class="page-separator__text">Search History</div>
+            <a wire:click.prevent='export' class="btn btn-primary">
+                Export
+            </a>
         </div>
 
 
@@ -128,6 +131,11 @@
                                     Date
                                 </a>
                             </th>
+                            <th>
+                                <a href="javascript:void(0)">
+                                    Details
+                                </a>
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="clients">
@@ -151,6 +159,10 @@
                                 <td>
                                     {{ $search->created_at->format('d/m/Y') }}
                                 </td>
+                                <td>
+                                    <a href="{{ route('admin.searches.details', ['search' => $search]) }}"
+                                        class="btn btn-sm btn-primary text-light pt-2 pb-2">Details</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -161,7 +173,6 @@
             </div>
         </div>
     </div>
-
 
     <script>
         $(document).ready(function() {

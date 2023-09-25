@@ -89,7 +89,7 @@
                     </div>
                     <div class="col-6 form-group">
                         <label class="form-label">Rate</label>
-                        <input wire:model="rate" type="number" step=".1" class="form-control mb-2">
+                        <input wire:model="rate" type="number" step=".001" class="form-control mb-2">
                         <x-form.error name="rate" />
                     </div> 
                 </div>

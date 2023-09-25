@@ -23,6 +23,7 @@ class Create extends Component
     public $request_limit;
     public $limit_weight;
     public $msp_type = 'percentage';
+    public $credit_limit;
 
     public $parent_users;
     public $parent_user = 0;
@@ -40,6 +41,7 @@ class Create extends Component
         return [
             'password' => 'required',
             'parent_user' => 'nullable',
+            'credit_limit' => 'nullable',
             'name' => 'required',
             'email' => ['required', 'email'],
             'phone' => ['nullable'],
@@ -105,6 +107,7 @@ class Create extends Component
             'request_limit' => $this->request_limit == '' ? 0 : $this->request_limit,
             'limit_weight' => $this->limit_weight == '' ? 0 : $this->limit_weight,
             'rate_sheet_status' => $this->rate_sheet_status,
+            'credit_limit' => $this->credit_limit,
         ]);
 
         if ($this->rate_sheet_status == "1") {

@@ -42,6 +42,7 @@ class Edit extends Component
             // 'customerDetails.msp_type' => ['nullable'],
             'customerDetails.request_limit' => ['nullable'],
             'customerDetails.limit_weight' => ['nullable'],
+            'customerDetails.credit_limit' => ['nullable'],
             'customerDetails.rate_sheet_status' => 'required',
         ];
     }

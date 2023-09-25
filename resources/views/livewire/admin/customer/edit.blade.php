@@ -33,6 +33,12 @@
 
 
         <div class="form-group">
+            <label class="form-label">Credit limit</label>
+            <input wire:model="customerDetails.credit_limit" type="number" step=".01" class="form-control mb-2">
+            <x-form.error name="credit_limit" />
+        </div>
+
+        <div class="form-group">
             <label class="form-label">Special request limit per day</label>
             <input wire:model="customerDetails.request_limit" type="number" class="form-control mb-2">
             <x-form.error name="customerDetails.request_limit" />

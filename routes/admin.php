@@ -9,28 +9,15 @@ use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\SpecialRate\SpecialRateController;
 use App\Http\Controllers\Admin\Surcharge\SurchargeController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
-use App\Http\Controllers\HubEz\HubEzController;
-use App\Http\Controllers\Reseller\ODAController;
 use App\Http\Livewire\Admin\Booking\BookingHistory;
 use App\Http\Livewire\Admin\Booking\BookingHistoryDetails;
 use App\Http\Livewire\Admin\Customer\Grade;
 use App\Http\Livewire\Admin\Customer\Grade\GradeProfitMargin;
 use App\Http\Livewire\Admin\Customer\GradeEdit;
-use App\Http\Livewire\Admin\Customer\ProfitMargin;
 use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
+use App\Http\Livewire\Admin\Search\SearchDetails;
 use App\Http\Livewire\Admin\Search\SearchHistory;
-use App\Mail\Admin\NewCustomerMail;
-use App\Models\Common\Settings;
-use App\Models\Integrators\Uploads;
-use App\Models\Orders\Search;
-use App\Models\User;
-use App\Notifications\Admin\NewUserNotification;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], function () {
 
@@ -123,6 +110,8 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
 
         Route::get('/searches', SearchHistory::class)->name('searches');
+        Route::get('/searches/details/{search}', SearchDetails::class)->name('searches.details');
+
         Route::get('/bookings', BookingHistory::class)->name('bookings');
         Route::get('/bookings/details/{order}', BookingHistoryDetails::class)->name('bookings.details');
 
