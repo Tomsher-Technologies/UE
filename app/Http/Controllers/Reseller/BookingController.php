@@ -146,21 +146,22 @@ class BookingController extends Controller
 
         $responseCollection = $response->json('result');
 
-        // dd($response->body());
-
         if ($response->status() == 200 && $responseCollection['result']) {
 
             $response2 = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/GetHawbLables', array($responseCollection['hawbNumber']));
-
-            // dd($response2->body());
-            // dd($response2->json('result'));
 
             $order->update([
                 'hawbNumber' => $responseCollection['hawbNumber'],
                 'invoice_url' => $responseCollection['resultMsg'],
                 'order_status' => 1,
             ]);
-            $order->save();
+
+            $customer_details = Auth()->user()->customerDetails;
+            $customer_details->update([
+                'credit_limit' => $customer_details->credit_limit - $request->rate
+            ]);
+
+            // current_credit
 
             // $mailer = new MailController();
             // $mailer->newBooking(Auth()->user(), $order);
@@ -169,8 +170,8 @@ class BookingController extends Controller
                 'invoice_url' => $responseCollection['resultMsg'],
                 'order_status' => 2,
             ]);
-            $order->save();
         }
+        $order->save();
 
         // dd($responseCollection);
 

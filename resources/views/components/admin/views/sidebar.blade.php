@@ -62,6 +62,18 @@
                         </li>
                     @endif
 
+                    <li class="sidebar-menu-item {{ request()->routeIs('admin.booking*') || request()->routeIs('admin.search*') ? 'active' : '' }}"
+                        data-placement="right" data-container="body" data-boundary="window">
+                        <a class="sidebar-menu-button" href="#sm_history" data-toggle="tab" role="tab"
+                            aria-controls="sm_history" aria-selected="false">
+                            <span
+                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
+                                access_time
+                            </span>
+                            <span class="sidebar-menu-text">History</span>
+                        </a>
+                    </li>
+
 
                     @if (auth()->user()->hasSpecialRatesPrivilages())
                         <li class="sidebar-menu-item {{ request()->routeIs('admin.surcharge*') ? 'active' : '' }}"
@@ -198,24 +210,6 @@
                                 </a>
                             </li>
                             <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button" href="{{ route('admin.searches') }}">
-                                    <span
-                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                        search
-                                    </span>
-                                    <span class="sidebar-menu-text">Search History</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button" href="{{ route('admin.bookings') }}">
-                                    <span
-                                        class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
-                                        history
-                                    </span>
-                                    <span class="sidebar-menu-text">Booking History</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button" href="{{ route('admin.user.import') }}">
                                     <span
                                         class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
@@ -276,6 +270,29 @@
                     </div>
                 @endif
 
+                <div class="tab-pane" id="sm_history">
+                    <div class="sidebar-heading">History</div>
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('admin.searches') }}">
+                                <span
+                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                    search
+                                </span>
+                                <span class="sidebar-menu-text">Search History</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('admin.bookings') }}">
+                                <span
+                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                    history
+                                </span>
+                                <span class="sidebar-menu-text">Booking History</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
         </div>
