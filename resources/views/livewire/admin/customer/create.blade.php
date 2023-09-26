@@ -121,5 +121,11 @@
                 icon: 'success'
             });
         })
+        window.addEventListener('memberFailed', e => {
+            Swal.fire({
+                title: 'Customer creation faild, please try again.',
+                icon: 'error'
+            });
+        })
     </script>
 </div>
