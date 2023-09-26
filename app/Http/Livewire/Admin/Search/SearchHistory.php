@@ -30,7 +30,7 @@ class SearchHistory extends Component
 
     public function mount()
     {
-        $this->users = User::whereIs(['reseller', 'reselleruser'])->get();
+        $this->users = User::whereIs('reseller', 'reselleruser')->get();
         $this->countries = Country::select('id', 'name')->get();
     }
 

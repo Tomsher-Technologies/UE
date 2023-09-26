@@ -17,7 +17,7 @@ class AdminDashboardController extends Controller
     {
         $period = CarbonPeriod::create(Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek());
 
-        $vendors = User::whereIs(['reseller', 'reselleruser'])->count();
+        $vendors = User::whereIs('reseller', 'reselleruser')->count();
         $searches = Search::count();
         $bookings = Order::count();
 
