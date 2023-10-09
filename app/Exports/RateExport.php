@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Customer\CustomerRates;
 use App\Models\Customer\Grade;
 use App\Models\Integrators\Integrator;
 use App\Models\Rates\ExportRate;
@@ -11,6 +12,7 @@ use App\Models\Zones\Zone;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -35,6 +37,10 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
     public $unique_types;
     public $color = "000000";
     public $bg_color = "FFFFFF";
+
+    // Constants
+    public $pac_type = "pack_type";
+    public $zone_code = "zone_code";
 
     public function __construct($request)
     {
@@ -65,18 +71,32 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
         }
 
         $this->data = $model::where('integrator_id', $this->request->integrator)->get();
-        // $this->data = $model::with('zone')->where('integrator_id', $this->request->integrator)->get();
 
-        $this->unique_types = $this->data->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
+        if (Auth::user()->isA('reseller')) {
+            $user_rate = CustomerRates::where('user_id', auth()->user()->id)
+                ->where('integrator_id',  $this->request->integrator)
+                ->where('type', $this->request->type)
+                ->get();
+
+            if ($user_rate) {
+                $this->pac_type = 'pac_type';
+                $this->zone_code = 'zone';
+                $this->data = $user_rate;
+            }
+        }
+
+        $this->unique_types = $this->data->sortBy($this->pac_type)->pluck($this->pac_type)->unique()->toArray();
+
+        // dd($this->unique_types);
 
         if ($this->request->weight) {
             foreach ($this->unique_types as $unique_types) {
-                $w = $this->data->where('pack_type', '=', $unique_types)->where('weight', '>=', $this->request->weight)->pluck('weight')->unique()->first();
+                $w = $this->data->where($this->pac_type, '=', $unique_types)->where('weight', '>=', $this->request->weight)->pluck('weight')->unique()->first();
                 $this->unique_weight[$unique_types] = array($w);
             }
         } else {
             foreach ($this->unique_types as $unique_types) {
-                $this->unique_weight[$unique_types] = $this->data->where('pack_type', '=', $unique_types)->pluck('weight')->unique();
+                $this->unique_weight[$unique_types] = $this->data->where($this->pac_type, '=', $unique_types)->pluck('weight')->unique();
             }
         }
 
@@ -123,7 +143,7 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
                 $array = [];
 
                 foreach ($this->zone_unique as  $zone) {
-                    $rate = $this->data->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+                    $rate = $this->data->where($this->zone_code, $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
                     if ($rate) {
                         $array['weight'] = $weight;
                         $array['type'] = $unique_types;
