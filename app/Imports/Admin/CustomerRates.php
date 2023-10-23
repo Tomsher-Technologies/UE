@@ -36,8 +36,6 @@ class CustomerRates implements ToCollection
 
         $this->headings = array_slice($this->headings, 2);
 
-        // $heading_ids = Zone::where('type', $this->type)->where('integrator_id', $this->integrator)->select(['id', 'zone_code'])->get();
-
         $this->headings = array_map('strtoupper', $this->headings);
         $this->headings = array_map('trim', $this->headings);
 
@@ -48,10 +46,8 @@ class CustomerRates implements ToCollection
         ])->delete();
 
         foreach ($rows as $row) {
-
             $weight = $row[0];
             $weight_break = explode('-', $weight);
-
             foreach ($this->headings as $index => $heading) {
                 $this->user->customerRate()->create([
                     'user_id' => $this->user->id,

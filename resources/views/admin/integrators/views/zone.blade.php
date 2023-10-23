@@ -32,58 +32,59 @@
                                                     Name</a>
                                             </th>
                                             <th>
-                                                <a href="javascript:void(0)"  class="sort"
-                                                data-sort="js-lists-values-country-code">Country Code</a>
+                                                <a href="javascript:void(0)" class="sort"
+                                                    data-sort="js-lists-values-country-code">Country Code</a>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody class="list" id="clients">
                                         @foreach ($zone as $zon)
-                                            <tr>
-                                                <td>
-                                                    <div class="media flex-nowrap align-items-center"
-                                                        style="white-space: nowrap;">
-                                                        <div class="media-body">
-                                                            <div class="d-flex flex-column">
-                                                                <p class="mb-0">
-                                                                    <strong class="js-lists-values-name">
-                                                                        {{ $zon->zone_code }}
-                                                                    </strong>
-                                                                </p>
+                                            @if ($zon->country)
+                                                <tr>
+                                                    <td>
+                                                        <div class="media flex-nowrap align-items-center"
+                                                            style="white-space: nowrap;">
+                                                            <div class="media-body">
+                                                                <div class="d-flex flex-column">
+                                                                    <p class="mb-0">
+                                                                        <strong class="js-lists-values-name">
+                                                                            {{ $zon->zone_code }}
+                                                                        </strong>
+                                                                    </p>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="media flex-nowrap align-items-center"
-                                                        style="white-space: nowrap;">
-                                                        <div class="media-body">
-                                                            <div class="d-flex flex-column">
-                                                                <p class="mb-0">
-                                                                    <strong class="js-lists-values-country">
-                                                                        {{ $zon->country->name }}
-                                                                    </strong>
-                                                                </p>
+                                                    </td>
+                                                    <td>
+                                                        <div class="media flex-nowrap align-items-center"
+                                                            style="white-space: nowrap;">
+                                                            <div class="media-body">
+                                                                <div class="d-flex flex-column">
+                                                                    <p class="mb-0">
+                                                                        <strong class="js-lists-values-country">
+                                                                            {{ $zon->country->name }}
+                                                                        </strong>
+                                                                    </p>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="media flex-nowrap align-items-center"
-                                                        style="white-space: nowrap;">
-                                                        <div class="media-body">
-                                                            <div class="d-flex flex-column">
-                                                                <p class="mb-0">
-                                                                    <strong class="js-lists-values-country-code">
-                                                                        {{ $zon->country->code }}
-                                                                    </strong>
-                                                                </p>
+                                                    </td>
+                                                    <td>
+                                                        <div class="media flex-nowrap align-items-center"
+                                                            style="white-space: nowrap;">
+                                                            <div class="media-body">
+                                                                <div class="d-flex flex-column">
+                                                                    <p class="mb-0">
+                                                                        <strong class="js-lists-values-country-code">
+                                                                            {{ $zon->country->code }}
+                                                                        </strong>
+                                                                    </p>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-
-                                            </tr>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>

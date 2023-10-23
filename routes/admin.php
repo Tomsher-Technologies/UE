@@ -15,6 +15,7 @@ use App\Http\Livewire\Admin\Customer\Grade;
 use App\Http\Livewire\Admin\Customer\Grade\GradeProfitMargin;
 use App\Http\Livewire\Admin\Customer\GradeEdit;
 use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
+use App\Http\Livewire\Admin\Reports\UserList;
 use App\Http\Livewire\Admin\Search\SearchDetails;
 use App\Http\Livewire\Admin\Search\SearchHistory;
 use Illuminate\Support\Facades\Route;
@@ -99,7 +100,7 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::post('/export', [IntegratorController::class, 'export']);
         });
 
-        Route::resource('integrator', IntegratorController::class)->only(['index', 'create', 'edit', 'show']);
+        Route::resource('integrator', IntegratorController::class)->only(['index', 'edit', 'show']);
 
 
         Route::group(['prefix' => 'surcharge', 'as' => 'surcharge.'], function () {
@@ -115,14 +116,15 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         Route::get('/bookings', BookingHistory::class)->name('bookings');
         Route::get('/bookings/details/{order}', BookingHistoryDetails::class)->name('bookings.details');
 
-        Route::name('special_rates.')->group(function () {
-            Route::get('/special_rates', [SpecialRateController::class, 'index'])->name('index');
-            Route::get('/special_rates/{special_rate}/edit/', [SpecialRateController::class, 'edit'])->name('edit');
-        });
+        // Route::name('special_rates.')->group(function () {
+        //     Route::get('/special_rates', [SpecialRateController::class, 'index'])->name('index');
+        //     Route::get('/special_rates/{special_rate}/edit/', [SpecialRateController::class, 'edit'])->name('edit');
+        // });
 
 
         Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
-            Route::get('/', [ReportsController::class, 'index'])->name('index');
+            Route::get('/user', UserList::class)->name('user');
+            Route::get('/user/details/{user}', [ReportsController::class, 'userDetails'])->name('user.details');
         });
 
         Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);

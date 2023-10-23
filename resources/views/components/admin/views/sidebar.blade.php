@@ -147,7 +147,7 @@
                                     <span class="sidebar-menu-text">Integrators List</span>
                                 </a>
                             </li>
-                            <li class="sidebar-menu-item">
+                            {{-- <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button" href="{{ route('admin.integrator.create') }}">
                                     <span
                                         class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
@@ -155,7 +155,7 @@
                                     </span>
                                     <span class="sidebar-menu-text">Add New Integrators</span>
                                 </a>
-                            </li>
+                            </li> --}}
                             {{-- <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button" href="{{ route('admin.integrator.export') }}">
                                     <span
@@ -200,7 +200,7 @@
                                     <span class="sidebar-menu-text">Grades</span>
                                 </a>
                             </li>
-                            <li class="sidebar-menu-item">
+                            {{-- <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button" href="{{ route('admin.special_rates.index') }}">
                                     <span
                                         class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
@@ -208,7 +208,7 @@
                                     </span>
                                     <span class="sidebar-menu-text">Special Requests</span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button" href="{{ route('admin.user.import') }}">
                                     <span

@@ -9,6 +9,7 @@ use App\Models\Customer\Grade;
 use App\Models\User;
 use Bouncer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -69,7 +70,7 @@ class AgentEdit extends Component
         $validatedData = $this->validate();
 
         if ($this->password !== '') {
-            $this->agent->password = $this->password;
+            $this->agent->password = Hash::make($this->password);
         }
 
         $this->agent->save();

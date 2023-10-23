@@ -47,12 +47,8 @@ class ProfitMarginImport implements ToCollection
 
         $heading_ids = Zone::where('type', $this->type)->where('integrator_id', $this->integrator)->select(['id', 'zone_code'])->get();
 
-        // dd($heading_ids);
-
         foreach ($rows as $row) {
-
             $start_date =  Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[4]));
-
             if ($this->user_type == 'user') {
                 if ($this->user) {
 

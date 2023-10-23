@@ -94,6 +94,7 @@ final class BookingHistoryTable extends PowerGridComponent
             ->addColumn('from_country_name')
             ->addColumn('to_country_name')
             ->addColumn('order_status')
+            ->addColumn('search_id')
             ->addColumn('status_text', function (Order $model) {
                 if ($model->order_status == 1) {
                     return  "Success";
@@ -178,6 +179,12 @@ final class BookingHistoryTable extends PowerGridComponent
                 ->hidden(),
 
             Column::add()
+                ->title('Search Id')
+                ->field('search_id')
+                ->makeInputText('search.id')
+                ->hidden(),
+
+            Column::add()
                 ->title('Status')
                 ->field('status_text')
                 ->makeInputSelect(collect(
@@ -224,6 +231,12 @@ final class BookingHistoryTable extends PowerGridComponent
                 ->caption('Edit')
                 ->class('btn btn-sm btn-primary')
                 ->route('reseller.booking.history.details', ['order' => 'id']),
+
+            Button::add('view')
+                ->caption('Quote Again')
+                ->class('btn btn-sm btn-primary')
+                ->target('_self')
+                ->route('reseller.search.again', ['search' => 'search_id']),
         ];
     }
 

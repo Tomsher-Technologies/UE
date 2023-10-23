@@ -8,6 +8,7 @@ use App\Models\Customer\Grade;
 use App\Models\User;
 use Livewire\Component;
 use Bouncer;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AgentCreate extends Component
@@ -85,7 +86,7 @@ class AgentCreate extends Component
         $customer = User::create([
             'name' => $this->name,
             'email' => $this->email,
-            'password' => $this->password,
+            'password' => Hash::make($this->password),
             'status' => 0,
             'parent_id' => Auth()->user()->id,
             'grade_id' => $this->grade,

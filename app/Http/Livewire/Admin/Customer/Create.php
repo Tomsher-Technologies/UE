@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Bouncer;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class Create extends Component
 {
@@ -86,7 +87,7 @@ class Create extends Component
             $customer = User::create([
                 'name' => $this->name,
                 'email' => $this->email,
-                'password' => $this->password,
+                'password' => Hash::make($this->password),
                 'status' => 1,
                 'verified' => 1,
                 'parent_id' => $this->parent_user,

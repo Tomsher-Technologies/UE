@@ -29,7 +29,6 @@ class SearchController extends Controller
 {
     public function searchNew(Request $request)
     {
-
         $charge_break_down = [];
 
         $search = $this->saveSearch($request);
@@ -82,9 +81,6 @@ class SearchController extends Controller
                     ->where('end_weight', '>=', $billable_weight)
                     ->first();
 
-                if ($integrator->id == 2) {
-                    // dd($zone);
-                }
 
                 if ($over_weight && $over_weight->count()) {
                     $integrator->weight = $over_weight;
@@ -117,7 +113,6 @@ class SearchController extends Controller
                         ->where('integrator_id', $integrator->id)
                         ->where('type', $del_type)
                         ->where('zone', $zone_code)
-                        ->where('integrator_id', $integrator->id)
                         ->where('pac_type', $request->package_type)
                         ->where('weight', '>=', $billable_weight)
                         ->first();
@@ -149,7 +144,6 @@ class SearchController extends Controller
                     }
                     // add surcharge
                     $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate, $charge_break_down);
-
                     // add FSC
                     if (isset($oda_charge['fsc'])) {
                         $fsc = ($oda_charge['fsc'] / 100) * $integrator->weight->rate;
@@ -187,7 +181,6 @@ class SearchController extends Controller
         }
 
         // dd($charge_break_down);
-
         return view('reseller.pages.searchresult_new')->with([
             'integrators' => $integrators,
             'hasSpecialRequest' => $hasSpecialRequest,
@@ -407,5 +400,43 @@ class SearchController extends Controller
         return view('reseller.agents.search_history')->with([
             'searches' => $searches,
         ]);
+    }
+
+    public function searchAgain(Search $search)
+    {
+        $search->load(['items']);
+
+        $length = [];
+        $width = [];
+        $height = [];
+        $weight = [];
+        $no_piece = [];
+
+        foreach ($search->items as $key => $item) {
+            $length[$key] = $item->length;
+            $width[$key] = $item->width;
+            $height[$key] = $item->height;
+            $weight[$key] = $item->weight;
+            $no_piece[$key] = $item->no_pieces;
+        }
+
+        $request = new Request([
+            "shipping_type" => $search->shipment_type,
+            "package_type" => $search->package_type,
+            "fromCountry" => $search->from_country,
+            "fromCity" => $search->from_city,
+            "fromPincode" => $search->from_pin,
+            "toCountry" => $search->to_country,
+            "toCity" => $search->to_city,
+            "toPincode" => $search->to_pin,
+            "no_pieces" => $search->number_of_pieces,
+            "length" => $length,
+            "height" => $height,
+            "width" =>  $width,
+            "weight" => $weight,
+            "no_piece" => $no_piece,
+        ]);
+
+        return $this->searchNew($request);
     }
 }

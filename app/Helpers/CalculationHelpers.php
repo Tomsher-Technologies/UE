@@ -249,7 +249,6 @@ function weightCharges($request, $integrator_code, $billable_weight, $rate)
             }
 
             $total_caharge += $t_total;
-
         }
     }
 

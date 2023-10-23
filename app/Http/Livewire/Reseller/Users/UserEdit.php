@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Reseller\Users;
 
 use App\Helpers\Password;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class UserEdit extends Component
@@ -40,7 +41,7 @@ class UserEdit extends Component
         $validatedData = $this->validate();
 
         if ($this->password !== '') {
-            $this->user->password = $this->password;
+            $this->user->password = Hash::make($this->password);
         }
 
         $this->user->save();

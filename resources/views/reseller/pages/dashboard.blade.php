@@ -18,7 +18,8 @@
                                     <label class="text-black" for="filter_name">Shipment Type</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select class="form-control" id="type" name="shipping_type" required>
+                                            <select autofocus tabindex="1" class="form-control" id="type"
+                                                name="shipping_type" required>
                                                 <option value="" disabled selected>Select a shipment type</option>
                                                 <option value="import">Import</option>
                                                 <option value="export">Export</option>
@@ -33,7 +34,8 @@
                                     <label class="text-black" for="filter_name">Package Type</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select class="form-control" id="package_type" name="package_type" required>
+                                            <select tabindex="2" class="form-control" id="package_type"
+                                                name="package_type" required>
                                                 <option value="" disabled selected>Select a package type</option>
                                                 <option value="letter">Letter / Envelope</option>
                                                 <option value="doc">Document</option>
@@ -51,8 +53,8 @@
                                     <label class="text-black" for="filter_name">Pickup Country</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select id="fromCountry" class="form-control select2" name="fromCountry"
-                                                required></select>
+                                            <select tabindex="3" id="fromCountry" class="form-control select2"
+                                                name="fromCountry" required></select>
                                         </div>
                                     </div>
                                 </div>
@@ -63,8 +65,9 @@
                                     <div>
 
                                         <div class="searchable">
-                                            <input name="fromCity" id="fromCity" type="text" placeholder="search city"
-                                                onkeyup="delayCity(this,event,'from')" placeholder="off">
+                                            <input tabindex="4" name="fromCity" id="fromCity" type="text"
+                                                placeholder="search city" onkeyup="delayCity(this,event,'from')"
+                                                placeholder="off">
                                             <ul></ul>
                                         </div>
 
@@ -80,8 +83,9 @@
                                     <div>
 
                                         <div class="searchable">
-                                            <input name="fromPincode" id="fromPincode" type="number"
-                                                placeholder="search pincode" onkeyup="filterPin(this,event,'from')" placeholder="off">
+                                            <input tabindex="5" name="fromPincode" id="fromPincode" type="number"
+                                                placeholder="search pincode" onkeyup="filterPin(this,event,'from')"
+                                                placeholder="off">
                                             <ul></ul>
                                         </div>
 
@@ -99,7 +103,8 @@
                                     <label class="text-black" for="filter_name">Delivery Country</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select id="toCountry" class="form-control" name="toCountry" required></select>
+                                            <select tabindex="6" id="toCountry" class="form-control" name="toCountry"
+                                                required></select>
                                         </div>
                                     </div>
                                 </div>
@@ -110,8 +115,9 @@
                                     <div>
 
                                         <div class="searchable">
-                                            <input name="toCity" id="toCity" type="text" placeholder="search city"
-                                                onkeyup="delayCity(this,event,'to')" placeholder="off">
+                                            <input tabindex="7" name="toCity" id="toCity" type="text"
+                                                placeholder="search city" onkeyup="delayCity(this,event,'to')"
+                                                placeholder="off">
                                             <ul></ul>
                                         </div>
 
@@ -126,8 +132,9 @@
                                     <label class="text-black" for="filter_name">Delivery Pincode</label>
                                     <div>
                                         <div class="searchable">
-                                            <input name="toPincode" id="toPincode" type="text"
-                                                placeholder="search pincode" onkeyup="filterPin(this,event,'to')" placeholder="off">
+                                            <input tabindex="8" name="toPincode" id="toPincode" type="text"
+                                                placeholder="search pincode" onkeyup="filterPin(this,event,'to')"
+                                                placeholder="off">
                                             <ul></ul>
                                         </div>
                                         {{-- <div class="autocomplete">
@@ -143,8 +150,9 @@
                                     <label class="text-black" for="filter_name">Total Number of Pieces</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <input readonly="readonly" value="1" class="form-control" type="number"
-                                                name="no_pieces" id="no_pieces" placeholder="Total Number of Pieces">
+                                            <input readonly="readonly" value="1" class="form-control"
+                                                type="number" name="no_pieces" id="no_pieces"
+                                                placeholder="Total Number of Pieces">
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +169,7 @@
                                         <label class="text-black" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step=".1" type="number"
+                                                <input tabindex="9" class="form-control" step=".1" type="number"
                                                     name="length[1]" placeholder="Length" required>
                                             </div>
                                         </div>
@@ -172,7 +180,7 @@
                                         <label class="text-black" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step=".1" type="number"
+                                                <input tabindex="10" class="form-control" step=".1" type="number"
                                                     name="height[1]" placeholder="Height" required>
                                             </div>
                                         </div>
@@ -183,7 +191,7 @@
                                         <label class="text-black" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step=".1" type="number"
+                                                <input tabindex="11" class="form-control" step=".1" type="number"
                                                     name="width[1]" placeholder="Width" required>
                                             </div>
                                         </div>
@@ -194,7 +202,7 @@
                                         <label class="text-black" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" step=".1"
+                                                <input tabindex="12" class="form-control" type="number" step=".1"
                                                     name="weight[1]" placeholder="Actual Weight" required>
                                             </div>
                                         </div>
@@ -205,9 +213,9 @@
                                         <label class="text-black" for="filter_name">Number Of Pieces</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control no_piece" value="1" type="number"
-                                                    step="1" name="no_piece[1]" placeholder="Number Of Pieces"
-                                                    required>
+                                                <input tabindex="13" class="form-control no_piece" value="1"
+                                                    type="number" step="1" name="no_piece[1]"
+                                                    placeholder="Number Of Pieces" required>
                                             </div>
                                         </div>
                                     </div>
@@ -216,7 +224,7 @@
                         </div>
                         <div class="row align-items-center mb-2">
                             <div class="col-sm-12 text-left">
-                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="button"
+                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2 main-btn" type="button"
                                     id="addPackage">Add
                                     Package</button>
                             </div>
@@ -226,8 +234,8 @@
 
                         <div class="row align-items-center">
                             <div class="col-sm-12">
-                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="submit"
-                                    id="formSubmit">Quote</button>
+                                <button tabindex="14" class="btn btn-sm btn-primary main-btn text-light pt-2 pb-2"
+                                    type="submit" id="formSubmit">Quote</button>
                             </div>
                         </div>
                     </form>
@@ -408,6 +416,26 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
+        select:focus,
+        input:focus {
+            box-shadow: inset 0 1px 1px rgba(39, 44, 51, 0.075), 0 0 0 1px #006b6e !important
+        }
+
+        .main-btn {
+            font-size: 16px;
+            padding: 10px 40px !important;
+            line-height: 16px;
+            transition: all .2s ease-in
+        }
+
+        .main-btn:focus,
+        .main-btn:hover,
+        .main-btn:active {
+            color: #2f45ff !important;
+            background: #fff !important;
+            ;
+        }
+
         .search-banner {
             background-image: url(https://blackswancapital.eu/wp-content/uploads/2020/03/20_03-scaled.jpg);
             background-size: cover;
@@ -647,6 +675,12 @@
         $(".searchable ul li").hover(function() {
             $(this).closest(".searchable").find("ul li.selected").removeClass("selected");
             $(this).addClass("selected");
+        });
+    </script>
+
+    <script>
+        $(document).on('focus', '.select2', function() {
+            $(this).siblings('select').select2('open');
         });
     </script>
 
