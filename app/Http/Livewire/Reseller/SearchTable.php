@@ -23,7 +23,7 @@ final class SearchTable extends PowerGridComponent
     public bool $showUpdateMessages = true;
 
     public string $sortField = 'created_at';
-    
+
     public string $sortDirection = 'desc';
 
     /*
@@ -36,7 +36,7 @@ final class SearchTable extends PowerGridComponent
     public function setUp(): void
     {
         $this->showPerPage()
-            ->showSearchInput(); 
+            ->showSearchInput();
         // ->showExportOption('download', ['excel', 'csv']);
     }
 
@@ -225,13 +225,14 @@ final class SearchTable extends PowerGridComponent
         return [
             Button::add('edit')
                 ->caption('View Packages')
-                ->class('btn btn-sm btn-primary')
+                ->class('btn btn-sm btn-secondary')
                 ->emit('postAdded', ['key' => 'id']),
-            //    Button::add('destroy')
-            //        ->caption('Delete')
-            //        ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-            //        ->route('search.destroy', ['search' => 'id'])
-            //        ->method('delete')
+
+            Button::add('view')
+                ->caption('Quote Again')
+                ->class('btn btn-sm btn-primary')
+                ->target('_self')
+                ->route('reseller.search.again', ['search' => 'id']),
         ];
     }
 

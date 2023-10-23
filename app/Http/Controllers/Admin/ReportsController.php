@@ -3,30 +3,54 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Orders\Order;
 use App\Models\Orders\Search;
+use App\Models\User;
+use App\Models\Zones\Country;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
-    public function index(Request $request)
+    public function userDetails(User $user)
     {
-        // $search_query = Search::with([
-        //     'user',
-        //     'toCountry',
-        //     'fromCountry',
-        // ]);
+        $quotes = Search::whereUserId($user->id)->with(['items', 'toCountry', 'fromCountry'])->limit(10)->get();
+        $bookings = Order::where('order_status', 1)
+            ->whereUserId($user->id)
+            ->with(['search', 'search.items', 'search.toCountry', 'search.fromCountry', 'integrator'])
+            ->limit(10)
+            ->get();
 
-        // if ($request->search_start_date) {
-        //     $end_date = $request->search_start_date ?? $request->search_start_date;
-        //     $search_query->whereBetween('create_at',[
-        //         $request->search_start_date
-        //     ])
-        // }
+        $top_countries = [];
 
-        // $searches = $search_query->get();
+        $temp_import = [];
+        $temp_export = [];
+        $temp_trans_to = [];
+        $temp_trans_from = [];
 
-        // dd($searches);
+        foreach ($bookings as $booking) {
+            $search = $booking->search;
+            if ($search->shipment_type == 'import') {
+                if (isset($temp_import[$search->fromCountry->name])) {
+                    $temp_import[$search->fromCountry->name]++;
+                } else {
+                    $temp_import[$search->fromCountry->name] = 1;
+                }
+            } elseif ($search->shipment_type == 'export') {
+                if (isset($temp_export[$search->toCountry->name])) {
+                    $temp_export[$search->toCountry->name]++;
+                } else {
+                    $temp_export[$search->toCountry->name] = 1;
+                }
+            }
+        }
 
-        return view('admin.reports.index');
+
+        arsort($temp_import);
+        $top_countries['import'] = key($temp_import);
+
+        arsort($temp_export);
+        $top_countries['export'] = key($temp_export);
+
+        return view('admin.reports.userdetails', compact('quotes', 'bookings', 'top_countries'));
     }
 }

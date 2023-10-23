@@ -83,7 +83,6 @@
                         <div class="card-body text-muted flex d-flex flex-column align-items-center justify-content-center">
                             <div class="chart w-100" style="height: 150px;">
                                 {!! $searchchartjs->render() !!}
-
                             </div>
                             <div id="totalSalesChartLegend" class="chart-legend chart-legend--horizontal mt-16pt"></div>
                         </div>

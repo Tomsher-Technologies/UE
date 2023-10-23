@@ -1,4 +1,5 @@
 <div>
+
     <form wire:submit.prevent="save">
         <div class="form-group">
             <label class="form-label">Name</label>
@@ -35,7 +36,7 @@
         <div class="form-group">
             <label class="form-label">Credit limit</label>
             <input wire:model="customerDetails.credit_limit" type="number" step=".01" class="form-control mb-2">
-            <x-form.error name="credit_limit" />
+            <x-form.error name="customerDetails.credit_limit" />
         </div>
 
         <div class="form-group">

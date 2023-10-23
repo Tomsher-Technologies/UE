@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\Auth\LoginController;
-use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\HubEz\HubEzController;
 use App\Http\Controllers\Reseller\Auth\ResellerLoginController;
 use App\Http\Controllers\Reseller\BookingController;
@@ -17,44 +15,16 @@ use App\Http\Livewire\Reseller\Users\UserCreate;
 use App\Http\Livewire\Reseller\Users\UserEdit;
 use App\Http\Livewire\Reseller\Users\UserIndex;
 use App\Models\Common\DynamicContents;
-use App\Models\Common\Settings;
-use App\Models\Integrators\Integrator;
-use App\Models\Orders\Order;
-use App\Models\Orders\Search;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 
 Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
 
     Route::get('/', function () {
-        return redirect()->route('reseller.login');
+        return redirect()->route('reseller.dashboard');
     });
 
     Route::get('/hub', [HubEzController::class, 'placeOrder']);
-
-    Route::get('/test', function () {
-
-
-
-
-
-        // $response2 = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/GetHawbLables',  array('RPX201803661HK54')  );
-
-        // dd($response2->json());
-
-        // $order = Order::find(5);
-        // $integrator = Integrator::find(1);
-        // $search = Search::with(['items', 'toCountry', 'fromCountry'])->find(1);
-
-        // return view('reseller.pages.order.success')->with([
-        //     'integrator' => $integrator,
-        //     'order' => $order,
-        //     'search' => $search,
-        // ]);
-    });
 
     Route::middleware(['guest'])->group(function () {
         Route::get('login', [ResellerLoginController::class, 'loginView'])->name('login');
@@ -79,6 +49,8 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
 
             Route::get('/search-history', [SearchController::class, 'searchHistory'])->name('history');
             Route::post('/search-history/items', [SearchController::class, 'searchHistoryItems'])->name('history.items');
+
+            Route::get('/search-again/{search}', [SearchController::class, 'searchAgain'])->name('again');
         });
 
         Route::group(['prefix' => 'booking', 'as' => 'booking.'], function () {

@@ -6,6 +6,7 @@ use App\Helpers\Password;
 use App\Models\User;
 use Bouncer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class UserCreate extends Component
@@ -49,7 +50,7 @@ class UserCreate extends Component
         $customer = User::create([
             'name' => $this->name,
             'email' => $this->email,
-            'password' => $this->password,
+            'password' => Hash::make($this->password),
             'status' => 1,
             'parent_id' => $this->parent_user,
             'grade_id' => 0,

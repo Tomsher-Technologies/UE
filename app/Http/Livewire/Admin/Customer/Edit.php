@@ -12,6 +12,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use Bouncer;
+use Illuminate\Support\Facades\Hash;
 
 class Edit extends Component
 {
@@ -71,7 +72,7 @@ class Edit extends Component
         $validatedData = $this->validate();
 
         if ($this->password !== '' && $this->password !== NULL) {
-            $this->user->password = $this->password;
+            $this->user->password = Hash::make($this->password);
         }
 
         $this->user->save();
@@ -98,7 +99,6 @@ class Edit extends Component
         $this->reset('password');
 
         Bouncer::refresh();
-
 
         $this->dispatchBrowserEvent('memberUpdated');
     }
