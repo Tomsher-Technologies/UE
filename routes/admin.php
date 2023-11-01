@@ -26,25 +26,6 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
         return redirect()->route('admin.dashboard');
     });
 
-    Route::get('/test', function () {
-
-        // Uploads::where([
-        //     'path' => 'storage/uploaded/rates/1674016148DHL Import.csv/1674016148DHL Import.csv'
-        // ])->delete();
-
-        // $oda_controller = new ODAController();
-
-        // $search_id = Search::find(19);
-
-        // // dd($search_id);
-
-        // $oda_charge = $oda_controller->checkODA('dhl', $search_id);
-
-        // dd($oda_charge);
-    });
-
-    // Route::get('/test', [HubEzController::class, 'placeOrder']);
-
     Route::middleware(['guest'])->group(function () {
         Route::get('login', [LoginController::class, 'loginView'])->name('login');
         Route::post('login', [LoginController::class, 'authenticate']);
@@ -115,12 +96,6 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
 
         Route::get('/bookings', BookingHistory::class)->name('bookings');
         Route::get('/bookings/details/{order}', BookingHistoryDetails::class)->name('bookings.details');
-
-        // Route::name('special_rates.')->group(function () {
-        //     Route::get('/special_rates', [SpecialRateController::class, 'index'])->name('index');
-        //     Route::get('/special_rates/{special_rate}/edit/', [SpecialRateController::class, 'edit'])->name('edit');
-        // });
-
 
         Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
             Route::get('/user', UserList::class)->name('user');

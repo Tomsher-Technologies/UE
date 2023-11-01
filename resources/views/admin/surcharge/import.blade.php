@@ -10,7 +10,7 @@
                 <div class="alert alert-danger">
                     {{ count(session('import_errors')) }} Errors. Could not import data for
                     {{ Str::plural('surcharge', count(session('import_errors'))) }}
-                    {{ implode(session('import_errors'), ', ') }}
+                    {{ implode(', ', session('import_errors')) }}
                 </div>
             @endif
 

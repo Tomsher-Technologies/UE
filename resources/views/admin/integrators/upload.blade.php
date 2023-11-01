@@ -10,15 +10,17 @@
             <x-form.status />
 
             @if (session('import_errors') && count(session('import_errors')) > 0)
+                {{-- {{ dd(gettype(session('import_errors'))); }} --}}
                 <div class="alert alert-danger">
                     Could not import data for {{ Str::plural('zone', count(session('import_errors'))) }}
-                    {{ implode(session('import_errors'), ', ') }},
+                    {{ implode(', ', session('import_errors')) }},
                     because the {{ Str::plural('zone', count(session('import_errors'))) }} does not exist. Please create the
                     {{ Str::plural('zone', count(session('import_errors'))) }} first and then try uploading again.
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('admin.integrator.uploadRates', $integrator) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('admin.integrator.uploadRates', $integrator) }}"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="form-label">Choose a type</label>

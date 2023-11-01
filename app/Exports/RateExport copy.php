@@ -95,9 +95,7 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithDrawin
 
         foreach ($this->unique_types as $unique_types) {
             foreach ($this->unique_weight[$unique_types] as $weight) {
-
                 $array = [];
-
                 foreach ($this->zone_unique as  $zone) {
                     $rate = $this->data->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
                     if ($rate) {
@@ -106,11 +104,9 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithDrawin
                         $array[$zone]  = $rate;
                     }
                 }
-
                 $collection1->push($array);
             }
         }
-
 
         return $collection1;
     }
