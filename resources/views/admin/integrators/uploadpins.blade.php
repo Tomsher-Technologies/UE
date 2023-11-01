@@ -11,7 +11,7 @@
                 <div class="alert alert-danger">
                     {{ count(session('import_errors')) }} Errors. Could not import data for
                     {{ Str::plural('zone', count(session('import_errors'))) }}
-                    {{ implode(session('import_errors'), ', ') }},
+                    {{ implode(', ', session('import_errors')) }},
                     because the {{ Str::plural('country', count(session('import_errors'))) }} does not exist. Please create
                     the
                     {{ Str::plural('country', count(session('import_errors'))) }} first and then try uploading again.

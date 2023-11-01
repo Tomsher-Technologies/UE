@@ -63,7 +63,6 @@ class ImportRateImport implements ToCollection
         $model::where([
             'integrator_id' => $this->integrator,
         ])->delete();
- 
 
         foreach ($rows as $row) {
             $weight = $row[0];
@@ -88,14 +87,10 @@ class ImportRateImport implements ToCollection
                             'rate' => $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0
                         ]);
                     } else {
-
-
-
                         $model = $model::updateOrCreate([
                             'integrator_id' => $this->integrator,
                             'weight' => (float)$weight,
                             'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
-                            // 'zone_id' => 1,
                             'zone_code' => $heading,
                             'pack_type' => $pack_type
                         ], [

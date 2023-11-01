@@ -12,7 +12,7 @@
             @if (session('import_errors') && count(session('import_errors')) > 0)
                 <div class="alert alert-danger">
                     {{ count(session('import_errors')) }} Errors. Could not import data for {{ Str::plural('zone', count(session('import_errors'))) }}
-                    {{ implode(session('import_errors'), ', ') }},
+                    {{ implode(', ',session('import_errors')) }},
                     because the {{ Str::plural('country', count(session('import_errors'))) }} does not exist. Please create the
                     {{ Str::plural('country', count(session('import_errors'))) }} first and then try uploading again.
                 </div>

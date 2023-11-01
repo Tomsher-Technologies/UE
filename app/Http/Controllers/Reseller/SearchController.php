@@ -54,10 +54,7 @@ class SearchController extends Controller
             return Integrator::all();
         });
 
-        // $od_pincodes = OdPincodes::where('country_id', $country)
-        //     ->whereIn('pincode', [$request->toPincode, $request->toCity])
-        //     ->get();
-
+        $custom_user_rates = [];
         $country_id = [];
         $country_code = Country::where('id', $country)->get()->first()->code;
         $country_id = Country::where('code', $country_code)->get()->pluck('id')->toArray();
@@ -84,20 +81,8 @@ class SearchController extends Controller
 
                 if ($over_weight && $over_weight->count()) {
                     $integrator->weight = $over_weight;
-
-                    // $highest  = $model::where('zone_code', $zone_code)->where('integrator_id', $integrator->id)->where('pack_type', $package_type)->where('weight', '>=', $billable_weight)->first();
-
                     $wei = $billable_weight * $integrator->rate_multiplier;
-
                     $integrator->weight->rate *= $wei;
-
-                    // if ($integrator->id == 2) {
-                    //     dd($over_weight);
-                    // }
-
-                    // if ($highest) {
-                    //     $integrator->weight->rate += $highest->rate;
-                    // }
                 } else {
                     $weight = $model::where('zone_code', $zone_code)
                         ->where('integrator_id', $integrator->id)
@@ -124,6 +109,7 @@ class SearchController extends Controller
                             $rate = $user_rate->rate * $billable_weight;
                             $integrator->weight->rate = $rate;
                         }
+                        $custom_user_rates[] = $integrator->id;
                     }
 
                     $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
@@ -164,6 +150,15 @@ class SearchController extends Controller
             return $integrator->weight ? false : true;
         });
 
+        if (!empty($custom_user_rates)) {
+            $integrators = $integrators->reject(function ($integrator) use ($custom_user_rates) {
+                if (in_array($integrator->id, $custom_user_rates)) {
+                    return false;
+                }
+                return true;
+            });
+        }
+
         // $integrators = $integrators->reject(function ($integrator) {
         //     return $integrator->weight->weight ? false : true;
         // });
@@ -188,6 +183,7 @@ class SearchController extends Controller
             'search' => $search,
             'actual_weight' => $actual_weight,
             'charge_break_down' => $charge_break_down,
+            'custom_user_rates' => $custom_user_rates,
         ]);
     }
 

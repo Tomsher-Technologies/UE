@@ -87,8 +87,6 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
 
         $this->unique_types = $this->data->sortBy($this->pac_type)->pluck($this->pac_type)->unique()->toArray();
 
-        // dd($this->unique_types);
-
         if ($this->request->weight) {
             foreach ($this->unique_types as $unique_types) {
                 $w = $this->data->where($this->pac_type, '=', $unique_types)->where('weight', '>=', $this->request->weight)->pluck('weight')->unique()->first();
@@ -98,6 +96,10 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
             foreach ($this->unique_types as $unique_types) {
                 $this->unique_weight[$unique_types] = $this->data->where($this->pac_type, '=', $unique_types)->pluck('weight')->unique();
             }
+        }
+
+        foreach ($this->unique_types as $unique_types) {
+            $this->unique_weight[$unique_types] = $this->unique_weight[$unique_types]->sort();
         }
 
         $this->integrator = Integrator::where('id', $this->request->integrator)->first();
@@ -139,9 +141,7 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
 
         foreach ($this->unique_types as $unique_types) {
             foreach ($this->unique_weight[$unique_types] as $weight) {
-
                 $array = [];
-
                 foreach ($this->zone_unique as  $zone) {
                     $rate = $this->data->where($this->zone_code, $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
                     if ($rate) {
@@ -150,14 +150,9 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
                         $array[$zone]  = $rate;
                     }
                 }
-
                 $collection1->push($array);
             }
         }
-
-        if ($collection1->count() <= 0) {
-        }
-
         return $collection1;
     }
 

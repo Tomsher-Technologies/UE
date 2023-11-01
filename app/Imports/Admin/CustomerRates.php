@@ -16,6 +16,7 @@ class CustomerRates implements ToCollection
     private $user;
     private $type;
     private $headings;
+    private $zones;
 
     public function __construct($user, $integrator, $type, $headings)
     {
@@ -25,6 +26,11 @@ class CustomerRates implements ToCollection
         $this->user = $user;
         $this->type = $type;
         $this->headings = $headings[0];
+
+        $this->zones = Zone::where([
+            'type' => $this->type,
+            'integrator_id' => $this->integrator
+        ]);
     }
 
     /**
@@ -49,16 +55,18 @@ class CustomerRates implements ToCollection
             $weight = $row[0];
             $weight_break = explode('-', $weight);
             foreach ($this->headings as $index => $heading) {
-                $this->user->customerRate()->create([
-                    'user_id' => $this->user->id,
-                    'integrator_id' =>  $this->integrator,
-                    'zone' =>  $heading,
-                    'type' =>  $this->type,
-                    'weight' =>  $weight_break[0],
-                    'end_weight' =>  $weight_break[1] ?? $weight_break[0],
-                    'pac_type' =>  $row[1],
-                    'rate' =>  $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0,
-                ]);
+                if ($this->zones->where('zone_code', $heading)->first()) {
+                    $this->user->customerRate()->create([
+                        'user_id' => $this->user->id,
+                        'integrator_id' =>  $this->integrator,
+                        'zone' =>  $heading,
+                        'type' =>  $this->type,
+                        'weight' =>  $weight_break[0],
+                        'end_weight' =>  $weight_break[1] ?? $weight_break[0],
+                        'pac_type' =>  $row[1],
+                        'rate' =>  $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0,
+                    ]);
+                }
             }
         }
     }

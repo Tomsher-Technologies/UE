@@ -141,6 +141,8 @@ class IntegratorController extends Controller
 
         Excel::import($import, request()->file('importfile'));
 
+        // dd($import->errors);
+
         if ($import->errors) {
             return back()->with([
                 'import_errors' => $import->errors
@@ -187,9 +189,6 @@ class IntegratorController extends Controller
         Excel::import($import, request()->file('importfile'));
 
         if ($import->errors) {
-            // return back()->with([
-            //     'import_errors' => $import->errors
-            // ]);
             return redirect()->route('admin.integrator.edit', $integrator)->with([
                 'zone_import_errors' => $import->errors
             ]);
@@ -197,9 +196,6 @@ class IntegratorController extends Controller
             return redirect()->route('admin.integrator.edit', $integrator)->with([
                 'status' => "Import successful"
             ]);
-            // return back()->with([
-            //     'status' => "Import successful"
-            // ]);
         }
     }
 
