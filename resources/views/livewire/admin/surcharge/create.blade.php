@@ -63,7 +63,7 @@
                         @foreach ($applied_for_items as $items)
                             <option value="{{ $items->id }}">{{ $items->name }}</option>
                         @endforeach
-                    @else 
+                    @else
                         <option value="0">All</option>
                     @endif
                 </select>
@@ -93,13 +93,17 @@
         <div class="form-row">
             <div class="col-6 form-group mb-0">
                 <label class="form-label">Start Date</label>
-                <input wire:model="start_date" type="date" class="form-control mb-2">
+                <input wire:model="start_date" type="date" min='{{ Carbon\Carbon::today()->format('Y-m-d') }}'
+                    id="start_date" class="form-control mb-2">
                 <x-form.error name="start_date" />
             </div>
             <div class="col-6 form-group">
                 <div class="form-group">
                     <label class="form-label">End Date</label>
-                    <input wire:model="end_date" type="date" class="form-control mb-2">
+                    <div wire:ignore>
+                        <input wire:model="end_date" type="date" id="end_date"
+                            min='{{ Carbon\Carbon::today()->format('Y-m-d') }}' class="form-control mb-2">
+                    </div>
                     <x-form.error name="end_date" />
                 </div>
             </div>
@@ -138,6 +142,11 @@
         </div>
     </form>
     <script>
+        $('#start_date').on('change', function() {
+            console.log($(this).val());
+            $('#end_date').attr('min', $(this).val());
+        });
+
         window.addEventListener('memberUpdated', e => {
             Swal.fire({
                 title: 'Surcharge created',
