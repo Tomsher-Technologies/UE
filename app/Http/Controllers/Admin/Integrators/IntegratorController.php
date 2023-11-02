@@ -141,11 +141,10 @@ class IntegratorController extends Controller
 
         Excel::import($import, request()->file('importfile'));
 
-        // dd($import->errors);
-
-        if ($import->errors) {
+        if ($import->errors || $import->error_missing) {
             return back()->with([
-                'import_errors' => $import->errors
+                'import_errors' => $import->errors,
+                'error_missing' => $import->error_missing
             ]);
         } else {
             return back()->with([
@@ -187,7 +186,7 @@ class IntegratorController extends Controller
         $import = new ZoneImport($integrator->id, $request->type);
 
         Excel::import($import, request()->file('importfile'));
-        
+
 
         if ($import->errors) {
             return redirect()->back()->with([

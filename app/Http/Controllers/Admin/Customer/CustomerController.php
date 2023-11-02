@@ -193,20 +193,14 @@ class CustomerController extends Controller
         $import = new CustomerRates($user, $request->integrator, $request->type, $headings[0]);
         Excel::import($import, request()->file('importfile'));
 
-        return back()->with([
-            'status' => "Import successful"
-        ]);
-
-        // $import = new UserImport();
-        // Excel::import($import, request()->file('importfile'));
-        // if ($import->errors) {
-        //     return back()->with([
-        //         'import_errors' => $import->errors
-        //     ]);
-        // } else {
-        //     return back()->with([
-        //         'status' => "Import successful"
-        //     ]);
-        // }
+        if ($import->error_missing) {
+            return back()->with([
+                'error_missing' => $import->error_missing
+            ]);
+        } else {
+            return back()->with([
+                'status' => "Import successful"
+            ]);
+        }
     }
 }
