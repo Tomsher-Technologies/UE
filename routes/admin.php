@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\Common\DynamicContentsController;
 use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Integrators\IntegratorController;
 use App\Http\Controllers\Admin\ReportsController;
-use App\Http\Controllers\Admin\SpecialRate\SpecialRateController;
 use App\Http\Controllers\Admin\Surcharge\SurchargeController;
 use App\Http\Controllers\Admin\UEUser\UEUserController;
 use App\Http\Livewire\Admin\Booking\BookingHistory;

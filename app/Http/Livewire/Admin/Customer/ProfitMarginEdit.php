@@ -39,7 +39,7 @@ class ProfitMarginEdit extends Component
             'margin.product_type' => ['required'],
             'margin.start_date' => ['nullable'],
             'margin.weight' => ['required', 'lt:margin.end_weight'],
-            'margin.end_weight' => ['required', 'gt:margin.weight'],
+            'margin.end_weight' => ['required', 'gte:margin.weight'],
             'margin.applied_for' => ['required'],
             'margin.applied_for_id' => ['required'],
         ];
@@ -52,6 +52,7 @@ class ProfitMarginEdit extends Component
         'margin.rate.required' => 'Please ente a rate',
         'margin.weight.required' => 'Please ente a weight',
         'margin.end_weight.required' => 'Please ente a weight',
+        'margin.end_weight.gte' =>  "The end weight must be greater than start weight."
     ];
 
     public function mount($profit_margin)

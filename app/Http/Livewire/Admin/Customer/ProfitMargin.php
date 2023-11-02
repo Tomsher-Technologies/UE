@@ -41,7 +41,7 @@ class   ProfitMargin extends Component
             'rate_type' => 'required',
             'rate' => ['required'],
             'weight' => ['required'],
-            'end_weight' => ['required'],
+            'end_weight' => ['required', 'gte:weight'],
             'applied_for' => ['required'],
             'applied_for_id' => ['required'],
         ];
@@ -54,6 +54,7 @@ class   ProfitMargin extends Component
         'rate.required' => 'Please ente a rate',
         'weight.required' => 'Please ente a weight',
         'end_weight.required' => 'Please ente an end weight',
+        'end_weight.gte' =>  "The end weight must be greater than start weight."
     ];
 
     public function mount($user)

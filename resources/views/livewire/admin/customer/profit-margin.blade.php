@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-6 form-group mb-0">
                         <label class="form-label">Start Date</label>
-                        <input wire:model="start_date" type="date" class="form-control mb-2">
+                        <input wire:model="start_date" type="date" min='{{ Carbon\Carbon::today()->format('Y-m-d') }}' class="form-control mb-2">
                         <x-form.error name="start_date" />
                     </div>
                 </div>

@@ -17,7 +17,7 @@ class Create extends Component
     public $status = 1;
     public $sort_order = 0;
     public $per_weight = false;
-    public $integrator;
+    public $integrator = 0;
     public $start_weight;
     public $end_weight;
     public $start_date;
@@ -41,7 +41,7 @@ class Create extends Component
             'rate_type' => 'required',
             'integrator' => 'nullable',
             'start_weight' => 'required',
-            'end_weight' => 'required',
+            'end_weight' => 'required|gte:start_weight',
             'applied_for' => 'required',
             'applied_for_id' => 'nullable',
         ];
@@ -52,6 +52,7 @@ class Create extends Component
         'name.required' => 'Please enter a name',
         'rate.required' => 'Please enter a rate',
         'rate_type.required' => 'Please enter a type',
+        'end_weight.gte' =>  "The end weight must be greater than start weight."
     ];
 
     public function mount()
@@ -66,6 +67,16 @@ class Create extends Component
     {
         $validatedData = $this->validate();
 
+        $start_date = NULL;
+        $end_date = NULL;
+
+        if ($this->start_date && $this->start_date !== '' || $this->start_date !== NULL) {
+            $start_date = $this->start_date;
+            if ($this->end_date && $this->end_date !== '' || $this->end_date !== NULL) {
+                $end_date = $this->end_date;
+            }
+        }
+
         $surchareg = Surcharge::create([
             'integrator_id' => $this->integrator,
             'name' => $this->name,
@@ -77,8 +88,8 @@ class Create extends Component
             'applied_for' => $this->applied_for,
             'applied_for_id' => $this->applied_for_id,
             'type' => $this->type,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
             'per_weight' => $this->per_weight,
             'sort_order' => $this->sort_order,
         ]);
