@@ -187,9 +187,10 @@ class IntegratorController extends Controller
         $import = new ZoneImport($integrator->id, $request->type);
 
         Excel::import($import, request()->file('importfile'));
+        
 
         if ($import->errors) {
-            return redirect()->route('admin.integrator.edit', $integrator)->with([
+            return redirect()->back()->with([
                 'zone_import_errors' => $import->errors
             ]);
         } else {
