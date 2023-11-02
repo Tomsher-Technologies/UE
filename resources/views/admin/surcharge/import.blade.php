@@ -13,6 +13,16 @@
                     {{ implode(', ', session('import_errors')) }}
                 </div>
             @endif
+            @if (session('failures') && count(session('failures')) > 0)
+                <div class="alert alert-danger">
+                    @foreach (session('failures') as $item)
+                        {{ $item->errors()[0] }} in row {{ $item->row() }} <br>
+                    @endforeach
+                    <b>
+                        No rows have been imported due to the error, please fix all the erros and try again.
+                    </b>
+                </div>
+            @endif
 
             <x-form.status />
 
