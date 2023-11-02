@@ -7,7 +7,9 @@ use App\Models\Rates\ImportRate;
 use App\Models\Rates\OverWeightRate;
 use App\Models\Rates\TransitRate;
 use App\Models\Zones\Zone;
+use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
 class ImportRateImport implements ToCollection
@@ -88,12 +90,11 @@ class ImportRateImport implements ToCollection
 
                         if ($row[$index + 2]) {
                             if (isset($weight_break[1])) {
-                                $model = OverWeightRate::updateOrCreate([
+                                OverWeightRate::updateOrCreate([
                                     'integrator_id' => $this->integrator,
                                     'from_weight' => (float)$weight_break[0],
                                     'end_weight' => (float)$weight_break[1],
                                     'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
-                                    // 'zone_id' => 1,
                                     'zone_code' => $heading,
                                     'shipment_type' => $this->type,
                                     'pack_type' => $pack_type
@@ -101,7 +102,7 @@ class ImportRateImport implements ToCollection
                                     'rate' => $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0
                                 ]);
                             } else {
-                                $model = $model::updateOrCreate([
+                                $model::updateOrCreate([
                                     'integrator_id' => $this->integrator,
                                     'weight' => (float)$weight,
                                     'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,

@@ -48,7 +48,7 @@ class Create extends Component
     }
 
     protected $messages = [
-        'type.required' => 'Please ente a type',
+        'type.required' => 'Please enter a type',
         'name.required' => 'Please enter a name',
         'rate.required' => 'Please enter a rate',
         'rate_type.required' => 'Please enter a type',

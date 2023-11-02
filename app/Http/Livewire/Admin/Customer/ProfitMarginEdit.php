@@ -46,12 +46,12 @@ class ProfitMarginEdit extends Component
     }
 
     protected $messages = [
-        'margin.type.required' => 'Please ente a type',
-        'margin.integrator_id.required' => 'Please ente a integrator',
-        'margin.rate_type.required' => 'Please ente a type',
-        'margin.rate.required' => 'Please ente a rate',
-        'margin.weight.required' => 'Please ente a weight',
-        'margin.end_weight.required' => 'Please ente a weight',
+        'margin.type.required' => 'Please enter a type',
+        'margin.integrator_id.required' => 'Please enter a integrator',
+        'margin.rate_type.required' => 'Please enter a type',
+        'margin.rate.required' => 'Please enter a rate',
+        'margin.weight.required' => 'Please enter a weight',
+        'margin.end_weight.required' => 'Please enter a weight',
         'margin.end_weight.gte' =>  "The end weight must be greater than start weight."
     ];
 
