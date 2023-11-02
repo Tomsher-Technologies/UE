@@ -10,12 +10,23 @@
             <x-form.status />
 
             @if (session('import_errors') && count(session('import_errors')) > 0)
-                {{-- {{ dd(gettype(session('import_errors'))); }} --}}
                 <div class="alert alert-danger">
                     Could not import data for {{ Str::plural('zone', count(session('import_errors'))) }}
                     {{ implode(', ', session('import_errors')) }},
                     because the {{ Str::plural('zone', count(session('import_errors'))) }} does not exist. Please create the
                     {{ Str::plural('zone', count(session('import_errors'))) }} first and then try uploading again.
+                </div>
+            @endif
+
+            @if (session('error_missing') && count(session('error_missing')) > 0)
+                <div class="alert alert-danger">
+                    @foreach (session('error_missing') as $key => $errors)
+                        In row {{ $key }}: <br>
+                        @foreach ($errors as $error)
+                            {{ $error }} <br>
+                        @endforeach
+                        <hr />
+                    @endforeach
                 </div>
             @endif
 

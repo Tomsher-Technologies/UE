@@ -6,15 +6,16 @@
                 <div class="page-separator__text">Import Customer Rates</div>
             </div>
 
-            @if (session('import_errors') && count(session('import_errors')) > 0)
-                {{-- <div class="alert alert-danger">
-                    {{ count(session('import_errors')) }} Errors. Could not import data for
-                    {{ Str::plural('zone', count(session('import_errors'))) }}
-                    {{ implode(session('import_errors'), ', ') }},
-                    because the {{ Str::plural('country', count(session('import_errors'))) }} does not exist. Please create
-                    the
-                    {{ Str::plural('country', count(session('import_errors'))) }} first and then try uploading again.
-                </div> --}}
+            @if (session('error_missing') && count(session('error_missing')) > 0)
+                <div class="alert alert-danger">
+                    @foreach (session('error_missing') as $key => $errors)
+                        In row {{ $key }}: <br>
+                        @foreach ($errors as $error)
+                            {{ $error }} <br>
+                        @endforeach
+                        <hr />
+                    @endforeach
+                </div>
             @endif
 
             <x-form.status />
