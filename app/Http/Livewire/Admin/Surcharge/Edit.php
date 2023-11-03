@@ -30,7 +30,7 @@ class Edit extends Component
             'surcharge.status' => 'required',
             'surcharge.integrator_id' => 'required',
             'surcharge.start_weight' => 'required',
-            'surcharge.end_weight' => 'required|gte:start_weight',
+            'surcharge.end_weight' => 'required|gte:surcharge.start_weight',
             'surcharge.applied_for' => 'required',
             'surcharge.applied_for_id' => 'required',
             'surcharge.sort_order' => 'required',

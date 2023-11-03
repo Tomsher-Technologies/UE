@@ -46,6 +46,26 @@ class BookingController extends Controller
 
         $search = Search::with(['items', 'toCountry', 'fromCountry'])->find($request->search_id);
 
+
+        $total_pices = 0;
+        $total_height = 0;
+        $total_width = 0;
+        $total_length = 0;
+
+        foreach($search->items as $item){
+            $total_pices += $item->no_pieces;
+            $total_height += $item->height;
+            $total_width += $item->width;
+            $total_length += $item->length;
+        }
+
+        // dd([
+        //     $total_pices,
+        // $total_height,
+        // $total_width,
+        // $total_length,
+        // ]);
+
         $order = Order::create([
             'user_id' => Auth()->user()->id,
             'integrator_id' => $request->integrator,
@@ -111,10 +131,10 @@ class BookingController extends Controller
         $requestArray["ImportBatchId"] = "";
         $requestArray["ShipmentType"] = 20;
         $requestArray["PaymentType"] = "";
-        $requestArray["Pieces"] = "1";
-        $requestArray["Height"] = "";
-        $requestArray["Width"] = "";
-        $requestArray["Length"] = "";
+        $requestArray["Pieces"] = $total_pices;
+        $requestArray["Height"] = $total_height;
+        $requestArray["Width"] = $total_width;
+        $requestArray["Length"] = $total_length;
         $requestArray["InsuranceValue"] = 0;
         $requestArray["Remark"] = "";
         $requestArray["GenerateShippingLabel"] = true;
@@ -173,7 +193,7 @@ class BookingController extends Controller
         }
         $order->save();
 
-        // dd($responseCollection);
+        // dd(json_encode($responseCollection));
 
         return redirect()->route('reseller.booking.history.details', $order);
 

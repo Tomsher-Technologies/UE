@@ -94,7 +94,7 @@
         <div class="form-row">
             <div class="col-6 form-group mb-0">
                 <label class="form-label">Start Date</label>
-                <input wire:model="surcharge.start_date" min='{{ Carbon\Carbon::today()->format('Y-m-d') }}'
+                <input wire:model="surcharge.start_date" 
                     id="start_date" type="date" class="form-control mb-2">
                 <x-form.error name="surcharge.start_date" />
             </div>
