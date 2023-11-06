@@ -866,13 +866,16 @@
                     .append('<option value="1237" selcted>United Arab Emirates</option>')
                     .val('1237');
 
+                $('#toCountry').attr('disabled', true);
+                $('#fromCountry').attr('disabled', false);
+
                 // $('#toCountry').append('<option value="1237" selcted>United Arab Emirates</option>');
                 $("#fromCountry option[value='1237']").remove();
                 $('#toCity').val("")
                 $('#toPincode').val("")
                 $('#fromCity').val("")
                 $('#fromPincode').val("")
-            } else {
+            } else if (val == 'export') {
                 $('#fromCountry')
                     .find('option')
                     .remove()
@@ -880,7 +883,26 @@
                     .append('<option value="1237" selcted>United Arab Emirates</option>')
                     .val('1237');
 
+                $('#fromCountry').attr('disabled', true);
+                $('#toCountry').attr('disabled', false);
+
                 $("#toCountry option[value='1237']").remove();
+                $('#toCity').val("")
+                $('#toPincode').val("")
+                $('#fromCity').val("")
+                $('#fromPincode').val("")
+            } else {
+
+                $('#fromCountry').attr('disabled', false);
+                $('#toCountry').attr('disabled', false);
+
+                $("#toCountry option[value='1237']").remove();
+                $('#toCity').val("")
+                $('#toPincode').val("")
+                $('#fromCity').val("")
+                $('#fromPincode').val("")
+
+                $("#fromCountry option[value='1237']").remove();
                 $('#toCity').val("")
                 $('#toPincode').val("")
                 $('#fromCity').val("")

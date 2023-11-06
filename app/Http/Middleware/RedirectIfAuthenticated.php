@@ -31,7 +31,7 @@ class RedirectIfAuthenticated
                 if ($prefix == config('app.admin_prefix')) {
                     return redirect()->route('admin.dashboard');
                 }
-                return redirect(RouteServiceProvider::HOME);
+                return redirect('/');
             }
         }
 

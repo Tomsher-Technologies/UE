@@ -99,7 +99,9 @@ class SearchController extends Controller
                         ->where('type', $del_type)
                         ->where('zone', $zone_code)
                         ->where('pac_type', $request->package_type)
-                        ->where('weight', '>=', $billable_weight)
+                        ->where('weight', '<=', $billable_weight)
+                        ->where('end_weight', '>=', $billable_weight)
+                        ->orderBy('weight','asc')
                         ->first();
 
                     if ($user_rate) {
