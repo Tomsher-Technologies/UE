@@ -41,18 +41,21 @@ class Handler extends ExceptionHandler
         });
     }
 
-    protected function unauthenticated($request, AuthenticationException $exception) 
+    protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['status'=>false, 'message' => 'Unauthorized access!.'], 401);
+            return response()->json(['status' => false, 'message' => 'Unauthorized access!.'], 401);
         }
 
         $prefix = trim(Route::current()->getPrefix(), '/');
-        if ($prefix == 'reseller') {
+
+        if (str_starts_with($prefix, 'reseller')) {
             return redirect()->route('reseller.login');
         }
-        if ($prefix == config('app.admin_prefix')) {
+        if (  str_starts_with($prefix, config('app.admin_prefix'))) {
             return redirect()->route('admin.login');
         }
+
+        return redirect('/');
     }
 }
