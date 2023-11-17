@@ -52,7 +52,7 @@
                                 <div class="form-group text-left">
                                     <label class="text-black" for="filter_name">Pickup Country</label>
                                     <div>
-                                        <div class="autocomplete">
+                                        <div class="autocomplete" id="fromCountryCont">
                                             <select tabindex="3" id="fromCountry" class="form-control select2"
                                                 name="fromCountry" required></select>
                                         </div>
@@ -102,7 +102,7 @@
                                 <div class="form-group text-left">
                                     <label class="text-black" for="filter_name">Delivery Country</label>
                                     <div>
-                                        <div class="autocomplete">
+                                        <div class="autocomplete" id="toCountryCont">
                                             <select tabindex="6" id="toCountry" class="form-control" name="toCountry"
                                                 required></select>
                                         </div>
@@ -571,7 +571,7 @@
 
             if (type == 'from') {
                 country = $('#fromCountry').val();
-                console.log(country);
+                // console.log(country);
             } else {
                 country = $('#toCountry').val();
             }
@@ -866,8 +866,10 @@
                     .append('<option value="1237" selcted>United Arab Emirates</option>')
                     .val('1237');
 
-                $('#toCountry').attr('disabled', true);
-                $('#fromCountry').attr('disabled', false);
+                // $('#toCountry').prop('readonly',  false);
+                // $('#fromCountry').prop('readonly', true);
+                $('#toCountryCont .select2').css('pointer-events','none');
+                $('#fromCountryCont .select2').css('pointer-events','auto');
 
                 // $('#toCountry').append('<option value="1237" selcted>United Arab Emirates</option>');
                 $("#fromCountry option[value='1237']").remove();
@@ -883,8 +885,11 @@
                     .append('<option value="1237" selcted>United Arab Emirates</option>')
                     .val('1237');
 
-                $('#fromCountry').attr('disabled', true);
-                $('#toCountry').attr('disabled', false);
+                // $('#fromCountry').prop('readonly', true);
+                // $('#toCountry').prop('readonly', false);
+
+                $('#toCountryCont .select2').css('pointer-events','auto');
+                $('#fromCountryCont .select2').css('pointer-events','none');
 
                 $("#toCountry option[value='1237']").remove();
                 $('#toCity').val("")
@@ -893,8 +898,12 @@
                 $('#fromPincode').val("")
             } else {
 
-                $('#fromCountry').attr('disabled', false);
-                $('#toCountry').attr('disabled', false);
+                // $('#fromCountry').prop('readonly', false);
+                // $('#toCountry').prop('readonly', false);
+
+
+                $('#toCountryCont .select2').css('pointer-events','auto');
+                $('#fromCountryCont .select2').css('pointer-events','auto');
 
                 $("#toCountry option[value='1237']").remove();
                 $('#toCity').val("")
@@ -959,7 +968,6 @@
                 return this.value; // $(this).val()
             }).get();
 
-            console.log('data stored');
             sessionStorage.shipping_type = shipping_type;
             sessionStorage.package_type = package_type;
 
@@ -984,7 +992,7 @@
 
         function getData() {
             if (sessionStorage.clearData == 1) {
-                console.log('in get data');
+
                 if (
                     sessionStorage.shipping_type &&
                     sessionStorage.package_type &&
@@ -1002,7 +1010,7 @@
                     // sessionStorage.weight &&
                     // sessionStorage.no_piece
                 ) {
-                    console.log('data taken');
+
                     document.getElementById("type").value = sessionStorage.shipping_type;
                     document.getElementById("package_type").value = sessionStorage.package_type;
 
@@ -1016,9 +1024,9 @@
                     document.getElementById("toCity").value = sessionStorage.toCity;
                     document.getElementById("toPincode").value = sessionStorage.toPincode;
 
-                    sessionStorage.lengthArry.forEach(function(value, i) {
-                        console.log('%d: %s', i, value);
-                    });
+                    // sessionStorage.lengthArry.forEach(function(value, i) {
+                    //     console.log('%d: %s', i, value);
+                    // });
 
                     sessionStorage.clearData = 0
                 }
@@ -1027,12 +1035,11 @@
 
         $(document).ready(function() {
             getData();
-            console.log(sessionStorage.clearData);
         });
 
         $('#searchForm').submit(function() {
             storeData();
-            console.log(sessionStorage.clearData);
+            // console.log(sessionStorage.clearData);
         });
 
         // $('#formSubmit').on('click', function() {
