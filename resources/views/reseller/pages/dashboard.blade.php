@@ -169,8 +169,8 @@
                                         <label class="text-black" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="9" class="form-control" step=".1" type="number"
-                                                    name="length[1]" placeholder="Length" required>
+                                                <input tabindex="9" class="form-control" min='.1' step=".1" type="number"
+                                                    name="length[1]" placeholder="Length" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
@@ -180,8 +180,8 @@
                                         <label class="text-black" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="10" class="form-control" step=".1" type="number"
-                                                    name="height[1]" placeholder="Height" required>
+                                                <input tabindex="10" class="form-control" min='.1' step=".1" type="number"
+                                                    name="height[1]" placeholder="Height" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
@@ -191,8 +191,8 @@
                                         <label class="text-black" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="11" class="form-control" step=".1" type="number"
-                                                    name="width[1]" placeholder="Width" required>
+                                                <input tabindex="11" class="form-control" min='.1' step=".1" type="number"
+                                                    name="width[1]" placeholder="Width" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
@@ -202,8 +202,8 @@
                                         <label class="text-black" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="12" class="form-control" type="number" step=".1"
-                                                    name="weight[1]" placeholder="Actual Weight" required>
+                                                <input tabindex="12" class="form-control" min='.1' type="number" step=".1"
+                                                    name="weight[1]" placeholder="Actual Weight" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
@@ -213,7 +213,7 @@
                                         <label class="text-black" for="filter_name">Number Of Pieces</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="13" class="form-control no_piece" value="1"
+                                                <input tabindex="13" class="form-control no_piece" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 46 && event.charCode != 43 )" min='1' value="1"
                                                     type="number" step="1" name="no_piece[1]"
                                                     placeholder="Number Of Pieces" required>
                                             </div>
@@ -699,8 +699,8 @@
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step='.1' type="number" name="length[]"
-                                                    placeholder="Length" required>
+                                                <input class="form-control" step='.1' min='.1' type="number" name="length[]"
+                                                    placeholder="Length" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
@@ -710,8 +710,8 @@
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step='.1' type="number" name="height[]"
-                                                    placeholder="Height" required>
+                                                <input class="form-control" step='.1' min='.1' type="number" name="height[]"
+                                                    placeholder="Height" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
@@ -721,8 +721,8 @@
                                         <label class="text-white" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step='.1' type="number" name="width[]"
-                                                    placeholder="Width" required>
+                                                <input class="form-control" step='.1' min='.1' type="number" name="width[]"
+                                                    placeholder="Width" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
@@ -732,7 +732,7 @@
                                         <label class="text-white" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" step='.1' required name="weight[]"
+                                                <input class="form-control" type="number" min='.1' step='.1' onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required name="weight[]"
                                                     placeholder="Actual Weight">
                                             </div>
                                         </div>
@@ -743,7 +743,7 @@
                                         <label class="text-black" for="filter_name">Number Of Pieces</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control no_piece" type="number" value="1" step="1"
+                                                <input class="form-control no_piece" type="number" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 46 && event.charCode != 43 )" min='1' value="1" step="1"
                                                     name="no_piece[]" placeholder="Number Of Pieces" required>
                                             </div>
                                         </div>
