@@ -22,6 +22,7 @@ class Integrator extends Model
         'address',
         'email',
         'integrator_code',
+        'internal_code',
         'logo',
         'name',
         'service_code',

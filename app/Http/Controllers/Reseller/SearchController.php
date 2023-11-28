@@ -60,7 +60,7 @@ class SearchController extends Controller
         $country_id = Country::where('code', $country_code)->get()->pluck('id')->toArray();
 
         foreach ($integrators as $integrator) {
-            $billable_weight = $this->calculateWeight($request, $integrator->integrator_code);
+            $billable_weight = $this->calculateWeight($request, $integrator->internal_code);
             $billable_weight = round($billable_weight);
             $integrator->billable_weight = $billable_weight;
 
@@ -118,14 +118,14 @@ class SearchController extends Controller
 
                     $charge_break_down[$integrator->id]['Transportation Charge'] = $integrator->weight->rate;
 
-                    $weightCharges = weightCharges($request, $integrator->integrator_code, $billable_weight, $integrator->weight->rate);
+                    $weightCharges = weightCharges($request, $integrator->internal_code, $billable_weight, $integrator->weight->rate);
 
                     $charge_break_down[$integrator->id]['Oversize Charge'] = $weightCharges;
 
                     $integrator->weight->rate += $weightCharges;
 
                     $oda_controller = new ODAController();
-                    $oda_charge = $oda_controller->checkODA($integrator->integrator_code, $search, $billable_weight);
+                    $oda_charge = $oda_controller->checkODA($integrator->internal_code, $search, $billable_weight);
                     if (isset($oda_charge['oda'])) {
                         $charge_break_down[$integrator->id]['Remote Area Charge'] = $oda_charge['oda'];
                         $integrator->weight->rate += $oda_charge['oda'];
