@@ -75,7 +75,7 @@ class SurchageImport implements ToCollection, WithValidation
             if ($row[2] == 'all') {
                 $integrator = 0;
             } else {
-                $integrator = $this->integrators->where('integrator_code', $row[2])->first()->id;
+                $integrator = $this->integrators->where('internal_code', $row[2])->first()->id;
                 if ($integrator == null) {
                     if (!in_array($row[2], $this->errors)) {
                         $this->cus_errors[] = $row[0];

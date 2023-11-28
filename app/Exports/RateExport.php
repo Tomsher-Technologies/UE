@@ -105,19 +105,19 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
         $this->integrator = Integrator::where('id', $this->request->integrator)->first();
         if ($this->integrator) {
 
-            if ($this->integrator->integrator_code == "aramex") {
+            if ($this->integrator->internal_code == "aramex") {
                 $this->color = "FFFFFF";
                 $this->bg_color = "FF1105";
             }
-            if ($this->integrator->integrator_code == "dhl") {
+            if ($this->integrator->internal_code == "dhl") {
                 $this->color = "D81635";
                 $this->bg_color = "FFCB05";
             }
-            if ($this->integrator->integrator_code == "fedex") {
+            if ($this->integrator->internal_code == "fedex") {
                 $this->color = "FFFFFF";
                 $this->bg_color = "4F0470";
             }
-            if ($this->integrator->integrator_code == "ups") {
+            if ($this->integrator->internal_code == "ups") {
                 $this->color = "FFFFFF";
                 $this->bg_color = "FEB501";
             }
