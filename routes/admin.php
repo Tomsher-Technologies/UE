@@ -80,7 +80,7 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::post('/export', [IntegratorController::class, 'export']);
         });
 
-        Route::resource('integrator', IntegratorController::class)->only(['index', 'edit', 'show']);
+        Route::resource('integrator', IntegratorController::class)->only(['index', 'create', 'store', 'edit', 'show']);
 
 
         Route::group(['prefix' => 'surcharge', 'as' => 'surcharge.'], function () {

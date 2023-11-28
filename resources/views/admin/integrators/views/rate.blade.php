@@ -3,29 +3,29 @@
     <div class="container page__container">
         <div class="page-section">
             <div class="page-separator">
-                <div class="page-separator__text">{{ $type }} Rates</div>
+                <div class="page-separator__text">{{ $integrator->name }} | {{ $type }} Rates</div>
             </div>
 
             @if ($rates->count())
                 <div class="card">
                     <div class="card-body">
-                        <div class="table-responsive p-2" data-toggle="lists" data-lists-sort-by="js-lists-values-country"
+                        <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-country"
                             data-lists-sort-desc="false"
                             data-lists-values='["js-lists-values-name","js-lists-values-country"]'>
 
-                            <table class="table mb-0 thead-border-top-0 table-nowrap">
+                            <table class="table mb-0 thead-border-top-0 table-nowrap tableFixHead">
                                 <thead>
                                     <tr>
-                                        <th>
+                                        <th class="fixed_col">
                                             <a href="javascript:void(0)" class="sort"
                                                 data-sort="js-lists-values-name">Weight</a>
                                         </th>
-                                        <th>
+                                        <th class="fixed_col">
                                             <a href="javascript:void(0)" class="sort"
                                                 data-sort="js-lists-values-country">Package</a>
                                         </th>
                                         @foreach ($zones as $item)
-                                            <th>
+                                            <th class="headSort" data-id="{{ $loop->index + 2 }}">
                                                 <a href="javascript:void(0)">{{ $item }}</a>
                                             </th>
                                         @endforeach
@@ -35,7 +35,8 @@
                                     @foreach ($rates as $zon)
                                         <tr>
                                             @foreach ($zon as $item)
-                                                <td>
+                                                <td class="{{ $loop->index == 0 || $loop->index == 1 ? 'fixed_col' : '' }}"
+                                                    data-id="{{ $loop->index }}">
                                                     <div class="media flex-nowrap align-items-center"
                                                         style="white-space: nowrap;">
                                                         <div class="media-body">
@@ -182,4 +183,59 @@
 
         </div>
     </div>
+
+    <style>
+        .mdk-drawer-layout .container,
+        .mdk-drawer-layout .container-fluid,
+        .mdk-drawer-layout .container-lg,
+        .mdk-drawer-layout .container-md,
+        .mdk-drawer-layout .container-sm,
+        .mdk-drawer-layout .container-xl {
+            max-width: 99%;
+        }
+
+
+
+        /* .fixed_col {
+                position: fixed;
+            } */
+
+        .table-responsive {
+            max-height: 80vh
+        }
+
+        .tableFixHead {
+            overflow: auto;
+            height: 100px;
+        }
+
+        .tableFixHead thead th {
+            position: sticky;
+            top: 0;
+            background: #fff;
+        }
+
+
+        .list .active,
+        .activeCol {
+            background: #ccc !important;
+        }
+    </style>
+
+    <script>
+        $('#clients tr').on('click', function() {
+            $('#clients tr').removeClass('active');
+            $(this).addClass('active')
+        });
+        $('.headSort').on('click', function() {
+            $('.headSort').removeClass('activeCol');
+            $('#clients td').removeClass('activeCol');
+
+            $(this).addClass('activeCol');
+            var id = $(this).data('id');
+            console.log(id);
+            $('#clients td[data-id="' + id + '"]').addClass('activeCol');
+        });
+    </script>
+
 @endsection

@@ -83,7 +83,7 @@
                                     <div>
 
                                         <div class="searchable">
-                                            <input tabindex="5" name="fromPincode" id="fromPincode" type="number"
+                                            <input tabindex="5" name="fromPincode" id="fromPincode" type="text"
                                                 placeholder="search pincode" onkeyup="filterPin(this,event,'from')"
                                                 placeholder="off">
                                             <ul></ul>
@@ -169,8 +169,10 @@
                                         <label class="text-black" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="9" class="form-control" min='.1' step=".1" type="number"
-                                                    name="length[1]" placeholder="Length" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
+                                                <input tabindex="9" class="form-control" min='.1' step=".1"
+                                                    type="number" name="length[1]" placeholder="Length"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )"
+                                                    required>
                                             </div>
                                         </div>
                                     </div>
@@ -180,8 +182,10 @@
                                         <label class="text-black" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="10" class="form-control" min='.1' step=".1" type="number"
-                                                    name="height[1]" placeholder="Height" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
+                                                <input tabindex="10" class="form-control" min='.1' step=".1"
+                                                    type="number" name="height[1]" placeholder="Height"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )"
+                                                    required>
                                             </div>
                                         </div>
                                     </div>
@@ -191,8 +195,10 @@
                                         <label class="text-black" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="11" class="form-control" min='.1' step=".1" type="number"
-                                                    name="width[1]" placeholder="Width" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
+                                                <input tabindex="11" class="form-control" min='.1' step=".1"
+                                                    type="number" name="width[1]" placeholder="Width"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )"
+                                                    required>
                                             </div>
                                         </div>
                                     </div>
@@ -202,8 +208,10 @@
                                         <label class="text-black" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="12" class="form-control" min='.1' type="number" step=".1"
-                                                    name="weight[1]" placeholder="Actual Weight" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
+                                                <input tabindex="12" class="form-control" min='.1' type="number"
+                                                    step=".1" name="weight[1]" placeholder="Actual Weight"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )"
+                                                    required>
                                             </div>
                                         </div>
                                     </div>
@@ -213,9 +221,10 @@
                                         <label class="text-black" for="filter_name">Number Of Pieces</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input tabindex="13" class="form-control no_piece" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 46 && event.charCode != 43 )" min='1' value="1"
-                                                    type="number" step="1" name="no_piece[1]"
-                                                    placeholder="Number Of Pieces" required>
+                                                <input tabindex="13" class="form-control no_piece"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 46 && event.charCode != 43 )"
+                                                    min='1' value="1" type="number" step="1"
+                                                    name="no_piece[1]" placeholder="Number Of Pieces" required>
                                             </div>
                                         </div>
                                     </div>
@@ -502,7 +511,14 @@
         }
 
         #searchForm label.text-black {
-            font-size: 15px;
+            font-size: 17px;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered,
+        .form-control,
+        .power_grid,
+        select {
+            font-size: 16px !important;
         }
     </style>
 @endpush
@@ -868,8 +884,8 @@
 
                 // $('#toCountry').prop('readonly',  false);
                 // $('#fromCountry').prop('readonly', true);
-                $('#toCountryCont .select2').css('pointer-events','none');
-                $('#fromCountryCont .select2').css('pointer-events','auto');
+                $('#toCountryCont .select2').css('pointer-events', 'none');
+                $('#fromCountryCont .select2').css('pointer-events', 'auto');
 
                 // $('#toCountry').append('<option value="1237" selcted>United Arab Emirates</option>');
                 $("#fromCountry option[value='1237']").remove();
@@ -888,8 +904,8 @@
                 // $('#fromCountry').prop('readonly', true);
                 // $('#toCountry').prop('readonly', false);
 
-                $('#toCountryCont .select2').css('pointer-events','auto');
-                $('#fromCountryCont .select2').css('pointer-events','none');
+                $('#toCountryCont .select2').css('pointer-events', 'auto');
+                $('#fromCountryCont .select2').css('pointer-events', 'none');
 
                 $("#toCountry option[value='1237']").remove();
                 $('#toCity').val("")
@@ -902,8 +918,8 @@
                 // $('#toCountry').prop('readonly', false);
 
 
-                $('#toCountryCont .select2').css('pointer-events','auto');
-                $('#fromCountryCont .select2').css('pointer-events','auto');
+                $('#toCountryCont .select2').css('pointer-events', 'auto');
+                $('#fromCountryCont .select2').css('pointer-events', 'auto');
 
                 $("#toCountry option[value='1237']").remove();
                 $('#toCity').val("")
