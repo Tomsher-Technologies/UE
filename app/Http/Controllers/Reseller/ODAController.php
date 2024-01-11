@@ -77,7 +77,6 @@ class ODAController extends Controller
             <From>
               <CountryCode>' . $search->fromCountry->code . '</CountryCode>
               <City>' . $search->from_city . '</City>
-              <PostalCode>' . $search->from_pin . '</PostalCode>
             </From>
             <BkgDetails>
               <PaymentCountryCode>AE</PaymentCountryCode>
@@ -97,7 +96,6 @@ class ODAController extends Controller
             <To>
               <CountryCode>' . $search->toCountry->code . '</CountryCode>
               <City>' . $search->to_city . '</City>
-              <PostalCode>' . $search->to_pin . '</PostalCode>
             </To>
           </GetQuote>
         </p:DCTRequest>';
