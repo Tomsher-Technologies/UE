@@ -128,8 +128,7 @@ class SearchController extends Controller
                         $charge_break_down[$integrator->id]['Remote Area Charge'] = $oda_charge['oda'];
                         $integrator->weight->rate += $oda_charge['oda'];
                     }
-                    // add surcharge
-                    $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate, $charge_break_down);
+
                     // add FSC
                     if (isset($oda_charge['fsc'])) {
                         $fsc = ($oda_charge['fsc'] / 100) * $integrator->weight->rate;
@@ -137,6 +136,9 @@ class SearchController extends Controller
                         $charge_break_down[$integrator->id]['Fuel Surcharge'] = $fsc;
                     }
 
+                    // add surcharge
+                    $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate, $charge_break_down);
+                    
                     // // // add profit margin
                     // $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
 
