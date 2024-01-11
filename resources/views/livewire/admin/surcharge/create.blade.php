@@ -128,13 +128,25 @@
         </div>
 
 
-        <div class="form-group">
-            <label class="form-label">Status</label>
-            <select wire:model="status" class="form-control mb-2" id="">
-                <option value="1">Enabled</option>
-                <option value="0">Disabled</option>
-            </select>
-            <x-form.error name="status" />
+        <div class="form-row">
+            <div class="col-6 form-group mb-0">
+                <label class="form-label">Is FSC</label>
+                <select wire:model="is_fsc" class="form-control mb-2" id="">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+                <x-form.error name="is_fsc" />
+            </div>
+            <div class="col-6 form-group">
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select wire:model="status" class="form-control mb-2" id="">
+                        <option value="1">Enabled</option>
+                        <option value="0">Disabled</option>
+                    </select>
+                    <x-form.error name="status" />
+                </div>
+            </div>
         </div>
 
         <div class="col-md-12 p-0">

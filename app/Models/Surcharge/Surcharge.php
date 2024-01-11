@@ -27,6 +27,7 @@ class Surcharge extends Model
         'per_weight',
         'end_date',
         'sort_order',
+        'is_fsc',
     ];
 
     protected $casts = [
