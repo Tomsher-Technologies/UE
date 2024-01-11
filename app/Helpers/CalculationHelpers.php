@@ -59,7 +59,13 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
             $surcharge_rate = $surcharge_rate * $billable_weight;
         }
 
-        $charge_break_down[$integrator_id][$surcharge->name] = $surcharge_rate;
+        if ($surcharge->is_fsc) {
+            if (!isset($charge_break_down[$integrator_id]['Fuel Surcharge'])) {
+                $charge_break_down[$integrator_id][$surcharge->name] = $surcharge_rate;
+            }
+        } else {
+            $charge_break_down[$integrator_id][$surcharge->name] = $surcharge_rate;
+        }
 
         $rate += $surcharge_rate;
     }

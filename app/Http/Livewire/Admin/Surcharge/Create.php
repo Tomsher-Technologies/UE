@@ -13,6 +13,7 @@ class Create extends Component
 {
     public $name;
     public $rate;
+    public $is_fsc = 0;
     public $rate_type = 1;
     public $status = 1;
     public $sort_order = 0;
@@ -81,6 +82,7 @@ class Create extends Component
             'integrator_id' => $this->integrator,
             'name' => $this->name,
             'rate' => $this->rate,
+            'is_fsc' => $this->is_fsc,
             'start_weight' => $this->start_weight,
             'end_weight' => $this->end_weight,
             'rate_type' => $this->rate_type,
@@ -97,6 +99,7 @@ class Create extends Component
         $this->reset('sort_order');
         $this->reset('per_weight');
         $this->reset('integrator');
+        $this->reset('is_fsc');
         $this->reset('rate');
         $this->reset('name');
         $this->reset('start_weight');

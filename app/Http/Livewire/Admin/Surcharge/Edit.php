@@ -26,6 +26,7 @@ class Edit extends Component
             'surcharge.name' => 'required',
             'surcharge.rate' => 'required',
             'surcharge.rate_type' => 'required',
+            'surcharge.is_fsc' => 'required',
             'surcharge.type' => 'required',
             'surcharge.status' => 'required',
             'surcharge.integrator_id' => 'required',
