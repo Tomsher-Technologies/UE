@@ -231,21 +231,22 @@ function weightCharges($request, $integrator_code, $billable_weight, $rate)
 
             // Large Package Surcharge
             if ($girth > 300 && $girth <= 400) {
-                $t_total += 208;
+                $t_total += 233;
             }
 
             // Over Maximum Limits
             if (
                 $request->weight[$index] > 70 ||
                 $request->length[$index] > 274 ||
-                $girth > 400
+                $girth > 400 ||
+                ($girth + $request->length[$index] > 400)
             ) {
-                $t_total += 393;
+                $t_total += 435;
             }
 
 
-            if ($t_total == 0 && ($length > 122 || $secondSide > 76 || $b_weight > 32)) {
-                $t_total = 15;
+            if ($t_total == 0 && ($length > 100 || $secondSide > 76 || $b_weight > 25)) {
+                $t_total = 16.60;
             }
 
             $total_caharge += $t_total;
