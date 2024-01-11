@@ -67,7 +67,7 @@
                                         <div class="searchable">
                                             <input tabindex="4" name="fromCity" id="fromCity" type="text"
                                                 placeholder="search city" onkeyup="delayCity(this,event,'from')"
-                                                placeholder="off">
+                                                placeholder="off" required>
                                             <ul></ul>
                                         </div>
 
@@ -84,7 +84,7 @@
 
                                         <div class="searchable">
                                             <input tabindex="5" name="fromPincode" id="fromPincode" type="text"
-                                                placeholder="search pincode" onkeyup="filterPin(this,event,'from')"
+                                                placeholder="search pincode" required onkeyup="filterPin(this,event,'from')"
                                                 placeholder="off">
                                             <ul></ul>
                                         </div>
@@ -117,7 +117,7 @@
                                         <div class="searchable">
                                             <input tabindex="7" name="toCity" id="toCity" type="text"
                                                 placeholder="search city" onkeyup="delayCity(this,event,'to')"
-                                                placeholder="off">
+                                                placeholder="off" required>
                                             <ul></ul>
                                         </div>
 
@@ -134,7 +134,7 @@
                                         <div class="searchable">
                                             <input tabindex="8" name="toPincode" id="toPincode" type="text"
                                                 placeholder="search pincode" onkeyup="filterPin(this,event,'to')"
-                                                placeholder="off">
+                                                placeholder="off" required>
                                             <ul></ul>
                                         </div>
                                         {{-- <div class="autocomplete">

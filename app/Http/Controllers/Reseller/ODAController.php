@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reseller;
 
 use App\Http\Controllers\Controller;
+use App\Models\Integrators\Integrator;
 use App\Models\Orders\Search;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -14,7 +15,7 @@ use SoapClient;
 
 class ODAController extends Controller
 {
-    public function checkODA($integrator_code, Search $search, $billable_weight)
+    public function checkODA($integrator, Search $search, $billable_weight)
     {
         $charge = 0;
 
@@ -29,13 +30,13 @@ class ODAController extends Controller
             $width += $item->width;
         }
 
-        switch ($integrator_code) {
+        switch ($integrator->internal_code) {
             case 'dhl':
                 $charge = $this->dhl($search, $weight, $length, $height, $width);
                 break;
 
             case 'fedex':
-                $charge = $this->fedex($search, $weight, $length, $height, $width);
+                $charge = $this->fedex($integrator, $search, $weight, $length, $height, $width);
                 break;
 
             case 'ups':
@@ -76,6 +77,7 @@ class ODAController extends Controller
             <From>
               <CountryCode>' . $search->fromCountry->code . '</CountryCode>
               <City>' . $search->from_city . '</City>
+              <PostalCode>' . $search->from_pin . '</PostalCode>
             </From>
             <BkgDetails>
               <PaymentCountryCode>AE</PaymentCountryCode>
@@ -95,6 +97,7 @@ class ODAController extends Controller
             <To>
               <CountryCode>' . $search->toCountry->code . '</CountryCode>
               <City>' . $search->to_city . '</City>
+              <PostalCode>' . $search->to_pin . '</PostalCode>
             </To>
           </GetQuote>
         </p:DCTRequest>';
@@ -455,7 +458,7 @@ class ODAController extends Controller
         return [];
     }
 
-    public function fedex(Search $search, $weight, $length, $height, $width)
+    public function fedex(Integrator $integrator, Search $search, $weight, $length, $height, $width)
     {
         $xml = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://fedex.com/ws/rate/v28">
         <SOAP-ENV:Body>
@@ -541,17 +544,33 @@ class ODAController extends Controller
             $xml = new SimpleXMLElement($response);
             $body = $xml->xpath('//SOAP-ENV:Body')[0];
             $array = json_decode(json_encode((array)$body), TRUE);
-            if ($array['RateReply']['RateReplyDetails']) {
-                foreach ($array['RateReply']['RateReplyDetails'] as $reply) {
-                    if ($reply['RatedShipmentDetails']['ShipmentRateDetail']['Surcharges']) {
-                        foreach ($reply['RatedShipmentDetails']['ShipmentRateDetail']['Surcharges'] as $surcharge) {
-                            if ($surcharge['SurchargeType'] == 'OUT_OF_DELIVERY_AREA' || $surcharge['SurchargeType'] == 'OUT_OF_PICKUP_AREA') {
-                                $rate['oda'] = (float)$surcharge['Amount']['Amount'];
+
+            $int_code = '';
+            if ($integrator->integrator_code == 'fedex-ip') {
+                $int_code = 'FEDEX_INTERNATIONAL_PRIORITY';
+            } else {
+                $int_code = 'INTERNATIONAL_ECONOMY';
+            }
+
+            // dd($array);
+
+            if (isset($array['RateReply']) && isset($array['RateReply']['RateReplyDetails'])) {
+                if ($array['RateReply']['RateReplyDetails']) {
+                    foreach ($array['RateReply']['RateReplyDetails'] as $reply) {
+                        if ($int_code ==  $reply['ServiceType']) {
+                            if ($reply['RatedShipmentDetails']['ShipmentRateDetail']['Surcharges']) {
+                                foreach ($reply['RatedShipmentDetails']['ShipmentRateDetail']['Surcharges'] as $surcharge) {
+                                    if ($surcharge['SurchargeType'] == 'OUT_OF_DELIVERY_AREA' || $surcharge['SurchargeType'] == 'OUT_OF_PICKUP_AREA') {
+                                        $rate['oda'] = (float)$surcharge['Amount']['Amount'];
+                                    }
+                                }
+                            }
+                            if ($reply['RatedShipmentDetails']['ShipmentRateDetail']['FuelSurchargePercent']) {
+                                $rate['fsc'] = (float)$reply['RatedShipmentDetails']['ShipmentRateDetail']['FuelSurchargePercent'];
+                            } else {
+                                $rate['fsc'] = null;
                             }
                         }
-                    }
-                    if ($reply['RatedShipmentDetails']['ShipmentRateDetail']['FuelSurchargePercent']) {
-                        $rate['fsc'] = (float)$reply['RatedShipmentDetails']['ShipmentRateDetail']['FuelSurchargePercent'];
                     }
                 }
             }
