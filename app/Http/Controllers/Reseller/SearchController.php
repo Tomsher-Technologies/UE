@@ -118,7 +118,7 @@ class SearchController extends Controller
 
                     $weightCharges = weightCharges($request, $integrator->internal_code, $billable_weight, $integrator->weight->rate);
 
-                    $charge_break_down[$integrator->id]['Oversize Charge'] = $weightCharges;
+                    $charge_break_down[$integrator->id]['Overweight / Oversize Charge'] = $weightCharges;
 
                     $integrator->weight->rate += $weightCharges;
 
