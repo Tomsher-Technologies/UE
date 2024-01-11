@@ -61,9 +61,7 @@ class SearchController extends Controller
 
         foreach ($integrators as $integrator) {
             $billable_weight = $this->calculateWeight($request, $integrator->internal_code);
-            $billable_weight = round($billable_weight);
-            $integrator->billable_weight = $billable_weight;
-
+            $integrator->billable_weight = $billable_weight = (float)$billable_weight;
             $zone = Zone::where('integrator_id', $integrator->id)->where('type', $del_type)->whereIn('country_id', $country_id)->first();
 
             if ($zone) {
@@ -101,7 +99,7 @@ class SearchController extends Controller
                         ->where('pac_type', $request->package_type)
                         ->where('weight', '<=', $billable_weight)
                         ->where('end_weight', '>=', $billable_weight)
-                        ->orderBy('weight','asc')
+                        ->orderBy('weight', 'asc')
                         ->first();
 
                     if ($user_rate) {
@@ -125,7 +123,7 @@ class SearchController extends Controller
                     $integrator->weight->rate += $weightCharges;
 
                     $oda_controller = new ODAController();
-                    $oda_charge = $oda_controller->checkODA($integrator->internal_code, $search, $billable_weight);
+                    $oda_charge = $oda_controller->checkODA($integrator, $search, $billable_weight);
                     if (isset($oda_charge['oda'])) {
                         $charge_break_down[$integrator->id]['Remote Area Charge'] = $oda_charge['oda'];
                         $integrator->weight->rate += $oda_charge['oda'];
