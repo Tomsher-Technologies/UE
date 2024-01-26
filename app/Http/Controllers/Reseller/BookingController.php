@@ -59,13 +59,6 @@ class BookingController extends Controller
             $total_length += $item->length;
         }
 
-        // dd([
-        //     $total_pices,
-        // $total_height,
-        // $total_width,
-        // $total_length,
-        // ]);
-
         $order = Order::create([
             'user_id' => Auth()->user()->id,
             'integrator_id' => $request->integrator,
@@ -146,7 +139,7 @@ class BookingController extends Controller
             'Price' => 1.0,
             'Pieces' => $search->number_of_pieces,
             "Weight" => (float)$request->totalweight,
-            "HsCode" => "",
+            "HsCode" => "00",
             "WebSite" => ""
         );
 
