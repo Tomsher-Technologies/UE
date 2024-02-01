@@ -1,0 +1,41 @@
+permissions
+    special rate
+    surcharge
+
+Dashboards
+
+Hub ez
+special rate booking
+
+surcharge
+    by zone and country
+
+Integrator 
+    //image upload
+
+Flush Bouncer Cache
+
+Customer
+    //assign grades to customer
+    //index sort by grades
+
+Grade
+    //add msp
+
+Profit matrgin
+    //Edit
+    //Applied for id
+
+    Show weight break in table
+
+    Customer
+        add weight break
+
+    Grdade 
+        select 2
+        Zone list not working
+
+
+Customer 
+    //Add spl request / day
+    //spl requet wight break

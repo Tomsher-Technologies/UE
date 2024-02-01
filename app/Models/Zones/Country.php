@@ -9,15 +9,24 @@ class Country extends Model
 {
     use HasFactory;
 
-    protected $guraded = ['id'];
+    protected $fillable = [
+        'code',
+        'name',
+        'search_keyword',
+    ];
 
     public function city()
     {
-        return $this->hasMany(City::class);
+        return $this->hasMany(City::class,'code','country_code');
     }
 
     public function zone()
     {
         return $this->belongsToMany(Zone::class);
+    }
+
+    public function odPincodes()
+    {
+        $this->hasMany(OdPincodes::class);
     }
 }

@@ -8,13 +8,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Helpers\Password;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
 
     public function viewprofile()
     {
-        return view('user.profile');
+        if (Auth::user()->isAn('admin') ||  Auth::user()->isAn('ueuser')) {
+            return view('admin.profile.profile');
+        } else {
+            $details = Auth::user()->customerDetails;
+            return view('reseller.profile.profile')->with([
+                'details' => $details
+            ]);
+        }
     }
 
     function updatePassword(Request $request)
@@ -37,9 +45,8 @@ class ProfileController extends Controller
             return back()->withErrors($validator);
         }
 
-        $user->forceFill([
-            'password' => $input['password'],
-        ])->save();
+        $user->password = Hash::make($input['password']);
+        $user->save();
 
         Auth::logoutOtherDevices($request->password);
 
@@ -51,14 +58,48 @@ class ProfileController extends Controller
         $user = Auth()->user();
         $request->validate([
             'name' => ['required', 'string', 'max:255', 'min:3'],
+            'logoimage' => 'file|mimes:png,jpg,jpeg,gif,webp|max:1024',
         ], [
             'name.require' => "Please enter a name",
             'name.max' => "Name cannot be larger than 255 characters",
             'name.min' => "Name cannot be less than 3 characters",
+            'logoimage.file' => "Please select valid image",
+            'logoimage.mimes' => "Please select valid .jpg, .jpeg, .png, .gif or .webp image",
+            'logoimage.uploaded' => "Image size can't be bigger than 1MB",
+            'logoimage.max' => "Image size can't be bigger than 1MB",
         ]);
         $user->forceFill([
             'name' => $request->name,
         ])->save();
+
+        $customerDetails = Auth::user()->customerDetails;
+
+        if ($request->hasFile('logoimage')) {
+            if (Storage::exists($customerDetails->image)) {
+                Storage::delete($customerDetails->image);
+            }
+
+
+            $uploadedFile = $request->file('logoimage');
+            $filename = time() . $uploadedFile->getClientOriginalName();
+
+            $file = Storage::disk('public')->putFileAs(
+                'customerphotos',
+                $uploadedFile,
+                $filename
+            );
+
+            $customerDetails->image = $file;
+            $customerDetails->save();
+        }
+
+        if ($request->details) {
+            $customerDetails->update([
+                'phone' => $request->phone,
+                'address' => $request->address,
+            ]);
+        }
+
         return back()->with('status', "Profle Updated!");
     }
 

@@ -9,10 +9,19 @@ class City extends Model
 {
     use HasFactory;
 
-    protected $guraded = ['id'];
+    protected $table = 'cities_2';
+
+    protected $fillable = [
+        'city',
+        'country_id',
+        'is_remote',
+        'zip_to',
+        'pincode',
+        'state',
+    ];
 
     public function country()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Country::class, 'code', 'country_code');
     }
 }

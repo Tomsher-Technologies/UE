@@ -10,14 +10,10 @@
             <span class="avatar-title rounded bg-light"><img src="{{ adminAsset('images/logo/logo.png') }}"
                     alt="logo" class="img-fluid" /></span>
         </span>
-        <span class="d-none d-lg-block">Luma</span>
+        <span class="d-none d-lg-block">{{ env('APP_NAME', 'Universal Express') }}</span>
     </a>
     <!-- // END Navbar Brand -->
     <!-- Navbar Search -->
-    <form class="search-form navbar-search d-none d-md-flex mr-16pt" action="index.html">
-        <button class="btn" type="submit"><i class="material-icons">search</i></button>
-        <input type="text" class="form-control" placeholder="Search ...">
-    </form>
     <!-- // END Navbar Search -->
     <div class="flex"></div>
     <!-- Switch Layout -->
@@ -29,13 +25,37 @@
             data-title="Notifications" data-placement="bottom" data-boundary="window">
             <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-caret="false">
                 <i class="material-icons">notifications_none</i>
-                <span class="badge badge-notifications badge-accent">2</span>
+                <span class="badge badge-notifications badge-accent">{{ $specialrates->count() }}</span>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <div data-perfect-scrollbar class="position-relative">
-                    <div class="dropdown-header"><strong>System notifications</strong></div>
+                    <div class="dropdown-header"><strong>Notifications</strong></div>
                     <div class="list-group list-group-flush mb-0">
-                        <a href="javascript:void(0);" class="list-group-item list-group-item-action unread">
+                        @foreach ($specialrates as $specialrate)
+                            <a href="{{ route('admin.special_rates.edit', $specialrate) }}"
+                                class="list-group-item list-group-item-action unread">
+                                <span class="d-flex align-items-center mb-1">
+                                    <small class="text-black-50">
+                                        {{ $specialrate->created_at->diffForHumans() }}
+                                    </small>
+                                </span>
+                                <span class="d-flex">
+                                    <span class="avatar avatar-xs mr-2">
+                                        <span class="avatar-title rounded-circle bg-light">
+                                            <i class="material-icons font-size-16pt text-accent">av_timer</i>
+                                        </span>
+                                    </span>
+                                    <span class="flex d-flex flex-column">
+                                        <strong class="text-black-100">{{ $specialrate->user->name }}</strong>
+                                        <span class="text-black-70">
+                                            has requested a special rate for their search
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        @endforeach
+
+                        {{-- <a href="javascript:void(0);" class="list-group-item list-group-item-action unread">
                             <span class="d-flex align-items-center mb-1">
                                 <small class="text-black-50">3 minutes ago</small>
                                 <span class="ml-auto unread-indicator bg-accent"></span>
@@ -82,7 +102,7 @@
                                     <span class="text-black-70">Your deploy was successful.</span>
                                 </span>
                             </span>
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
             </div>
@@ -98,7 +118,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header"><strong>Account</strong></div>
-                <a class="dropdown-item" href="edit-account.html">Edit Account</a>
+                <a class="dropdown-item" href="{{ route('admin.user.profile') }}">Edit Account</a>
                 <a class="dropdown-item" onclick="$('#logoutForm').submit()" href="#">Logout</a>
             </div>
         </div>

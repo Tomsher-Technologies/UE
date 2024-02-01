@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Bouncer;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -29,14 +30,14 @@ class LoginController extends Controller
             'status' => 1
         ];
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->remember_me)) {
             $request->session()->regenerate();
-            if (Auth::user()->isAn('admin')) {
+            if (Auth::user()->isAn('admin') || Auth::user()->isAn('ueuser')) {
                 return redirect()->intended(route('admin.dashboard'));
-            } else if (Auth::user()->isAn('ueuser')) {
-                return redirect()->intended(route('ueuser.dashboard'));
             } else {
-                return redirect()->route('logout');
+                Session::flush();
+                Auth::logout();
+                return redirect()->route('home');
             }
         }
 

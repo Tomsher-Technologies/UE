@@ -1,5 +1,5 @@
 @extends('layouts.admin')
 
 @section('content')
-    @livewire('ue-user.create', ['user' => $user])
+    @livewire('admin.ue-user.create', ['user' => $user])
 @endsection
