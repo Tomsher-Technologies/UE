@@ -62,12 +62,12 @@ function getSurcharge($integrator_id, $type, $billable_weight, $zone_code, $coun
         if ($surcharge->is_fsc) {
             if (!isset($charge_break_down[$integrator_id]['Fuel Surcharge'])) {
                 $charge_break_down[$integrator_id][$surcharge->name] = $surcharge_rate;
+                $rate += $surcharge_rate;
             }
         } else {
             $charge_break_down[$integrator_id][$surcharge->name] = $surcharge_rate;
+            $rate += $surcharge_rate;
         }
-
-        $rate += $surcharge_rate;
     }
 
     return $rate;
@@ -216,7 +216,10 @@ function weightCharges($request, $integrator_code, $billable_weight, $rate)
             $large = max($request->length[$index], $request->height[$index], $request->width[$index], $large);
             $vol_weight = volumetricWeight($request->length[$index], $request->height[$index], $request->width[$index]);
             $b_weight = $vol_weight > $weight ? $vol_weight : $weight;
-            if ($large > 120 || $b_weight > 70) {
+            if ($large > 120) {
+                $total_caharge += 165;
+            }
+            if ($b_weight > 70) {
                 $total_caharge += 165;
             }
         }

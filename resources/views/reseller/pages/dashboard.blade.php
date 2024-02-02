@@ -523,6 +523,19 @@
     </style>
 @endpush
 @push('footer')
+    <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (Session::has('input_error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    title: 'Input Error',
+                    icon: 'error',
+                    html: '{!! Session::get('input_error') !!}'
+                });
+            });
+        </script>
+    @endif
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         function filterFunction(that, event) {

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Log;
 class BookingController extends Controller
 {
     public function bookingView(Request $request)
@@ -153,11 +153,24 @@ class BookingController extends Controller
             );
         }
 
+        $logger =  Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/se/hub_req.json'),
+        ]);
+        $logger->info(json_encode($requestArray));
+
+
         // dd(json_encode($requestArray));
 
         $response = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/apiCreateHawb', $requestArray);
 
         $responseCollection = $response->json('result');
+
+        $logger =  Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/se/hub_res.json'),
+        ]);
+        $logger->info(json_encode($responseCollection));
 
         if ($response->status() == 200 && $responseCollection['result']) {
 

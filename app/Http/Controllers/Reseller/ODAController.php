@@ -102,15 +102,13 @@ class ODAController extends Controller
 
         $res = Http::withBody($xml, 'text/xml')->send('POST', 'https://xmlpi-ea.dhl.com/XMLShippingServlet', ['verify' => false]);
 
-        // dd($xml);
-
         if ($res->status() == '200') {
             $xmlObject = simplexml_load_string($res->body());
 
             $json = json_encode($xmlObject);
             $phpArray = json_decode($json, true);
 
-            // dd($phpArray);
+            // dd($phpArray)
 
             if (isset($phpArray['GetQuoteResponse'])) {
                 if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
@@ -543,14 +541,14 @@ class ODAController extends Controller
             $body = $xml->xpath('//SOAP-ENV:Body')[0];
             $array = json_decode(json_encode((array)$body), TRUE);
 
+            // dd($array );
+
             $int_code = '';
             if ($integrator->integrator_code == 'fedex-ip') {
                 $int_code = 'FEDEX_INTERNATIONAL_PRIORITY';
             } else {
                 $int_code = 'INTERNATIONAL_ECONOMY';
             }
-
-            // dd($array);
 
             if (isset($array['RateReply']) && isset($array['RateReply']['RateReplyDetails'])) {
                 if ($array['RateReply']['RateReplyDetails']) {

@@ -22,6 +22,7 @@ use App\Helpers\CalculationHelpers;
 use App\Models\Customer\CustomerRates;
 use App\Models\Customer\Grade;
 use App\Models\Orders\SearchItem;
+use App\Models\Zone\Pincode;
 use App\Models\Zones\City;
 use App\Models\Zones\OdPincodes;
 
@@ -30,6 +31,39 @@ class SearchController extends Controller
     public function searchNew(Request $request)
     {
         $charge_break_down = [];
+
+        // $this->verifyInput($request);
+
+        $imp_errors = [];
+
+        $fromerrors = $this->validateAddress('from', $request->fromCountry, $request->fromCity, $request->fromPincode);
+        $toerrors = $this->validateAddress('to', $request->toCountry, $request->toCity, $request->toPincode);
+
+        $imp_errors = array_merge($fromerrors, $toerrors);
+
+        // dd($errors);
+
+        if (!empty($imp_errors)) {
+
+            $e_text = '<ul style="list-style-position: inside;padding: 0;">';
+            foreach ($imp_errors as $key => $err) {
+
+                if ($key == 'to') {
+                    $nty = 'Delivery ';
+                } else {
+                    $nty = 'Pickup ';
+                }
+
+                foreach ($err as $value) {
+                    $e_text .= '<li>';
+                    $e_text .= $nty . $value;
+                    $e_text .= '</li>';
+                }
+            }
+            $e_text .= '</ul>';
+
+            return redirect()->back()->withInput()->with('input_error', $e_text);
+        }
 
         $search = $this->saveSearch($request);
         $search_id = $search->id;
@@ -138,7 +172,7 @@ class SearchController extends Controller
 
                     // add surcharge
                     $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate, $charge_break_down);
-                    
+
                     // // // add profit margin
                     // $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
 
@@ -188,6 +222,70 @@ class SearchController extends Controller
             'custom_user_rates' => $custom_user_rates,
         ]);
     }
+
+    // public function verifyInput(Request $request)
+    // {
+
+    //     $status = true;
+
+    //     // From
+    //     $fCountry = Country::find($request->fromCountry);
+    //     if ($fCountry) {
+    //         $fCity = City::where('country_code', $fCountry->code)->where('city', $request->fromCity)->first();
+    //         if ($fCity) {
+    //             $fPin = Pincode::where('city_id', $fCity->id)->where('pincode', $request->fromPincode)->get();
+    //             if (!$fPin) {
+    //                 $status = false;
+    //             }
+    //         } else {
+    //             $status = false;
+    //         }
+    //     } else {
+    //         $status = false;
+    //     }
+
+
+    //     $fCountry = Country::find($request->toCountry);
+    //     if ($fCountry) {
+    //         $fCity = City::where('country_code', $fCountry->code)->where('city', $request->toCity)->first();
+    //         if ($fCity) {
+    //             $fPin = Pincode::where('city_id', $fCity->id)->where('pincode', $request->toPincode)->get();
+    //             if (!$fPin) {
+    //                 $status = false;
+    //             }
+    //         } else {
+    //             $status = false;
+    //         }
+    //     } else {
+    //         $status = false;
+    //     }
+    // }
+
+    private function validateAddress($type, $countryCode, $cityName, $pincode)
+    {
+
+        $errors = [];
+
+        $country = Country::find($countryCode);
+
+        if (!$country) {
+            $errors[$type]['country'] = "country mismatch";
+        } else {
+            $city = City::where('country_code', $country->code)->where('city', $cityName)->first();
+
+            if (!$city) {
+                $errors[$type]['city'] = "city mismatch";
+            } else {
+                $pin = Pincode::where('city_id', $city->id)->where('pincode', $pincode)->first();
+
+                if (!$pin) {
+                    $errors[$type]['pin'] = "pin mismatch";
+                }
+            }
+        }
+        return $errors;
+    }
+
 
     public function UPSCharge(Request $request)
     {
