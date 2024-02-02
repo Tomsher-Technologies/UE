@@ -171,6 +171,11 @@
                 overflow-y: scroll;
             }
         }
+
+        .select2-container #select2-currency-results{
+            height: 250px;
+            overflow-y: scroll;
+        }
     </style>
 @endpush
 @push('footer')
