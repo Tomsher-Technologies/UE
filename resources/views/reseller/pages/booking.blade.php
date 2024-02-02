@@ -120,14 +120,14 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label class="form-label">Declare value</label>
-                            <input class="form-control" type="number" name="declare_value" id=""
+                            <input class="form-control" min=".1" step=".01" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required type="number" name="declare_value" id=""
                                 {{ old('declare_value') }}>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label class="form-label">Currency</label>
-                            <select class="form-control select2" name="currency" id="currency">
+                            <select class="form-control select2" name="currency" id="currency" required>
                                 @foreach (App\Models\CurrencyCode::all() as $item)
                                     <option value="{{ $item->code }}">{{ $item->code }} - {{ $item->name }}
                                     </option>

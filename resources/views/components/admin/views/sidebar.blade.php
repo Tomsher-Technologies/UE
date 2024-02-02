@@ -90,20 +90,17 @@
                     @endif
 
 
-                    @if (auth()->user()->can('manage-dynamic-content'))
-                        <li class="sidebar-menu-item {{ request()->routeIs('admin.dynamic-content*') ? 'active' : '' }}"
-                            data-placement="right" data-container="body" data-boundary="window">
-                            <a class="sidebar-menu-button" href="{{ route('admin.dynamic-content.index') }}">
-                                <span
-                                    class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
-                                    note
-                                </span>
-                                <span class="sidebar-menu-text">Dynamic Content</span>
-                            </a>
-                        </li>
-                    @endif
-
-
+                    <li class="sidebar-menu-item {{ request()->routeIs('admin.settings*') ? 'active' : '' }}"
+                        data-placement="right" data-container="body" data-boundary="window">
+                        <a class="sidebar-menu-button" href="#settings" data-toggle="tab" role="tab"
+                            aria-controls="settings" aria-selected="false">
+                            <span
+                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons material-symbols-outlined">
+                                settings
+                            </span>
+                            <span class="sidebar-menu-text">Settings</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -289,6 +286,31 @@
                                     history
                                 </span>
                                 <span class="sidebar-menu-text">Booking History</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="tab-pane" id="settings">
+                    <div class="sidebar-heading">Settings</div>
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('admin.settings.dynamic-content.index') }}">
+                                <span
+                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                    note
+                                </span>
+                                <span class="sidebar-menu-text">Dynamic Content</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('admin.settings.city_pincode') }}">
+                                <span
+                                    class="material-icons sidebar-menu-icon sidebar-menu-icon--left material-symbols-outlined">
+                                    map
+                                </span>
+                                <span class="sidebar-menu-text">City / Pin code</span>
                             </a>
                         </li>
                     </ul>

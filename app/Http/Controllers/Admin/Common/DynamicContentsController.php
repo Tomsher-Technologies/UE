@@ -76,7 +76,7 @@ class DynamicContentsController extends Controller
     public function update(UpdateDynamicContentsRequest $request, DynamicContents $dynamicContent)
     {
         $dynamicContent->update($request->all());
-        return redirect()->route('admin.dynamic-content.index')->with(['status' => "Content updated"]);
+        return redirect()->route('admin.settings.dynamic-content.index')->with(['status' => "Content updated"]);
     }
 
     /**

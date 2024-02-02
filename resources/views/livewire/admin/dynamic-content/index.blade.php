@@ -24,7 +24,7 @@
                         {{ $content->heading }}
                     </td>
                     <td>
-                        <a href="{{ route('admin.dynamic-content.edit', $content) }}" class="btn btn-secondary">
+                        <a href="{{ route('admin.settings.dynamic-content.edit', $content) }}" class="btn btn-secondary">
                             <i class="material-icons">mode_edit</i>
                         </a>
                     </td>

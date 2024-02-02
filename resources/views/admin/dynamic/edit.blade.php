@@ -10,7 +10,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <form method="POST" action="{{ route('admin.dynamic-content.update', $dynamicContent) }}">
+                    <form method="POST" action="{{ route('admin.settings.dynamic-content.update', $dynamicContent) }}">
 
                         @csrf
                         @method('PATCH')
