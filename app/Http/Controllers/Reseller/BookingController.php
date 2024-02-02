@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\Reseller;
 
-use App\Http\Controllers\Common\MailController;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Reseller\BookingRequest;
 use App\Models\Common\DynamicContents;
 use App\Models\Common\Settings;
 use App\Models\Integrators\Integrator;
 use App\Models\Orders\Order;
 use App\Models\Orders\Search;
-use App\Models\Zones\City;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+
 class BookingController extends Controller
 {
     public function bookingView(Request $request)
@@ -108,14 +106,13 @@ class BookingController extends Controller
             }
         }
 
-
         $requestArray["ReceiverCity"] = $search->to_city !== NULL ? $search->to_city : $request->receiver_town;
         $requestArray["ReceiverZip"] = $search->to_pin == NULL ? 0 : $search->to_pin;
         $requestArray["ReceiverContactPerson"] = $request->receiver_contact_person;
 
         $requestArray["Weight"] = (float)$request->totalweight;
-        $requestArray["DeclareCurrency"] = "AED";
-        $requestArray["DeclareValue"] = (float)$request->rate;
+        $requestArray["DeclareCurrency"] = $request->currency;
+        $requestArray["DeclareValue"] = $request->declare_value;
         $requestArray["ServiceCode"] = $integrator->service_code;
         $requestArray["DutyType"] = "DDU";
         $requestArray["Content"] = $request->item_name;
@@ -153,18 +150,32 @@ class BookingController extends Controller
             );
         }
 
+        if($integrator->internal_code == 'dhl'){
+            $requestArray["valueAddedServices"][] = array(
+                "serviceCode"=> "WY"
+            );
+        }
+
         $logger =  Log::build([
             'driver' => 'single',
             'path' => storage_path('logs/se/hub_req.json'),
         ]);
         $logger->info(json_encode($requestArray));
 
-
         // dd(json_encode($requestArray));
 
         $response = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/apiCreateHawb', $requestArray);
 
         $responseCollection = $response->json('result');
+
+        if($integrator->internal_code == 'dhl' && $responseCollection['result'] == false && Str::contains($responseCollection['resultMsg'],'WDDHLNPLT')  ){
+
+            $requestArray['ServiceCode'] = 'WDDHLNPLT';
+            unset($requestArray["valueAddedServices"]);
+
+            $response = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/apiCreateHawb', $requestArray);
+            $responseCollection = $response->json('result');
+        }
 
         $logger =  Log::build([
             'driver' => 'single',

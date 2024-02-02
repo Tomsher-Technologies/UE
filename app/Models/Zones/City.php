@@ -18,10 +18,11 @@ class City extends Model
         'zip_to',
         'pincode',
         'state',
+        'country_code',
     ];
 
     public function country()
     {
-        return $this->belongsTo(Country::class, 'code', 'country_code');
+        return $this->belongsTo(Country::class, 'country_code', 'code');
     }
 }

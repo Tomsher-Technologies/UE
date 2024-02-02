@@ -17,6 +17,7 @@ use App\Http\Livewire\Admin\Customer\ProfitMarginEdit;
 use App\Http\Livewire\Admin\Reports\UserList;
 use App\Http\Livewire\Admin\Search\SearchDetails;
 use App\Http\Livewire\Admin\Search\SearchHistory;
+use App\Http\Livewire\Admin\Settings\CityPincodeController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], function () {
@@ -101,7 +102,14 @@ Route::group(['prefix' => config('app.admin_prefix'), 'as' => 'admin.'], functio
             Route::get('/user/details/{user}', [ReportsController::class, 'userDetails'])->name('user.details');
         });
 
-        Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);
+
+
+        Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
+            Route::resource('dynamic-content', DynamicContentsController::class)->only(['index', 'edit', 'update']);
+
+            Route::get('/city-pincode', CityPincodeController::class)->name('city_pincode');
+        });
+
         include_once 'profile.php';
     });
 });
