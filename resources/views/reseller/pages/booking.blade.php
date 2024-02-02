@@ -111,10 +111,28 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             <label class="form-label">Item Name</label>
                             <input type="text" class="form-control" value="{{ old('item_name') }}" name="item_name">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="form-label">Declare value</label>
+                            <input class="form-control" type="number" name="declare_value" id=""
+                                {{ old('declare_value') }}>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="form-label">Currency</label>
+                            <select class="form-control select2" name="currency" id="currency">
+                                @foreach (App\Models\CurrencyCode::all() as $item)
+                                    <option value="{{ $item->code }}">{{ $item->code }} - {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -157,6 +175,8 @@
 @endpush
 @push('footer')
     <script>
+        $('#currency').select2();
+
         $('#submitButton').on('click', function(e) {
             e.preventDefault();
             $("#customCheck01").prop("checked", false);
