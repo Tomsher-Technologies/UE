@@ -32,6 +32,8 @@ class SearchController extends Controller
     {
         $charge_break_down = [];
 
+        $oda_error = false;
+
         // $this->verifyInput($request);
 
         $imp_errors = [];
@@ -158,26 +160,33 @@ class SearchController extends Controller
 
                     $oda_controller = new ODAController();
                     $oda_charge = $oda_controller->checkODA($integrator, $search, $billable_weight);
-                    if (isset($oda_charge['oda'])) {
-                        $charge_break_down[$integrator->id]['Remote Area Charge'] = $oda_charge['oda'];
-                        $integrator->weight->rate += $oda_charge['oda'];
+
+                    if (isset($oda_charge['error'])) {
+                        unset($integrator->weight);
+                        $oda_error = true;
+                    } else {
+                        if (isset($oda_charge['oda'])) {
+                            $charge_break_down[$integrator->id]['Remote Area Charge'] = $oda_charge['oda'];
+                            $integrator->weight->rate += $oda_charge['oda'];
+                        }
+
+                        // add FSC
+                        if (isset($oda_charge['fsc'])) {
+                            $fsc = ($oda_charge['fsc'] / 100) * $integrator->weight->rate;
+                            $integrator->weight->rate  += $fsc;
+                            $charge_break_down[$integrator->id]['Fuel Surcharge'] = $fsc;
+                        }
+
+
+                        // add surcharge
+                        $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate, $charge_break_down);
+
+                        // // // add profit margin
+                        // $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
+
+                        // // Round rate for final result
+                        $integrator->weight->rate = round($integrator->weight->rate, 2);
                     }
-
-                    // add FSC
-                    if (isset($oda_charge['fsc'])) {
-                        $fsc = ($oda_charge['fsc'] / 100) * $integrator->weight->rate;
-                        $integrator->weight->rate  += $fsc;
-                        $charge_break_down[$integrator->id]['Fuel Surcharge'] = $fsc;
-                    }
-
-                    // add surcharge
-                    $integrator->weight->rate = getSurcharge($integrator->id, $del_type, $billable_weight, $zone_code, $country, $country_code, $integrator->weight->rate, $charge_break_down);
-
-                    // // // add profit margin
-                    // $integrator->weight->rate += getFrofirMargin($integrator->id, $billable_weight, $zone_code, $country, $country_code, $del_type, $grade, $integrator->weight->rate, $request->package_type);
-
-                    // // Round rate for final result
-                    $integrator->weight->rate = round($integrator->weight->rate, 2);
                 }
             }
         }
@@ -220,6 +229,7 @@ class SearchController extends Controller
             'actual_weight' => $actual_weight,
             'charge_break_down' => $charge_break_down,
             'custom_user_rates' => $custom_user_rates,
+            'oda_error' => $oda_error,
         ]);
     }
 

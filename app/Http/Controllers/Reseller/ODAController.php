@@ -108,7 +108,7 @@ class ODAController extends Controller
             $json = json_encode($xmlObject);
             $phpArray = json_decode($json, true);
 
-            // dd($phpArray)
+            // dd($phpArray);
 
             if (isset($phpArray['GetQuoteResponse'])) {
                 if ($phpArray['GetQuoteResponse']['Note']['ActionStatus'] == "Success") {
@@ -148,7 +148,11 @@ class ODAController extends Controller
                                 }
                             }
                         }
+                    } else {
+                        return array('error' => true);
                     }
+                } else {
+                    return array('error' => true);
                 }
             }
         }
@@ -311,111 +315,6 @@ class ODAController extends Controller
             </LabelSpecification>
         </ShipmentConfirmRequest>";
 
-        // dd($xml);
-
-        $xml2 = '<?xml version="1.0"?>
-        <AccessRequest xml:lang="en-US">
-            <AccessLicenseNumber>4DB0A329A26C3492</AccessLicenseNumber>
-            <UserId>universalexp</UserId>
-            <Password>Linexdubai123@</Password>
-        </AccessRequest>
-        <?xml version="1.0"?>
-        <ShipmentConfirmRequest xml:lang="en-US">
-            <Request>
-                <TransactionReference>
-                    <CustomerContext>universalexp</CustomerContext>
-                </TransactionReference>
-                <RequestAction>ShipConfirm</RequestAction>
-                <RequestOption>validate</RequestOption>
-                <SubVersion>1601</SubVersion>
-            </Request>
-            <Shipment>
-                <Shipper>
-                    <Name>universalexp</Name>
-                    <AttentionName>universalexp</AttentionName>
-                    <CompanyDisplayableName>universalexp</CompanyDisplayableName>
-                    <PhoneNumber>971-562979199</PhoneNumber>
-                    <ShipperNumber>W7583F</ShipperNumber>
-                    <TaxIdentificationNumber>1234567877</TaxIdentificationNumber>
-                    <Address>
-                        <AddressLine1>Wafi Residence</AddressLine1>
-                        <AddressLine2>Oud Metha Rd - Umm Hurair 2</AddressLine2>
-                        <City>Dubai</City>
-                        <PostalCode>0</PostalCode>
-                        <CountryCode>AE</CountryCode>
-                    </Address>
-                </Shipper>
-                <ShipTo>
-                    <CompanyName>Universal</CompanyName>
-                    <AttentionName>VANESSA JACKSON</AttentionName>
-                    <PhoneNumber>1234567890</PhoneNumber>
-                    <Address>
-                        <AddressLine1>2501 E BLANCO BLVD UNIT D BLOOMFIEL</AddressLine1>
-                        <City>Bloomfield</City>
-                        <PostalCode>87413</PostalCode>
-                        <StateProvinceCode>NM</StateProvinceCode>
-                        <CountryCode>US</CountryCode>
-                    </Address>
-                </ShipTo>
-                <ShipFrom>
-                    <CompanyName>Tomsher</CompanyName>
-                    <AttentionName>Tomsher</AttentionName>
-                    <PhoneNumber>505491096</PhoneNumber>
-                    <Address>
-                        <AddressLine1>Wafi Residence</AddressLine1>
-                        <AddressLine2>Oud Metha Rd - Umm Hurair 2</AddressLine2>
-                        <City>Dubai</City>
-                        <PostalCode>0</PostalCode>
-                        <CountryCode>AE</CountryCode>
-                    </Address>
-                </ShipFrom>
-                <PaymentInformation>
-                    <Prepaid>
-                        <BillShipper>
-                            <AccountNumber>W7583F</AccountNumber>
-                        </BillShipper>
-                    </Prepaid>
-                </PaymentInformation>
-                <Service>
-                    <Code>65</Code>
-                    <Description>UPS Express</Description>
-                </Service>
-                <Package>
-                    <PackagingType>
-                        <Code>02</Code>
-                        <Description>Package</Description>
-                    </PackagingType>
-                    <Description>Priority</Description>
-                    <Dimensions>
-                        <UnitOfMeasurement>
-                            <Code>CM</Code>
-                        </UnitOfMeasurement>
-                        <Length>1</Length>
-                        <Width>1</Width>
-                        <Height>1</Height>
-                    </Dimensions>
-                    <PackageWeight>
-                        <UnitOfMeasurement>
-                            <Code>KGS</Code>
-                        </UnitOfMeasurement>
-                        <Weight>1</Weight>
-                    </PackageWeight>
-                </Package>
-                <Description>
-                    Hello
-                </Description>
-            </Shipment>
-            <LabelSpecification>
-                <LabelPrintMethod>
-                    <Code>GIF</Code>
-                    <Description>GIF</Description>
-                </LabelPrintMethod>
-                <LabelImageFormat>
-                    <Code>GIF</Code>
-                    <Description>GIF</Description>
-                </LabelImageFormat>
-            </LabelSpecification>
-        </ShipmentConfirmRequest>';
 
         $res = Http::withBody($xml, 'text/xml')
             ->send('POST', 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm', [
@@ -448,6 +347,8 @@ class ODAController extends Controller
                         }
                     }
                 }
+            } else {
+                return array('error' => true);
             }
         }
 
@@ -541,8 +442,6 @@ class ODAController extends Controller
             $body = $xml->xpath('//SOAP-ENV:Body')[0];
             $array = json_decode(json_encode((array)$body), TRUE);
 
-            // dd($array );
-
             $int_code = '';
             if ($integrator->integrator_code == 'fedex-ip') {
                 $int_code = 'FEDEX_INTERNATIONAL_PRIORITY';
@@ -569,6 +468,8 @@ class ODAController extends Controller
                         }
                     }
                 }
+            } else {
+                return array('error' => true);
             }
         }
 
