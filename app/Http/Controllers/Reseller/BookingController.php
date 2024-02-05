@@ -173,8 +173,16 @@ class BookingController extends Controller
             $requestArray['ServiceCode'] = 'WDDHLNPLT';
             unset($requestArray["valueAddedServices"]);
 
+            $logger =  Log::build([
+                'driver' => 'single',
+                'path' => storage_path('logs/se/hub_req.json'),
+            ]);
+            $logger->info(json_encode($requestArray));
+
             $response = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/apiCreateHawb', $requestArray);
             $responseCollection = $response->json('result');
+
+            // dd($responseCollection);
         }
 
         $logger =  Log::build([

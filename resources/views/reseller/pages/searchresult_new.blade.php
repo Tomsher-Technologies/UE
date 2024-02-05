@@ -194,6 +194,11 @@
                                 Note:
                             </p>
                             <ul>
+                                {{-- @if ($oda_error)
+                                    <li>
+                                        <span class="text-error">Some results have been hidden</span>
+                                    </li>
+                                @endif --}}
                                 <li>
                                     Inclusive of Covid / fuel surcharges, if applicable.
                                 </li>
