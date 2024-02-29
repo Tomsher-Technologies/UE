@@ -36,6 +36,8 @@ class BookingController extends Controller
     {
         $this->authenticate();
 
+        // dd($request);
+
         $integrators = Cache::rememberForever('integrators', function () {
             return Integrator::all();
         });
@@ -49,12 +51,27 @@ class BookingController extends Controller
         $total_height = 0;
         $total_width = 0;
         $total_length = 0;
+        $total_price = 0;
+
+        $requestArray = array();
+        $HawbItems = array();
 
         foreach($search->items as $item){
             $total_pices += $item->no_pieces;
             $total_height += $item->height;
             $total_width += $item->width;
             $total_length += $item->length;
+
+            $total_price += $request->declare_value[$item->id];
+
+            $HawbItems[] = array(
+                'Content' => $request->item_name[$item->id],
+                'Price' => $request->declare_value[$item->id],
+                'Pieces' => $item->no_pieces,
+                "Weight" => (float)$item->no_pieces * $item->weight,
+                "HsCode" => $request->hs_code[$item->id],
+                "WebSite" => ""
+            );
         }
 
         $order = Order::create([
@@ -70,7 +87,7 @@ class BookingController extends Controller
             'consignee_address' => $request->receiver_address,
             'consignee_town' => $request->receiver_town,
             'consignee_province' => $search->toCountry->code,
-            'item_name' => $request->item_name,
+            'item_name' => $request->shippment_name,
             'rate' => $request->rate,
             'billable_weight' => $request->totalweight,
             'hawbNumber' => "",
@@ -78,7 +95,7 @@ class BookingController extends Controller
             'order_status' => 0,
         ]);
 
-        $requestArray = array();
+        
 
         $requestArray["CustomerHawb"] = "";
         $requestArray["SenderName"] = $request->shipper_name;
@@ -112,10 +129,10 @@ class BookingController extends Controller
 
         $requestArray["Weight"] = (float)$request->totalweight;
         $requestArray["DeclareCurrency"] = $request->currency;
-        $requestArray["DeclareValue"] = $request->declare_value;
+        $requestArray["DeclareValue"] = $total_price;
         $requestArray["ServiceCode"] = $integrator->service_code;
         $requestArray["DutyType"] = "DDU";
-        $requestArray["Content"] = $request->item_name;
+        $requestArray["Content"] = $request->shippment_name;
 
         $requestArray["ReceiverId"] = "";
         $requestArray["ImportBatchId"] = "";
@@ -129,31 +146,26 @@ class BookingController extends Controller
         $requestArray["Remark"] = "";
         $requestArray["GenerateShippingLabel"] = true;
 
-        $requestArray["HawbItems"] = array();
+        $requestArray["hawbChildren"] = [];
+        $requestArray["HawbItems"] = $HawbItems;
 
-        $requestArray["HawbItems"][] = array(
-            'Content' => $request->item_name,
-            'Price' => 1.0,
-            'Pieces' => $search->number_of_pieces,
-            "Weight" => (float)$request->totalweight,
-            "HsCode" => "00",
-            "WebSite" => ""
-        );
-
-        foreach ($search->items as $item) {
-            $requestArray["hawbChildren"][] = array(
-                "ChildCustomerHawb" => $request->item_name,
-                "Weight" => (float)$item->weight,
-                "Height" => (float)$item->height,
-                "Width" => (float)$item->width,
-                "Length" => (float)$item->length
-            );
-        }
+        // foreach ($search->items as $item) {
+        //     $requestArray["hawbChildren"][] = array(
+        //         "ChildCustomerHawb" => $request->item_name,
+        //         "Weight" => (float)$item->weight,
+        //         "Height" => (float)$item->height,
+        //         "Width" => (float)$item->width,
+        //         "Length" => (float)$item->length
+        //     );
+        // }
 
         if($integrator->internal_code == 'dhl'){
             $requestArray["valueAddedServices"][] = array(
                 "serviceCode"=> "WY"
             );
+        }
+        if($integrator->internal_code == 'fedex' && $request->currency == 'AED'){
+            $requestArray["DeclareCurrency"] = "DHS";
         }
 
         $logger =  Log::build([
@@ -218,15 +230,7 @@ class BookingController extends Controller
         }
         $order->save();
 
-        // dd(json_encode($responseCollection));
-
         return redirect()->route('reseller.booking.history.details', $order);
-
-        // return view('reseller.pages.order.success')->with([
-        //     'order' => $order,
-        //     'integrator' => $integrator,
-        //     'search' => $search,
-        // ]);
     }
 
     public function authenticate()
