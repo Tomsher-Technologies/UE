@@ -6,6 +6,11 @@
             <h3 class="mb-0 alert-heading text-center w-100">
                 Booking {{ $order->status_text() }}
             </h3>
+            @if ($order->order_status !== 1)
+                <p class="mt-2 text-center w-100">
+                    {{ $order->invoice_url }}
+                </p>
+            @endif
         </div>
     </nav>
     <div class="page-section bg-primary border-bottom-2">
