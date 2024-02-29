@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Bouncer;
+use Illuminate\Support\Facades\Hash;
 use Silber\Bouncer\Database\Ability;
 
 class Edit extends Component
@@ -64,7 +65,7 @@ class Edit extends Component
         $this->user->save();
         if ($this->password) {
             $this->user->update([
-                'password' => $this->password
+                'password' => Hash::make($this->password)
             ]);
             $this->reset('password');
         }

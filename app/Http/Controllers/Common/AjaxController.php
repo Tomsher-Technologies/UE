@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
+use App\Models\Zone\Pincode;
 use App\Models\Zones\City;
 use App\Models\Zones\Country;
 use Illuminate\Http\Request;
@@ -11,8 +12,8 @@ class AjaxController extends Controller
 {
     public function getCountries(Request $request)
     {
-        $countries = Country::where('name', 'LIKE', $request->name . "%")->select(['id', 'name as text'])->get();
-        return $countries;
+        return Country::where('name', 'LIKE', $request->name . "%")->orWhere('search_keyword', 'LIKE', "%" . $request->name . "%")->select(['id', 'name as text'])->get();
+        // return $countries;
         // return json_encode(array('result' => $countries));
     }
 
@@ -49,20 +50,36 @@ class AjaxController extends Controller
     public function getPincode(Request $request)
     {
 
-        $country_code = Country::where('id', $request->country)->first()->code;
+        $country_code = Country::select('code')->where('id', $request->country)->first()->code;
+        
+        $city = City::where('country_code', $country_code)
+            ->where('city', $request->city)
+            ->first();
 
         if ($request->name && $request->name !== '' && $request->name !== NULL) {
-            $pincode = City::where('country_code',  $country_code)
-                ->where('city', 'LIKE', $request->city)
-                // ->where('pincode', 'LIKE', $request->name . "%")
+            $pincode = Pincode::where('city_id', $city->id)
+                ->where('pincode', 'LIKE', $request->name . "%")
                 ->select(['id', 'pincode as text'])->get();
         } else {
-            $pincode = City::where('country_code', $country_code)
-                ->where('city', 'LIKE', $request->city)
-                // ->where('pincode', 'LIKE', $request->name . "%")
+            $pincode = Pincode::where('city_id', $city->id)
                 ->limit(10)
                 ->select(['id', 'pincode as text'])->get();
         }
+
+        // $country_code = Country::select('code')->where('id', $request->country)->first()->code;
+
+        // if ($request->name && $request->name !== '' && $request->name !== NULL) {
+        //     $pincode = City::where('country_code',  $country_code)
+        //         ->where('city', $request->city)
+        //         // ->where('pincode', 'LIKE', $request->name . "%")
+        //         ->select(['id', 'pincode as text'])->get();
+        // } else {
+        //     $pincode = City::where('country_code', $country_code)
+        //         ->where('city', $request->city)
+        //         // ->where('pincode', 'LIKE', $request->name . "%")
+        //         ->limit(10)
+        //         ->select(['id', 'pincode as text'])->get();
+        // }
         return $pincode;
     }
 }

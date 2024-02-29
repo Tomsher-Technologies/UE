@@ -19,6 +19,11 @@ class Reseller
         if (auth()->user()->isA('reseller')) {
             return $next($request);
         }
-        return redirect('home')->with('error', 'Permission Denied!!! You do not have administrative access.');
+
+        if (auth()->user()->isAn('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect('/')->with('error', 'Permission Denied!!! You do not have administrative access.');
     }
 }

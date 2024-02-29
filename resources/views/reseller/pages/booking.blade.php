@@ -9,7 +9,6 @@
             </div>
             <form action="{{ route('reseller.booking.submit') }}" id="bookForm" method="POST">
                 @csrf
-
                 <input type="hidden" name="integrator" value="{{ old('integrator', $orequest->integrator) }}">
                 <input type="hidden" name="rate" value="{{ old('rate', $orequest->rate) }}">
                 <input type="hidden" name="search_id" value="{{ old('search_id', $orequest->search_id) }}">
@@ -110,14 +109,104 @@
                     </div>
                 </div>
 
+                <div class="page-separator">
+                    <div class="page-separator__text">
+                        Item Details
+                    </div>
+                </div>
+
+                @php
+                    $search = App\Models\Orders\Search::with('items')->find($orequest->search_id);
+                @endphp
+
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Item Name</label>
-                            <input type="text" class="form-control" value="{{ old('item_name') }}" name="item_name">
+                            <label class="form-label">Shippment Name</label>
+                            <input type="text" class="form-control" name="shippment_name" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label">Currency</label>
+                            <select class="form-control select2" name="currency"
+                                id="currency" required>
+                                @foreach (App\Models\CurrencyCode::all() as $item)
+                                    <option value="{{ $item->code }}">{{ $item->code }} -
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
+
+
+                @foreach ($search->items as $item)
+                    <input type="hidden" name="item_id" value="{{ $item->id }}">
+                    <div class="card carditems">
+                        <div class="card-body">
+                            <div class="page-separator">
+                                <div class="page-separator__text" style="font-size: 14px">
+                                    Item {{ $loop->iteration }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Length</label>
+                                        <input type="text" class="form-control" value="{{ $item->length }}" disabled
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Height</label>
+                                        <input type="text" class="form-control" value="{{ $item->height }}" disabled
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Width</label>
+                                        <input type="text" class="form-control" value="{{ $item->width }}" disabled
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Weight</label>
+                                        <input type="text" class="form-control" value="{{ $item->weight }}" disabled
+                                            readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Item Name</label>
+                                        <input type="text" class="form-control"
+                                            name="item_name[{{ $item->id }}]">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="form-label">HS Code</label>
+                                        <input type="text" class="form-control" name="hs_code[{{ $item->id }}]">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Declare value</label>
+                                        <input class="form-control" min=".1" step=".01"
+                                            onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )"
+                                            required type="number" name="declare_value[{{ $item->id }}]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
 
                 <div class="row align-items-center">
                     <div class="col-sm-12">
@@ -135,6 +224,10 @@
 
 @push('header')
     <style>
+        .carditems .page-separator__text {
+            background-color: #ffffff;
+        }
+
         @media (min-width: 1024px) {
             .modal-dialog {
                 max-width: 1000px;
@@ -153,9 +246,17 @@
                 overflow-y: scroll;
             }
         }
+
+        .select2-container #select2-currency-results {
+            height: 250px;
+            overflow-y: scroll;
+        }
     </style>
 @endpush
 @push('footer')
+<script>
+    $('#currency').select2();
+</script>
     <script>
         $('#submitButton').on('click', function(e) {
             e.preventDefault();

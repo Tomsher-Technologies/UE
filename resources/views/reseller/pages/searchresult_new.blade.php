@@ -5,6 +5,68 @@
             <div class="page-separator">
                 <div class="page-separator__text">Search Result</div>
             </div>
+
+            <style>
+                .overview p {
+                    font-size: 18px;
+                    margin-bottom: 5px;
+                }
+            </style>
+
+            <div class="overview">
+                <div class="card">
+                    <div class="container page__container">
+                        <div class="page-section">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p>
+                                        From: <br>
+                                        <b>{{ $search->fromCountry->name }}</b> <br>
+                                        <b>{{ $search->from_city }}</b> <br>
+                                        <b>{{ $search->from_pin }}</b>
+                                    </p>
+                                    <p>
+                                        Shippment type: <b>{{ ucfirst($search->shipment_type) }}</b>
+                                    </p>
+                                    <p>
+                                        No:of pieces: <b>{{ $search->number_of_pieces }}</b>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p>
+                                        To: <br>
+                                        <b>{{ $search->toCountry->name }}</b> <br>
+                                        <b>{{ $search->to_city }}</b> <br>
+                                        <b>{{ $search->to_pin }}</b>
+                                    </p>
+                                    <p>
+                                        Package type: <b>{{ ucfirst($search->package_type) }}</b>
+                                    </p>
+                                    @if (auth()->user()->is_sales)
+                                        <form action="#" class="mt-4">
+                                            <p>
+                                                Change Profit margin
+                                            </p>
+                                            <div class="form-row">
+                                                <div class="col-12 col-md-8 mb-3">
+                                                    <input id="profit_margin" type="number" class="form-control"
+                                                        name="shipper_name" value="0" required="">
+                                                </div>
+                                                <div class="col-12 col-md-4 mb-3">
+                                                    <button type="button" id="change_profit_margin"
+                                                        class="btn btn-primary float-right h-100">Change Profit
+                                                        Margin</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="search-result">
                 <div class="card mb-0">
                     @if ($integrators->count() > 0)
@@ -17,7 +79,10 @@
                                             <a href="javascript:void(0)">Integrator</a>
                                         </th>
                                         <th>
-                                            <a href="javascript:void(0)">Total Weight</a>
+                                            <a href="javascript:void(0)">Actual weight</a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:void(0)">DIM weight</a>
                                         </th>
                                         <th class="text-center">
                                             <a href="javascript:void(0)">Amount</a>
@@ -46,11 +111,15 @@
                                                 </div>
                                             </td>
                                             <td class="text-center text-70">
+                                                {{ $actual_weight }}
+                                            </td>
+                                            <td class="text-center text-70">
                                                 {{ $integrator->billable_weight }}
                                             </td>
                                             <td class="text-center text-70">
                                                 <div class="mr-sm-16pt mb-8pt mb-sm-0">
-                                                    <span class="card-title mb-4pt btn btn-dark text-white" disabled>AED
+                                                    <span class="card-title mb-4pt btn btn-dark text-white price"
+                                                        disabled>AED
                                                         {{ $integrator->weight->rate }}</span>
                                                 </div>
                                             </td>
@@ -58,12 +127,18 @@
                                                 <div class="align-items-center mr-16pt">
                                                     {{-- <input type="button" value="Book Now" class="btn btn-primary"> --}}
 
+                                                    <button type="button" class="btn btn-success exploder">
+                                                        Details
+                                                    </button>
+
                                                     <form class="d-inline" action="{{ route('reseller.booking.view') }}"
                                                         method="POST">
                                                         @csrf
                                                         <input type="hidden" name="integrator"
                                                             value="{{ $integrator->id }}">
-                                                        <input type="hidden" name="rate"
+                                                        <input type="hidden" class="act_rate" name="rate_2"
+                                                            value="{{ $integrator->weight->rate }}">
+                                                        <input type="hidden" class="new_rate" name="rate"
                                                             value="{{ $integrator->weight->rate }}">
                                                         <input type="hidden" name="search_id" value="{{ $search_id }}">
                                                         <input type="hidden" name="totalweight"
@@ -83,6 +158,25 @@
                                                 </div>
                                             </td>
                                         </tr>
+
+                                        @isset($charge_break_down[$integrator->id])
+                                            <tr class="explode hide">
+                                                <td colspan="12" style="background: rgb(227 227 227); display: none">
+                                                    <table class="table table-condensed invoice-totals">
+                                                        <tbody>
+                                                            @foreach ($charge_break_down[$integrator->id] as $key => $item)
+                                                                @if ($item > 0)
+                                                                    <tr>
+                                                                        <th>{{ $key }}</th>
+                                                                        <td id="invoiceSubtotal">AED {{ round($item, 2) }}</td>
+                                                                    </tr>
+                                                                @endif
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        @endisset
                                     @endforeach
                                 </tbody>
                             </table>
@@ -92,7 +186,7 @@
                             No results found
                         </p>
                     @endif
-                
+
                     <div class="">
                         <div class="col-12">
                             <hr>
@@ -100,6 +194,11 @@
                                 Note:
                             </p>
                             <ul>
+                                {{-- @if ($oda_error)
+                                    <li>
+                                        <span class="text-error">Some results have been hidden</span>
+                                    </li>
+                                @endif --}}
                                 <li>
                                     Inclusive of Covid / fuel surcharges, if applicable.
                                 </li>
@@ -121,9 +220,90 @@
         .avatar-img {
             height: auto !important;
         }
+
+
+
+
+        [dir] .btn-success .shown {
+            background: url(https://datatables.net/examples/resources/details_open.png) no-repeat center center;
+            padding: 15px;
+        }
+
+        [dir] .btn-danger .tab-hide {
+            background: url(https://datatables.net/examples/resources/details_close.png) no-repeat center center;
+            padding: 15px;
+        }
+
+        .invoice-totals {
+            width: 50%;
+            float: right;
+            color: #2c2c2c;
+            margin-bottom: 0px !important;
+        }
+
+        .invoice-totals th,
+        tr,
+        td {
+            font-weight: normal;
+            font-family: 'Roboto';
+        }
+
+        .invoice-totals th {
+            font-size: 16px;
+            border-top: 0.5px solid #2c2c2c !important;
+        }
+
+
+        .invoice-totals td {
+            font-size: 16px;
+            border-top: 1px solid #1f1f1f !important
+        }
+
+
+        .invoice-totals tr:first-child th {
+            border-top: 0px solid #2c2c2c !important;
+        }
+
+        .invoice-totals tr:first-child td {
+            border-top: 0px solid #2c2c2c !important;
+        }
     </style>
 @endpush
 @push('footer')
+
+    @if (auth()->user()->is_sales)
+        <script>
+            $('#change_profit_margin').on('click', function() {
+                $('.table tr').each(function() {
+                    if ($('.in_rate', this)) {
+                        var price = $('.act_rate', this).val()
+                        var margin = $('#profit_margin').val()
+                        var percentage = (margin / 100) * price;
+                        console.log(price);
+                        console.log(percentage);
+                        var new_price = parseFloat(price) + parseFloat(percentage);
+                        new_price = parseFloat(new_price).toFixed(2);
+                        $('.new_rate', this).val(new_price)
+                        $('.price', this).html('AED ' + new_price)
+                    }
+                });
+            });
+        </script>
+    @endif
+
+    <script>
+        $(".exploder").click(function() {
+            $(this).toggleClass("btn-success btn-danger");
+            $(this).children("span").toggleClass("tab-hide");
+            $(this).closest("tr").next("tr").toggleClass("hide");
+            if ($(this).closest("tr").next("tr").hasClass("hide")) {
+                $(this).closest("tr").next("tr").children("td").slideUp();
+            } else {
+                $(this).closest("tr").next("tr").children("td").slideDown(350);
+            }
+        });
+    </script>
+
     <script>
         $('#exampleModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)

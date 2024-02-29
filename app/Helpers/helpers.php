@@ -24,3 +24,19 @@ function volumetricWeight($l, $h, $b)
 {
     return ($l * $b * $h) / 5000;
 }
+
+
+function packageTypes($type)
+{
+    $types = [
+        'letter' => 'Letter / Envelope',
+        'doc' => 'Document',
+        'package' => 'Package / Non-Doc',
+    ];
+
+    if (isset($types[$type])) {
+        return $types[$type];
+    }
+    
+    return '';
+}

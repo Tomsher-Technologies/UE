@@ -12,13 +12,26 @@
             @if (session('import_errors') && count(session('import_errors')) > 0)
                 <div class="alert alert-danger">
                     Could not import data for {{ Str::plural('zone', count(session('import_errors'))) }}
-                    {{ implode(session('import_errors'), ', ') }},
+                    {{ implode(', ', session('import_errors')) }},
                     because the {{ Str::plural('zone', count(session('import_errors'))) }} does not exist. Please create the
                     {{ Str::plural('zone', count(session('import_errors'))) }} first and then try uploading again.
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('admin.integrator.uploadRates', $integrator) }}" enctype="multipart/form-data">
+            @if (session('error_missing') && count(session('error_missing')) > 0)
+                <div class="alert alert-danger">
+                    @foreach (session('error_missing') as $key => $errors)
+                        In row {{ $key }}: <br>
+                        @foreach ($errors as $error)
+                            {{ $error }} <br>
+                        @endforeach
+                        <hr />
+                    @endforeach
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('admin.integrator.uploadRates', $integrator) }}"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="form-label">Choose a type</label>

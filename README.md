@@ -2,7 +2,7 @@
 
 ## About Project
 
-UE ned to develop an online price portal for their business agents to directly access and check international air courier and cargo Import or Export rates and transit shipment rates online from different vendors(Integrators).
+UE need to develop an online price portal for their business agents to directly access and check international air courier and cargo Import or Export rates and transit shipment rates online from different vendors(Integrators).
 
 ### Project Contributor
 

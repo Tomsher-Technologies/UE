@@ -27,7 +27,7 @@ class ProfitMarginEdit extends Component
     public $end_weight;
     public $applied_for = 'all';
     public $applied_for_id;
-
+ 
 
     protected function rules()
     {
@@ -36,20 +36,23 @@ class ProfitMarginEdit extends Component
             'margin.integrator_id' => 'required',
             'margin.rate_type' => 'required',
             'margin.rate' => ['required'],
+            'margin.product_type' => ['required'],
+            'margin.start_date' => ['nullable'],
             'margin.weight' => ['required', 'lt:margin.end_weight'],
-            'margin.end_weight' => ['required', 'gt:margin.weight'],
+            'margin.end_weight' => ['required', 'gte:margin.weight'],
             'margin.applied_for' => ['required'],
             'margin.applied_for_id' => ['required'],
         ];
     }
 
     protected $messages = [
-        'margin.type.required' => 'Please ente a type',
-        'margin.integrator_id.required' => 'Please ente a integrator',
-        'margin.rate_type.required' => 'Please ente a type',
-        'margin.rate.required' => 'Please ente a rate',
-        'margin.weight.required' => 'Please ente a weight',
-        'margin.end_weight.required' => 'Please ente a weight',
+        'margin.type.required' => 'Please enter a type',
+        'margin.integrator_id.required' => 'Please enter a integrator',
+        'margin.rate_type.required' => 'Please enter a type',
+        'margin.rate.required' => 'Please enter a rate',
+        'margin.weight.required' => 'Please enter a weight',
+        'margin.end_weight.required' => 'Please enter a weight',
+        'margin.end_weight.gte' =>  "The end weight must be greater than start weight."
     ];
 
     public function mount($profit_margin)

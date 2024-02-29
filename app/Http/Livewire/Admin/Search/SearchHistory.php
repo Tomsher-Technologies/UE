@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\Admin\Search;
 
+use App\Exports\HistoryExport;
 use App\Models\Orders\Search as OrdersSearch;
 use App\Models\User;
 use App\Models\Zones\Country;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SearchHistory extends Component
 {
@@ -28,7 +30,7 @@ class SearchHistory extends Component
 
     public function mount()
     {
-        $this->users = User::whereIs(['reseller', 'reselleruser'])->get();
+        $this->users = User::whereIs('reseller', 'reselleruser')->get();
         $this->countries = Country::select('id', 'name')->get();
     }
 
@@ -69,5 +71,11 @@ class SearchHistory extends Component
     public function paginationView()
     {
         return 'vendor.livewire.custom';
+    }
+
+    public function export()
+    {
+        $export = new HistoryExport($this->user_id, $this->from_country_id, $this->to_country_id, $this->shipping_type, $this->package_type, $this->start_date, $this->end_date);
+        return Excel::download($export, 'search-history.xlsx');
     }
 }

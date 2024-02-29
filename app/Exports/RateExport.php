@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Customer\CustomerRates;
 use App\Models\Customer\Grade;
 use App\Models\Integrators\Integrator;
 use App\Models\Rates\ExportRate;
@@ -11,6 +12,7 @@ use App\Models\Zones\Zone;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -35,6 +37,10 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
     public $unique_types;
     public $color = "000000";
     public $bg_color = "FFFFFF";
+
+    // Constants
+    public $pac_type = "pack_type";
+    public $zone_code = "zone_code";
 
     public function __construct($request)
     {
@@ -65,37 +71,53 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
         }
 
         $this->data = $model::where('integrator_id', $this->request->integrator)->get();
-        // $this->data = $model::with('zone')->where('integrator_id', $this->request->integrator)->get();
 
-        $this->unique_types = $this->data->sortBy('pack_type')->pluck('pack_type')->unique()->toArray();
+        if (Auth::user()->isA('reseller')) {
+            $user_rate = CustomerRates::where('user_id', auth()->user()->id)
+                ->where('integrator_id',  $this->request->integrator)
+                ->where('type', $this->request->type)
+                ->get();
+
+            if ($user_rate) {
+                $this->pac_type = 'pac_type';
+                $this->zone_code = 'zone';
+                $this->data = $user_rate;
+            }
+        }
+
+        $this->unique_types = $this->data->sortBy($this->pac_type)->pluck($this->pac_type)->unique()->toArray();
 
         if ($this->request->weight) {
             foreach ($this->unique_types as $unique_types) {
-                $w = $this->data->where('pack_type', '=', $unique_types)->where('weight', '>=', $this->request->weight)->pluck('weight')->unique()->first();
+                $w = $this->data->where($this->pac_type, '=', $unique_types)->where('weight', '>=', $this->request->weight)->pluck('weight')->unique()->first();
                 $this->unique_weight[$unique_types] = array($w);
             }
         } else {
             foreach ($this->unique_types as $unique_types) {
-                $this->unique_weight[$unique_types] = $this->data->where('pack_type', '=', $unique_types)->pluck('weight')->unique();
+                $this->unique_weight[$unique_types] = $this->data->where($this->pac_type, '=', $unique_types)->pluck('weight')->unique();
             }
+        }
+
+        foreach ($this->unique_types as $unique_types) {
+            $this->unique_weight[$unique_types] = $this->unique_weight[$unique_types]->sort();
         }
 
         $this->integrator = Integrator::where('id', $this->request->integrator)->first();
         if ($this->integrator) {
 
-            if ($this->integrator->integrator_code == "aramex") {
+            if ($this->integrator->internal_code == "aramex") {
                 $this->color = "FFFFFF";
                 $this->bg_color = "FF1105";
             }
-            if ($this->integrator->integrator_code == "dhl") {
+            if ($this->integrator->internal_code == "dhl") {
                 $this->color = "D81635";
                 $this->bg_color = "FFCB05";
             }
-            if ($this->integrator->integrator_code == "fedex") {
+            if ($this->integrator->internal_code == "fedex") {
                 $this->color = "FFFFFF";
                 $this->bg_color = "4F0470";
             }
-            if ($this->integrator->integrator_code == "ups") {
+            if ($this->integrator->internal_code == "ups") {
                 $this->color = "FFFFFF";
                 $this->bg_color = "FEB501";
             }
@@ -119,25 +141,18 @@ class RateExport implements FromCollection, WithHeadings, WithEvents, WithTitle,
 
         foreach ($this->unique_types as $unique_types) {
             foreach ($this->unique_weight[$unique_types] as $weight) {
-
                 $array = [];
-
                 foreach ($this->zone_unique as  $zone) {
-                    $rate = $this->data->where('zone_code', $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
+                    $rate = $this->data->where($this->zone_code, $zone)->where('weight', $weight)->pluck('rate')->first() ?? 0;
                     if ($rate) {
                         $array['weight'] = $weight;
                         $array['type'] = $unique_types;
                         $array[$zone]  = $rate;
                     }
                 }
-
                 $collection1->push($array);
             }
         }
-
-        if ($collection1->count() <= 0) {
-        }
-
         return $collection1;
     }
 

@@ -17,19 +17,6 @@
                 <th>
                     <a href="javascript:void(0)">Code</a>
                 </th>
-                <th>
-                    <a href="javascript:void(0)">Email</a>
-                </th>
-                <th>
-                    <a href="javascript:void(0)">
-                        Phone
-                    </a>
-                </th>
-                <th>
-                    <a href="javascript:void(0)">
-                        Address
-                    </a>
-                </th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -63,37 +50,12 @@
                         </div>
                     </td>
                     <td>
-                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                            <div class="media-body">
-                                <div class="d-flex flex-column">
-                                    <small class="js-lists-values-company"><strong>
-                                            {{ $integrator->email }}
-                                        </strong></small>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                            <div class="media-body">
-                                <div class="d-flex flex-column">
-                                    <small class="js-lists-values-company"><strong>
-                                            {{ $integrator->phone }}
-                                        </strong></small>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td style="white-space: nowrap">
-                        {{ $integrator->address }}
-                    </td>
-                    <td>
                         <a href="{{ route('admin.integrator.edit', $integrator) }}" class="btn btn-secondary">
                             <i class="material-icons">mode_edit</i>
                         </a>
-                        <button wire:click="$emit('triggerDelete',{{ $integrator->id }})" class="btn btn-accent delete">
+                        {{-- <button wire:click="$emit('triggerDelete',{{ $integrator->id }})" class="btn btn-accent delete">
                             <i class="material-icons">delete_forever</i>
-                        </button>
+                        </button> --}}
                     </td>
                 </tr>
             @endforeach
@@ -104,7 +66,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        /*document.addEventListener('DOMContentLoaded', function() {
             @this.on('triggerDelete', id => {
                 Swal.fire({
                     title: 'Are You Sure?',
@@ -133,7 +95,7 @@
                 title: 'Integrator delete failed, please try again!',
                 icon: 'warning'
             });
-        })
+        })*/
 
     </script>
 

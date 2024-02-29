@@ -15,6 +15,7 @@ class SearchItem extends Model
         'height',
         'width',
         'weight',
+        'no_pieces',
     ];
 
     public function search()

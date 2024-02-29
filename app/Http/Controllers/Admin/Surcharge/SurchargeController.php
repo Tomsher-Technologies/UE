@@ -96,11 +96,19 @@ class SurchargeController extends Controller
     }
     public function import(Request $request)
     {
-        $import = new SurchageImport();
-        Excel::import($import, request()->file('importfile'));
-        if ($import->errors) {
+        $failures = null;
+        try {
+            $import = new SurchageImport();
+            Excel::import($import, request()->file('importfile'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+        }
+
+        if ($import->cus_errors || $failures) {
+
             return back()->with([
-                'import_errors' => $import->errors
+                'import_errors' => $import->cus_errors,
+                'failures' => $failures
             ]);
         } else {
             return back()->with([

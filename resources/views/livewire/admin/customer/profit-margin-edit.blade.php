@@ -58,6 +58,23 @@
                 </div>
                 <div class="form-row">
                     <div class="col-6 form-group">
+                        <label class="form-label">Product Type</label>
+                        <select wire:model="margin.product_type" class="form-control">
+                            <option value="all">All</option>
+                            <option value="letter">Letter / Envelope</option>
+                            <option value="doc">Document</option>
+                            <option value="package">Package / Non-Doc</option>
+                        </select>
+                        <x-form.error name="margin.product_type" />
+                    </div>
+                    <div class="col-6 form-group mb-0">
+                        <label class="form-label">Start Date</label>
+                        <input wire:model="margin.start_date" type="date" min='{{ Carbon\Carbon::today()->format('Y-m-d') }}' class="form-control mb-2">
+                        <x-form.error name="margin.tart_date" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-6 form-group">
                         <label class="form-label">START Weight</label>
                         <input wire:model="margin.weight" type="number" step=".1" class="form-control mb-2">
                         <x-form.error name="margin.weight" />

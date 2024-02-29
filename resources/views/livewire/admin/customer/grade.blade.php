@@ -13,7 +13,7 @@
                         <x-form.error name="name" />
                     </div>
                 </div>
-                <div class="form-row">
+                {{-- <div class="form-row">
                     <div class="col-6 form-group">
                         <label class="form-label">MSP Type</label>
                         <select wire:model="msp_type" class="form-control custom-select">
@@ -27,7 +27,7 @@
                         <input wire:model="msp" type="number" step=".1" class="form-control mb-2">
                         <x-form.error name="msp" />
                     </div>
-                </div>
+                </div> --}}
                 <div class="form-row">
                     <div class="col-6 form-group">
                         <label class="form-label">Profit Margin</label>
@@ -69,15 +69,16 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <a href="javascript:void(0)" class="sort"
-                                        data-sort="js-lists-values-name">Name</a>
+                                    <a href="javascript:void(0)">Name</a>
                                 </th>
                                 <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">MSP</a>
+                                    <a href="javascript:void(0)">
+                                        Profit Margin</a>
                                 </th>
                                 <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">
-                                        Default Profit Margin</a>
+                                    <a href="javascript:void(0)">
+                                        Profit Margin Type
+                                    </a>
                                 </th>
                                 <th>Actions</th>
                             </tr>
@@ -89,10 +90,10 @@
                                         {{ $grade->name }}
                                     </td>
                                     <td>
-                                        {{ $grade->msp }}
-                                    </td>
-                                    <td>
                                         {{ $grade->profit_margin }}
+                                    </td>
+                                    <td style="text-transform:capitalize">
+                                        {{ $grade->profit_margin_type }}
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.grades.edit', $grade) }}" class="btn btn-secondary">

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Integrator;
 
 use App\Models\Integrators\Integrator;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -72,6 +73,7 @@ class Create extends Component
         // $this->reset('address');
         $this->reset('image');
         $this->reset('service_code');
+        Cache::forget('integrators');
         $this->dispatchBrowserEvent('memberUpdated');
     }
 

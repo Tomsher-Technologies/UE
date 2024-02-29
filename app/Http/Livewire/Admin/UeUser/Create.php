@@ -6,6 +6,7 @@ use App\Helpers\Password;
 use App\Models\User;
 use Livewire\Component;
 use Bouncer;
+use Illuminate\Support\Facades\Hash;
 use Silber\Bouncer\Database\Ability;
 
 class Create extends Component
@@ -51,8 +52,9 @@ class Create extends Component
             'name' => $this->name,
             'email' => $this->email,
             'status' => 1,
-            'password' => $this->password,
+            'password' => Hash::make($this->password),
             'parent_id' => 1,
+            'grade_id' => 0,
         ]);
 
         Bouncer::assign('ueuser')->to($user);

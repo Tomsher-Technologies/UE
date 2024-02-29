@@ -30,11 +30,13 @@ class CustomerDetails extends Model
         'vat_number',
         'account_number',
         'company_name',
+        'current_credit',
+        'credit_limit',
     ];
 
     public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function getProfileImage()

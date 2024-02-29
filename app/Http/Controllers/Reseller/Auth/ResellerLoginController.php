@@ -4,22 +4,19 @@ namespace App\Http\Controllers\Reseller\Auth;
 
 use App\Http\Controllers\Common\MailController;
 use App\Http\Controllers\Controller;
-use App\Mail\Admin\NewCustomerMail;
-use App\Models\Common\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Rules\Password;
 use Bouncer;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class ResellerLoginController extends Controller
 {
     public function __construct()
     {
+        // dd("middleware");
         $this->middleware(['guest']);
     }
     public function loginView()
@@ -46,12 +43,12 @@ class ResellerLoginController extends Controller
 
         if (Auth::attempt($credentials, $request->remember_me)) {
             $request->session()->regenerate();
-            if (Auth::user()->isAn('reseller')) {
+            if (Auth::user()->isAn('reseller') || Auth::user()->isAn('ueuser')) {
                 return redirect()->intended(route('reseller.dashboard'));
             } else {
                 Session::flush();
                 Auth::logout();
-                return redirect()->route('home');
+                return redirect()->route('reseller.login');
             }
         }
 
@@ -87,7 +84,7 @@ class ResellerLoginController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'status' => 3,
             'grade_id' => 1,
             'parent_id' => 0
@@ -100,7 +97,7 @@ class ResellerLoginController extends Controller
             $filename = time() . $uploadedFile->getClientOriginalName();
             $logo_name = Storage::disk('public')->putFileAs(
                 'customerphotos',
-                $uploadedFile, 
+                $uploadedFile,
                 $filename
             );
         }
@@ -111,7 +108,7 @@ class ResellerLoginController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'image' => $logo_name,
-            'rate_sheet_status' =>false
+            'rate_sheet_status' => false
         ]);
 
         $mailController = new MailController();

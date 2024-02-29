@@ -23,7 +23,9 @@ class   ProfitMargin extends Component
     public $type = 'import';
     public $integrator;
     public $rate_type = 'percentage';
+    public $product_type = 'all';
     public $rate;
+    public $start_date;
     public $weight;
     public $end_weight;
     public $applied_for = 'all';
@@ -34,22 +36,25 @@ class   ProfitMargin extends Component
         return [
             'type' => 'required',
             'integrator' => 'required',
+            'product_type' => 'required',
+            'start_date' => 'nullable',
             'rate_type' => 'required',
             'rate' => ['required'],
             'weight' => ['required'],
-            'end_weight' => ['required'],
+            'end_weight' => ['required', 'gte:weight'],
             'applied_for' => ['required'],
             'applied_for_id' => ['required'],
         ];
     }
 
     protected $messages = [
-        'type.required' => 'Please ente a type',
-        'integrator.required' => 'Please ente a integrator',
-        'rate_type.required' => 'Please ente a type',
-        'rate.required' => 'Please ente a rate',
-        'weight.required' => 'Please ente a weight',
-        'end_weight.required' => 'Please ente an end weight',
+        'type.required' => 'Please enter a type',
+        'integrator.required' => 'Please enter a integrator',
+        'rate_type.required' => 'Please enter a type',
+        'rate.required' => 'Please enter a rate',
+        'weight.required' => 'Please enter e weight',
+        'end_weight.required' => 'Please enter an end weight',
+        'end_weight.gte' =>  "The end weight must be greater than start weight."
     ];
 
     public function mount($user)
@@ -68,6 +73,8 @@ class   ProfitMargin extends Component
 
         $this->element->profitmargin()->create([
             'type' => $this->type,
+            'product_type' => $this->product_type,
+            'start_date' => $this->start_date,
             'integrator_id' => $this->integrator,
             'applied_for' => $this->applied_for,
             'applied_for_id' => $this->applied_for_id,
@@ -86,6 +93,8 @@ class   ProfitMargin extends Component
         $this->reset('applied_for');
         $this->reset('applied_for_id');
         $this->reset('applied_for_txt');
+        $this->reset('start_date');
+        $this->reset('product_type');
         $this->reset('applied_for_items');
 
         $this->dispatchBrowserEvent('memberUpdated');

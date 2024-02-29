@@ -66,10 +66,10 @@
                         {{ $user->email }}
                     </td>
                     <td>
-                        {{ $user->customerDetails->phone }}
+                        {{ $user->customerDetails->phone ?? "" }}
                     </td>
                     <td style="white-space: nowrap">
-                        {{ $user->customerDetails->address }}
+                        {{ $user->customerDetails->address ?? "" }}
                     </td>
                     <td>
                         @if ($user->verified)

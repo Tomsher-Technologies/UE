@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
 use App\Models\Customer\CustomerDetails;
+use App\Models\Customer\CustomerRates;
 use App\Models\Customer\Grade;
 use App\Models\Customer\ProfitMargin;
 use App\Models\Orders\Order;
@@ -39,6 +40,7 @@ class User extends Authenticatable
         'parent_id',
         'grade_id',
         'verified',
+        'is_sales',
     ];
 
     /**
@@ -60,10 +62,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = Hash::make($value);
-    }
+    // public function setPasswordAttribute($value)
+    // {
+    //     $this->attributes['password'] = Hash::make($value);
+    // }
 
     public function customerDetails()
     {
@@ -164,5 +166,10 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function customerRate()
+    {
+        return $this->hasMany(CustomerRates::class);
     }
 }

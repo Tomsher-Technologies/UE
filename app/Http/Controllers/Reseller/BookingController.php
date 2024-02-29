@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers\Reseller;
 
-use App\Http\Controllers\Common\MailController;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Reseller\BookingRequest;
 use App\Models\Common\DynamicContents;
 use App\Models\Common\Settings;
 use App\Models\Integrators\Integrator;
 use App\Models\Orders\Order;
 use App\Models\Orders\Search;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
@@ -37,6 +36,8 @@ class BookingController extends Controller
     {
         $this->authenticate();
 
+        // dd($request);
+
         $integrators = Cache::rememberForever('integrators', function () {
             return Integrator::all();
         });
@@ -44,6 +45,34 @@ class BookingController extends Controller
         $integrator = $integrators->where('id', $request->integrator)->first();
 
         $search = Search::with(['items', 'toCountry', 'fromCountry'])->find($request->search_id);
+
+
+        $total_pices = 0;
+        $total_height = 0;
+        $total_width = 0;
+        $total_length = 0;
+        $total_price = 0;
+
+        $requestArray = array();
+        $HawbItems = array();
+
+        foreach($search->items as $item){
+            $total_pices += $item->no_pieces;
+            $total_height += $item->height;
+            $total_width += $item->width;
+            $total_length += $item->length;
+
+            $total_price += $request->declare_value[$item->id];
+
+            $HawbItems[] = array(
+                'Content' => $request->item_name[$item->id],
+                'Price' => $request->declare_value[$item->id],
+                'Pieces' => $item->no_pieces,
+                "Weight" => (float)$item->no_pieces * $item->weight,
+                "HsCode" => $request->hs_code[$item->id],
+                "WebSite" => ""
+            );
+        }
 
         $order = Order::create([
             'user_id' => Auth()->user()->id,
@@ -58,7 +87,7 @@ class BookingController extends Controller
             'consignee_address' => $request->receiver_address,
             'consignee_town' => $request->receiver_town,
             'consignee_province' => $search->toCountry->code,
-            'item_name' => $request->item_name,
+            'item_name' => $request->shippment_name,
             'rate' => $request->rate,
             'billable_weight' => $request->totalweight,
             'hawbNumber' => "",
@@ -66,7 +95,7 @@ class BookingController extends Controller
             'order_status' => 0,
         ]);
 
-        $requestArray = array();
+        
 
         $requestArray["CustomerHawb"] = "";
         $requestArray["SenderName"] = $request->shipper_name;
@@ -80,80 +109,128 @@ class BookingController extends Controller
         $requestArray["ReceiverTel"] = str_replace(' ', '', $request->receiver_phone);
         $requestArray["ReceiverEmail"] = $request->receiver_email;
         $requestArray["ReceiverCountry"] = $search->toCountry->code;
-        $requestArray["ReceiverProvince"] = $search->toCountry->code;
+
+        // dd($search->to_city !== NULL ? $search->to_city : $request->receiver_town);
+
+        $requestArray["ReceiverProvince"] = NULL;
+        if ($search->toCountry->code == 'US') {
+            $res = Http::send('POST', "http://postalcode.parseapi.com/api/885ca868ff01a9f6ddc424d2d0a84cac/$search->to_pin", ['verify' => false]);
+            if ($res->status() == '200') {
+                $json = json_decode($res->body());
+                if (isset($json->state)) {
+                    $requestArray["ReceiverProvince"] = $json->state->alpha2;
+                }
+            }
+        }
+
         $requestArray["ReceiverCity"] = $search->to_city !== NULL ? $search->to_city : $request->receiver_town;
         $requestArray["ReceiverZip"] = $search->to_pin == NULL ? 0 : $search->to_pin;
         $requestArray["ReceiverContactPerson"] = $request->receiver_contact_person;
 
-        $requestArray["Weight"] = $request->totalweight;
-        $requestArray["DeclareCurrency"] = "AED";
-        $requestArray["DeclareValue"] = $request->rate;
+        $requestArray["Weight"] = (float)$request->totalweight;
+        $requestArray["DeclareCurrency"] = $request->currency;
+        $requestArray["DeclareValue"] = $total_price;
         $requestArray["ServiceCode"] = $integrator->service_code;
         $requestArray["DutyType"] = "DDU";
-        $requestArray["Content"] = $request->item_name;
+        $requestArray["Content"] = $request->shippment_name;
 
         $requestArray["ReceiverId"] = "";
         $requestArray["ImportBatchId"] = "";
         $requestArray["ShipmentType"] = 20;
         $requestArray["PaymentType"] = "";
-        $requestArray["Pieces"] = "1";
-        $requestArray["Height"] = "";
-        $requestArray["Width"] = "";
-        $requestArray["Length"] = "";
+        $requestArray["Pieces"] = $total_pices;
+        $requestArray["Height"] = $total_height;
+        $requestArray["Width"] = $total_width;
+        $requestArray["Length"] = $total_length;
         $requestArray["InsuranceValue"] = 0;
         $requestArray["Remark"] = "";
         $requestArray["GenerateShippingLabel"] = true;
 
-        $requestArray["HawbItems"] = array();
+        $requestArray["hawbChildren"] = [];
+        $requestArray["HawbItems"] = $HawbItems;
 
-        $requestArray["HawbItems"][] = array(
-            'Content' => $request->item_name,
-            'Price' => 1.0,
-            'Pieces' => $search->number_of_pieces,
-            "Weight" => $request->totalweight,
-            "HsCode" => "",
-            "WebSite" => ""
-        );
+        // foreach ($search->items as $item) {
+        //     $requestArray["hawbChildren"][] = array(
+        //         "ChildCustomerHawb" => $request->item_name,
+        //         "Weight" => (float)$item->weight,
+        //         "Height" => (float)$item->height,
+        //         "Width" => (float)$item->width,
+        //         "Length" => (float)$item->length
+        //     );
+        // }
 
-        foreach ($search->items as $item) {
-            $requestArray["hawbChildren"][] = array(
-                "ChildCustomerHawb" => $request->item_name,
-                "Weight" => $item->weight,
-                "Height" => $item->height,
-                "Width" => $item->width,
-                "Length" => $item->length
+        if($integrator->internal_code == 'dhl'){
+            $requestArray["valueAddedServices"][] = array(
+                "serviceCode"=> "WY"
             );
         }
+        if($integrator->internal_code == 'fedex' && $request->currency == 'AED'){
+            $requestArray["DeclareCurrency"] = "DHS";
+        }
+
+        $logger =  Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/se/hub_req.json'),
+        ]);
+        $logger->info(json_encode($requestArray));
+
+        // dd(json_encode($requestArray));
 
         $response = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/apiCreateHawb', $requestArray);
 
         $responseCollection = $response->json('result');
 
+        if($integrator->internal_code == 'dhl' && $responseCollection['result'] == false && Str::contains($responseCollection['resultMsg'],'WDDHLNPLT')  ){
+
+            $requestArray['ServiceCode'] = 'WDDHLNPLT';
+            unset($requestArray["valueAddedServices"]);
+
+            $logger =  Log::build([
+                'driver' => 'single',
+                'path' => storage_path('logs/se/hub_req.json'),
+            ]);
+            $logger->info(json_encode($requestArray));
+
+            $response = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/apiCreateHawb', $requestArray);
+            $responseCollection = $response->json('result');
+
+            // dd($responseCollection);
+        }
+
+        $logger =  Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/se/hub_res.json'),
+        ]);
+        $logger->info(json_encode($responseCollection));
+
         if ($response->status() == 200 && $responseCollection['result']) {
+
+            $response2 = Http::withToken(Session::get('hubezToken'))->post(config('app.hubez_url') . 'services/app/hawb/GetHawbLables', array($responseCollection['hawbNumber']));
+
             $order->update([
                 'hawbNumber' => $responseCollection['hawbNumber'],
                 'invoice_url' => $responseCollection['resultMsg'],
                 'order_status' => 1,
             ]);
-            $order->save();
 
-            $mailer = new MailController();
-            $mailer->newBooking(Auth()->user(), $order);
+            $customer_details = Auth()->user()->customerDetails;
+            $customer_details->update([
+                'credit_limit' => $customer_details->credit_limit - $request->rate
+            ]);
+
+            // current_credit
+
+            // $mailer = new MailController();
+            // $mailer->newBooking(Auth()->user(), $order);
         } else {
             $order->update([
                 'invoice_url' => $responseCollection['resultMsg'],
                 'order_status' => 2,
             ]);
-            $order->save();
         }
+        $order->save();
 
-        return redirect()->route('reseller.booking.history.details',$order);
-
-        // return view('reseller.pages.order.success')->with([
-        //     'order' => $order,
-        //     'integrator' => $integrator,
-        //     'search' => $search,
-        // ]);
+        return redirect()->route('reseller.booking.history.details', $order);
     }
 
     public function authenticate()

@@ -18,7 +18,8 @@
                                     <label class="text-black" for="filter_name">Shipment Type</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select class="form-control" id="type" name="shipping_type" required>
+                                            <select autofocus tabindex="1" class="form-control" id="type"
+                                                name="shipping_type" required>
                                                 <option value="" disabled selected>Select a shipment type</option>
                                                 <option value="import">Import</option>
                                                 <option value="export">Export</option>
@@ -33,7 +34,8 @@
                                     <label class="text-black" for="filter_name">Package Type</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <select class="form-control" id="type" name="package_type" required>
+                                            <select tabindex="2" class="form-control" id="package_type"
+                                                name="package_type" required>
                                                 <option value="" disabled selected>Select a package type</option>
                                                 <option value="letter">Letter / Envelope</option>
                                                 <option value="doc">Document</option>
@@ -50,9 +52,9 @@
                                 <div class="form-group text-left">
                                     <label class="text-black" for="filter_name">Pickup Country</label>
                                     <div>
-                                        <div class="autocomplete">
-                                            <select id="fromCountry" class="form-control select2" name="fromCountry"
-                                                required></select>
+                                        <div class="autocomplete" id="fromCountryCont">
+                                            <select tabindex="3" id="fromCountry" class="form-control select2"
+                                                name="fromCountry" required></select>
                                         </div>
                                     </div>
                                 </div>
@@ -63,8 +65,9 @@
                                     <div>
 
                                         <div class="searchable">
-                                            <input name="fromCity" id="fromCity" type="text" placeholder="search city"
-                                                onkeyup="filterCity(this,event,'from')">
+                                            <input tabindex="4" name="fromCity" id="fromCity" type="text"
+                                                placeholder="search city" onkeyup="delayCity(this,event,'from')"
+                                                placeholder="off" required>
                                             <ul></ul>
                                         </div>
 
@@ -80,8 +83,9 @@
                                     <div>
 
                                         <div class="searchable">
-                                            <input name="fromPincode" id="fromPincode" type="number"
-                                                placeholder="search pincode" onkeyup="filterPin(this,event,'from')">
+                                            <input tabindex="5" name="fromPincode" id="fromPincode" type="text"
+                                                placeholder="search pincode" required onkeyup="filterPin(this,event,'from')"
+                                                placeholder="off">
                                             <ul></ul>
                                         </div>
 
@@ -98,8 +102,9 @@
                                 <div class="form-group text-left">
                                     <label class="text-black" for="filter_name">Delivery Country</label>
                                     <div>
-                                        <div class="autocomplete">
-                                            <select id="toCountry" class="form-control" name="toCountry" required></select>
+                                        <div class="autocomplete" id="toCountryCont">
+                                            <select tabindex="6" id="toCountry" class="form-control" name="toCountry"
+                                                required></select>
                                         </div>
                                     </div>
                                 </div>
@@ -110,8 +115,9 @@
                                     <div>
 
                                         <div class="searchable">
-                                            <input name="toCity" id="toCity" type="text" placeholder="search city"
-                                                onkeyup="filterCity(this,event,'to')">
+                                            <input tabindex="7" name="toCity" id="toCity" type="text"
+                                                placeholder="search city" onkeyup="delayCity(this,event,'to')"
+                                                placeholder="off" required>
                                             <ul></ul>
                                         </div>
 
@@ -126,8 +132,9 @@
                                     <label class="text-black" for="filter_name">Delivery Pincode</label>
                                     <div>
                                         <div class="searchable">
-                                            <input name="toPincode" id="toPincode" type="text"
-                                                placeholder="search pincode" onkeyup="filterPin(this,event,'to')">
+                                            <input tabindex="8" name="toPincode" id="toPincode" type="text"
+                                                placeholder="search pincode" onkeyup="filterPin(this,event,'to')"
+                                                placeholder="off" required>
                                             <ul></ul>
                                         </div>
                                         {{-- <div class="autocomplete">
@@ -140,11 +147,12 @@
                         <div class="row align-items-center">
                             <div class="col-sm-12">
                                 <div class="form-group text-left">
-                                    <label class="text-black" for="filter_name">Number of Pieces</label>
+                                    <label class="text-black" for="filter_name">Total Number of Pieces</label>
                                     <div>
                                         <div class="autocomplete">
-                                            <input readonly="readonly" value="1" class="form-control" type="number"
-                                                name="no_pieces" id="no_pieces" placeholder="Number of Pieces">
+                                            <input readonly="readonly" value="1" class="form-control"
+                                                type="number" name="no_pieces" id="no_pieces"
+                                                placeholder="Total Number of Pieces">
                                         </div>
                                     </div>
                                 </div>
@@ -156,35 +164,41 @@
                                 <div class="col-12">
                                     <label class="text-black" for="filter_name">Package - Dimensions(CM)</label>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-black" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step=".1" type="number"
-                                                    name="length[1]" placeholder="Length" required>
+                                                <input tabindex="9" class="form-control" min='.1' step=".1"
+                                                    type="number" name="length[1]" placeholder="Length"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )"
+                                                    required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-black" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step=".1" type="number"
-                                                    name="height[1]" placeholder="Height" required>
+                                                <input tabindex="10" class="form-control" min='.1' step=".1"
+                                                    type="number" name="height[1]" placeholder="Height"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )"
+                                                    required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-black" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step=".1" type="number"
-                                                    name="width[1]" placeholder="Width" required>
+                                                <input tabindex="11" class="form-control" min='.1' step=".1"
+                                                    type="number" name="width[1]" placeholder="Width"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )"
+                                                    required>
                                             </div>
                                         </div>
                                     </div>
@@ -194,29 +208,43 @@
                                         <label class="text-black" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" step=".1"
-                                                    name="weight[1]" placeholder="Actual Weight" required>
+                                                <input tabindex="12" class="form-control" min='.1' type="number"
+                                                    step=".1" name="weight[1]" placeholder="Actual Weight"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )"
+                                                    required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="col-3">
+                                    <div class="form-group text-left">
+                                        <label class="text-black" for="filter_name">Number Of Pieces</label>
+                                        <div>
+                                            <div class="autocomplete">
+                                                <input tabindex="13" class="form-control no_piece"
+                                                    onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 46 && event.charCode != 43 )"
+                                                    min='1' value="1" type="number" step="1"
+                                                    name="no_piece[1]" placeholder="Number Of Pieces" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row align-items-center mb-2">
                             <div class="col-sm-12 text-left">
-                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="button"
+                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2 main-btn" type="button"
                                     id="addPackage">Add
                                     Package</button>
                             </div>
                         </div>
 
-                        {{-- <input type="hidden" name="search_token" value="{{ $search_token }}"> --}}
                         <input type="hidden" id="search_token" name="search_token">
 
                         <div class="row align-items-center">
                             <div class="col-sm-12">
-                                <button class="btn btn-sm btn-primary text-light pt-2 pb-2" type="submit">Quote</button>
+                                <button tabindex="14" class="btn btn-sm btn-primary main-btn text-light pt-2 pb-2"
+                                    type="submit" id="formSubmit">Quote</button>
                             </div>
                         </div>
                     </form>
@@ -227,15 +255,15 @@
     <div class="page-section border-bottom-2">
         <div class="container page__container">
             <div class="row">
-                <div class="col-lg-4">
+                {{-- <div class="col-lg-4">
                     <div class="card text-center mb-lg-0 bg-grd1 text-light">
                         <div class="card-body">
                             <h4 class="h2 mb-0 text-light">{{ $total_customer }}</h4>
                             <div>Total Sub Agents</div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
+                </div> --}}
+                <div class="col-lg-6">
                     <div class="card text-center mb-lg-0 bg-grd2 text-light">
                         <div class="card-body">
                             <h4 class="h2 mb-0 text-light">{{ $total_search }}</h4>
@@ -243,7 +271,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="card text-center mb-lg-0 bg-grd3 text-light">
                         <div class="card-body">
                             <h4 class="h2 mb-0 text-light">{{ $total_orders }}</h4>
@@ -253,7 +281,7 @@
                 </div>
             </div>
             <div class="row pt-3">
-                <div class="col-lg-4">
+                {{-- <div class="col-lg-4">
                     <div class="card mb-md-0">
                         <div class="card-body">
                             <div class="text-50 mb-16pt">
@@ -297,8 +325,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
+                </div> --}}
+                <div class="col-lg-6">
                     <div class="card mb-md-0">
                         <div class="card-body">
                             <div class="text-50 mb-16pt">
@@ -343,7 +371,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="card mb-md-0">
                         <div class="card-body">
                             <div class="text-50 mb-16pt">
@@ -391,27 +419,36 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="searchable">
-        <input type="text" placeholder="search countries" onkeyup="filterFunction(this,event)">
-        <ul></ul>
-    </div> --}}
 @endsection
 
 @push('header')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
+        select:focus,
+        input:focus {
+            box-shadow: inset 0 1px 1px rgba(39, 44, 51, 0.075), 0 0 0 1px #006b6e !important
+        }
+
+        .main-btn {
+            font-size: 16px;
+            padding: 10px 40px !important;
+            line-height: 16px;
+            transition: all .2s ease-in
+        }
+
+        .main-btn:focus,
+        .main-btn:hover,
+        .main-btn:active {
+            color: #2f45ff !important;
+            background: #fff !important;
+            ;
+        }
+
         .search-banner {
             background-image: url(https://blackswancapital.eu/wp-content/uploads/2020/03/20_03-scaled.jpg);
             background-size: cover;
-            /* background-image: url(https://themefie.com/html/foodka/assets/img//home-3/banner-bg.png); */
-            /* background-color: #bafdff */
-
-
         }
-
-
 
         .select2-container .select2-selection--single {
             height: 40px !important;
@@ -474,14 +511,32 @@
         }
 
         #searchForm label.text-black {
-            font-size: 15px;
+            font-size: 17px;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered,
+        .form-control,
+        .power_grid,
+        select {
+            font-size: 16px !important;
         }
     </style>
 @endpush
 @push('footer')
+    <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (Session::has('input_error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    title: 'Input Error',
+                    icon: 'error',
+                    html: '{!! Session::get('input_error') !!}'
+                });
+            });
+        </script>
+    @endif
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-
     <script>
         function filterFunction(that, event) {
             let container, input, filter, li, input_val;
@@ -521,6 +576,16 @@
 
         }
 
+
+        let timeout = null;
+
+        function delayCity(that, event, type) {
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                filterCity(that, event, type);
+            }, 1500);
+        }
+
         function filterCity(that, event, type) {
             let container, input, filter, li, input_val;
             container = $(that).closest(".searchable");
@@ -535,7 +600,7 @@
 
             if (type == 'from') {
                 country = $('#fromCountry').val();
-                console.log(country);
+                // console.log(country);
             } else {
                 country = $('#toCountry').val();
             }
@@ -586,7 +651,7 @@
             } else {
                 country = $('#toCountry').val();
                 city = $('#toCity').val();
-                console.log(city);
+                // console.log(city);
             }
 
             $.ajax({
@@ -617,36 +682,6 @@
             }, 100)
         }
 
-        // function keyControl(e, container) {
-        //     if (e.key == "ArrowDown") {
-
-        //         if (container.find("ul li").hasClass("selected")) {
-        //             if (container.find("ul li:visible").index(container.find("ul li.selected")) + 1 < container.find(
-        //                     "ul li:visible").length) {
-        //                 container.find("ul li.selected").removeClass("selected").nextAll().not('[style*="display: none"]')
-        //                     .first().addClass("selected");
-        //             }
-
-        //         } else {
-        //             container.find("ul li:first-child").addClass("selected");
-        //         }
-
-        //     } else if (e.key == "ArrowUp") {
-
-        //         if (container.find("ul li:visible").index(container.find("ul li.selected")) > 0) {
-        //             container.find("ul li.selected").removeClass("selected").prevAll().not('[style*="display: none"]')
-        //                 .first().addClass("selected");
-        //         }
-        //     } else if (e.key == "Enter") {
-        //         container.find("input").val(container.find("ul li.selected").text()).blur();
-        //         onSelect(container.find("ul li.selected").text())
-        //     }
-
-        //     container.find("ul li.selected")[0].scrollIntoView({
-        //         behavior: "smooth",
-        //     });
-        // }
-
         function onSelect(val) {
             alert(val)
         }
@@ -664,13 +699,17 @@
 
         $(document).on('click', '.searchable ul li', function() {
             $(this).closest(".searchable").find("input").val($(this).text()).blur();
-            // $(this).closest(".searchable").find(".searchVal").val($(this).text()).blur();
-            // onSelect($(this).text())
         });
 
         $(".searchable ul li").hover(function() {
             $(this).closest(".searchable").find("ul li.selected").removeClass("selected");
             $(this).addClass("selected");
+        });
+    </script>
+
+    <script>
+        $(document).on('focus', '.select2', function() {
+            $(this).siblings('select').select2('open');
         });
     </script>
 
@@ -684,35 +723,35 @@
                                     <button class="btn btn-sm btn-primary text-light ml-2 remove-package"
                                         type="button">Remove Package</button>
                                 </div> 
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-white" for="filter_name">Length</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step='.1' type="number" name="length[]"
-                                                    placeholder="Length" required>
+                                                <input class="form-control" step='.1' min='.1' type="number" name="length[]"
+                                                    placeholder="Length" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-white" for="filter_name">Height</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step='.1' type="number" name="height[]"
-                                                    placeholder="Height" required>
+                                                <input class="form-control" step='.1' min='.1' type="number" name="height[]"
+                                                    placeholder="Height" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-group text-left">
                                         <label class="text-white" for="filter_name">Width</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" step='.1' type="number" name="width[]"
-                                                    placeholder="Width" required>
+                                                <input class="form-control" step='.1' min='.1' type="number" name="width[]"
+                                                    placeholder="Width" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required>
                                             </div>
                                         </div>
                                     </div>
@@ -722,8 +761,19 @@
                                         <label class="text-white" for="filter_name">Actual Weight</label>
                                         <div>
                                             <div class="autocomplete">
-                                                <input class="form-control" type="number" step='.1' required name="weight[]"
+                                                <input class="form-control" type="number" min='.1' step='.1' onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 43 )" required name="weight[]"
                                                     placeholder="Actual Weight">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group text-left">
+                                        <label class="text-black" for="filter_name">Number Of Pieces</label>
+                                        <div>
+                                            <div class="autocomplete">
+                                                <input class="form-control no_piece" type="number" onkeypress="return ( event.charCode != 45 && event.charCode != 101 && event.charCode != 46 && event.charCode != 43 )" min='1' value="1" step="1"
+                                                    name="no_piece[]" placeholder="Number Of Pieces" required>
                                             </div>
                                         </div>
                                     </div>
@@ -731,15 +781,29 @@
                             </div>`);
         }
 
+        function getPackageCount() {
+            count = 0;
+            $('.no_piece').each(function(i, o) {
+                count += parseInt(o.value);
+            })
+            $('#no_pieces').val(count);
+        }
+
+        $(document).on('change', '.no_piece', function() {
+            getPackageCount();
+        });
+
         $('#addPackage').on('click', function() {
             addElement($id);
-            $('#no_pieces').get(0).value++
+            // $('#no_pieces').get(0).value++
+            getPackageCount()
             $id++;
         });
 
         $('body').on('click', '.remove-package', function() {
             $(this).closest('.row').remove();
-            $('#no_pieces').get(0).value--
+            // $('#no_pieces').get(0).value--
+            getPackageCount()
             $id--;
         });
     </script>
@@ -817,151 +881,200 @@
             $('#toCity').val("")
             $('#toPincode').val("")
         });
-
-        // $('#fromCity').select2({
-        //     tags: true,
-        //     ajax: {
-        //         url: '{{ route('getCities') }}',
-        //         dataType: 'json',
-        //         method: 'POST',
-        //         delay: 250,
-        //         data: function(params) {
-        //             var query = {
-        //                 name: params.term,
-        //                 country: $('#fromCountry').val()
-        //             }
-        //             return query;
-        //         },
-        //         processResults: function(data) {
-        //             return {
-        //                 results: $.map(data, function(obj) {
-        //                     return {
-        //                         id: obj.id,
-        //                         text: obj.text
-        //                     };
-        //                 })
-        //             };
-        //         }
-        //     },
-        //     minimumResultsForSearch: 10
-        // });
-        // $('#toCity').select2({
-        //     tags: true,
-        //     ajax: {
-        //         url: '{{ route('getCities') }}',
-        //         dataType: 'json',
-        //         method: 'POST',
-        //         delay: 250,
-        //         data: function(params) {
-        //             console.log(params.term);
-        //             var query = {
-        //                 name: params.term,
-        //                 country: $('#toCountry').val()
-        //             }
-        //             return query;
-        //         },
-        //         processResults: function(data) {
-        //             return {
-        //                 results: $.map(data, function(obj) {
-        //                     return {
-        //                         id: obj.id,
-        //                         text: obj.text
-        //                     };
-        //                 })
-        //             };
-        //         }
-        //     },
-        //     minimumResultsForSearch: 10
-        // });
-
-        // $('#fromPincode').select2({
-        //     minimumInputLength: 2,
-        //     tags: true,
-        //     ajax: {
-        //         url: '{{ route('getPincode') }}',
-        //         dataType: 'json',
-        //         method: 'POST',
-        //         delay: 250,
-        //         data: function(params) {
-        //             var query = {
-        //                 name: params.term,
-        //                 country: $('#fromCountry').val(),
-        //                 city: $('#fromCity option:selected').text()
-        //             }
-        //             return query;
-        //         },
-        //         processResults: function(data) {
-        //             return {
-        //                 results: $.map(data, function(obj) {
-        //                     return {
-        //                         id: obj.id,
-        //                         text: obj.text
-        //                     };
-        //                 })
-        //             };
-        //         }
-        //     },
-        //     minimumResultsForSearch: 10
-        // });
-        // $('#toPincode').select2({
-        //     minimumInputLength: 2,
-        //     tags: true,
-        //     ajax: {
-        //         url: '{{ route('getPincode') }}',
-        //         dataType: 'json',
-        //         method: 'POST',
-        //         delay: 250,
-        //         data: function(params) {
-        //             console.log(params.term);
-        //             var query = {
-        //                 name: params.term,
-        //                 country: $('#toCountry').val(),
-        //                 city: $('#toCity option:selected').text()
-        //             }
-        //             return query;
-        //         },
-        //         processResults: function(data) {
-        //             return {
-        //                 results: $.map(data, function(obj) {
-        //                     return {
-        //                         id: obj.id,
-        //                         text: obj.text
-        //                     };
-        //                 })
-        //             };
-        //         }
-        //     },
-        //     minimumResultsForSearch: 10
-        // });
     </script>
 
     <script>
         $('#type').on('change', function() {
             val = $(this).val();
             if (val == 'import') {
-                $('#toCountry').append('<option value="692" selcted>United Arab Emirates</option>');
-                $("#fromCountry option[value='692']").remove();
+
+                $('#toCountry')
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append('<option value="1237" selcted>United Arab Emirates</option>')
+                    .val('1237');
+
+                // $('#toCountry').prop('readonly',  false);
+                // $('#fromCountry').prop('readonly', true);
+                $('#toCountryCont .select2').css('pointer-events', 'none');
+                $('#fromCountryCont .select2').css('pointer-events', 'auto');
+
+                // $('#toCountry').append('<option value="1237" selcted>United Arab Emirates</option>');
+                $("#fromCountry option[value='1237']").remove();
                 $('#toCity').val("")
                 $('#toPincode').val("")
                 $('#fromCity').val("")
                 $('#fromPincode').val("")
-            }
-            if (val == 'export') {
-                $('#fromCountry').append('<option value="692" selcted>United Arab Emirates</option>');
-                $("#toCountry option[value='692']").remove();
+            } else if (val == 'export') {
+                $('#fromCountry')
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append('<option value="1237" selcted>United Arab Emirates</option>')
+                    .val('1237');
+
+                // $('#fromCountry').prop('readonly', true);
+                // $('#toCountry').prop('readonly', false);
+
+                $('#toCountryCont .select2').css('pointer-events', 'auto');
+                $('#fromCountryCont .select2').css('pointer-events', 'none');
+
+                $("#toCountry option[value='1237']").remove();
                 $('#toCity').val("")
                 $('#toPincode').val("")
                 $('#fromCity').val("")
                 $('#fromPincode').val("")
-            }
-            if (val == 'transit') {
-                $('#fromCountry').append('<option value="692" selcted>United Arab Emirates</option>');
-                $("#toCountry option[value='692']").remove();
+            } else {
+
+                // $('#fromCountry').prop('readonly', false);
+                // $('#toCountry').prop('readonly', false);
+
+
+                $('#toCountryCont .select2').css('pointer-events', 'auto');
+                $('#fromCountryCont .select2').css('pointer-events', 'auto');
+
+                $("#toCountry option[value='1237']").remove();
                 $('#toCity').val("")
                 $('#toPincode').val("")
                 $('#fromCity').val("")
                 $('#fromPincode').val("")
+
+                $("#fromCountry option[value='1237']").remove();
+                $('#toCity').val("")
+                $('#toPincode').val("")
+                $('#fromCity').val("")
+                $('#fromPincode').val("")
+
             }
+            // if (val == 'export') {
+            //     $('#fromCountry').append('<option value="1237" selcted>United Arab Emirates</option>');
+            //     $("#toCountry option[value='1237']").remove();
+            //     $('#toCity').val("")
+            //     $('#toPincode').val("")
+            //     $('#fromCity').val("")
+            //     $('#fromPincode').val("")
+            // }
+            // if (val == 'transit') {
+            //     $('#fromCountry').append('<option value="1237" selcted>United Arab Emirates</option>');
+            //     $("#toCountry option[value='1237']").remove();
+            //     $('#toCity').val("")
+            //     $('#toPincode').val("")
+            //     $('#fromCity').val("")
+            //     $('#fromPincode').val("")
+            // }
         });
+    </script>
+
+    <script>
+        function storeData() {
+            var shipping_type = document.getElementById("type").value;
+            var package_type = document.getElementById("package_type").value;
+
+            var fromCountry = document.getElementById("fromCountry").value;
+            var fromCountry_text = $("#fromCountry option:selected").text();
+            var fromCity = document.getElementById("fromCity").value;
+            var fromPincode = document.getElementById("fromPincode").value;
+
+            var toCountry = document.getElementById("toCountry").value;
+            var toCountry_text = $("#toCountry option:selected").text();
+            var toCity = document.getElementById("toCity").value;
+            var toPincode = document.getElementById("toPincode").value;
+
+            var lengthArry = $('input[name="length[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+            var height = $('input[name="height[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+            var width = $('input[name="width[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+            var weight = $('input[name="weight[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+            var no_piece = $('input[no_piece="length[]"]').map(function() {
+                return this.value; // $(this).val()
+            }).get();
+
+            sessionStorage.shipping_type = shipping_type;
+            sessionStorage.package_type = package_type;
+
+            sessionStorage.fromCountry = fromCountry;
+            sessionStorage.fromCountry_text = fromCountry_text;
+            sessionStorage.fromCity = fromCity;
+            sessionStorage.fromPincode = fromPincode;
+
+            sessionStorage.toCountry = toCountry;
+            sessionStorage.toCountry_text = toCountry_text;
+            sessionStorage.toCity = toCity;
+            sessionStorage.toPincode = toPincode;
+
+            sessionStorage.lengthArry = length;
+            sessionStorage.height = height;
+            sessionStorage.width = width;
+            sessionStorage.weight = weight;
+            sessionStorage.no_piece = no_piece;
+
+            sessionStorage.clearData = 1
+        }
+
+        function getData() {
+            if (sessionStorage.clearData == 1) {
+
+                if (
+                    sessionStorage.shipping_type &&
+                    sessionStorage.package_type &&
+                    sessionStorage.fromCountry_text &&
+                    sessionStorage.fromCountry &&
+                    sessionStorage.fromCity &&
+                    sessionStorage.fromPincode &&
+                    sessionStorage.toCountry_text &&
+                    sessionStorage.toCountry &&
+                    sessionStorage.toCity &&
+                    sessionStorage.toPincode
+                    // sessionStorage.lengthArry &&
+                    // sessionStorage.height &&
+                    // sessionStorage.width &&
+                    // sessionStorage.weight &&
+                    // sessionStorage.no_piece
+                ) {
+
+                    document.getElementById("type").value = sessionStorage.shipping_type;
+                    document.getElementById("package_type").value = sessionStorage.package_type;
+
+                    var newOption = new Option(sessionStorage.fromCountry_text, sessionStorage.fromCountry, false, false);
+                    $('#fromCountry').append(newOption).trigger('change');
+                    document.getElementById("fromCity").value = sessionStorage.fromCity;
+                    document.getElementById("fromPincode").value = sessionStorage.fromPincode;
+
+                    var newOption = new Option(sessionStorage.toCountry_text, sessionStorage.toCountry, false, false);
+                    $('#toCountry').append(newOption).trigger('change');
+                    document.getElementById("toCity").value = sessionStorage.toCity;
+                    document.getElementById("toPincode").value = sessionStorage.toPincode;
+
+                    // sessionStorage.lengthArry.forEach(function(value, i) {
+                    //     console.log('%d: %s', i, value);
+                    // });
+
+                    sessionStorage.clearData = 0
+                }
+            }
+        }
+
+        $(document).ready(function() {
+            getData();
+        });
+
+        $('#searchForm').submit(function() {
+            storeData();
+            // console.log(sessionStorage.clearData);
+        });
+
+        // $('#formSubmit').on('click', function() {
+
+        //     $('#searchForm').submit();
+
+        // });
     </script>
 @endpush

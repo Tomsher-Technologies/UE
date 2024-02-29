@@ -20,7 +20,7 @@ class Grade extends Model
 
     public function customer()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class)->withTrashed();
     }
 
     public function profitmargin()

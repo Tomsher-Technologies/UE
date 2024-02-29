@@ -20,12 +20,15 @@ class Authenticate extends Middleware
 
             $prefix = explode('/', $prefix)[0];
 
-            if ($prefix == 'reseller') {
+            if ($prefix == 'reseller') {     
                 return route('reseller.login');
             }
+            
             if ($prefix == config('app.admin_prefix')) {
                 return route('admin.login');
             }
+
+            return redirect('/');
         }
     }
 }

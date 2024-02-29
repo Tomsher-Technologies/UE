@@ -8,6 +8,9 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use Bouncer;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class Create extends Component
 {
@@ -19,15 +22,17 @@ class Create extends Component
     public $phone;
     public $password;
     public $address;
-    public $msp;
+    public $msp = 0;
     public $request_limit;
     public $limit_weight;
     public $msp_type = 'percentage';
+    public $credit_limit;
 
     public $parent_users;
     public $parent_user = 0;
 
     public $grade = 1;
+    public $is_sales = 0;
     public $grades;
 
     public $rate_sheet_status;
@@ -39,8 +44,9 @@ class Create extends Component
         return [
             'password' => 'required',
             'parent_user' => 'nullable',
+            'credit_limit' => 'required',
             'name' => 'required',
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users'],
             'phone' => ['nullable'],
             'address' => ['nullable'],
             'msp' => ['nullable', 'integer'],
@@ -77,57 +83,68 @@ class Create extends Component
     {
         $validatedData = $this->validate();
 
-        $customer = User::create([
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password,
-            'status' => 1,
-            'verified' => 1,
-            'parent_id' => $this->parent_user,
-            'grade_id' => $this->grade,
-        ]);
+        try {
+            $customer = User::create([
+                'name' => $this->name,
+                'email' => $this->email,
+                'password' => Hash::make($this->password),
+                'status' => 1,
+                'verified' => 1,
+                'parent_id' => $this->parent_user,
+                'grade_id' => $this->grade,
+                'is_sales' => $this->is_sales,
+            ]);
 
-        Bouncer::assign('reseller')->to($customer);
+            Bouncer::assign('reseller')->to($customer);
 
-        $storedImage = NULL;
-        if ($this->image) {
-            $storedImage =  $this->image->store('public/customerphotos');
+
+            $customer->customerDetails()->create([
+                'phone' => $this->phone,
+                'address' => $this->address,
+                'msp' => $this->msp !== "" ? $this->msp : NULL,
+                'msp_type' => $this->msp_type,
+                // 'image' => Str::remove('public/', $storedImage),
+                'request_limit' => $this->request_limit == '' ? 0 : $this->request_limit,
+                'limit_weight' => $this->limit_weight == '' ? 0 : $this->limit_weight,
+                'rate_sheet_status' => $this->rate_sheet_status,
+                'credit_limit' => $this->credit_limit,
+                'current_credit' => 0,
+            ]);
+
+            if ($this->rate_sheet_status == "1") {
+                $customer->allow('download-rate-sheet');
+            }
+
+            $storedImage = NULL;
+            if ($this->image) {
+                $storedImage =  $this->image->store('public/customerphotos');
+                $customer->customerDetails->image = Str::remove('public/', $storedImage);
+            }
+
+            $this->reset('name');
+            $this->reset('email');
+            $this->reset('phone');
+            $this->reset('password');
+            $this->reset('address');
+            $this->reset('msp');
+            $this->reset('msp_type');
+            $this->reset('image');
+            $this->reset('parent_user');
+            $this->reset('grade');
+            $this->reset('request_limit');
+            $this->reset('limit_weight');
+            $this->reset('rate_sheet_status');
+
+            Bouncer::refresh();
+
+            return redirect()->route('admin.customer.profitMargin', ['user' =>  $customer]);
+
+            $this->dispatchBrowserEvent('memberUpdated');
+        } catch (Exception $e) {
+            Bouncer::retract('reseller')->from($customer);
+            User::where('id', $customer->id)->forceDelete();
+            $this->dispatchBrowserEvent('memberFailed');
         }
-
-        $customer->customerDetails()->create([
-            'phone' => $this->phone,
-            'address' => $this->address,
-            'msp' => $this->msp !== "" ? $this->msp : NULL,
-            'msp_type' => $this->msp_type,
-            'image' => Str::remove('public/', $storedImage),
-            'request_limit' => $this->request_limit,
-            'limit_weight' => $this->limit_weight,
-            'rate_sheet_status' => $this->rate_sheet_status ,
-        ]);
-
-        if ($this->rate_sheet_status == "1") {
-            $customer->allow('download-rate-sheet');
-        }
-
-        $this->reset('name');
-        $this->reset('email');
-        $this->reset('phone');
-        $this->reset('password');
-        $this->reset('address');
-        $this->reset('msp');
-        $this->reset('msp_type');
-        $this->reset('image');
-        $this->reset('parent_user');
-        $this->reset('grade');
-        $this->reset('request_limit');
-        $this->reset('limit_weight');
-        $this->reset('rate_sheet_status');
-
-        Bouncer::refresh();
-
-        return redirect()->route('admin.customer.profitMargin', ['user' =>  $customer]);
-
-        $this->dispatchBrowserEvent('memberUpdated');
     }
 
     public function mount()

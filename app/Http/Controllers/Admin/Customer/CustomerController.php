@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Admin\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Imports\Admin\CustomerRates;
 use App\Imports\Admin\ProfitMarginImport;
 use App\Imports\Admin\UserImport;
 use App\Models\Customer\Grade;
+use App\Models\Integrators\Integrator;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\HeadingRowImport;
 
 class CustomerController extends Controller
 {
@@ -108,13 +113,23 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function importProfitMarginView()
+    public function importProfitMarginView(User $user)
     {
-        return view('admin.customer.profit-margin-import');
+        $integrators = Cache::rememberForever('integrators', function () {
+            return Integrator::all();
+        });
+
+        return view('admin.customer.profit-margin-import')->with([
+            'user' => $user,
+            'integrators' => $integrators
+        ]);
     }
-    public function importProfitMargin(Request $request)
+    public function importProfitMargin(User $user, Request $request)
     {
-        $import = new ProfitMarginImport();
+
+        $headings = (new HeadingRowImport())->toArray(request()->file('importfile'));
+
+        $import = new ProfitMarginImport($user, $request->integrator, $request->type, $headings[0]);
         Excel::import($import, request()->file('importfile'));
 
         if ($import->errors) {
@@ -141,6 +156,46 @@ class CustomerController extends Controller
         if ($import->errors) {
             return back()->with([
                 'import_errors' => $import->errors
+            ]);
+        } else {
+            return back()->with([
+                'status' => "Import successful"
+            ]);
+        }
+    }
+
+    public function newRateView(User $user)
+    {
+        $integrators = Cache::rememberForever('integrators', function () {
+            return Integrator::all();
+        });
+
+        return view('admin.customer.user-rate-import')->with([
+            'integrators' => $integrators,
+            'user' => $user
+        ]);
+    }
+
+    public function newRateImport(User $user, Request $request)
+    {
+        $request->validate([
+            'integrator' => 'required',
+            'type' => 'required',
+            'importfile' => 'required|file|max:10000|mimes:xlsx,csv,txt',
+        ], [
+            'integrator:required' => 'Please choose an integrator',
+            'type:required' => 'Please choose a type',
+            'importfile:required' => 'Please select a file',
+        ]);
+
+        $headings = (new HeadingRowImport())->toArray(request()->file('importfile'));
+
+        $import = new CustomerRates($user, $request->integrator, $request->type, $headings[0]);
+        Excel::import($import, request()->file('importfile'));
+
+        if ($import->error_missing) {
+            return back()->with([
+                'error_missing' => $import->error_missing
             ]);
         } else {
             return back()->with([

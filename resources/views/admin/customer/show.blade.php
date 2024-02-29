@@ -18,6 +18,9 @@
                             <a href="{{ route('admin.customer.profitMargin', $user) }}" class="btn btn-primary w-100 mb-2">
                                 Profit Margin
                             </a>
+                            <a href="{{ route('admin.customer.newRate', $user) }}" class="btn btn-primary w-100 mb-2">
+                                Customer Rate Import
+                            </a>
                         </div>
                     </div>
                 </div>

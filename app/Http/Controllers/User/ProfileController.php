@@ -45,9 +45,8 @@ class ProfileController extends Controller
             return back()->withErrors($validator);
         }
 
-        $user->forceFill([
-            'password' => $input['password'],
-        ])->save();
+        $user->password = Hash::make($input['password']);
+        $user->save();
 
         Auth::logoutOtherDevices($request->password);
 

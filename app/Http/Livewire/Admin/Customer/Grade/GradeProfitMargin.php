@@ -19,6 +19,7 @@ class GradeProfitMargin extends Component
     public $applied_for_items = NULL;
 
     // 
+    public $start_date;
     public $type = 'all';
     public $integrator = 0;
     public $rate_type = 'percentage';
@@ -27,6 +28,7 @@ class GradeProfitMargin extends Component
     public $end_weight;
     public $applied_for = 'all';
     public $applied_for_id = '0';
+    public $product_type = 'all';
 
     protected function rules()
     {
@@ -35,6 +37,8 @@ class GradeProfitMargin extends Component
             'integrator' => 'required',
             'rate_type' => 'required',
             'rate' => ['required'],
+            'product_type' => ['required'],
+            'start_date' => ['nullable'],
             'weight' => ['required'],
             'end_weight' => ['required'],
             'applied_for' => ['required'],
@@ -43,12 +47,12 @@ class GradeProfitMargin extends Component
     }
 
     protected $messages = [
-        'type.required' => 'Please ente a type',
-        'integrator.required' => 'Please ente a integrator',
-        'rate_type.required' => 'Please ente a type',
-        'rate.required' => 'Please ente a rate',
-        'weight.required' => 'Please ente a weight',
-        'end_weight.required' => 'Please ente a weight',
+        'type.required' => 'Please enter a type',
+        'integrator.required' => 'Please enter a integrator',
+        'rate_type.required' => 'Please enter a type',
+        'rate.required' => 'Please enter a rate',
+        'weight.required' => 'Please enter a weight',
+        'end_weight.required' => 'Please enter a weight',
     ];
 
     public function mount($grade)
@@ -71,6 +75,8 @@ class GradeProfitMargin extends Component
             'end_weight' => $this->end_weight,
             'rate_type' => $this->rate_type,
             'rate' => $this->rate,
+            'product_type' => $this->product_type,
+            'start_date' => $this->start_date,
         ]);
 
         $this->reset('type');
@@ -83,6 +89,8 @@ class GradeProfitMargin extends Component
         $this->reset('applied_for_id');
         $this->reset('applied_for_txt');
         $this->reset('applied_for_items');
+        $this->reset('product_type');
+        $this->reset('start_date');
 
         $this->dispatchBrowserEvent('memberUpdated');
     }

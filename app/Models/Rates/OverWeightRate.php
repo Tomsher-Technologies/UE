@@ -19,6 +19,7 @@ class OverWeightRate extends Model
         'zone_id',
         'zone_code',
         'pack_type',
+        'shipment_type',
     ];
 
     public function zone()

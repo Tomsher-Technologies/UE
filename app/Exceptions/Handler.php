@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Route;
 
 class Handler extends ExceptionHandler
 {
@@ -37,5 +39,23 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['status' => false, 'message' => 'Unauthorized access!.'], 401);
+        }
+
+        $prefix = trim(Route::current()->getPrefix(), '/');
+
+        if (str_starts_with($prefix, 'reseller')) {
+            return redirect()->route('reseller.login');
+        }
+        if (  str_starts_with($prefix, config('app.admin_prefix'))) {
+            return redirect()->route('admin.login');
+        }
+
+        return redirect('/');
     }
 }

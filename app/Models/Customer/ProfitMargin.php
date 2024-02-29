@@ -23,6 +23,9 @@ class ProfitMargin extends Model
         'type',
         'weight',
         'end_weight',
+        'product_type',
+        'start_date',
+        'applied_for_country',
     ];
 
     public function integrator()
@@ -45,4 +48,8 @@ class ProfitMargin extends Model
         }
         return "";
     }
+
+    protected $casts = [
+        'start_date' => 'date:Y-m-d',
+    ];
 }

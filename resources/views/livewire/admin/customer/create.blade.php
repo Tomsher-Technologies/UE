@@ -32,17 +32,9 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">MSP Type</label>
-            <select wire:model="msp_type" class="form-control custom-select">
-                <option value="percentage">Percentage</option>
-                <option value="amount">Amount</option>
-            </select>
-            <x-form.error name="msp_type" />
-        </div>
-        <div class="form-group">
-            <label class="form-label">MSP</label>
-            <input wire:model="msp" type="number" class="form-control mb-2">
-            <x-form.error name="msp" />
+            <label class="form-label">Credit limit</label>
+            <input wire:model="credit_limit" type="number" step=".01" class="form-control mb-2">
+            <x-form.error name="credit_limit" />
         </div>
 
         <div class="form-group">
@@ -52,7 +44,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Special request wight break</label>
-            <input wire:model="limit_weight" type="number" class="form-control mb-2">
+            <input wire:model="limit_weight" type="number" step=".1" class="form-control mb-2">
             <x-form.error name="limit_weight" />
         </div>
 
@@ -78,6 +70,15 @@
                 <option value="0">No</option>
             </select>
             <x-form.error name="rate_sheet_status" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Is Sales Team</label>
+            <select wire:model="is_sales" class="form-control custom-select mb-2">
+                <option value="1">Yes</option>
+                <option value="0" selected>No</option>
+            </select>
+            <x-form.error name="is_sales" />
         </div>
 
         <div class="form-group">
@@ -118,6 +119,12 @@
             Swal.fire({
                 title: 'Customer created',
                 icon: 'success'
+            });
+        })
+        window.addEventListener('memberFailed', e => {
+            Swal.fire({
+                title: 'Customer creation faild, please try again.',
+                icon: 'error'
             });
         })
     </script>

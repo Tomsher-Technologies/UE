@@ -7,7 +7,9 @@ use App\Models\Rates\ImportRate;
 use App\Models\Rates\OverWeightRate;
 use App\Models\Rates\TransitRate;
 use App\Models\Zones\Zone;
+use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
 class ImportRateImport implements ToCollection
@@ -18,6 +20,7 @@ class ImportRateImport implements ToCollection
     private $type;
 
     public $errors;
+    public $error_missing;
 
     public function __construct($integrator, $heading, $type = 'import')
     {
@@ -25,6 +28,7 @@ class ImportRateImport implements ToCollection
         $this->integrator = $integrator;
         $this->headings = $heading[0];
         $this->errors = [];
+        $this->error_missing = [];
     }
 
     public function collection(Collection $rows)
@@ -42,7 +46,7 @@ class ImportRateImport implements ToCollection
                 $model = new ExportRate();
                 break;
             case "transit":
-                $this->type = 'export';
+                $this->type = 'transit';
                 $model = new TransitRate();
                 break;
         }
@@ -54,48 +58,77 @@ class ImportRateImport implements ToCollection
 
         $weights = [];
 
-        // dd($this->headings);
+        // Delete Old Rate
+        OverWeightRate::where([
+            'integrator_id' => $this->integrator,
+            'shipment_type' => $this->type,
+        ])->delete();
+
+        $model::where([
+            'integrator_id' => $this->integrator,
+        ])->delete();
+
+        $row_count = 2;
 
         foreach ($rows as $row) {
             $weight = $row[0];
+            $pack_type = $row[1];
+
+            if ($weight == null || $weight == '' || $weight == " ") {
+                $this->error_missing[$row_count][] = 'Weight is missing';
+            }
+            if ($pack_type == null || $pack_type == '' || $pack_type == " ") {
+                $this->error_missing[$row_count][] = 'Package type is missing';
+            }
 
             $weight_break = explode('-', $weight);
 
-            $pack_type = $row[1];
-            foreach ($this->headings as $index => $heading) {
-                if ($heading_ids->where('zone_code', $heading)->first()) {
+            if (!isset($this->error_missing[$row_count])) {
+                foreach ($this->headings as $index => $heading) {
+                    if ($heading_ids->where('zone_code', $heading)->first()) {
+                        // if weight break is specified
 
-                    // if weight break is specified
-                    if (isset($weight_break[1])) {
-                        $model = OverWeightRate::updateOrCreate([
-                            'integrator_id' => $this->integrator,
-                            'from_weight' => (float)$weight_break[0],
-                            'end_weight' => (float)$weight_break[1],
-                            'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
-                            // 'zone_id' => 1,
-                            'zone_code' => $heading,
-                            'pack_type' => $pack_type
-                        ], [
-                            'rate' => $row[$index + 2] ? (float)$row[$index + 2] : 0
-                        ]);
+                        if ($row[$index + 2]) {
+                            if (isset($weight_break[1])) {
+                                OverWeightRate::updateOrCreate([
+                                    'integrator_id' => $this->integrator,
+                                    'from_weight' => (float)$weight_break[0],
+                                    'end_weight' => (float)$weight_break[1],
+                                    'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
+                                    'zone_code' => $heading,
+                                    'shipment_type' => $this->type,
+                                    'pack_type' => $pack_type
+                                ], [
+                                    'rate' => $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0
+                                ]);
+                            } else {
+                                $model::updateOrCreate([
+                                    'integrator_id' => $this->integrator,
+                                    'weight' => (float)$weight,
+                                    'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
+                                    'zone_code' => $heading,
+                                    'pack_type' => $pack_type
+                                ], [
+                                    'rate' => $row[$index + 2] ? (float)$this->cleanRate($row[$index + 2]) : 0
+                                ]);
+                            }
+                        } else {
+                            $this->error_missing[$row_count][] = "Missing rate in zone $heading";
+                        }
                     } else {
-                        $model = $model::updateOrCreate([
-                            'integrator_id' => $this->integrator,
-                            'weight' => (float)$weight,
-                            'zone_id' => $heading_ids->where('zone_code', $heading)->first()->id,
-                            // 'zone_id' => 1,
-                            'zone_code' => $heading,
-                            'pack_type' => $pack_type
-                        ], [
-                            'rate' => $row[$index + 2] ? (float)$row[$index + 2] : 0
-                        ]);
-                    }
-                } else {
-                    if (!in_array($heading, $this->errors)) {
-                        $this->errors[] = $heading;
+                        if (!in_array($heading, $this->errors)) {
+                            $this->errors[] = $heading;
+                        }
                     }
                 }
             }
+
+            $row_count++;
         }
+    }
+
+    public function cleanRate($rate)
+    {
+        return str_replace(',', '', $rate);
     }
 }

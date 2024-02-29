@@ -37,7 +37,7 @@ class ResetPassword extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => $password
+                    'password' =>  Hash::make($password)
                 ])->setRememberToken(Str::random(60));
 
                 $user->save();
@@ -51,7 +51,6 @@ class ResetPassword extends Controller
         $status === Password::PASSWORD_RESET;
 
         if ($status) {
-
             if ($user->isAn('admin') || $user->isAn('ueuser')) {
                 return redirect()->route('admin.login')->with('status', __($status));
             } else {

@@ -84,7 +84,7 @@
             <div class="col-6 form-group">
                 <div class="form-group">
                     <label class="form-label">Rate</label>
-                    <input wire:model="rate" type="number" class="form-control mb-2">
+                    <input wire:model="rate" type="number" step=".001" class="form-control mb-2">
                     <x-form.error name="rate" />
                 </div>
             </div>
@@ -93,26 +93,60 @@
         <div class="form-row">
             <div class="col-6 form-group mb-0">
                 <label class="form-label">Start Date</label>
-                <input wire:model="start_date" type="date" class="form-control mb-2">
+                <input wire:model="start_date" type="date" min='{{ Carbon\Carbon::today()->format('Y-m-d') }}'
+                    id="start_date" class="form-control mb-2">
                 <x-form.error name="start_date" />
             </div>
             <div class="col-6 form-group">
                 <div class="form-group">
                     <label class="form-label">End Date</label>
-                    <input wire:model="end_date" type="date" class="form-control mb-2">
+                    <div wire:ignore>
+                        <input wire:model="end_date" type="date" id="end_date"
+                            min='{{ Carbon\Carbon::today()->format('Y-m-d') }}' class="form-control mb-2">
+                    </div>
                     <x-form.error name="end_date" />
                 </div>
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="col-6 form-group mb-0">
+                <label class="form-label">Applied Per Weight</label>
+                <select wire:model="per_weight" class="form-control custom-select">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+                <x-form.error name="per_weight" />
+            </div>
+            <div class="col-6 form-group">
+                <div class="form-group">
+                    <label class="form-label">Order</label>
+                    <input wire:model="sort_order" type="number" class="form-control mb-2">
+                    <x-form.error name="sort_order" />
+                </div>
+            </div>
+        </div>
 
-        <div class="form-group">
-            <label class="form-label">Status</label>
-            <select wire:model="status" class="form-control mb-2" id="">
-                <option value="1">Enabled</option>
-                <option value="0">Disabled</option>
-            </select>
-            <x-form.error name="status" />
+
+        <div class="form-row">
+            <div class="col-6 form-group mb-0">
+                <label class="form-label">Is FSC</label>
+                <select wire:model="is_fsc" class="form-control mb-2" id="">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+                <x-form.error name="is_fsc" />
+            </div>
+            <div class="col-6 form-group">
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select wire:model="status" class="form-control mb-2" id="">
+                        <option value="1">Enabled</option>
+                        <option value="0">Disabled</option>
+                    </select>
+                    <x-form.error name="status" />
+                </div>
+            </div>
         </div>
 
         <div class="col-md-12 p-0">
@@ -120,6 +154,11 @@
         </div>
     </form>
     <script>
+        $('#start_date').on('change', function() {
+            console.log($(this).val());
+            $('#end_date').attr('min', $(this).val());
+        });
+
         window.addEventListener('memberUpdated', e => {
             Swal.fire({
                 title: 'Surcharge created',

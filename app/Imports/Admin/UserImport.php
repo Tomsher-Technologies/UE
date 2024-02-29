@@ -46,7 +46,7 @@ class UserImport implements ToCollection
                     'name' => $row[2],
                     'email' => $row[3],
                     'status' => 1,
-                    'password' => Hash::make($row[3]),
+                    'password' => $row[3],
                     'parent_id' => 0,
                     'grade_id' => 1,
                     'verified' => 1,

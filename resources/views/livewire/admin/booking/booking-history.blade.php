@@ -1,8 +1,11 @@
 <div class="container page__container">
     <div class="page-section">
 
-        <div class="page-separator">
+        <div class="page-separator justify-content-between">
             <div class="page-separator__text">Booking History</div>
+            <a wire:click.prevent='export' class="btn btn-primary">
+                Export
+            </a>
         </div>
 
 
@@ -106,7 +109,7 @@
                             </th>
                             <th>
                                 <a href="javascript:void(0)">
-                                    Form
+                                    From
                                 </a>
                             </th>
                             <th>
